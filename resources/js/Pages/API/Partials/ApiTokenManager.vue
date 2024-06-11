@@ -124,7 +124,7 @@ function deleteApiToken() {
                   v-model:checked="createApiTokenForm.permissions"
                   :value="permission"
                 />
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ permission }}</span>
+                <span class="ms-2 text-sm text-gray-600">{{ permission }}</span>
               </label>
             </div>
           </div>
@@ -170,7 +170,7 @@ function deleteApiToken() {
                 :key="token.id"
                 class="flex items-center justify-between"
               >
-                <div class="break-all dark:text-white">
+                <div class="break-all">
                   {{ token.name }}
                 </div>
 
@@ -220,7 +220,7 @@ function deleteApiToken() {
 
         <div
           v-if="$page.props.jetstream.flash.token"
-          class="mt-4 bg-gray-100 dark:bg-gray-900 px-4 py-2 rounded font-mono text-sm text-gray-500 break-all"
+          class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 break-all"
         >
           {{ $page.props.jetstream.flash.token }}
         </div>
@@ -253,7 +253,7 @@ function deleteApiToken() {
                 v-model:checked="updateApiTokenForm.permissions"
                 :value="permission"
               />
-              <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ permission }}</span>
+              <span class="ms-2 text-sm text-gray-600">{{ permission }}</span>
             </label>
           </div>
         </div>

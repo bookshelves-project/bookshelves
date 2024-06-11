@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Collection;
+use Kiwilan\Steward\Utils\FileSize;
 use League\Glide\Urls\UrlBuilderFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media as BaseMedia;
 
@@ -31,7 +32,7 @@ class MediaExtended extends BaseMedia
 
     public function getSizeHumanAttribute(): ?string
     {
-        return $this->humanFilesize($this->size);
+        return FileSize::humanReadable($this->size);
     }
 
     public function getFullExtensionAttribute(): ?string
@@ -42,21 +43,6 @@ class MediaExtended extends BaseMedia
     public function getDownloadAttribute(): ?string
     {
         return $this->getUrl();
-    }
-
-    public function humanFilesize(string|int $bytes, ?int $decimals = 2): string
-    {
-        $sz = [
-            'B',
-            'Ko',
-            'Mo',
-            'Go',
-            'To',
-            'Po',
-        ];
-        $factor = floor((strlen($bytes) - 1) / 3);
-
-        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).' '.@$sz[$factor];
     }
 
     public function getUrl(string $conversionName = ''): string

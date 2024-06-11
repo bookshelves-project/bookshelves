@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use App\Enums\BookTypeEnum;
+use App\Enums\LibraryTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBooksCollection;
-use App\Traits\HasBookType;
 use App\Traits\HasCovers;
 use App\Traits\HasLanguage;
 use App\Traits\HasTagsAndGenres;
@@ -26,13 +25,11 @@ use Spatie\QueryBuilder\AllowedFilter;
 
 /**
  * @property null|int $books_count
- * @property \App\Enums\BookTypeEnum|null $type
  */
 class Serie extends Model implements HasMedia
 {
     use HasAuthors;
     use HasBooksCollection;
-    use HasBookType;
     use HasCovers;
     use HasFactory;
     use HasLanguage;
@@ -55,7 +52,6 @@ class Serie extends Model implements HasMedia
         'authors',
         'books_count',
         'language',
-        'type',
         'created_at',
         'updated_at',
         'language',
@@ -66,10 +62,8 @@ class Serie extends Model implements HasMedia
     protected $fillable = [
         'title',
         'slug',
-        'type',
         'description',
-        'link',
-        'wikipedia_parsed_at',
+        'api_parsed_at',
     ];
 
     protected $appends = [
@@ -77,32 +71,33 @@ class Serie extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'wikipedia_parsed_at' => 'datetime',
-        'type' => BookTypeEnum::class,
+        'api_parsed_at' => 'datetime',
     ];
 
-    protected $withCount = [
-        'books',
-    ];
+    protected $with = [];
 
-    protected $with = [
-        'authors', // for search
-        'language',
-        'media',
-    ];
+    protected $withCount = [];
 
     public function getBooksLinkAttribute(): string
     {
         return route('api.series.show.books', [
-            'author_slug' => $this->meta_author,
-            'serie_slug' => $this->slug,
+            'author' => $this->meta_author,
+            'serie' => $this->slug,
         ]);
     }
 
     public function getDownloadLinkAttribute(): string
     {
         return route('api.downloads.serie', [
-            'serie_id' => $this->id,
+            'serie' => $this->id,
+        ]);
+    }
+
+    public function getRouteAttribute(): string
+    {
+        return route('series.show', [
+            'library' => $this->library?->slug ?? 'unknown',
+            'serie' => $this->slug,
         ]);
     }
 
@@ -116,6 +111,21 @@ class Serie extends Model implements HasMedia
         return $query->whereRaw('UPPER(SUBSTR(slug, 1, 1)) = ?', [strtoupper($char)]);
     }
 
+    public function scopeWhereLibraryIs(Builder $query, Library $library): Builder
+    {
+        return $query->where('library_id', $library->id);
+    }
+
+    public function scopeWhereLibraryType(Builder $query, LibraryTypeEnum $type): Builder
+    {
+        return $query->whereRelation('library', 'type', $type);
+    }
+
+    public function scopeWhereHasBooks(Builder $query): Builder
+    {
+        return $query->whereRelation('library', 'type', LibraryTypeEnum::book);
+    }
+
     public function books(): HasMany
     {
         // Get Books into Serie, by volume order.
@@ -124,17 +134,20 @@ class Serie extends Model implements HasMedia
             ->orderBy('volume');
     }
 
+    public function library(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Library::class);
+    }
+
     public function toSearchableArray()
     {
-        $this->loadMissing(['authors', 'tags']);
+        $this->loadMissing(['authors', 'tags', 'media', 'library']);
 
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'picture' => $this->cover_thumbnail,
-            'author' => $this->authors_names,
-            'description' => $this->description,
-            'tags' => $this->tags_string,
+            // 'cover' => $this->cover_thumbnail,
+            'library' => $this->library?->type_label,
         ];
     }
 
@@ -144,8 +157,6 @@ class Serie extends Model implements HasMedia
             AllowedFilter::custom('q', new GlobalSearchFilter(['title'])),
             AllowedFilter::partial('title'),
             AllowedFilter::partial('authors'),
-            AllowedFilter::exact('type'),
-            AllowedFilter::scope('types', 'whereTypesIs'),
             AllowedFilter::callback(
                 'language',
                 fn (Builder $query, $value) => $query->whereHas(

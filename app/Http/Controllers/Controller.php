@@ -2,34 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\LibraryTypeEnum;
+use App\Models\Book;
 use App\Models\Serie;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Route;
 use Kiwilan\Steward\Queries\HttpQuery;
 
-class Controller extends BaseController
+abstract class Controller
 {
-    use AuthorizesRequests, ValidatesRequests;
-
-    public function __construct()
-    {
-        Route::bind('book_id', fn (string $id) => \App\Models\Book::query()->find($id));
-        Route::bind('serie_id', fn (string $id) => \App\Models\Serie::query()->find($id));
-
-        Route::bind('book_slug', fn (string $slug) => \App\Models\Book::query()->where('slug', $slug)->firstOrFail());
-        Route::bind('author_slug', fn (string $slug) => \App\Models\Author::query()->where('slug', $slug)->firstOrFail());
-        Route::bind('serie_slug', fn (string $slug) => \App\Models\Serie::query()->where('slug', $slug)->firstOrFail());
-        Route::bind('tag_slug', fn (string $slug) => \App\Models\Tag::query()->where('slug', $slug)->firstOrFail());
-    }
+    // public function __construct()
+    // {
+    //     Route::bind('book_id', fn (string $id) => \App\Models\Book::query()->find($id));
+    //     Route::bind('serie_id', fn (string $id) => \App\Models\Serie::query()->find($id));
+    //     Route::bind('book_slug', fn (string $slug) => \App\Models\Book::query()->where('slug', $slug)->firstOrFail());
+    //     Route::bind('author_slug', fn (string $slug) => \App\Models\Author::query()->where('slug', $slug)->firstOrFail());
+    //     Route::bind('serie_slug', fn (string $slug) => \App\Models\Serie::query()->where('slug', $slug)->firstOrFail());
+    //     Route::bind('tag_slug', fn (string $slug) => \App\Models\Tag::query()->where('slug', $slug)->firstOrFail());
+    // }
 
     public function getQueryForBooks(Request $request, Builder $model, string $title = 'Books', array $breadcrumbs = [], bool $squareCovers = false)
     {
         $query = HttpQuery::for($model, $request)
-            ->with(['authors', 'serie', 'tags', 'media'])
+            ->with(['authors', 'serie', 'tags', 'media', 'language'])
             ->defaultSort('slug')
             ->inertia();
 
@@ -44,7 +40,13 @@ class Controller extends BaseController
     public function getQueryForSeries(Request $request, Builder $model, string $title = 'Series', array $breadcrumbs = [], bool $squareCovers = false)
     {
         $query = HttpQuery::for($model, $request)
-            ->with(['authors', 'tags', 'media'])
+            ->with([
+                'authors',
+                'tags',
+                'media',
+                'language',
+            ])
+            ->withCount(['books'])
             ->defaultSort('slug')
             ->inertia();
 
@@ -58,11 +60,41 @@ class Controller extends BaseController
 
     public function getSerie(Serie $serie, bool $square = false)
     {
-        $serie->load(['authors', 'books', 'tags', 'media', 'books.media']);
+        $serie->load([
+            'authors',
+            'books',
+            'tags',
+            'media',
+            'books.media',
+            'books.language',
+            'books.serie',
+            'language',
+        ])
+            ->loadCount('books');
 
         return inertia('Series/Show', [
             'serie' => $serie,
             'square' => $square,
         ]);
+    }
+
+    public function getBooks(string $column, bool $desc = false, int $limit = 20, ?LibraryTypeEnum $type = null)
+    {
+        $books = Book::with([
+            'authors',
+            'serie',
+            'media',
+            'language',
+            'library',
+        ]);
+
+        if ($type) {
+            $books->whereRelation('library', 'type', $type->value);
+        }
+
+        return $books
+            ->orderBy($column, $desc ? 'desc' : 'asc')
+            ->limit($limit)
+            ->get();
     }
 }

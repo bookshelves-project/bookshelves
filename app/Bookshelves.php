@@ -68,19 +68,14 @@ class Bookshelves
         return config('bookshelves.authors.wikipedia_exact');
     }
 
-    /**
-     * @return array{books: string|false, comics: string|false, mangas: string|false, audiobooks: string|false}
-     */
-    public function library(): array
+    public function exceptionParserLog(): string
     {
-        $library = config('bookshelves.library');
+        $path = storage_path('app/exceptions-parser.json');
+        if (! file_exists($path)) {
+            file_put_contents($path, json_encode([]));
+        }
 
-        return [
-            'books' => $library['books'],
-            'comics' => $library['comics'],
-            'mangas' => $library['mangas'],
-            'audiobooks' => $library['audiobooks'],
-        ];
+        return $path;
     }
 
     public function convertCovers(): bool
@@ -131,7 +126,7 @@ class Bookshelves
      */
     public function imageCoverThumbnail(): array
     {
-        return config('bookshelves.image.cover');
+        return config('bookshelves.image.cover.thumbnail');
     }
 
     /**
@@ -140,5 +135,21 @@ class Bookshelves
     public function imageCoverSocial(): array
     {
         return config('bookshelves.image.cover.social');
+    }
+
+    /**
+     * @return array{width: int, height: int}
+     */
+    public function imageCoverOpds(): array
+    {
+        return config('bookshelves.image.cover.opds');
+    }
+
+    /**
+     * @return array{width: int, height: int}
+     */
+    public function imageCoverSquare(): array
+    {
+        return config('bookshelves.image.cover.square');
     }
 }

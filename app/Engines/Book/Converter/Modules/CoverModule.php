@@ -5,8 +5,8 @@ namespace App\Engines\Book\Converter\Modules;
 use App\Facades\Bookshelves;
 use App\Models\Book;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
 use Kiwilan\Ebook\Ebook;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Utils\Picture;
 use Kiwilan\Steward\Utils\SpatieMedia;
 use Spatie\Image\Image;
@@ -18,10 +18,12 @@ class CoverModule
      */
     public static function make(Ebook $ebook, Book $book): Book
     {
+        $book->clearCover();
+
         $self = new self();
 
         if (! $ebook->hasCover()) {
-            Log::warning("No cover for {$book->title}");
+            Journal::warning("No cover for {$book->title}");
 
             return $book;
         }
@@ -34,16 +36,14 @@ class CoverModule
         $self->resize($path);
         $contents = File::get($path);
 
-        Book::withoutSyncingToSearch(function () use ($book, $contents) {
-            SpatieMedia::make($book)
-                ->addMediaFromString($contents)
-                ->name($book->slug)
-                ->extension(Bookshelves::imageFormat())
-                ->collection(Bookshelves::imageCollection())
-                ->disk(Bookshelves::imageDisk())
-                ->color()
-                ->save();
-        });
+        SpatieMedia::make($book)
+            ->addMediaFromString($contents)
+            ->name($book->slug)
+            ->extension(Bookshelves::imageFormat())
+            ->collection(Bookshelves::imageCollection())
+            ->disk(Bookshelves::imageDisk())
+            ->color()
+            ->save();
 
         unlink($path);
 

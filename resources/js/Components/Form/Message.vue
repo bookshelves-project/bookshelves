@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import { useForm } from '@inertiajs/vue3'
 import { useInertia, useRouter } from '@kiwilan/typescriptable-laravel'
-import { toast } from 'vue3-toastify'
 
 const form = useForm({
-  type: 'bug',
+  type: 'bug-feedback',
   description: '',
 })
 
@@ -28,17 +27,17 @@ function submit() {
     data: form.data(),
     preserveScroll: true,
     onSuccess: () => {
-      toast('Your request has been sent !', {
-        autoClose: 2000,
-        type: 'success',
-      })
+      // toast('Your request has been sent !', {
+      //   autoClose: 2000,
+      //   type: 'success',
+      // })
       form.reset()
     },
     onError: () => {
-      toast('Ups, something went wrong !', {
-        autoClose: 2000,
-        type: 'error',
-      })
+      // toast('Ups, something went wrong !', {
+      //   autoClose: 2000,
+      //   type: 'error',
+      // })
     },
   })
 }
@@ -53,8 +52,7 @@ function submit() {
           name="type"
           label="Type"
           :options="[
-            { label: 'Bug', value: 'bug' },
-            { label: 'Feedback', value: 'feedback' },
+            { label: 'Bug / Feedback', value: 'bug-feedback' },
             { label: 'Books', value: 'book' },
           ]"
           required
@@ -65,7 +63,7 @@ function submit() {
           v-model="form.description"
           name="description"
           label="Description"
-          placeholder="Describe your bug, feedback, or request"
+          placeholder="Describe your demand"
           autocomplete="description"
           multiline
           class="large"

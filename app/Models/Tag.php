@@ -59,14 +59,14 @@ class Tag extends Model
     // public function getShowLinkAttribute(): string
     // {
     //     return route('api.tags.show', [
-    //         'tag_slug' => $this->slug,
+    //         'tag' => $this->slug,
     //     ]);
     // }
 
     // public function getBooksLinkAttribute(): string
     // {
     //     return route('api.tags.show.books', [
-    //         'tag_slug' => $this->slug,
+    //         'tag' => $this->slug,
     //     ]);
     // }
 

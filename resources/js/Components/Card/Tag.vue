@@ -16,7 +16,7 @@ const count = computed(() => (props.tag.books_count ?? 0) + (props.tag.series_co
   <ILink
     :class="color"
     class="h-28 rounded-md bg-opacity-40 px-3 py-2 hover-zoom"
-    :href="$route('tags.show', { tag_slug: tag.slug })"
+    :href="$route('tags.show', { tag: tag.slug })"
   >
     <h2 class="text-lg lowercase text-gray-300">
       #{{ tag.name }}

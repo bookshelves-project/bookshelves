@@ -1,17 +1,23 @@
-<x-stw-app>
-  <x-slot name="head">
-    <title inertia>{{ config('app.name', 'Bookshelves') }}</title>
-    @routes
-    @vite(['resources/js/app.ts', "resources/js/Pages/{$page['component']}.vue"])
-    @inertiaHead
-    @if (config('app.umami.url'))
-      <script
-        async
-        src="{{ config('app.umami.url') }}"
-        data-website-id="{{ config('app.umami.id') }}"
-      ></script>
-    @endif
-  </x-slot>
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+<head>
+  <meta charset="utf-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <x-stw-favicon />
+
+  <!-- Scripts -->
+  @routes
+  @vite(['resources/js/app.ts', "resources/js/Pages/{$page['component']}.vue"])
+  @inertiaHead
+</head>
+
+<body class="{{ config('app.env') === 'local' ? 'debug-screens' : '' }} font-sans antialiased">
   @inertia
-  @yield('default')
-</x-stw-app>
+</body>
+
+</html>

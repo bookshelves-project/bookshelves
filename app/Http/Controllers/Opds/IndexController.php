@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Opds;
 
-use App\Engines\SearchEngine;
-use App\Facades\OpdsBase;
+use App\Enums\LibraryTypeEnum;
+use App\Facades\OpdsSetup;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Kiwilan\Steward\Engines\SearchEngine;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -16,8 +17,8 @@ class IndexController extends Controller
     #[Get('/', name: 'opds.index')]
     public function index()
     {
-        OpdsBase::app()
-            ->feeds(OpdsBase::home())
+        OpdsSetup::app()
+            ->feeds(OpdsSetup::home())
             ->send();
     }
 
@@ -27,16 +28,16 @@ class IndexController extends Controller
         $feeds = [];
 
         $entries = Book::query()
-            ->whereIsBook()
+            ->whereLibraryType(LibraryTypeEnum::book)
             ->orderBy('updated_at', 'desc')
             ->limit(16)
             ->get();
 
         foreach ($entries as $book) {
-            $feeds[] = OpdsBase::bookToEntry($book);
+            $feeds[] = OpdsSetup::bookToEntry($book);
         }
 
-        OpdsBase::app()
+        OpdsSetup::app()
             ->title('Latest books')
             ->feeds($feeds)
             ->send();
@@ -49,16 +50,16 @@ class IndexController extends Controller
 
         $entries = Book::query()
             ->inRandomOrder()
-            ->whereIsBook()
-            ->limit(16)
+            ->whereLibraryType(LibraryTypeEnum::book)
+            ->limit(1)
             ->get();
 
         foreach ($entries as $book) {
-            $feeds[] = OpdsBase::bookToEntry($book);
+            $feeds[] = OpdsSetup::bookToEntry($book);
         }
 
-        OpdsBase::app()
-            ->title('Random books')
+        OpdsSetup::app()
+            ->title('Random book')
             ->feeds($feeds)
             ->send();
     }
@@ -70,15 +71,18 @@ class IndexController extends Controller
         $feeds = [];
 
         if ($query) {
-            $search = SearchEngine::make(q: $query, relevant: false, opds: true, types: ['books']);
-
-            foreach ($search->results_opds as $result) {
-                /** @var Book $result */
-                $feeds[] = OpdsBase::bookToEntry($result);
+            $search = SearchEngine::make($query, [Book::class])->get();
+            foreach ($search->getResults()->first() as $book) {
+                /** @var Book $book */
+                $book->loadMissing('library');
+                if ($book->library->type !== LibraryTypeEnum::book) {
+                    continue;
+                }
+                $feeds[] = OpdsSetup::bookToEntry($book);
             }
         }
 
-        OpdsBase::app()
+        OpdsSetup::app()
             ->title("Search for {$query}")
             ->isSearch()
             ->feeds($feeds)

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\LibraryTypeEnum;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\EntityResource;
+use App\Http\Resources\SearchResource;
 use App\Models\Book;
 use Kiwilan\Steward\Utils\PaginatorHelper;
 use Spatie\RouteAttributes\Attributes\Get;
@@ -12,37 +13,47 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('books')]
 class BookController extends Controller
 {
-    #[Get('/related/{book_slug}', name: 'api.books.related')]
+    #[Get('/related/{book:slug}', name: 'api.books.related')]
     public function related(Book $book)
     {
+        $book->loadMissing('tags');
+
         if ($book->tags->count() >= 1) {
             $related = $book->getRelated();
 
             if ($related->isNotEmpty()) {
-                return EntityResource::collection(PaginatorHelper::paginate($related));
+                return SearchResource::collection(PaginatorHelper::paginate($related));
             }
         }
 
-        return response()->json(
-            data: [
-                'data' => [],
-            ],
-            status: 200
-        );
+        return response()->json([
+            'data' => [],
+        ]);
     }
 
     #[Get('/latest', name: 'api.books.latest')]
     public function latest()
     {
-        $latest = Book::with(['authors', 'serie', 'media'])
-            ->orderBy('added_at', 'desc')
-            ->limit(20)
-            ->get();
+        return response()->json([
+            'data' => $this->getBooks('added_at', true, 20),
+        ]);
+    }
 
-        return response()->json(
-            data: [
-                'data' => $latest,
-            ],
-        );
+    #[Get('/released', name: 'api.books.released')]
+    public function released()
+    {
+        return response()->json([
+            'data' => $this->getBooks('released_on', true, 20),
+        ]);
+    }
+
+    #[Get('/latest/{type}', name: 'api.books.latest.type')]
+    public function latestType(string $type)
+    {
+        $type = LibraryTypeEnum::from($type);
+
+        return response()->json([
+            'data' => $this->getBooks('added_at', true, 20, $type),
+        ]);
     }
 }

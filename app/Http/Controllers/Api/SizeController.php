@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\BookTypeEnum;
 use App\Http\Controllers\Controller;
-use App\Models\Audiobook;
+use App\Models\AudiobookTrack;
 use App\Models\Book;
 use App\Models\Serie;
 use Illuminate\Http\Request;
@@ -14,41 +13,38 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 #[Prefix('size')]
 class SizeController extends Controller
 {
-    #[Get('/book/{book_id}', name: 'api.sizes.book')]
+    #[Get('/book/{book:id}', name: 'api.sizes.book')]
     public function book(Request $request, Book $book)
     {
-        /** @var ?BookTypeEnum $type */
-        $type = $book->type;
+        $book->loadMissing(['library', 'audiobookTracks']);
 
-        if ($type !== BookTypeEnum::audiobook) {
-            $size = filesize($book->physical_path);
-        } else {
-            $audiobooks = $book->audiobooks;
-            $size = $audiobooks
-                ->map(fn (Audiobook $audiobook) => filesize($audiobook->physical_path))
+        if ($book->library?->type->isAudiobook()) {
+            $size = $book->audiobookTracks
+                ->map(fn (AudiobookTrack $track) => $track->file->size)
                 ->sum();
+        } else {
+            $size = $book->file->size;
         }
 
         return response()->json([
-            'extension' => $type === BookTypeEnum::audiobook ? 'zip' : $book->extension,
+            'extension' => $book->library?->type->isAudiobook() ? 'zip' : $book->file->extension,
             'size' => $size,
         ]);
     }
 
-    #[Get('/serie/{serie_id}', name: 'api.sizes.serie')]
+    #[Get('/serie/{serie:id}', name: 'api.sizes.serie')]
     public function serie(Request $request, Serie $serie)
     {
         $size = 0;
-        $serie->load('books');
+        $serie->loadMissing(['books', 'books.library', 'books.audiobookTracks']);
+
         foreach ($serie->books as $book) {
-            if ($book->type !== BookTypeEnum::audiobook) {
-                $size += filesize($book->physical_path);
-            } else {
-                $book->load('audiobooks');
-                $audiobooks = $book->audiobooks;
-                $size += $audiobooks
-                    ->map(fn (Audiobook $audiobook) => filesize($audiobook->physical_path))
+            if ($book->library?->type->isAudiobook()) {
+                $size += $book->audiobookTracks
+                    ->map(fn (AudiobookTrack $track) => $track->file->size)
                     ->sum();
+            } else {
+                $size += $book->file->size;
             }
         }
 

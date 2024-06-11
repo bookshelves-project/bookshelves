@@ -34,38 +34,36 @@ function scrollRight() {
       >
         {{ title }}
       </div>
-      <div class="flex-auto" />
-      <div>
-        <ILink
-          v-if="url"
-          :href="url"
-        >
-          <div class="text-gray-300 hover:text-gray-200">
-            See all
-          </div>
-        </ILink>
-        <div class="space-x-1 pr-6">
-          <button
-            class="bg-gray-700 hover:bg-gray-800 rounded-md p-0.5"
-            title="Scroll left"
-            @click="scrollLeft()"
-          >
-            <SvgIcon
-              name="arrow-left"
-              class="w-5 h-5"
-            />
-          </button>
-          <button
-            class="bg-gray-700 hover:bg-gray-800 rounded-md p-0.5"
-            title="Scroll right"
-            @click="scrollRight()"
-          >
-            <SvgIcon
-              name="arrow-right"
-              class="w-5 h-5"
-            />
-          </button>
+      <ILink
+        v-if="url"
+        :href="url"
+      >
+        <div class="text-gray-100 hover:text-gray-200 ml-5 bg-gray-700 hover:bg-gray-800 px-2 py-1.5 rounded-md">
+          See all
         </div>
+      </ILink>
+      <div class="flex-auto" />
+      <div class="space-x-1 pr-6">
+        <button
+          class="bg-gray-700 hover:bg-gray-800 rounded-md p-0.5"
+          title="Scroll left"
+          @click="scrollLeft()"
+        >
+          <SvgIcon
+            name="arrow-left"
+            class="w-5 h-5"
+          />
+        </button>
+        <button
+          class="bg-gray-700 hover:bg-gray-800 rounded-md p-0.5"
+          title="Scroll right"
+          @click="scrollRight()"
+        >
+          <SvgIcon
+            name="arrow-right"
+            class="w-5 h-5"
+          />
+        </button>
       </div>
     </div>
     <div class="relative mt-3">

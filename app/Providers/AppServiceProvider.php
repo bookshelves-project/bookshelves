@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
@@ -15,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind('bookshelves', fn () => new \App\Bookshelves());
-        $this->app->bind('opds-base', fn () => new \App\OpdsBase());
+        $this->app->bind('opds-setup', fn () => new \App\OpdsSetup());
     }
 
     /**
@@ -36,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
                 return false;
             }
 
-            /** @var User $user */
+            /** @var \App\Models\User $user */
             return $user->isAdmin() || $user->isSuperAdmin();
         });
     }

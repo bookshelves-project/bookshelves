@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { useInertia } from '@kiwilan/typescriptable-laravel'
 import { useNavigation } from '@/Composables/useNavigation'
 
 const { mainLinks, secondaryLinks } = useNavigation()

@@ -2,6 +2,7 @@
 
 namespace App\Engines\Book\Converter;
 
+use App\Engines\Book\BookUtils;
 use App\Engines\Book\Converter\Modules\AuthorModule;
 use App\Engines\Book\Converter\Modules\CoverModule;
 use App\Engines\Book\Converter\Modules\IdentifierModule;
@@ -9,14 +10,13 @@ use App\Engines\Book\Converter\Modules\LanguageModule;
 use App\Engines\Book\Converter\Modules\PublisherModule;
 use App\Engines\Book\Converter\Modules\SerieModule;
 use App\Engines\Book\Converter\Modules\TagModule;
-use App\Enums\BookFormatEnum;
-use App\Enums\BookTypeEnum;
-use App\Models\Audiobook;
+use App\Models\AudiobookTrack;
 use App\Models\Book;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
+use App\Models\File;
+use DateTime;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\Enums\EbookFormatEnum;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Utils\Process;
 
 /**
@@ -26,52 +26,26 @@ class BookConverter
 {
     protected function __construct(
         protected Ebook $ebook,
+        protected File $file,
         protected ?Book $book = null,
-        protected ?Audiobook $audiobook = null,
+        protected ?AudiobookTrack $track = null,
     ) {
     }
 
     /**
      * Set Book from Ebook.
      */
-    public static function make(Ebook $ebook, BookTypeEnum $type, ?Book $book = null): self
+    public static function make(Ebook $ebook, File $file): self
     {
-        $self = new self($ebook);
+        $self = new self($ebook, $file);
 
         if ($ebook->getFormat() === EbookFormatEnum::AUDIOBOOK) {
-            $self->parseAudiobook();
+            $self->parseAudiobookTrack();
         } else {
-            $self->parseBook($type, $book);
+            $self->parseBook();
         }
 
         return $self;
-    }
-
-    /**
-     * Select the most used language in the author books.
-     *
-     * @param  Collection<int, \App\Models\Book>  $books
-     */
-    public static function selectLang(Collection $books): string
-    {
-        $languages = [];
-        foreach ($books as $book) {
-            if (! $book->language) {
-                continue;
-            }
-            if (array_key_exists($book->language->slug, $languages)) {
-                $languages[$book->language->slug]++;
-            } else {
-                $languages[$book->language->slug] = 1;
-            }
-        }
-
-        $lang = 'en';
-        if (count($languages) > 0) {
-            $lang = array_search(max($languages), $languages);
-        }
-
-        return $lang;
     }
 
     public function book(): ?Book
@@ -79,126 +53,105 @@ class BookConverter
         return $this->book;
     }
 
-    private function parseBook(BookTypeEnum $type, ?Book $book): self
+    private function parseBook(): self
     {
-        if ($book) {
-            $this->checkBook($type);
-        }
+        $this->book = $this->createBook();
 
-        $identifiers = IdentifierModule::toCollection($this->ebook);
-
-        if (! $book) {
-            $this->book = new Book([
-                'title' => $this->ebook->getTitle(),
-                'slug' => $this->ebook->getMetaTitle()->getSlug(),
-                'contributor' => $this->ebook->getExtra('contributor'),
-                'released_on' => $this->ebook->getPublishDate()?->format('Y-m-d'),
-                'description' => $this->ebook->getDescription(2000),
-                'rights' => $this->ebook->getCopyright(255),
-                'volume' => $this->ebook->getVolume(),
-                'format' => BookFormatEnum::fromExtension($this->ebook->getExtension()),
-                'type' => $type,
-                'page_count' => $this->ebook->getPagesCount(),
-                'physical_path' => $this->ebook->getPath(),
-                'extension' => $this->ebook->getExtension(),
-                'mime_type' => mime_content_type($this->ebook->getPath()),
-                'isbn10' => $identifiers->get('isbn10') ?? null,
-                'isbn13' => $identifiers->get('isbn13') ?? null,
-                'identifiers' => $identifiers->toArray(),
-                'added_at' => $this->ebook->getCreatedAt(),
+        if (! $this->book) {
+            Journal::error('BookConverter: No book found', [
+                'ebook' => $this->ebook->toArray(),
             ]);
-
-            Book::withoutSyncingToSearch(function () {
-                $this->book->save();
-            });
-        }
-
-        if (empty($this->book?->title)) {
-            $this->book = null;
 
             return $this;
         }
 
+        $this->syncLibrary();
         $this->syncAuthors();
         $this->syncTags();
         $this->syncPublisher();
         $this->syncLanguage();
-        $this->syncSerie($type);
+        $this->syncSerie();
         $this->syncIdentifiers();
         $this->syncCover();
 
         return $this;
     }
 
-    private function parseAudiobook(): self
+    private function parseAudiobookTrack(): self
     {
-        $authors = [];
-        if (str_contains($this->ebook->getPublisher(), ',')) {
-            $authors = explode(',', $this->ebook->getPublisher());
-        } elseif (str_contains($this->ebook->getPublisher(), ' & ')) {
-            $authors = explode(' & ', $this->ebook->getPublisher());
-        } else {
-            $authors[] = $this->ebook->getPublisher();
-        }
-        $authors = array_map(fn ($author) => trim($author), $authors);
+        $authors = array_map(fn ($author) => $author->getName(), $this->ebook->getAuthors());
+        $language = $this->ebook->getLanguage();
 
-        $this->audiobook = Audiobook::query()->create([
+        if (! $language) {
+            Journal::warning('BookConverter: No language found for '.$this->ebook->getTitle(), [
+                'ebook' => $this->ebook->toArray(),
+            ]);
+        }
+
+        $this->track = new AudiobookTrack([
             'title' => $this->ebook->getTitle(),
-            'slug' => $this->ebook->getMetaTitle()->getSeriesSlug(),
+            'slug' => $this->ebook->getMetaTitle()->getSlug(),
+            'track_title' => $this->ebook->getExtra('audio_title'),
+            'subtitle' => $this->ebook->getExtra('subtitle'),
             'authors' => $authors,
-            'author_main' => $authors[0] ?? null,
-            'narrators' => array_map(fn ($author) => $author->getName(), $this->ebook->getAuthors()),
+            'narrators' => $this->ebook->getExtra('narrators'),
             'description' => $this->ebook->getDescription(),
+            'publisher' => $this->ebook->getPublisher(),
             'publish_date' => $this->ebook->getPublishDate(),
-            'language' => $this->ebook->getLanguage(),
+            'language' => $language,
             'tags' => $this->ebook->getTags(),
             'serie' => $this->ebook->getSeries(),
-            'volume' => $this->ebook->getVolume(),
-            'format' => $this->ebook->getFormat(),
-            'track_number' => $this->ebook->getExtra('trackNumber'),
+            'volume' => $this->getVolume(),
+            'track_number' => $this->ebook->getExtra('track_number'),
             'comment' => $this->ebook->getExtra('comment'),
-            'creation_date' => $this->ebook->getExtra('creationDate'),
+            'creation_date' => $this->ebook->getExtra('creation_date'),
             'composer' => $this->ebook->getExtra('composer'),
-            'disc_number' => $this->ebook->getExtra('discNumber'),
-            'is_compilation' => $this->ebook->getExtra('isCompilation'),
+            'disc_number' => $this->ebook->getExtra('disc_number'),
+            'is_compilation' => $this->ebook->getExtra('is_compilation'),
             'encoding' => $this->ebook->getExtra('encoding'),
             'lyrics' => $this->ebook->getExtra('lyrics'),
             'stik' => $this->ebook->getExtra('stik'),
             'duration' => $this->ebook->getExtra('duration'),
-            'physical_path' => $this->ebook->getPath(),
-            'basename' => $this->ebook->getBasename(),
-            'extension' => $this->ebook->getExtension(),
-            'mime_type' => mime_content_type($this->ebook->getPath()),
             'added_at' => $this->ebook->getCreatedAt(),
         ]);
 
+        $this->track->library()->associate($this->file->library);
+        $this->track->file()->associate($this->file);
+        $this->track->saveQuietly();
+
         $cover = $this->ebook->getCover()->getContents();
         if ($cover) {
-            $path = BookConverter::audiobookCoverPath($this->audiobook);
+            $path = BookUtils::audiobookTrackCoverPath($this->track);
             file_put_contents($path, $cover);
         }
 
         return $this;
     }
 
-    public static function audiobookCoverPath(Audiobook $audiobook): string
+    private function syncLibrary(): self
     {
-        $name = "audiobook-{$audiobook->id}.jpg";
+        $this->book->library()->associate($this->file->library);
+        $this->book->saveWithoutSyncingToSearch();
 
-        return storage_path("app/cache/{$name}");
+        return $this;
     }
 
     private function syncAuthors(): self
     {
-        $authors = AuthorModule::toCollection($this->ebook);
+        $authors = AuthorModule::make($this->ebook->getAuthors());
         if ($authors->isEmpty()) {
+            Journal::warning("BookConverter: No authors found for {$this->book->title}", [
+                'ebook' => $this->ebook->toArray(),
+            ]);
+
             return $this;
         }
 
-        Book::withoutSyncingToSearch(function () use ($authors) {
-            $this->book->authorMain()->associate($authors->first());
-            $this->book?->authors()->sync($authors->pluck('id'));
-        });
+        $this->book->authorMain()->associate($authors->first());
+        foreach ($authors as $author) {
+            $this->book->authors()->attach($author->id);
+        }
+        $this->book->saveWithoutSyncingToSearch();
 
         return $this;
     }
@@ -211,7 +164,7 @@ class BookConverter
         }
 
         Book::withoutSyncingToSearch(function () use ($tags) {
-            $this->book?->tags()->sync($tags->pluck('id'));
+            $this->book->tags()->sync($tags->pluck('id'));
         });
 
         return $this;
@@ -224,37 +177,31 @@ class BookConverter
             return $this;
         }
 
-        Book::withoutSyncingToSearch(function () use ($publisher) {
-            $this->book?->publisher()->associate($publisher);
-            $this->book?->save();
-        });
+        $this->book->publisher()->associate($publisher);
+        $this->book->saveWithoutSyncingToSearch();
 
         return $this;
     }
 
     private function syncLanguage(): self
     {
-        $language = LanguageModule::toModel($this->ebook);
+        $language = LanguageModule::make($this->ebook->getLanguage());
 
-        Book::withoutSyncingToSearch(function () use ($language) {
-            $this->book?->language()->associate($language);
-            $this->book?->save();
-        });
+        $this->book->language()->associate($language);
+        $this->book->saveWithoutSyncingToSearch();
 
         return $this;
     }
 
-    private function syncSerie(BookTypeEnum $type): self
+    private function syncSerie(): self
     {
-        $serie = SerieModule::toModel($this->ebook, $type)->associate($this->book);
+        $serie = SerieModule::make($this->ebook, $this->book);
         if (! $serie) {
             return $this;
         }
 
-        Book::withoutSyncingToSearch(function () use ($serie) {
-            $this->book?->serie()->associate($serie);
-            $this->book?->save();
-        });
+        $this->book->serie()->associate($serie);
+        $this->book->saveWithoutSyncingToSearch();
 
         return $this;
     }
@@ -266,12 +213,10 @@ class BookConverter
             return $this;
         }
 
-        Book::withoutSyncingToSearch(function () use ($identifiers) {
-            $this->book->isbn10 = $identifiers->get('isbn10') ?? null;
-            $this->book->isbn13 = $identifiers->get('isbn13') ?? null;
-            $this->book->identifiers = $identifiers->toArray();
-            $this->book->save();
-        });
+        $this->book->isbn10 = $identifiers->get('isbn10') ?? null;
+        $this->book->isbn13 = $identifiers->get('isbn13') ?? null;
+        $this->book->identifiers = $identifiers->toArray();
+        $this->book->saveWithoutSyncingToSearch();
 
         return $this;
     }
@@ -283,40 +228,73 @@ class BookConverter
         }, maxMemory: 3);
     }
 
-    private function checkBook(BookTypeEnum $type): self
+    private function getVolume(): ?string
     {
-        if (! $this->book) {
-            return $this;
+        if ($this->ebook->getVolume() === null) {
+            return null;
         }
 
-        if (! $this->book->slug && $this->ebook->getSeries() && ! $this->book->serie) {
-            $this->book->slug = $this->ebook->getMetaTitle()->getSlug();
+        $volume = (string) $this->ebook->getVolume();
+        if ($volume === '0') {
+            $volume = 0;
+        } else {
+            $volume = floatval($volume);
         }
 
-        if (! $this->book->contributor) {
-            $this->book->contributor = $this->ebook->getExtra('contributor') ?? null;
+        return strval($volume);
+    }
+
+    private function createBook(): ?Book
+    {
+        // split sliders books, audiobooks, comics, manga and series split at home
+        // find duplicate authors
+        // find duplicates series like A comme Association (multiple authors)
+        $identifiers = IdentifierModule::toCollection($this->ebook);
+
+        $isEpub = $this->ebook->getParser()?->isEpub();
+        $timestamp = $this->ebook->getCreatedAt();
+
+        if ($isEpub) {
+            $calibre_timestamp = $this->ebook->getParser()->getEpub()?->getOpf()?->getMetaItem('calibre:timestamp');
+            if ($calibre_timestamp) {
+                $timestamp = new DateTime($calibre_timestamp->getContents());
+            }
         }
 
-        if (! $this->book->released_on) {
-            $this->book->released_on = Carbon::parse($this->ebook->getPublishDate());
+        if (! $this->ebook->getTitle()) {
+            Journal::error('BookConverter: No title found', [
+                'ebook' => $this->ebook->toArray(),
+            ]);
+
+            return null;
         }
 
-        if (! $this->book->rights) {
-            $this->book->rights = $this->ebook->getCopyright();
+        if (! $this->ebook->getMetaTitle()) {
+            Journal::error('BookConverter: No meta title found', [
+                'ebook' => $this->ebook->toArray(),
+            ]);
+
+            return null;
         }
 
-        if (! $this->book->description) {
-            $this->book->description = $this->ebook->getDescription();
-        }
+        $book = new Book([
+            'title' => $this->ebook->getTitle(),
+            'slug' => $this->ebook->getMetaTitle()->getSlug(),
+            'contributor' => $this->ebook->getExtra('contributor'),
+            'released_on' => $this->ebook->getPublishDate()?->format('Y-m-d'),
+            'description' => $this->ebook->getDescription(2000),
+            'rights' => $this->ebook->getCopyright(255),
+            'volume' => $this->getVolume(),
+            'page_count' => $this->ebook->getPagesCount(),
+            'isbn10' => $identifiers->get('isbn10') ?? null,
+            'isbn13' => $identifiers->get('isbn13') ?? null,
+            'identifiers' => $identifiers->toArray(),
+            'added_at' => $timestamp,
+        ]);
 
-        if (! $this->book->volume) {
-            $this->book->volume = $this->ebook->getVolume();
-        }
+        $book->file()->associate($this->file);
+        $book->saveWithoutSyncingToSearch();
 
-        if ($this->book->type === null) {
-            $this->book->type = $type;
-        }
-
-        return $this;
+        return $book;
     }
 }

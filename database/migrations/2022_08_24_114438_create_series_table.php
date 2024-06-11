@@ -15,11 +15,9 @@ return new class() extends Migration
             $table->ulid('id')->primary();
 
             $table->string('title');
-            $table->string('slug')->unique()->index();
-            $table->string('type')->default('book');
+            $table->string('slug')->index();
             $table->text('description')->nullable();
-            $table->string('link')->nullable();
-            $table->dateTime('wikipedia_parsed_at')->nullable();
+            $table->dateTime('api_parsed_at')->nullable();
 
             $table->timestamps();
         });

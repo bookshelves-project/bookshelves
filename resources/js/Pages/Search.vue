@@ -1,24 +1,19 @@
 <script lang="ts" setup>
-import { useSearch } from '@kiwilan/typescriptable-laravel'
+import type { Entity } from '@/Types'
 
-const props = defineProps<{
-  results: object
-  search?: string
+defineProps<{
+  data: Entity[]
+  query?: string
+  count?: number
 }>()
-
-const { convertResults } = useSearch(false)
-const items = ref<any[]>([])
-
-items.value = convertResults(props.results)
-console.log(items.value)
 </script>
 
 <template>
-  <App :title="`Search for '${search}'`">
-    <section class="main-container py-10 books-list">
+  <App :title="`Search for '${query}' (${count} results)`">
+    <section class="main-container py-10 books-grid">
       <CardEntity
-        v-for="item in items"
-        :key="item.id"
+        v-for="item in data"
+        :key="item.slug"
         :entity="item"
       />
     </section>

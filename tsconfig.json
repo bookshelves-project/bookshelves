@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "jsx": "preserve",
+    "jsxImportSource": "vue",
     "lib": ["esnext", "dom"],
     "module": "esnext",
     "moduleResolution": "node",
@@ -12,7 +13,7 @@
       "~/*": ["./*"]
     },
     "resolveJsonModule": true,
-    "types": ["vite/client", "resources/**/*.d.ts"],
+    "types": ["vite/client"],
     "allowJs": true,
     "strict": true,
     "noImplicitAny": false,
@@ -30,6 +31,7 @@
     "*.d.ts",
     "components.d.ts",
     "auto-imports.d.ts",
-    "global.d.ts"
+    "global.d.ts",
+    "vite.config.ts"
   ]
 }

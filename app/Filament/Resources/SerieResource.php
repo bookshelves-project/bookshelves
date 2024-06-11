@@ -12,12 +12,15 @@ use Filament\Tables;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class SerieResource extends Resource
 {
     protected static ?string $model = Serie::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?string $navigationGroup = 'Books';
 
     public static function form(Form $form): Form
     {
@@ -55,7 +58,7 @@ class SerieResource extends Resource
                     ->searchable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
-                Tables\Columns\TextColumn::make('type')
+                Tables\Columns\TextColumn::make('library.name')
                     ->badge()
                     ->searchable()
                     ->sortable(),
@@ -63,9 +66,9 @@ class SerieResource extends Resource
                     ->searchable(),
             ])
             ->filters([
-                SelectFilter::make('type')
-                    ->multiple()
-                    ->options(BookTypeEnum::getLabels()),
+                // SelectFilter::make('type')
+                //     ->multiple()
+                //     ->options(BookTypeEnum::getLabels()),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -82,6 +85,11 @@ class SerieResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->withCount(['books']);
     }
 
     public static function getNavigationBadge(): ?string

@@ -1,3 +1,5 @@
+import { usePage } from '@inertiajs/vue3'
+
 export interface Link {
   label: string
   icon?: SvgName
@@ -6,34 +8,47 @@ export interface Link {
   isExternal?: boolean
   isSeperator?: boolean
   restrictedRoles?: string[]
+  isLibrary?: boolean
+  libraryUrl?: string
+  librarySeriesUrl?: string
 }
 
-const mainLinks: Link[] = [
-  { label: 'Dashboard', icon: 'home', route: { name: 'home' } },
-  { label: 'Authors', icon: 'quill', route: { name: 'authors.index' } },
-  { label: 'Tags', icon: 'tag', route: { name: 'tags.index' } },
-  { label: 'Seperator', isSeperator: true },
-  { label: 'Audiobooks', icon: 'audible', route: { name: 'audiobooks.index' } },
-  { label: 'Books', icon: 'ereader', route: { name: 'books.index' } },
-  { label: 'Comics', icon: 'comic', route: { name: 'comics.index' } },
-  { label: 'Mangas', icon: 'manga', route: { name: 'mangas.index' } },
-  { label: 'Seperator', isSeperator: true },
-  { label: 'Audiobook series', icon: 'audible', route: { name: 'series.audiobooks.index' } },
-  { label: 'Book series', icon: 'ereader', route: { name: 'series.books.index' } },
-  { label: 'Comic series', icon: 'comic', route: { name: 'series.comics.index' } },
-  { label: 'Manga series', icon: 'manga', route: { name: 'series.mangas.index' } },
-]
+const mainLinks = ref<Link[]>([])
 
 const secondaryLinks: Link[] = [
-  { label: 'OPDS', icon: 'opds', route: { name: 'opds.index' }, isExternal: true },
-  { label: 'Message', icon: 'mail', route: { name: 'form.message' } },
   { label: 'Help', icon: 'info', route: { name: 'pages.help' } },
+  { label: 'OPDS books', icon: 'opds', route: { name: 'opds.index' }, isExternal: true },
+  { label: 'Contact', icon: 'mail', route: { name: 'form.message' } },
 ]
 
 const profileLinks: Link[] = [
 ]
 
 export function useNavigation() {
+  const { props } = usePage()
+
+  const libraries = props?.libraries as App.Models.Library[]
+
+  if (libraries && mainLinks.value.length === 0) {
+    mainLinks.value = [
+      { label: 'Dashboard', icon: 'home', route: { name: 'home' } },
+      { label: 'Authors', icon: 'quill', route: { name: 'authors.index' } },
+      // { label: 'Tags', icon: 'tag', route: { name: 'tags.index' } },
+      { label: 'Seperator', isSeperator: true },
+    ]
+
+    libraries.forEach((library) => {
+      mainLinks.value.push({
+        label: library.name,
+        icon: library.type as SvgName,
+        route: { name: 'libraries.show', params: { library: library.slug } },
+        isLibrary: true,
+        libraryUrl: `/libraries/${library.slug}`,
+        librarySeriesUrl: `/libraries/${library.slug}/series`,
+      })
+    })
+  }
+
   return {
     mainLinks,
     secondaryLinks,

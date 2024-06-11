@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\LibraryTypeEnum;
 use App\Traits\HasBooksCollection;
 use App\Traits\HasCovers;
 use App\Traits\HasTagsAndGenres;
@@ -47,20 +48,24 @@ class Author extends Model implements HasMedia
         'role',
         'description',
         'link',
-        'wikipedia_parsed_at',
+        'api_parsed_at',
+        'api_exists',
     ];
 
     protected $casts = [
-        'wikipedia_parsed_at' => 'datetime',
+        'api_parsed_at' => 'datetime',
+        'api_exists' => 'boolean',
     ];
 
-    protected $query_default_sort = 'name';
+    protected $query_default_sort = 'lastname';
 
     protected $query_default_sort_direction = 'asc';
 
     protected $query_allowed_sorts = [
         'id',
         'name',
+        'lastname',
+        'firstname',
         'role',
         'books_count',
         'series_count',
@@ -72,30 +77,38 @@ class Author extends Model implements HasMedia
 
     protected $appends = [
         'title',
+        'route',
     ];
 
-    protected $with = [
-        'media',
-    ];
+    protected $with = [];
 
-    protected $withCount = [
-        'books',
-        'series',
-    ];
+    protected $withCount = [];
 
-    public function getTitleAttribute(): string
+    public function getTitleAttribute(): ?string
     {
         return $this->name;
     }
 
+    public function getRouteAttribute(): string
+    {
+        return route('authors.show', [
+            'author' => $this->slug ?? 'author',
+        ]);
+    }
+
     public function getFirstCharAttribute()
     {
-        return strtoupper(substr(Str::slug($this->name), 0, 1));
+        return strtoupper(substr(Str::slug($this->lastname), 0, 1));
     }
 
     public function scopeWhereFirstChar(Builder $query, string $char): Builder
     {
-        return $query->whereRaw('UPPER(SUBSTR(name, 1, 1)) = ?', [strtoupper($char)]);
+        return $query->whereRaw('UPPER(SUBSTR(lastname, 1, 1)) = ?', [strtoupper($char)]);
+    }
+
+    public function scopeWhereHasBooks(Builder $query): Builder
+    {
+        return $query->whereRelation('books.library', 'type', LibraryTypeEnum::book);
     }
 
     /**
@@ -104,6 +117,17 @@ class Author extends Model implements HasMedia
     public function books(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
         return $this->morphedByMany(Book::class, 'authorable')
+            ->orderBy('slug')
+            ->orderBy('volume');
+    }
+
+    /**
+     * Get all of the books that are assigned this author.
+     */
+    public function booksOnlyBook(): \Illuminate\Database\Eloquent\Relations\MorphToMany
+    {
+        return $this->morphedByMany(Book::class, 'authorable')
+            ->whereRelation('library', 'type', LibraryTypeEnum::book)
             ->orderBy('slug')
             ->orderBy('volume');
     }
@@ -125,8 +149,7 @@ class Author extends Model implements HasMedia
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'cover' => $this->cover_thumbnail,
-            'description' => $this->description,
+            // 'cover' => $this->cover_thumbnail,
         ];
     }
 

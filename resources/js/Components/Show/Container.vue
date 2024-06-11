@@ -3,26 +3,21 @@ export interface DetailsMedia {
   backdrop?: string
   cover?: string
   coverColor?: string
-  type?: string
+  library?: App.Models.Library
   title?: string
   eyebrow?: string
   undertitle?: string
-  popularity?: number
-  tmdbUrl?: string
-  imdbId?: string
-  frenchTitle?: string
   overview?: string
   properties?: Array<string | number | undefined>
   badges?: Array<string | number | undefined>
   tags?: App.Models.Tag[]
-  downloadUrl?: string
-  downloadSize?: string
   download?: {
     url?: string
     size?: string
     extension?: string
   }
   breadcrumbs?: any[]
+  square?: boolean
 }
 
 const props = defineProps<DetailsMedia>()
@@ -52,6 +47,24 @@ const display = ref<Display>('media')
           v-if="display === 'media'"
           v-bind="props"
         >
+          <template
+            v-if="library"
+            #before
+          >
+            <AppBadge
+              v-if="library"
+              size="md"
+              class="mb-3"
+            >
+              <SvgIcon
+                :name="(library.type as SvgName)"
+                class="w-5 h-5 mr-2"
+              />
+              <span class="text-lg">
+                Type : {{ library.type_label }}
+              </span>
+            </AppBadge>
+          </template>
           <template #title>
             <slot name="title" />
           </template>

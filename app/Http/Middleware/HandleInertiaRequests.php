@@ -3,9 +3,10 @@
 namespace App\Http\Middleware;
 
 use App\Facades\Bookshelves;
+use App\Models\Library;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
-use Tightenco\Ziggy\Ziggy;
+use Tighten\Ziggy\Ziggy;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -39,6 +40,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'appVersion' => Bookshelves::appVersion(),
             'appUrl' => config('app.url'),
+            'libraries' => Library::cache(),
         ];
     }
 }

@@ -13,25 +13,29 @@ const related = ref<Entity[]>()
 const extension = ref<string>()
 
 const { laravel } = useFetch()
-const { bytesToHuman, ucfirst, getSize } = useUtils()
+const { bytesToHuman, getSize } = useUtils()
 const { dateString } = useDate()
 
 const titlePage = computed(() => {
   if (props.book.serie)
-    return `${props.book.serie.title} #${props.book.volume_pad} - ${props.book.title}`
+    return `${props.book.serie.title} #${props.book.volume_pad} - ${props.book.title} by ${props.book.authors_names}`
 
-  return props.book.title
+  return `${props.book.title} by ${props.book.authors_names}`
 })
 
-async function getRelatedBooks(): Promise<Entity[]> {
-  const response = await laravel.get('api.books.related', { book_slug: props.book.slug })
-  return (await response.json()).data
+async function getRelatedBooks(): Promise<Entity[] | undefined> {
+  const response = await laravel.get('api.books.related', { book: props.book.slug })
+  const body = await response.getBody<{
+    data: Entity[]
+  }>()
+
+  return body?.data
 }
 
 onMounted(async () => {
   const api = await getSize('book', props.book.id)
-  size.value = bytesToHuman(api.size)
-  extension.value = api.extension
+  size.value = bytesToHuman(api?.size)
+  extension.value = api?.extension
 
   related.value = await getRelatedBooks()
 })
@@ -40,11 +44,14 @@ onMounted(async () => {
 <template>
   <App
     :title="titlePage"
+    :description="book.description"
+    :image="book.cover_social"
+    :color="book.cover_color"
     icon="ereader"
   >
     <ShowContainer
       :model="book"
-      :type="ucfirst(book.type)"
+      :library="book.library"
       :title="book.title"
       :cover="book.cover_standard"
       :cover-color="book.cover_color"
@@ -67,9 +74,10 @@ onMounted(async () => {
         extension,
       }"
       :breadcrumbs="[
-        { label: 'Books', route: { name: 'books.index' } },
-        { label: `${book.title}`, route: { name: 'books.show', params: { book_slug: book.slug } } },
+        { label: book.library?.name, route: { name: 'home' } },
+        { label: `${book.title}`, route: { name: 'books.show', params: { library: book.library?.slug, book: book.slug } } },
       ]"
+      :square="book.library?.type === 'audiobook'"
     >
       <template #eyebrow>
         <ShowAuthors :authors="book.authors" />
@@ -79,7 +87,7 @@ onMounted(async () => {
         #undertitle
       >
         <ILink
-          :href="$route(`series.${book.type}s.show` as any, { serie_slug: book.serie.slug })"
+          :href="$route('series.show', { library: book.library?.slug, serie: book.serie?.slug })"
           class="link"
         >
           {{ book.serie.title }}
@@ -90,6 +98,7 @@ onMounted(async () => {
         <AppCarousel
           v-if="book.serie"
           :title="`${book.serie?.title} series`"
+          :url="$route('series.show', { library: book.library?.slug, serie: book.serie?.slug })"
         >
           <CardBook
             v-for="b in book.serie?.books"
@@ -97,6 +106,7 @@ onMounted(async () => {
             :book="b"
             :square="square"
             carousel
+            class="w-56"
           />
         </AppCarousel>
         <AppCarousel
@@ -109,6 +119,7 @@ onMounted(async () => {
             :entity="r"
             :square="square"
             carousel
+            class="w-56"
           />
         </AppCarousel>
       </template>

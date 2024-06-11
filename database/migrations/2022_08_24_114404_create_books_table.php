@@ -22,19 +22,13 @@ return new class() extends Migration
             $table->json('audiobook_narrators')->nullable();
             $table->integer('audiobook_chapters')->nullable();
             $table->string('rights')->nullable();
-            $table->integer('volume')->nullable();
+            $table->float('volume')->nullable();
             $table->integer('page_count')->nullable();
-            $table->boolean('is_maturity_rating')->default(0);
-            $table->boolean('is_hidden')->default(0);
-            $table->string('type')->nullable();
-            $table->string('format')->nullable();
+            $table->boolean('is_hidden')->default(false);
+            $table->boolean('is_selected')->default(false);
             $table->string('isbn10')->nullable();
             $table->string('isbn13')->nullable();
             $table->json('identifiers')->nullable();
-            $table->dateTime('google_book_parsed_at')->nullable();
-            $table->string('physical_path')->nullable();
-            $table->string('extension')->nullable();
-            $table->string('mime_type')->nullable();
             $table->dateTime('added_at')->nullable();
 
             $table->timestamps();

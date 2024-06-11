@@ -1,11 +1,22 @@
 <script lang="ts" setup>
 import { onClickOutside } from '@vueuse/core'
 import { useSearch } from '@kiwilan/typescriptable-laravel'
+import type { SearchEntity } from '@/Types'
 
-const { keybinding, loading, searchText, searchField, searching, closeSearch, searchUsed, clearSearch, results } = useSearch()
+const {
+  keybinding,
+  search,
+  shortcut,
+  input,
+  loading,
+  used,
+  clear,
+  close,
+  response,
+} = useSearch<SearchEntity>('/api/search')
 
 const target = ref<HTMLElement>()
-onClickOutside(target, () => closeSearch())
+onClickOutside(target, () => close())
 
 onMounted(() => {
   keybinding()
@@ -44,25 +55,25 @@ onMounted(() => {
           />
         </svg>
         <span
-          v-if="!searchUsed"
+          v-if="!used"
           class="absolute hidden md:block md:left-96 top-1/2 -translate-y-1/2 transform rounded-md border border-gray-700 px-2 py-1 text-xs text-gray-400"
-          v-html="searchText"
+          v-html="shortcut"
         />
       </div>
       <input
         id="search-field"
-        ref="searchField"
+        ref="input"
         class="block h-full w-full border-0 bg-transparent py-0 pl-8 pr-0 text-white focus:ring-0 sm:text-sm"
         name="search"
         type="search"
         autocomplete="off"
         placeholder="Search book, book series, author..."
-        @input="event => searching(event)"
+        @input="event => search(event)"
       >
       <button
-        v-if="searchUsed"
+        v-if="used"
         class="absolute inset-y-0 right-0 h-full w-5 text-gray-500"
-        @click="clearSearch"
+        @click="clear"
       >
         <SvgIcon
           name="x-mark"
@@ -71,13 +82,12 @@ onMounted(() => {
       </button>
     </form>
     <div
-      v-if="results.length > 0"
+      v-if="response && response.count > 0"
       class="absolute top-14 max-h-[90vh] w-full overflow-auto rounded-md border border-gray-600 bg-gray-800 px-2 py-1.5 shadow md:max-h-96"
     >
       <SearchResults
-        :results="results"
-        :search="searchField?.value"
-        :full-results="true"
+        :response="response"
+        full-results
       />
     </div>
   </div>

@@ -11,17 +11,17 @@ trait HasTagsAndGenres
 {
     /**
      * Scope a query to only include records with any of the given tags.
+     *
+     * @param  Collection<int, Tag>  $tags
      */
-    public function scopeWithAllTags(Builder $query, iterable ...$tags): Builder
+    public function scopeWithAllTags(Builder $query, Collection $tags): Builder
     {
         $ids = [];
-
         foreach ($tags as $tag) {
-            $tag = Tag::query()->where('slug', $tag)->first();
-            if ($tag && is_int($tag->id)) {
-                $ids[] = $tag->id;
-            }
+            $ids[] = $tag->id;
         }
+        $ids = array_unique($ids);
+        $ids = array_values($ids);
 
         return $query->whereHas(
             'tags',

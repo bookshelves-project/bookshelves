@@ -13,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Kiwilan\Steward\Filament\Config\FilamentLayout;
 
 class BookResource extends Resource
@@ -20,6 +21,8 @@ class BookResource extends Resource
     protected static ?string $model = Book::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
+
+    protected static ?string $navigationGroup = 'Books';
 
     public static function form(Form $form): Form
     {
@@ -29,15 +32,6 @@ class BookResource extends Resource
                     FilamentLayout::section([
                         Components\TextInput::make('title')
                             ->required(),
-                        // Components\TextInput::make('email')
-                        //     ->required()
-                        //     ->email()
-                        //     ->placeholder('Enter your email'),
-                        // Components\Select::make('role')
-                        //     ->options(UserRoleEnum::toArray())
-                        //     ->default(UserRoleEnum::user),
-                        // Components\DatePicker::make('email_verified_at')
-                        //     ->format('d/m/Y'),
                     ]),
                 ]),
             ]);
@@ -69,15 +63,16 @@ class BookResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('type')
+                Tables\Columns\TextColumn::make('library.name')
                     ->sortable()
                     ->badge()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('format')
+                Tables\Columns\TextColumn::make('file.format')
                     ->badge()
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('extension')
+                Tables\Columns\TextColumn::make('file.extension')
+                    ->label('Extension')
                     ->badge()
                     ->sortable()
                     ->toggleable()
@@ -85,7 +80,9 @@ class BookResource extends Resource
                 Tables\Columns\TextColumn::make('released_on')
                     ->dateTime('d/m/Y')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('description')
                     ->limit(50)
                     ->searchable()
@@ -104,6 +101,10 @@ class BookResource extends Resource
                 Tables\Columns\TextColumn::make('language.name')
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\ToggleColumn::make('is_selected')
+                    ->sortable(),
+                Tables\Columns\ToggleColumn::make('is_hidden')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('publisher.name')
                     ->searchable()
                     ->toggleable()
@@ -113,9 +114,9 @@ class BookResource extends Resource
                     ->searchable(),
             ])
             ->filters([
-                SelectFilter::make('type')
-                    ->multiple()
-                    ->options(BookTypeEnum::getLabels()),
+                // SelectFilter::make('type')
+                //     ->multiple()
+                //     ->options(BookTypeEnum::getLabels()),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -133,6 +134,11 @@ class BookResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with(['library', 'file', 'serie', 'language', 'authors', 'publisher']);
     }
 
     public static function getNavigationBadge(): ?string

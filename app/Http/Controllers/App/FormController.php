@@ -4,7 +4,7 @@ namespace App\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MessagePostRequest;
-use Kiwilan\Notifier\Facades\Notifier;
+use Kiwilan\LaravelNotifier\Facades\Notifier;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Post;
 
@@ -20,12 +20,12 @@ class FormController extends Controller
     public function messageSubmit(MessagePostRequest $request)
     {
         Notifier::discord()
-            ->username('Bookshelves')
             ->message([
                 '**Kiwiflix Message**',
                 "- Type: {$request->input('type')}",
                 "- Description: {$request->input('description')}",
             ])
+            ->user('Bookshelves')
             ->send();
 
         return redirect()->route('form.message');

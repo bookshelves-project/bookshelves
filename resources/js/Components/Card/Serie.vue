@@ -2,35 +2,56 @@
 interface Props {
   serie: App.Models.Serie
   square?: boolean
+  carousel?: boolean
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   square: false,
+})
+
+const title = computed(() => {
+  let title = `${props.serie.title}`
+  if (props.serie.authors_names)
+    title = `${title} by ${props.serie.authors_names}`
+  if (props.serie.books_count)
+    title = `${title} (${props.serie.books_count} books)`
+
+  return title
 })
 </script>
 
 <template>
-  <ILink :href="$route(`series.${serie.type}s.show` as any, { serie_slug: serie.slug })">
-    <AppImg
-      :class="{
-        'poster h-64': !square,
-        'album': square,
-      }"
-      class="mx-auto"
-      :src="serie.cover_thumbnail"
-      :color="serie.cover_color"
-      :alt="serie.title"
-    />
-    <div class="mt-3">
-      <p class="line-clamp-2 text-center">
-        {{ serie.title }}
-      </p>
-      <!-- <p>
-        {{ book.serie?.title }} {{ book.volume_pad }}
-      </p> -->
-      <!-- <p>
-        {{ book.authors?.map((author) => author.name).join(', ') }}
-      </p> -->
-    </div>
-  </ILink>
+  <CardModel
+    :square="square"
+    :cover="serie.cover_thumbnail"
+    :title="title"
+    :href="`/series/${serie.library?.slug}/${serie.slug}`"
+    :carousel="carousel"
+    :color="serie.cover_color"
+  >
+    <template #title>
+      {{ serie.title }}
+    </template>
+    <template
+      v-if="serie.books_count"
+      #subtitle
+    >
+      {{ serie.books_count }} books
+    </template>
+    <template #extra>
+      {{ serie.authors_names }}
+    </template>
+    <template
+      v-if="serie.language"
+      #topLeft
+    >
+      {{ serie.language.name }}
+    </template>
+    <template
+      v-if="serie.library"
+      #topRight
+    >
+      {{ serie.library.type_label }}
+    </template>
+  </CardModel>
 </template>

@@ -21,7 +21,8 @@ return new class() extends Migration
             $table->string('role')->nullable();
             $table->text('description')->nullable();
             $table->string('link')->nullable();
-            $table->dateTime('wikipedia_parsed_at')->nullable();
+            $table->dateTime('api_parsed_at')->nullable();
+            $table->boolean('api_exists')->default(false);
 
             $table->timestamps();
         });
@@ -39,7 +40,7 @@ return new class() extends Migration
             $table->foreignUlid('author_main_id')
                 ->index()
                 ->nullable()
-                ->after('link')
+                ->after('description')
                 ->constrained('authors')
                 ->nullOnDelete();
         });

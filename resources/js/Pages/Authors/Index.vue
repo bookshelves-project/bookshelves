@@ -15,11 +15,10 @@ defineProps<{
     <Listing
       :query="query"
       :sortable="[
-        { label: 'Title', value: 'title' },
-        { label: 'Release date', value: 'release_date' },
-        { label: 'Added at', value: 'added_at' },
-        { label: 'Popularity', value: 'popularity' },
-        { label: 'Runtime', value: 'runtime' },
+        { label: 'Name', value: 'name' },
+        { label: 'Lastname', value: 'lastname' },
+        { label: 'Firstname', value: 'firstname' },
+        { label: 'Updated at', value: 'updated_at' },
       ]"
     >
       <template

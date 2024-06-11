@@ -20,16 +20,23 @@ export function useUtils() {
   function ucfirst(string?: string) {
     if (!string)
       return ''
-    return string.charAt(0).toUpperCase() + string.slice(1)
+
+    const lowercased = string.toLowerCase()
+    return lowercased.charAt(0).toUpperCase() + lowercased.slice(1)
   }
 
-  async function getSize(type: 'book' | 'serie', param: string): Promise<{ size: number, extension: string }> {
+  async function getSize(type: 'book' | 'serie', param: string): Promise<{ size: number, extension: string } | undefined> {
     const { laravel } = useFetch()
     const route = type === 'book' ? 'api.sizes.book' : 'api.sizes.serie' as any
-    const name = type === 'book' ? 'book_id' : 'serie_id'
+    const name = type === 'book' ? 'book' : 'serie'
 
     const response = await laravel.get(route, { [name]: param })
-    return await response.json()
+    const body = await response.getBody<{
+      size: number
+      extension: string
+    }>()
+
+    return body
   }
 
   return {

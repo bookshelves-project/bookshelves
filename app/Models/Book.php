@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
-use App\Enums\BookFormatEnum;
-use App\Enums\BookTypeEnum;
+use App\Enums\LibraryTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBookFiles;
-use App\Traits\HasBookType;
 use App\Traits\HasCovers;
 use App\Traits\HasLanguage;
 use App\Traits\HasTagsAndGenres;
@@ -31,7 +29,6 @@ class Book extends Model implements HasMedia
 {
     use HasAuthors;
     use HasBookFiles;
-    use HasBookType;
     use HasCovers;
     use HasFactory;
     use HasLanguage;
@@ -64,6 +61,7 @@ class Book extends Model implements HasMedia
         'released_on',
         'created_at',
         'updated_at',
+        'added_at',
     ];
 
     protected $query_limit = 32;
@@ -78,20 +76,14 @@ class Book extends Model implements HasMedia
         'rights',
         'volume',
         'page_count',
-        'is_maturity_rating',
         'is_hidden',
-        'format',
-        'type',
+        'is_selected',
         'isbn10',
         'isbn13',
         'identifiers',
         'language_slug',
         'serie_id',
         'publisher_id',
-        'physical_path',
-        'extension',
-        'mime_type',
-        'google_book_parsed_at',
         'added_at',
     ];
 
@@ -99,6 +91,7 @@ class Book extends Model implements HasMedia
         'isbn',
         'volume_pad',
         'download_link',
+        'route',
     ];
 
     protected $casts = [
@@ -106,31 +99,33 @@ class Book extends Model implements HasMedia
         'audiobook_narrators' => 'array',
         'audiobook_chapters' => 'array',
         'is_hidden' => 'boolean',
-        'format' => BookFormatEnum::class,
+        'is_selected' => 'boolean',
         'identifiers' => 'array',
-        'volume' => 'integer',
+        'volume' => 'float',
         'page_count' => 'integer',
-        'is_maturity_rating' => 'boolean',
-        'google_book_parsed_at' => 'datetime',
         'added_at' => 'datetime',
-        'type' => BookTypeEnum::class,
     ];
 
     protected $with = [
-        'authors',
-        'serie',
-        'language',
-        'media',
+        'file',
     ];
 
-    protected $withCount = [
-        // 'tags',
-    ];
+    protected $withCount = [];
 
     public function getDownloadLinkAttribute(): string
     {
         return route('api.downloads.book', [
-            'book_id' => $this->id,
+            'book' => $this->id,
+        ]);
+    }
+
+    public function getRouteAttribute(): string
+    {
+        $this->loadMissing('library');
+
+        return route('books.show', [
+            'library' => $this->library?->slug ?? 'unknown',
+            'book' => $this->slug,
         ]);
     }
 
@@ -141,7 +136,7 @@ class Book extends Model implements HasMedia
 
     public function getVolumePadAttribute(): ?string
     {
-        if (! $this->volume) {
+        if ($this->volume === null) {
             return null;
         }
 
@@ -162,8 +157,22 @@ class Book extends Model implements HasMedia
 
     public function scopePublishedBetween(Builder $query, string $startDate, string $endDate): Builder
     {
-        return $query
-            ->whereBetween('released_on', [Carbon::parse($startDate), Carbon::parse($endDate)]);
+        return $query->whereBetween('released_on', [Carbon::parse($startDate), Carbon::parse($endDate)]);
+    }
+
+    public function scopeWhereLibraryIs(Builder $query, Library $library): Builder
+    {
+        return $query->where('library_id', $library->id);
+    }
+
+    public function scopeWhereLibraryType(Builder $query, LibraryTypeEnum $type): Builder
+    {
+        return $query->whereRelation('library', 'type', $type);
+    }
+
+    public function file(): BelongsTo
+    {
+        return $this->belongsTo(File::class);
     }
 
     public function publisher(): BelongsTo
@@ -176,26 +185,33 @@ class Book extends Model implements HasMedia
         return $this->belongsTo(Serie::class);
     }
 
-    public function audiobooks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function audiobookTracks(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Audiobook::class);
+        return $this->hasMany(AudiobookTrack::class);
+    }
+
+    public function library(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Library::class);
     }
 
     public function getRelated(): Collection
     {
+        if ($this->tags->count() === 0) {
+            return collect();
+        }
+
         // get related books by tags, same lang
         $relatedBooks = Book::withAllTags($this->tags)
-            ->with(['serie', 'media', 'language'])
-            ->whereLanguageSlug($this->language_slug)
+            ->with(['authors', 'serie', 'media', 'language'])
             ->get();
 
-        // get serie of current book
-        $serieBooks = Serie::query()->where('slug', $this->serie?->slug)->first();
-        // get books of this serie
-        $serieBooks = $serieBooks?->books()->with(['serie', 'media'])->get();
+        if ($this->serie) {
+            // get serie of current book
+            $serie = Serie::query()->where('slug', $this->serie->slug)->first();
+            // get books of this serie
+            $serieBooks = $serie->books()->with(['serie', 'media'])->get();
 
-        // if serie exist
-        if ($serieBooks) {
             // remove all books from this serie
             $filtered = $relatedBooks->filter(function (Book $relatedBook) use ($serieBooks) {
                 foreach ($serieBooks as $serieBook) {
@@ -206,6 +222,7 @@ class Book extends Model implements HasMedia
             });
             $relatedBooks = $filtered;
         }
+
         // remove current book
         $relatedBooks = $relatedBooks->filter(fn ($related_book) => $related_book->slug != $this->slug);
 
@@ -217,15 +234,15 @@ class Book extends Model implements HasMedia
                 $seriesList->add($book->serie);
             }
         }
+
         // remove all books of series
         $relatedBooks = $relatedBooks->filter(fn (Book $book) => $book->serie === null);
-
         // unique on series
         $seriesList = $seriesList->unique();
 
         // merge books and series
         $relatedBooks = $relatedBooks->merge($seriesList);
-        $relatedBooks = $relatedBooks->loadMissing(['language', 'media']);
+        $relatedBooks = $relatedBooks->loadMissing(['language', 'media', 'authors']);
 
         // sort entities
         return $relatedBooks->sortBy('slug_sort');
@@ -233,18 +250,16 @@ class Book extends Model implements HasMedia
 
     public function toSearchableArray()
     {
-        $this->loadMissing(['serie', 'authors', 'tags']);
+        $this->loadMissing(['serie', 'authors', 'tags', 'media', 'library']);
 
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'picture' => $this->cover_thumbnail,
-            'released_on' => $this->released_on,
-            'author' => $this->authors_names,
+            // 'cover' => $this->cover_thumbnail,
             'serie' => $this->serie?->title,
+            'library' => $this->library?->type_label,
             'isbn10' => $this->isbn10,
             'isbn13' => $this->isbn13,
-            'tags' => $this->tags_string,
         ];
     }
 
@@ -267,8 +282,6 @@ class Book extends Model implements HasMedia
             ),
             AllowedFilter::exact('is_hidden'),
             AllowedFilter::exact('released_on'),
-            AllowedFilter::exact('type'),
-            AllowedFilter::scope('types', 'whereTypesIs'),
             AllowedFilter::callback('language',
                 fn (Builder $query, $value) => $query->whereHas('language',
                     fn (Builder $query) => $query->where('name', 'like', "%{$value}%")

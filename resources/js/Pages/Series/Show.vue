@@ -8,10 +8,10 @@ const props = defineProps<{
 
 const size = ref<string>()
 const extension = ref<string>()
-const { bytesToHuman, ucfirst, getSize } = useUtils()
+const { bytesToHuman, getSize } = useUtils()
 
 const titlePage = computed(() => {
-  return `${props.serie.title} (${props.serie.type}) into ${props.serie.language?.name} · ${props.serie.books_count} books`
+  return `${props.serie.title} (${props.serie.library?.type}) into ${props.serie?.title} · ${props.serie.books_count} books`
 })
 
 onMounted(async () => {
@@ -24,11 +24,13 @@ onMounted(async () => {
 <template>
   <App
     :title="titlePage"
+    :description="serie.description"
+    :image="serie.cover_social"
     icon="catalog"
   >
     <ShowContainer
       :model="serie"
-      :type="ucfirst(serie.type)"
+      :library="serie.library"
       :title="serie.title"
       :cover="serie.cover_standard"
       :cover-color="serie.cover_color"
@@ -38,6 +40,7 @@ onMounted(async () => {
       :badges="[
         `${serie.books_count} books`,
         serie.language ? `${serie.language.name}` : undefined,
+        serie.library?.type_label,
       ]"
       :download="{
         url: serie.download_link,
@@ -45,9 +48,11 @@ onMounted(async () => {
         extension,
       }"
       :breadcrumbs="[
-        { label: 'Series', route: { name: `series.${serie.type}s.index` } },
-        { label: serie.title, route: { name: `series.${serie.type}s.show`, params: { serie_slug: serie.slug } } },
+        { label: serie.library?.name, route: { name: 'home' } },
+        { label: 'Series', route: { name: 'home' } },
+        { label: serie.title, route: { name: 'home' } },
       ]"
+      :square="serie.library?.type === 'audiobook'"
     >
       <template #eyebrow>
         <ShowAuthors :authors="serie.authors" />
@@ -55,7 +60,7 @@ onMounted(async () => {
       <template #swipers>
         <section
           v-if="serie.books && serie.books.length"
-          class="books-list"
+          class="books-grid"
         >
           <CardBook
             v-for="book in serie.books"

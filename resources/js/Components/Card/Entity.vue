@@ -13,35 +13,43 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <ILink
-    :href="entity.meta_route"
+  <CardModel
+    :square="square"
+    :cover="entity.cover_thumbnail"
     :title="entity.title"
+    :href="entity.route"
+    :carousel="carousel"
+    :color="entity.cover_color"
   >
-    <AppImg
-      :class="{
-        'poster ': !square,
-        'album ': square,
-        'h-[20rem]': carousel && !square,
-        'h-[10rem]': carousel && square,
-      }"
-      class="w-full"
-      :src="entity.cover_thumbnail"
-      :color="entity.cover_color"
-      :alt="entity.title"
-    />
-    <div class="mt-3">
-      <p class="line-clamp-1">
-        {{ entity.title }}
-      </p>
-      <p
-        v-if="entity"
-        class="text-xs text-gray-200 line-clamp-1"
-      >
-        <!-- {{ entity.serie.title }} #{{ entity.volume_pad }} -->
-      </p>
-      <p class="line-clamp-1 text-sm text-gray-400">
-        <!-- {{ entity.authors?.map((author) => author.name).join(', ') }} -->
-      </p>
-    </div>
-  </ILink>
+    <template #title>
+      {{ entity.title }}
+    </template>
+    <template #subtitle>
+      <template v-if="entity.serie">
+        {{ entity.serie.title }} #{{ entity.volume }}
+      </template>
+      <template v-else-if="entity.count">
+        {{ entity.count }} books
+      </template>
+      <template v-else />
+    </template>
+    <template #extra>
+      {{ entity.class }}
+      <template v-if="entity.library">
+        from {{ entity.library?.name }}
+      </template>
+    </template>
+    <template
+      v-if="entity.language"
+      #topLeft
+    >
+      {{ entity.language.name }}
+    </template>
+    <template
+      v-if="entity.library"
+      #topRight
+    >
+      {{ entity.library.type_label }}
+    </template>
+  </CardModel>
 </template>

@@ -2,9 +2,10 @@
 
 namespace App\Engines\Book\Converter;
 
+use App\Engines\Book\BookUtils;
 use App\Facades\Bookshelves;
 use App\Models\Author;
-use Illuminate\Support\Facades\Log;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Utils\SpatieMedia;
 use Kiwilan\Steward\Utils\Wikipedia;
 
@@ -31,10 +32,11 @@ class AuthorConverter
 
     private function wikipedia(): self
     {
-        Log::info("Wikipedia: author {$this->author->name}");
+        $this->author->clearCover();
 
-        $lang = BookConverter::selectLang($this->author->books);
+        $lang = BookUtils::selectLang($this->author->books);
         $wikipedia = Wikipedia::make($this->author->name)->language($lang);
+        $this->author->api_parsed_at = now();
 
         if (Bookshelves::authorWikipediaExact()) {
             $wikipedia->exact();
@@ -43,8 +45,17 @@ class AuthorConverter
         $wikipedia->withImage()
             ->get();
 
+        $exists = $wikipedia->isAvailable();
+        Journal::debug("AuthorConverter: author {$this->author->name} ".($exists ? 'exists' : 'not found')." in {$lang}");
+
+        if (! $exists) {
+            $this->author->save();
+
+            return $this;
+        }
+
         $item = $wikipedia->getItem();
-        $this->author->wikipedia_parsed_at = now();
+        $this->author->api_exists = $exists;
 
         if (! $item) {
             $this->author->save();
@@ -52,11 +63,9 @@ class AuthorConverter
             return $this;
         }
 
-        Author::withoutSyncingToSearch(function () use ($item) {
-            $this->author->description = $item->getExtract();
-            $this->author->link = $item->getFullUrl();
-            $this->author->save();
-        });
+        $this->author->description = $item->getExtract();
+        $this->author->link = $item->getFullUrl();
+        $this->author->saveWithoutSyncingToSearch();
 
         $picture = $item->getPictureBase64();
         if ($picture) {

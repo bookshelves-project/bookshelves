@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import { usePagination, useQuery } from '@kiwilan/typescriptable-laravel'
+import { useQuery } from '@kiwilan/typescriptable-laravel'
 
+type Entity = App.Models.Book | App.Models.Author | App.Models.Serie
 const props = defineProps<{
-  query: App.Paginate<any>
+  query: App.Paginate<Entity>
   sortable?: { label: string, value: string }[]
 }>()
 
-const { sortBy, sortReverse, isReversed, limitTo, request, total } = useQuery<App.Models.Book>(props.query)
-const { nextPageLink } = usePagination(props.query)
+const { sortBy, sortReverse, isReversed, limitTo, query: listQuery, total } = useQuery<Entity>(props.query)
 const pagination = [10, 25, 50, 100]
 </script>
 
@@ -88,21 +88,14 @@ const pagination = [10, 25, 50, 100]
         No elements
       </div>
     </div>
-    <div class="books-list mt-6">
+    <ul
+      class="books-grid mt-6"
+      role="list"
+    >
       <slot />
-      <ILink
-        v-if="request?.current_page !== request?.last_page"
-        :href="nextPageLink"
-        class="poster flex bg-gray-800 hover:bg-gray-700 h-full w-full relative"
-      >
-        <SvgIcon
-          name="arrow-right"
-          class="h-12 w-12 text-gray-400 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-        />
-      </ILink>
-    </div>
+    </ul>
     <div
-      v-if="request?.total === 0"
+      v-if="listQuery?.total === 0"
       class="relative flex w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center"
     >
       <div class="mx-auto flex-col">
@@ -114,10 +107,10 @@ const pagination = [10, 25, 50, 100]
       </div>
     </div>
     <div
-      v-if="request && request.last_page > 1"
+      v-if="listQuery && listQuery.last_page > 1"
       class="mt-12"
     >
-      <ListingPagination :query="request" />
+      <ListingPagination :query="listQuery" />
     </div>
   </section>
 </template>

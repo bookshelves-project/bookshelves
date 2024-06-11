@@ -2,7 +2,7 @@
 
 use Kiwilan\Steward\Enums\Api\SeedsApiCategoryEnum;
 use Kiwilan\Steward\Enums\Api\SeedsApiSizeEnum;
-use Kiwilan\Steward\Enums\FactoryTextEnum;
+use Kiwilan\Steward\Enums\FakerTextEnum;
 
 return [
     /*
@@ -157,7 +157,7 @@ return [
     ],
 
     'factory' => [
-        'text' => FactoryTextEnum::lorem,
+        'text' => FakerTextEnum::lorem,
         'media_downloader' => [
             'default_category' => SeedsApiCategoryEnum::all,
             'default_size' => SeedsApiSizeEnum::medium,
@@ -167,23 +167,6 @@ return [
         ],
         'max_handle' => env('STEWARD_FACTORY_MAX_HANDLE', 1000),
         'verbose' => env('STEWARD_FACTORY_VERBOSE', false),
-    ],
-
-    'gdpr' => [
-        'service' => env('STEWARD_GDPR_SERVICE', 'orestbida/cookieconsent'), // https://github.com/orestbida/cookieconsent
-        'cookie_name' => env('STEWARD_GDPR_COOKIE_NAME', 'cc_cookie'),
-        'cookie_lifetime' => env('STEWARD_GDPR_COOKIE_LIFETIME', 182),
-        'matomo' => [
-            'enabled' => env('STEWARD_GDPR_MATOMO_ENABLED', true),
-            'url' => env('STEWARD_GDPR_MATOMO_URL'),
-            'site_id' => env('STEWARD_GDPR_MATOMO_SITE_ID'),
-        ],
-    ],
-
-    'notify' => [
-        'default' => env('STEWARD_NOTIFY_DEFAULT', 'discord'), // `discord`, `slack`
-        'discord' => env('STEWARD_NOTIFY_DISCORD'), // STEWARD_NOTIFY_DISCORD=ID:TOKEN
-        'slack' => env('STEWARD_NOTIFY_SLACK'), // STEWARD_NOTIFY_SLACK=ID:TOKEN:CHANNEL
     ],
 
     'livewire' => [

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages\Auth;
 
+use App\Facades\Bookshelves;
 use Filament\Pages\Auth\Login as BasePage;
 
 class Login extends BasePage
@@ -10,10 +11,12 @@ class Login extends BasePage
     {
         parent::mount();
 
-        $this->form->fill([
-            'email' => config('bookshelves.super_admin.email'),
-            'password' => config('bookshelves.super_admin.password'),
-            'remember' => true,
-        ]);
+        if (config('app.env') === 'local') {
+            $this->form->fill([
+                'email' => Bookshelves::superAdminEmail(),
+                'password' => Bookshelves::superAdminPassword(),
+                'remember' => true,
+            ]);
+        }
     }
 }

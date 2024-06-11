@@ -75,7 +75,7 @@ trait HasAuthors
     // public function getShowLinkAttribute(): string
     // {
     //     return route('api.'.$this->meta_class_snake_plural.'.show', [
-    //         'author_slug' => $this->meta_author,
+    //         'author' => $this->meta_author,
     //         "{$this->meta_class_snake}_slug" => $this->slug,
     //     ]);
     // }

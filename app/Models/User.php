@@ -9,6 +9,8 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
+use Kiwilan\Steward\Enums\UserRoleEnum;
 use Kiwilan\Steward\Traits\HasRole;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
@@ -47,15 +49,6 @@ class User extends Authenticatable implements FilamentUser
     ];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    /**
      * The accessors to append to the model's array form.
      *
      * @var array<int, string>
@@ -63,6 +56,41 @@ class User extends Authenticatable implements FilamentUser
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
+
+    public static function getCurrentUser(): User|false
+    {
+        if (! auth()->check()) {
+            $firstAdmin = User::where('role', UserRoleEnum::super_admin)->first();
+            if (! $firstAdmin) {
+                return User::factory()->create([
+                    'name' => 'Admin',
+                    'email' => config('kiwiflix.super_admin.email'),
+                    'password' => Hash::make(config('kiwiflix.super_admin.password')),
+                    'role' => UserRoleEnum::super_admin,
+                ]);
+            }
+
+            return $firstAdmin;
+        }
+
+        /** @var User $user */
+        $user = auth()->user();
+
+        return $user;
+    }
 
     public function canAccessPanel(Panel $panel): bool
     {

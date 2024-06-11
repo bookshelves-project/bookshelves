@@ -29,7 +29,7 @@ class Publisher extends Model
     ];
 
     protected $withCount = [
-        'books',
+        // 'books',
     ];
 
     public function getBooksRouteAttribute()

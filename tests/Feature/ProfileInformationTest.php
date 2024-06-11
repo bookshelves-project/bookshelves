@@ -2,10 +2,13 @@
 
 use App\Models\User;
 
-test('profile information can be updated', function () {
-    $this->actingAs($user = User::factory()->create());
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\put;
 
-    $response = $this->put('/user/profile-information', [
+test('profile information can be updated', function () {
+    actingAs($user = User::factory()->create());
+
+    $res = put('/user/profile-information', [
         'name' => 'Test Name',
         'email' => 'test@example.com',
     ]);

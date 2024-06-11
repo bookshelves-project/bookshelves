@@ -1,13 +1,51 @@
 <script lang="ts" setup>
-defineProps<{
+import { useFetch } from '@kiwilan/typescriptable-laravel'
+
+const props = defineProps<{
   author: App.Models.Author
   breadcrumbs: any[]
 }>()
+
+const books = ref<{
+  name: string
+  models: App.Models.Book[]
+}[]>([])
+
+const booksStandalone = ref<{
+  name: string
+  models: App.Models.Book[]
+}[]>([])
+
+const series = ref<{
+  name: string
+  models: App.Models.Serie[]
+}[]>([])
+
+const { http } = useFetch()
+
+async function fetchItems(url: string, items: Ref<any>) {
+  try {
+    const res = await http.get(url)
+    const body = await res.getBody<{ data: App.Models.Book[] | App.Models.Serie[] }>()
+    items.value = body?.data
+  }
+  catch (error) {
+    console.error(`Failed to fetch ${url}`)
+  }
+}
+
+onMounted(() => {
+  fetchItems(`/api/authors/${props.author.slug}/series`, series)
+  fetchItems(`/api/authors/${props.author.slug}/books`, books)
+  fetchItems(`/api/authors/${props.author.slug}/books?standalone=true`, booksStandalone)
+})
 </script>
 
 <template>
   <App
     :title="author.name"
+    :description="author.description"
+    :image="author.cover_social"
     icon="quill"
   >
     <ShowContainer
@@ -16,33 +54,40 @@ defineProps<{
       :cover="author.cover_standard"
       :cover-color="author.cover_color"
       :overview="author.description"
+      :breadcrumbs="[
+        { label: 'Authors', route: { name: 'authors.index' } },
+        { label: `${author.name}`, route: { name: 'authors.show', params: { author: author.slug } } },
+      ]"
+      :badges="[
+        `${author.books_count} books`,
+        `${author.series_count} series`,
+      ]"
+      :properties="[
+        `Firstname: ${author.firstname}`,
+        `Lastname: ${author.lastname}`,
+      ]"
     >
       <template #swipers>
-        <div class="space-y-10">
-          <section v-if="author.series && author.series.length">
-            <div class="text-2xl font-semibold">
-              Series ({{ author.series.length }})
-            </div>
-            <div class="books-list mt-6">
-              <CardSerie
-                v-for="serie in author.series"
-                :key="serie.id"
-                :serie="serie"
-              />
-            </div>
-          </section>
-          <section v-if="author.books && author.books.length">
-            <div class="text-2xl font-semibold">
-              Books ({{ author.books.length }})
-            </div>
-            <div class="books-list mt-6">
-              <CardBook
-                v-for="book in author.books"
-                :key="book.id"
-                :book="book"
-              />
-            </div>
-          </section>
+        <div
+          v-if="books.length || series.length"
+          class="space-y-24"
+        >
+          <AuthorBooks
+            :author="author"
+            :library="series"
+            type="serie"
+          />
+          <AuthorBooks
+            :author="author"
+            :library="booksStandalone"
+            type="book"
+            title="Standalone"
+          />
+          <AuthorBooks
+            :author="author"
+            :library="books"
+            type="book"
+          />
         </div>
       </template>
     </ShowContainer>

@@ -2,7 +2,7 @@
 
 namespace App\Filament\Widgets;
 
-use App\Console\Commands\Bookshelves\SetupCommand;
+use App\Console\Commands\Bookshelves\AnalyzeCommand;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
@@ -11,7 +11,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Support\Contracts\TranslatableContentDriver;
 use Filament\Widgets\Widget;
 use Illuminate\Support\Facades\Artisan;
-use Kiwilan\Notifier\Facades\Journal;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 
 class InfoWidget extends Widget implements HasActions, HasForms
 {
@@ -38,7 +38,7 @@ class InfoWidget extends Widget implements HasActions, HasForms
             ->label('Analyze')
             ->outlined()
             ->action(function () {
-                Artisan::call(SetupCommand::class);
+                Artisan::call(AnalyzeCommand::class);
                 Journal::info('Start analyze', 'Followed commands will be executed: analyzer, parser, scan and metadata.')->toDatabase();
             });
     }

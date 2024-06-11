@@ -1,6 +1,11 @@
 <script lang="ts" setup>
+// import { Notifications } from '@kiwilan/typescriptable-laravel/vue'
+
 defineProps<{
   title?: string
+  description?: string
+  image?: string
+  color?: string
   back?: string
   icon?: SvgName
 }>()
@@ -8,7 +13,17 @@ defineProps<{
 
 <template>
   <div>
-    <IHead :title="title" />
+    <AppMeta
+      :title="title"
+      :description="description"
+      :image="image"
+      :color="color"
+      app-title="Bookshelves"
+      app-description="For people with eReaders, download eBooks and reading in complete tranquility, your digital library that goes everywhere with you."
+      app-image="/default.jpg"
+      app-author="Bookshelves"
+      app-color="#8b5cf6"
+    />
     <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
     <LayoutSidebar />
     <!-- Static sidebar for desktop -->
@@ -28,6 +43,7 @@ defineProps<{
       <LayoutFooter class="footer flex justify-center pt-5 pb-5" />
     </div>
   </div>
+  <Notifications />
 </template>
 
 <style lang="css" scoped>

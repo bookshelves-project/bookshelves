@@ -3,38 +3,19 @@
 namespace App\Engines\Book\Converter\Modules;
 
 use App\Models\Language;
-use Kiwilan\Ebook\Ebook;
 use Locale;
 
 class LanguageModule
 {
-    public static function make(?string $language): ?Language
-    {
-        $availableLangs = config('bookshelves.langs');
-        $langCode = $language ?? 'en';
-
-        if (! $language) {
-            return null;
-        }
-
-        $langNames = [];
-
-        foreach ($availableLangs as $lang) {
-            $langNames[$lang] = ucfirst(Locale::getDisplayLanguage($langCode, $lang));
-        }
-
-        return new Language([
-            'name' => $langNames,
-            'slug' => $langCode,
-        ]);
-    }
-
     /**
      * Set Language from Ebook.
      */
-    public static function toModel(Ebook $ebook): Language
+    public static function make(?string $langCode): Language
     {
-        $langCode = $ebook->getLanguage() ?? 'en';
+        if (! $langCode) {
+            $langCode = 'en';
+        }
+
         $language = Language::query()->where('slug', $langCode)->first();
 
         if (! $language) {
