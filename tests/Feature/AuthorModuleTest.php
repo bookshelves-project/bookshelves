@@ -5,7 +5,7 @@ use Kiwilan\Ebook\Ebook;
 
 test('can parse author name', function () {
     $ebook = Ebook::read(EPUB);
-    $authors = AuthorModule::toCollection($ebook);
+    $authors = AuthorModule::make($ebook->getAuthors());
 
     $first = $authors->first()->name;
     expect($first)->toBe('Jean M. Auel');
