@@ -29,6 +29,6 @@ test-job:
     - php artisan key:generate --env=testing
     - php artisan migrate:fresh --force
     - php ./vendor/bin/phpstan analyse --ansi --memory-limit=2G
-    # - php artisan test
+    - php artisan test
   # only:
   #   - main
