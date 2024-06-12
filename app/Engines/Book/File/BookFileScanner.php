@@ -99,7 +99,7 @@ class BookFileScanner
             $name = $browser->getCommand()->getName();
             $command = $browser->getCommand()->getCommand();
             $user = $browser->getCommand()->getUser();
-            Journal::debug("BookFileScanner: {$this->library->name} {$name} command: ({$command}) by {$user}", $browser->getCommand()->toArray());
+            Journal::debug("BookFileScanner: {$this->library->name} `{$name}` command: `{$command}` by `{$user}`", $browser->getCommand()->toArray());
         }
 
         Journal::debug("BookFileScanner: {$this->library->name} time elapsed: {$browser->getTimeElapsed()}");
