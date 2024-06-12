@@ -91,14 +91,16 @@ class BookFileScanner
 
         if ($engine === 'scout') {
             $browser->withScout();
-
-            $name = $browser->getCommand()->getName();
-            $command = $browser->getCommand()->getCommand();
-            $user = $browser->getCommand()->getUser();
-            Journal::debug("BookFileScanner: {$this->library->name} {$name} command: ({$command}) by {$user}");
         }
 
         $browser->run();
+
+        if ($browser->getCommand()) {
+            $name = $browser->getCommand()->getName();
+            $command = $browser->getCommand()->getCommand();
+            $user = $browser->getCommand()->getUser();
+            Journal::debug("BookFileScanner: {$this->library->name} {$name} command: ({$command}) by {$user}", $browser->getCommand()->toArray());
+        }
 
         Journal::debug("BookFileScanner: {$this->library->name} time elapsed: {$browser->getTimeElapsed()}");
 
