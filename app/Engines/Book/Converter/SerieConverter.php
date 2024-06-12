@@ -27,7 +27,7 @@ class SerieConverter
         $self->setBookDescription();
 
         $serie->api_parsed_at = now();
-        $self->serie->saveWithoutSyncingToSearch();
+        $self->serie->saveNoSearch();
 
         return $self;
     }
@@ -46,7 +46,7 @@ class SerieConverter
             } else {
                 $this->serie->description = $books->first()->description;
             }
-            $this->serie->saveWithoutSyncingToSearch();
+            $this->serie->saveNoSearch();
         }
     }
 
@@ -93,7 +93,7 @@ class SerieConverter
     {
         if ($this->fresh) {
             $this->serie->tags()->detach();
-            $this->serie->saveWithoutSyncingToSearch();
+            $this->serie->saveNoSearch();
         }
 
         if ($this->serie->tags->isNotEmpty()) {
@@ -116,7 +116,7 @@ class SerieConverter
         }
 
         $this->serie->tags()->sync($tags);
-        $this->serie->saveWithoutSyncingToSearch();
+        $this->serie->saveNoSearch();
 
         return $this;
     }

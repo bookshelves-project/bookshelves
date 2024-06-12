@@ -131,7 +131,7 @@ class BookConverter
     private function syncLibrary(): self
     {
         $this->book->library()->associate($this->file->library);
-        $this->book->saveWithoutSyncingToSearch();
+        $this->book->saveNoSearch();
 
         return $this;
     }
@@ -151,7 +151,7 @@ class BookConverter
         foreach ($authors as $author) {
             $this->book->authors()->attach($author->id);
         }
-        $this->book->saveWithoutSyncingToSearch();
+        $this->book->saveNoSearch();
 
         return $this;
     }
@@ -178,7 +178,7 @@ class BookConverter
         }
 
         $this->book->publisher()->associate($publisher);
-        $this->book->saveWithoutSyncingToSearch();
+        $this->book->saveNoSearch();
 
         return $this;
     }
@@ -188,7 +188,7 @@ class BookConverter
         $language = LanguageModule::make($this->ebook->getLanguage());
 
         $this->book->language()->associate($language);
-        $this->book->saveWithoutSyncingToSearch();
+        $this->book->saveNoSearch();
 
         return $this;
     }
@@ -201,7 +201,7 @@ class BookConverter
         }
 
         $this->book->serie()->associate($serie);
-        $this->book->saveWithoutSyncingToSearch();
+        $this->book->saveNoSearch();
 
         return $this;
     }
@@ -216,7 +216,7 @@ class BookConverter
         $this->book->isbn10 = $identifiers->get('isbn10') ?? null;
         $this->book->isbn13 = $identifiers->get('isbn13') ?? null;
         $this->book->identifiers = $identifiers->toArray();
-        $this->book->saveWithoutSyncingToSearch();
+        $this->book->saveNoSearch();
 
         return $this;
     }
@@ -293,7 +293,7 @@ class BookConverter
         ]);
 
         $book->file()->associate($this->file);
-        $book->saveWithoutSyncingToSearch();
+        $book->saveNoSearch();
 
         return $book;
     }

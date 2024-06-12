@@ -108,7 +108,7 @@ class AudiobookBookJob implements ShouldQueue
             $this->main->saveQuietly();
 
             $book->title = $parsed_title;
-            $book->saveWithoutSyncingToSearch();
+            $book->saveNoSearch();
         }
 
         if ($this->main->tags) {
@@ -120,13 +120,13 @@ class AudiobookBookJob implements ShouldQueue
                 $tags->push($tag);
             }
             $book->tags()->syncWithoutDetaching($tags->pluck('id'));
-            $book->saveWithoutSyncingToSearch();
+            $book->saveNoSearch();
         }
 
         $language = $this->parseLang($this->main);
         if ($language) {
             $book->language()->associate($language);
-            $book->saveWithoutSyncingToSearch();
+            $book->saveNoSearch();
         } else {
             Journal::warning("AudiobookBookJob: Language not found for {$book->title}", [
                 'audiobook' => $this->main->toArray(),
@@ -152,7 +152,7 @@ class AudiobookBookJob implements ShouldQueue
             $serie->books()->save($book);
             $serie->library()->associate($this->library);
             $serie->language()->associate($language);
-            $serie->saveWithoutSyncingToSearch();
+            $serie->saveNoSearch();
         }
 
         $coverPath = BookUtils::audiobookTrackCoverPath($this->main);
@@ -166,7 +166,7 @@ class AudiobookBookJob implements ShouldQueue
         }
 
         $book->library()->associate($this->library);
-        $book->saveWithoutSyncingToSearch();
+        $book->saveNoSearch();
 
         if ($contents) {
             SpatieMedia::make($book)
@@ -193,7 +193,7 @@ class AudiobookBookJob implements ShouldQueue
             if (! $serie->authorMain) {
                 $serie->authorMain()->associate($book->authorMain);
             }
-            $serie->saveWithoutSyncingToSearch();
+            $serie->saveNoSearch();
             SerieJob::dispatch($serie);
         }
 
@@ -203,7 +203,7 @@ class AudiobookBookJob implements ShouldQueue
             }
         }
 
-        $book->saveWithoutSyncingToSearch();
+        $book->saveNoSearch();
     }
 
     private function parseTitle(?AudiobookTrack $track): ?string
