@@ -76,7 +76,7 @@ class ScanCommand extends Commandable
                 ['Basename', 'Format', 'Library ID'],
                 array_map(fn (BookFileItem $file) => [
                     $file->basename(),
-                    $file->format()->value,
+                    $file->extension(),
                     $library->name,
                 ], $parser->toBookFileItems())
             );

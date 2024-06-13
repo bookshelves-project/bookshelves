@@ -4,6 +4,7 @@ namespace App\Jobs\Book;
 
 use App\Engines\Book\BookUtils;
 use App\Engines\Book\Converter\Modules\AuthorModule;
+use App\Enums\BookFormatEnum;
 use App\Facades\Bookshelves;
 use App\Jobs\Author\AuthorJob;
 use App\Jobs\Serie\SerieJob;
@@ -89,18 +90,21 @@ class AudiobookBookJob implements ShouldQueue
             return;
         }
 
-        $book = Book::query()->create([
+        $book = new Book([
             'title' => $this->main->title,
             'slug' => $meta->getSlug(),
+            'format' => BookFormatEnum::audio,
             'contributor' => $this->main->encoding,
             'released_on' => $this->main->publish_date,
             'description' => $this->main->description,
             'audiobook_narrators' => $this->main->narrators,
             'audiobook_chapters' => $this->tracks->count(),
+            'is_audiobook' => true,
             'rights' => $this->main->encoding,
             'volume' => $this->main->volume,
             'added_at' => $this->main->added_at,
         ]);
+        $book->saveNoSearch();
 
         $parsed_title = $this->parseTitle($this->main);
         if ($parsed_title) {

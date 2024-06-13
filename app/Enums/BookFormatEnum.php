@@ -24,6 +24,8 @@ enum BookFormatEnum: string implements HasColor, HasIcon, HasLabel
 {
     use LazyEnum;
 
+    public const ALLOWED_EXTENSIONS = ['mp3', 'm4b', 'pdf', 'cb7', 'cba', 'cbr', 'cbt', 'cbz', 'epub'];
+
     case unknown = 'unknown';
 
     case audio = 'audio';

@@ -10,6 +10,7 @@ use App\Engines\Book\Converter\Modules\LanguageModule;
 use App\Engines\Book\Converter\Modules\PublisherModule;
 use App\Engines\Book\Converter\Modules\SerieModule;
 use App\Engines\Book\Converter\Modules\TagModule;
+use App\Enums\BookFormatEnum;
 use App\Models\AudiobookTrack;
 use App\Models\Book;
 use App\Models\File;
@@ -246,9 +247,6 @@ class BookConverter
 
     private function createBook(): ?Book
     {
-        // split sliders books, audiobooks, comics, manga and series split at home
-        // find duplicate authors
-        // find duplicates series like A comme Association (multiple authors)
         $identifiers = IdentifierModule::toCollection($this->ebook);
 
         $isEpub = $this->ebook->getParser()?->isEpub();
@@ -292,6 +290,21 @@ class BookConverter
             'added_at' => $timestamp,
         ]);
 
+        $format = BookFormatEnum::fromExtension($this->file->extension);
+
+        if (! array_key_exists($format->value, BookFormatEnum::toArray())) {
+            Journal::warning("BookConverter: format not valid {$this->file->path}");
+
+            return null;
+        }
+
+        if ($format->value === BookFormatEnum::unknown->value) {
+            Journal::warning("BookConverter: unknown format {$this->file->path}");
+
+            return null;
+        }
+
+        $book->format = $format;
         $book->file()->associate($this->file);
         $book->saveNoSearch();
 

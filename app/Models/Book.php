@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\BookFormatEnum;
 use App\Enums\LibraryTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBookFiles;
@@ -68,11 +69,13 @@ class Book extends Model implements HasMedia
 
     protected $fillable = [
         'title',
+        'format',
         'contributor',
         'description',
         'released_on',
         'audiobook_narrators',
         'audiobook_chapters',
+        'is_audiobook',
         'rights',
         'volume',
         'page_count',
@@ -95,9 +98,11 @@ class Book extends Model implements HasMedia
     ];
 
     protected $casts = [
+        'format' => BookFormatEnum::class,
         'released_on' => 'date',
         'audiobook_narrators' => 'array',
         'audiobook_chapters' => 'array',
+        'is_audiobook' => 'boolean',
         'is_hidden' => 'boolean',
         'is_selected' => 'boolean',
         'identifiers' => 'array',

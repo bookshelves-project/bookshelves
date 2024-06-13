@@ -10,14 +10,12 @@ class BookFileItem
 {
     protected function __construct(
         protected string $basename,
-        protected BookFormatEnum $format,
         protected string $libraryId,
         protected string $path,
         protected string $extension,
         protected ?string $mimeType = null,
         protected int $size = 0,
         protected ?DateTime $dateAdded = null,
-        protected bool $isAudio = false,
     ) {
     }
 
@@ -26,35 +24,26 @@ class BookFileItem
         /** @var ?string $extension */
         $extension = pathinfo($path, PATHINFO_EXTENSION);
 
+        if (! array_key_exists(strtolower($extension), BookFormatEnum::ALLOWED_EXTENSIONS)) {
+            Journal::warning("BookFileItem: extension not accepted {$path}");
+
+            return null;
+        }
+
         if ($extension === null || $extension === '') {
-            Journal::debug("BookFileItem: extension not found: {$path}");
-
-            return null;
-        }
-
-        $format = BookFormatEnum::fromExtension($extension);
-
-        if (! array_key_exists($format->value, BookFormatEnum::toArray())) {
-            Journal::debug("BookFileItem: format not found: {$path}");
-
-            return null;
-        }
-
-        if ($format->value === BookFormatEnum::unknown->value) {
-            Journal::debug("BookFileItem: unknown format: {$path}");
+            Journal::warning("BookFileItem: extension not valid {$path}");
 
             return null;
         }
 
         if (! file_exists($path)) {
-            Journal::error("BookFileItem: file not found: {$path}");
+            Journal::error("BookFileItem: file not found {$path}");
 
             return null;
         }
 
         $self = new self(
             basename: pathinfo($path, PATHINFO_BASENAME),
-            format: $format,
             libraryId: $libraryId,
             path: $path,
             extension: pathinfo($path, PATHINFO_EXTENSION),
@@ -63,21 +52,12 @@ class BookFileItem
             dateAdded: filemtime($path) ? new DateTime('@'.filemtime($path)) : null,
         );
 
-        if ($format === BookFormatEnum::audio) {
-            $self->isAudio = true;
-        }
-
         return $self;
     }
 
     public function basename(): string
     {
         return $this->basename;
-    }
-
-    public function format(): BookFormatEnum
-    {
-        return $this->format;
     }
 
     public function libraryId(): string
@@ -110,22 +90,15 @@ class BookFileItem
         return $this->dateAdded;
     }
 
-    public function isAudio(): bool
-    {
-        return $this->isAudio;
-    }
-
     public function toArray(): array
     {
         return [
             'basename' => $this->basename,
-            'format' => $this->format,
             'libraryId' => $this->libraryId,
             'path' => $this->path,
             'extension' => $this->extension,
             'mimeType' => $this->mimeType,
             'size' => $this->size,
-            'isAudio' => $this->isAudio,
         ];
     }
 }

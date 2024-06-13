@@ -24,6 +24,9 @@ Bookshelves is a web application to handle eBooks, comics and audiobooks. Powere
 -   [ ] Add Docker installation option
 -   [ ] Add Plex-like solution
 -   [ ] Add tests
+-   [ ] split sliders books, audiobooks, comics, manga and series split at home
+-   [ ] find duplicate authors
+-   [ ] find duplicates series like A comme Association (multiple authors)
 
 ## Installation
 

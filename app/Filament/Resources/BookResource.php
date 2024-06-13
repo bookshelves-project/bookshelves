@@ -77,6 +77,19 @@ class BookResource extends Resource
                     ->sortable()
                     ->toggleable()
                     ->toggledHiddenByDefault(),
+                // TextColumn::make('users_count')->counts('users')
+                // Tables\Columns\TextColumn::make('file.format')
+                Tables\Columns\TextColumn::make('audiobook_tracks_count')
+                    ->counts('audiobookTracks')
+                    ->label('Tracks')
+                    ->badge()
+                    ->hidden(function ($state) {
+                        // dump($state);
+
+                        return $state > 0;
+                        //     dump($get('audiobook_tracks_count'));
+                        //     // return $record->audiobook_tracks_count === 0;
+                    }),
                 Tables\Columns\TextColumn::make('released_on')
                     ->dateTime('d/m/Y')
                     ->sortable()
@@ -138,7 +151,15 @@ class BookResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->with(['library', 'file', 'serie', 'language', 'authors', 'publisher']);
+        return parent::getEloquentQuery()->with([
+            'library',
+            'file',
+            'serie',
+            'language',
+            'authors',
+            'publisher',
+            'audiobookTracks',
+        ]);
     }
 
     public static function getNavigationBadge(): ?string
