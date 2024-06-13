@@ -6,14 +6,9 @@ use Illuminate\Support\Facades\Schedule;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Commands\Scout\ScoutFreshCommand;
 
-// Schedule::call(function () {
-//     DB::table('recent_users')->delete();
-// })->daily();
-// Schedule::call(new DeleteRecentUsers)->daily();
-
 Schedule::command(ScoutFreshCommand::class)
     ->at('01:00')
-    ->mondays()
+    ->daily()
     ->onSuccess(function () {
         Journal::info('ScoutFreshCommand executed successfully');
     })
