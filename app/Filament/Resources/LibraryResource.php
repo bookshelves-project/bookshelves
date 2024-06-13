@@ -64,6 +64,8 @@ class LibraryResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('sort')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
@@ -89,7 +91,8 @@ class LibraryResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('name');
+            ->defaultSort('sort')
+            ->reorderable('sort');
     }
 
     public static function getEloquentQuery(): Builder

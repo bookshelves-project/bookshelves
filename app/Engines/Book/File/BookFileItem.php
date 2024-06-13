@@ -24,14 +24,14 @@ class BookFileItem
         /** @var ?string $extension */
         $extension = pathinfo($path, PATHINFO_EXTENSION);
 
-        if (! array_key_exists(strtolower($extension), BookFormatEnum::ALLOWED_EXTENSIONS)) {
-            Journal::warning("BookFileItem: extension not accepted {$path}");
+        if (! in_array(strtolower($extension), BookFormatEnum::ALLOWED_EXTENSIONS)) {
+            Journal::warning("BookFileItem: extension not accepted {$extension} from {$path}");
 
             return null;
         }
 
         if ($extension === null || $extension === '') {
-            Journal::warning("BookFileItem: extension not valid {$path}");
+            Journal::warning("BookFileItem: extension not valid {$extension} from {$path}");
 
             return null;
         }

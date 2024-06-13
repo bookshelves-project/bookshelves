@@ -31,6 +31,7 @@ class Library extends Model
         'path',
         'path_is_valid',
         'is_enabled',
+        'sort',
     ];
 
     protected $appends = [
@@ -45,6 +46,7 @@ class Library extends Model
         'type' => LibraryTypeEnum::class,
         'path_is_valid' => 'boolean',
         'is_enabled' => 'boolean',
+        'sort' => 'integer',
     ];
 
     public function getTypeLabelAttribute(): ?string
