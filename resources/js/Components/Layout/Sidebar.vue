@@ -70,14 +70,17 @@ const { mainLinks, secondaryLinks } = useNavigation()
         <!-- Sidebar component, swap this element with another sidebar if you like -->
         <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 ring-1 ring-white/10">
           <ILink
+            class="flex h-16 shrink-0 items-center space-x-2 relative"
             href="/"
-            class="flex h-16 shrink-0 items-center"
           >
-            <img
-              class="h-8 w-auto"
-              src="/favicon.svg"
-              alt="Bookshelves"
-            >
+            <Logo class="h-9 w-auto" />
+            <div class="relative">
+              <SvgIcon
+                name="logo-text"
+                class="h-7 w-auto"
+              />
+            </div>
+            <EventFlag />
           </ILink>
           <nav class="flex flex-1 flex-col">
             <ul
