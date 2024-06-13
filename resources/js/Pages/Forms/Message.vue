@@ -14,7 +14,7 @@
             A demand or a feedback?
           </h2>
           <p class="mt-6 text-lg leading-8 text-gray-300">
-            You can ask for a new movie, TV show, or a feature. You can also report a bug or give us a feedback.
+            You can ask for a new book, or a feature. You can also report a bug or give us a feedback.
           </p>
         </div>
       </div>

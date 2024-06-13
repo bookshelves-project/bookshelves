@@ -23,7 +23,7 @@ class MessagePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => 'required|in:bug,feedback',
+            'type' => 'required|string|max:255',
             'description' => 'required|max:3500',
         ];
     }

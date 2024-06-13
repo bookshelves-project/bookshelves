@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useForm } from '@inertiajs/vue3'
 import { useInertia, useRouter } from '@kiwilan/typescriptable-laravel'
+import { useNotification } from '@/Composables/useNotification'
 
 const form = useForm({
   type: 'bug-feedback',
@@ -8,12 +9,13 @@ const form = useForm({
 })
 
 const test = {
-  type: 'feedback',
+  type: 'bug-feedback',
   description: 'Dolore laborum exercitation magna dolore aute aliquip laborum Lorem fugiat incididunt.',
 }
 
 const { isDev } = useInertia()
 const { route } = useRouter()
+const { push } = useNotification()
 
 function testing() {
   form.type = test.type
@@ -27,17 +29,19 @@ function submit() {
     data: form.data(),
     preserveScroll: true,
     onSuccess: () => {
-      // toast('Your request has been sent !', {
-      //   autoClose: 2000,
-      //   type: 'success',
-      // })
+      push({
+        title: `Message sended successfully`,
+        description: `Your message has been sent successfully. We will get back to you as soon as possible.`,
+        type: 'success',
+      })
       form.reset()
     },
     onError: () => {
-      // toast('Ups, something went wrong !', {
-      //   autoClose: 2000,
-      //   type: 'error',
-      // })
+      push({
+        title: `Message not sended`,
+        description: `An error occurred while sending your message. Please try again later.`,
+        type: 'error',
+      })
     },
   })
 }
