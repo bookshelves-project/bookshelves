@@ -17,9 +17,14 @@ return new class extends Migration
             $table->string('user_agent')->nullable();
             $table->string('name')->nullable();
             $table->string('type')->nullable();
+
+            $table->string('ulid_id')->nullable();
+            $table->string('ulid_table')->nullable();
+
             $table->foreignId('user_id')
                 ->nullable()
                 ->cascadeOnDelete();
+
             $table->timestamps();
         });
     }
