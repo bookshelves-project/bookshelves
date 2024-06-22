@@ -25,7 +25,7 @@ export function useNavigation() {
 
   const secondaryLinks: Link[] = [
     { label: 'Help', icon: 'info', route: { name: 'pages.help' } },
-    { label: 'OPDS books', icon: 'opds', url: `${baseURL}/opds` },
+    { label: 'OPDS books', icon: 'opds', url: `${baseURL.value}/opds` },
     { label: 'Contact', icon: 'mail', route: { name: 'form.message' } },
   ]
 
