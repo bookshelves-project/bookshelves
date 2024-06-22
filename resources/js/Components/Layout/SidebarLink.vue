@@ -48,8 +48,8 @@ const isActive = computed(() => {
         :is="link.url ? 'a' : 'ILink'"
         v-if="!link.restrictedRoles || link.restrictedRoles.includes(user.role ?? '')"
         :href="href"
-        :target="link.url ? '_blank' : null"
-        :rel="link.url ? 'noopener noreferrer' : null"
+        :target="link.url || link.isExternal ? '_blank' : null"
+        :rel="link.url || link.isExternal ? 'noopener noreferrer' : null"
         :class="[
           isActive ? active : '',
           hover,
