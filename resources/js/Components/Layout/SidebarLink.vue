@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useRouter } from '@kiwilan/typescriptable-laravel'
+import { useInertia, useRouter } from '@kiwilan/typescriptable-laravel'
 import type { Link } from '@/Composables/useNavigation'
 
 export interface Props {
@@ -14,30 +14,24 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const { route, currentRoute } = useRouter()
-// const { page, url } = useInertia()
+const { page, url } = useInertia()
 
-// page?.props.auth?.user
-const user = ref<App.Models.User>()
+const user = ref<App.Models.User>(page.props.auth?.user)
 
 const href = computed(() => {
-  const link = props.link
-  if (!link.route)
-    link.isExternal = true
+  if (props.link.route)
+    return route(props.link.route.name, props.link.route.params)
 
-  if (link.route)
-    return route(link.route.name, link.route.params)
-
-  return link.url
+  return props.link.url
 })
 
 const isActive = computed(() => {
   if (!props.link.isLibrary)
     return href.value === currentRoute.value?.path
 
-  // const currentUrl = url.value.split('?')[0]
+  const currentUrl = url.value.split('?')[0]
 
-  // return props.link.libraryUrl === currentUrl || props.link.librarySeriesUrl === currentUrl
-  return false
+  return props.link.libraryUrl === currentUrl
 })
 </script>
 
@@ -51,11 +45,11 @@ const isActive = computed(() => {
     </div>
     <template v-else>
       <component
-        :is="link.isExternal ? 'a' : 'ILink'"
-        v-if="!link.restrictedRoles || link.restrictedRoles.includes(user?.role ?? '')"
+        :is="link.url ? 'a' : 'ILink'"
+        v-if="!link.restrictedRoles || link.restrictedRoles.includes(user.role ?? '')"
         :href="href"
-        :target="link.isExternal ? '_blank' : null"
-        :rel="link.isExternal ? 'noopener noreferrer' : null"
+        :target="link.url ? '_blank' : null"
+        :rel="link.url ? 'noopener noreferrer' : null"
         :class="[
           isActive ? active : '',
           hover,

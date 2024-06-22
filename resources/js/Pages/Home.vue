@@ -35,7 +35,7 @@ const swipers: {
     title="Welcome on Bookshelves"
     icon="home"
   >
-    <div class="pt-10 space-y-6">
+    <div class="py-6 space-y-12">
       <SwiperHome
         v-for="swiper in swipers"
         :key="swiper.route"

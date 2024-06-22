@@ -19,11 +19,13 @@ class FormController extends Controller
     #[Post('/form/message', name: 'form.message.post')]
     public function messageSubmit(MessagePostRequest $request)
     {
+        $validated = $request->validated();
+
         Notifier::discord()
             ->message([
-                '**Kiwiflix Message**',
-                "- Type: {$request->input('type')}",
-                "- Description: {$request->input('description')}",
+                '**Bookshelves Message**',
+                "- Type: {$validated['type']}",
+                "- Description: {$validated['description']}",
             ])
             ->user('Bookshelves')
             ->send();

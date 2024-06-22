@@ -44,7 +44,7 @@ class AuthorModule
             if ($exists) {
                 $author = $exists;
             } else {
-                $author->saveWithoutSyncingToSearch();
+                $author->saveNoSearch();
                 AuthorJob::dispatch($author);
             }
 

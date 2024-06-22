@@ -17,7 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->report(function (Throwable $e) {
-            Journal::handler($e, toDatabase: true, toNotifier: 'discord');
-        });
+        if (config('app.env') === 'production') {
+            $exceptions->report(function (Throwable $e) {
+                Journal::handler($e, toDatabase: true, toNotifier: 'discord');
+            });
+        }
     })->create();

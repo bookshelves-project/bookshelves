@@ -28,6 +28,7 @@ class BookJob implements ShouldQueue
         protected BookFileItem $bookFile,
         protected string $number,
         protected string $library,
+        protected bool $fresh = false,
     ) {
     }
 
@@ -51,6 +52,10 @@ class BookJob implements ShouldQueue
 
         $title = $engine->ebook()->getTitle() ?? $file->path;
         Journal::debug("BookJob: {$this->number} {$title} from {$this->library}");
+
+        if (! $this->fresh && $engine->book()) {
+            $engine->book()->searchable();
+        }
     }
 
     private function getFile(BookFileItem $bookFile): File
@@ -59,10 +64,8 @@ class BookJob implements ShouldQueue
             'path' => $bookFile->path(),
             'basename' => $bookFile->basename(),
             'extension' => $bookFile->extension(),
-            'format' => $bookFile->format(),
             'mime_type' => $bookFile->mimeType(),
             'size' => $bookFile->size(),
-            'is_audiobook' => $bookFile->isAudio(),
             'date_added' => $bookFile->dateAdded(),
             'library_id' => $bookFile->libraryId(),
         ];

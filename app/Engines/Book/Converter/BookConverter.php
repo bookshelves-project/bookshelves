@@ -10,6 +10,7 @@ use App\Engines\Book\Converter\Modules\LanguageModule;
 use App\Engines\Book\Converter\Modules\PublisherModule;
 use App\Engines\Book\Converter\Modules\SerieModule;
 use App\Engines\Book\Converter\Modules\TagModule;
+use App\Enums\BookFormatEnum;
 use App\Models\AudiobookTrack;
 use App\Models\Book;
 use App\Models\File;
@@ -131,7 +132,7 @@ class BookConverter
     private function syncLibrary(): self
     {
         $this->book->library()->associate($this->file->library);
-        $this->book->saveWithoutSyncingToSearch();
+        $this->book->saveNoSearch();
 
         return $this;
     }
@@ -151,7 +152,7 @@ class BookConverter
         foreach ($authors as $author) {
             $this->book->authors()->attach($author->id);
         }
-        $this->book->saveWithoutSyncingToSearch();
+        $this->book->saveNoSearch();
 
         return $this;
     }
@@ -178,7 +179,7 @@ class BookConverter
         }
 
         $this->book->publisher()->associate($publisher);
-        $this->book->saveWithoutSyncingToSearch();
+        $this->book->saveNoSearch();
 
         return $this;
     }
@@ -188,7 +189,7 @@ class BookConverter
         $language = LanguageModule::make($this->ebook->getLanguage());
 
         $this->book->language()->associate($language);
-        $this->book->saveWithoutSyncingToSearch();
+        $this->book->saveNoSearch();
 
         return $this;
     }
@@ -201,7 +202,7 @@ class BookConverter
         }
 
         $this->book->serie()->associate($serie);
-        $this->book->saveWithoutSyncingToSearch();
+        $this->book->saveNoSearch();
 
         return $this;
     }
@@ -216,7 +217,7 @@ class BookConverter
         $this->book->isbn10 = $identifiers->get('isbn10') ?? null;
         $this->book->isbn13 = $identifiers->get('isbn13') ?? null;
         $this->book->identifiers = $identifiers->toArray();
-        $this->book->saveWithoutSyncingToSearch();
+        $this->book->saveNoSearch();
 
         return $this;
     }
@@ -246,9 +247,6 @@ class BookConverter
 
     private function createBook(): ?Book
     {
-        // split sliders books, audiobooks, comics, manga and series split at home
-        // find duplicate authors
-        // find duplicates series like A comme Association (multiple authors)
         $identifiers = IdentifierModule::toCollection($this->ebook);
 
         $isEpub = $this->ebook->getParser()?->isEpub();
@@ -292,8 +290,23 @@ class BookConverter
             'added_at' => $timestamp,
         ]);
 
+        $format = BookFormatEnum::fromExtension($this->file->extension);
+
+        if (! array_key_exists($format->value, BookFormatEnum::toArray())) {
+            Journal::warning("BookConverter: format not valid {$this->file->path}");
+
+            return null;
+        }
+
+        if ($format->value === BookFormatEnum::unknown->value) {
+            Journal::warning("BookConverter: unknown format {$this->file->path}");
+
+            return null;
+        }
+
+        $book->format = $format;
         $book->file()->associate($this->file);
-        $book->saveWithoutSyncingToSearch();
+        $book->saveNoSearch();
 
         return $book;
     }

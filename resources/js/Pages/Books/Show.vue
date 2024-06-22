@@ -11,10 +11,28 @@ const props = defineProps<{
 const size = ref<string>()
 const related = ref<Entity[]>()
 const extension = ref<string>()
+const breadcrumbs = ref<any[]>([])
 
 const { laravel } = useFetch()
 const { bytesToHuman, getSize } = useUtils()
 const { dateString } = useDate()
+
+function setBreadcrumbs() {
+  breadcrumbs.value = [
+    { label: props.book.library?.name, route: { name: 'home' } },
+
+  ]
+
+  if (props.book.serie) {
+    breadcrumbs.value.push({
+      label: props.book.serie.title,
+      route: { name: 'series.show', params: { library: props.book.library?.slug, serie: props.book.serie.slug } },
+    })
+  }
+
+  breadcrumbs.value.push({ label: `${props.book.title}`, route: { name: 'books.show', params: { library: props.book.library?.slug, book: props.book.slug } } })
+}
+setBreadcrumbs()
 
 const titlePage = computed(() => {
   if (props.book.serie)
@@ -73,10 +91,7 @@ onMounted(async () => {
         size,
         extension,
       }"
-      :breadcrumbs="[
-        { label: book.library?.name, route: { name: 'home' } },
-        { label: `${book.title}`, route: { name: 'books.show', params: { library: book.library?.slug, book: book.slug } } },
-      ]"
+      :breadcrumbs="breadcrumbs"
       :square="book.library?.type === 'audiobook'"
     >
       <template #eyebrow>

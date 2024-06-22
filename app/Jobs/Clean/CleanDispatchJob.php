@@ -25,6 +25,5 @@ class CleanDispatchJob implements ShouldQueue
     public function handle(): void
     {
         CleanJob::dispatch();
-        ScoutJob::dispatch();
     }
 }

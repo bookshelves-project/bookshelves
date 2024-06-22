@@ -8,7 +8,7 @@ return [
         'navigation_group' => 'Settings',
         'navigation_icon' => 'heroicon-o-cpu-chip',
         'navigation_sort' => null,
-        'navigation_count_badge' => false,
+        'navigation_count_badge' => true,
         'resource' => Croustibat\FilamentJobsMonitor\Resources\QueueMonitorResource::class,
         'cluster' => null,
     ],

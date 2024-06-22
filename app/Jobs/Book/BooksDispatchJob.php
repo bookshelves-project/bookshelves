@@ -5,6 +5,7 @@ namespace App\Jobs\Book;
 use App\Console\Commands\Bookshelves\AudiobooksCommand;
 use App\Engines\Book\File\BookFileItem;
 use App\Jobs\Clean\CleanDispatchJob;
+use App\Jobs\Clean\ScoutJob;
 use App\Models\File;
 use App\Models\Library;
 use Illuminate\Bus\Queueable;
@@ -24,6 +25,7 @@ class BooksDispatchJob implements ShouldQueue
      */
     public function __construct(
         public Library $library,
+        public bool $fresh = false,
     ) {
     }
 
@@ -60,7 +62,7 @@ class BooksDispatchJob implements ShouldQueue
         $i = 0;
         foreach ($files as $file) {
             $i++;
-            BookJob::dispatch($file, "{$i}/{$count}", $this->library->name);
+            BookJob::dispatch($file, "{$i}/{$count}", $this->library->name, $this->fresh);
         }
 
         if ($this->library->is_audiobook) {
@@ -70,6 +72,9 @@ class BooksDispatchJob implements ShouldQueue
         }
 
         CleanDispatchJob::dispatch();
+        if ($this->fresh) {
+            ScoutJob::dispatch();
+        }
     }
 
     /**

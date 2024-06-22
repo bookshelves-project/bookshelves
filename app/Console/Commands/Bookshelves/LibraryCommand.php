@@ -82,7 +82,7 @@ class LibraryCommand extends Commandable
         }
 
         ParserJob::dispatch($library, $this->limit);
-        BooksDispatchJob::dispatch($library);
+        BooksDispatchJob::dispatch($library, $this->fresh);
 
         return Command::SUCCESS;
     }

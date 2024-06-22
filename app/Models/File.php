@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\BookFormatEnum;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,19 +16,15 @@ class File extends Model
         'path',
         'basename',
         'extension',
-        'format',
         'mime_type',
         'size',
         'date_added',
-        'is_audiobook',
         'library_id',
     ];
 
     protected $casts = [
-        'format' => BookFormatEnum::class,
         'size' => 'integer',
         'date_added' => 'datetime',
-        'is_audiobook' => 'boolean',
     ];
 
     protected $appends = [

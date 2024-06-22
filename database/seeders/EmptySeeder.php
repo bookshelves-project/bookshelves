@@ -15,12 +15,16 @@ class EmptySeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Super Admin',
-            'email' => Bookshelves::superAdminEmail(),
-            'password' => Hash::make(Bookshelves::superAdminPassword()),
-            'role' => UserRoleEnum::super_admin,
-            'is_blocked' => false,
-        ]);
+        $superAdmin = User::query()->where('email', Bookshelves::superAdminEmail())->first();
+        if (! $superAdmin) {
+            User::factory()->create([
+                'name' => 'Super Admin',
+                'email' => Bookshelves::superAdminEmail(),
+                'password' => Hash::make(Bookshelves::superAdminPassword()),
+                'email_verified_at' => now(),
+                'role' => UserRoleEnum::super_admin,
+                'is_blocked' => false,
+            ]);
+        }
     }
 }

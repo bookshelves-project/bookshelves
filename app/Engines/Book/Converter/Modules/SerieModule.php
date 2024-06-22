@@ -30,7 +30,7 @@ class SerieModule
             'title' => $ebook->getSeries(),
             'slug' => $ebook->getMetaTitle()->getSeriesSlug(),
         ]);
-        $serie->saveWithoutSyncingToSearch();
+        $serie->saveNoSearch();
 
         if ($book->library) {
             $serie->library()->associate($book->library);
@@ -44,7 +44,7 @@ class SerieModule
         if ($book->authors->isNotEmpty()) {
             $serie->authors()->sync($book->authors->pluck('id'));
         }
-        $serie->saveWithoutSyncingToSearch();
+        $serie->saveNoSearch();
 
         SerieJob::dispatch($serie);
 

@@ -31,12 +31,7 @@ class DownloadController extends Controller
         $author = $book->authorMain?->name ?? '';
         $book->loadMissing(['library', 'audiobookTracks']);
 
-        Download::query()->create([
-            'ip' => request()->ip(),
-            'user_agent' => request()->userAgent(),
-            'name' => $book->serie ? "{$book->serie->title} {$book->volume} {$book->title} {$author} ({$book->library?->name})" : "{$book->title} {$author} ({$book->library?->name})",
-            'type' => 'App\Models\Book',
-        ]);
+        Download::generate($request, $book);
 
         $name = Str::slug("{$name} {$book->slug} {$author} {$book->library?->name}");
         if ($book->library?->type->isAudiobook()) {
@@ -84,12 +79,7 @@ class DownloadController extends Controller
             }
         }
 
-        Download::query()->create([
-            'ip' => request()->ip(),
-            'user_agent' => request()->userAgent(),
-            'name' => "{$serie->title} ({$serie->library?->name})",
-            'type' => 'App\Models\Serie',
-        ]);
+        Download::generate($request, $serie);
 
         $name = Str::slug("{$serie->slug}-".$serie->books->count().'-books');
         Downloader::stream($name)

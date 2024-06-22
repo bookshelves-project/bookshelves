@@ -36,14 +36,10 @@ class LatestBooks extends BaseWidget
                     ->tooltip(fn (Book $record) => $record->authors->pluck('name')->join(', '))
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('file.format')
+                Tables\Columns\TextColumn::make('format')
                     ->badge()
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('file.extension')
-                    ->label('Extension')
-                    ->badge()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('added_at')
                     ->dateTime('Y/m/d')
                     ->searchable()

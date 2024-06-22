@@ -16,11 +16,13 @@ return new class() extends Migration
 
             $table->string('title');
             $table->string('slug')->index();
+            $table->string('format')->nullable();
             $table->string('contributor')->nullable();
             $table->text('description')->nullable();
             $table->date('released_on')->nullable();
             $table->json('audiobook_narrators')->nullable();
             $table->integer('audiobook_chapters')->nullable();
+            $table->boolean('is_audiobook')->default(false);
             $table->string('rights')->nullable();
             $table->float('volume')->nullable();
             $table->integer('page_count')->nullable();
