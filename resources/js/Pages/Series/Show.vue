@@ -16,8 +16,8 @@ const titlePage = computed(() => {
 
 onMounted(async () => {
   const api = await getSize('serie', props.serie.id)
-  size.value = bytesToHuman(api.size)
-  extension.value = api.extension
+  size.value = bytesToHuman(api?.size)
+  extension.value = api?.extension
 })
 </script>
 

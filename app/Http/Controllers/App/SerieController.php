@@ -38,6 +38,7 @@ class SerieController extends Controller
             'media',
             'library',
             'tags',
+            'language',
         ]);
 
         return inertia('Series/Show', [
