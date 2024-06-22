@@ -26,9 +26,14 @@ class LibrarySeeder extends Seeder
             return;
         }
 
-        $libraries = json_decode(file_get_contents($json), true);
-        foreach ($libraries as $library) {
-            \App\Models\Library::query()->create($library);
+        try {
+            $libraries = json_decode(file_get_contents($json), true);
+            foreach ($libraries as $library) {
+                \App\Models\Library::query()->create($library);
+            }
+        } catch (\Throwable $th) {
+            Journal::error('LibrarySeeder: '.$th->getMessage());
+            Journal::error('LibrarySeeder: libraries '.json_encode($libraries));
         }
     }
 }
