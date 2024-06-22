@@ -33,7 +33,7 @@ class LibrarySeeder extends Seeder
             }
         } catch (\Throwable $th) {
             Journal::error('LibrarySeeder: '.$th->getMessage());
-            Journal::error('LibrarySeeder: libraries '.json_encode($libraries));
+            Journal::error('LibrarySeeder: libraries '.file_get_contents($json));
         }
     }
 }
