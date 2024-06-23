@@ -58,7 +58,7 @@ class Library extends Model
     }
 
     /**
-     * Sort libraries with books first, then comics and mangas, and finally audiobooks.
+     * Sort libraries with books first, then comics or mangas, and finally audiobooks.
      *
      * @return Collection<int, Library>
      */
