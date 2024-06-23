@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\LibraryTypeEnum;
 use App\Models\Book;
+use App\Models\Library;
 use App\Models\Serie;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -78,7 +78,7 @@ abstract class Controller
         ]);
     }
 
-    public function getBooks(string $column, bool $desc = false, int $limit = 20, ?LibraryTypeEnum $type = null)
+    public function getBooks(string $column, bool $desc = false, int $limit = 20, ?Library $library = null)
     {
         $books = Book::with([
             'authors',
@@ -88,8 +88,8 @@ abstract class Controller
             'library',
         ]);
 
-        if ($type) {
-            $books->whereRelation('library', 'type', $type->value);
+        if ($library) {
+            $books->where('library_id', $library->id);
         }
 
         return $books
