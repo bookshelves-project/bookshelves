@@ -132,7 +132,7 @@ And add your books libraries in `libraries.json`.
 ]
 ```
 
-And when you execute the analyze command, Bookshelves will create database entries for each library and will scan books.
+And when you execute the analyze command with `--fresh` option, Bookshelves will create database entries for each library and will scan books.
 
 ## Usage
 
