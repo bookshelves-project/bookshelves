@@ -21,8 +21,7 @@ class AuthorJob implements ShouldQueue
     public function __construct(
         public Author $author,
         public bool $fresh = false,
-    ) {
-    }
+    ) {}
 
     /**
      * Execute the job.

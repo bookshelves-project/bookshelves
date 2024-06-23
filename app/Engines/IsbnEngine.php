@@ -12,8 +12,7 @@ class IsbnEngine
     public function __construct(
         public string $isbn,
         public array $api_list = [],
-    ) {
-    }
+    ) {}
 
     public static function make(string $isbn): self
     {

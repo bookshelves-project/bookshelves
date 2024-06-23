@@ -20,8 +20,7 @@ class AudiobookBookDispatchJob implements ShouldQueue
      */
     public function __construct(
         public string $librarySlug,
-    ) {
-    }
+    ) {}
 
     /**
      * Execute the job.

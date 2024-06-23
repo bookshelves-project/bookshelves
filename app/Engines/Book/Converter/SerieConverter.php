@@ -16,8 +16,7 @@ class SerieConverter
     protected function __construct(
         protected Serie $serie,
         protected bool $fresh = false,
-    ) {
-    }
+    ) {}
 
     public static function make(Serie $serie, bool $fresh = false): self
     {

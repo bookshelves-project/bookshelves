@@ -22,8 +22,7 @@ class ParserJob implements ShouldQueue
     public function __construct(
         protected Library $library,
         protected ?int $limit = null,
-    ) {
-    }
+    ) {}
 
     /**
      * Execute the job.

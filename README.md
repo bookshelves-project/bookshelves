@@ -9,11 +9,11 @@
 [![license][license-src]][license-href]
 [![tests][tests-src]][tests-href]
 
-Bookshelves is a web application to handle eBooks, comics and audiobooks. Powered by Laravel.
+Bookshelves is a web application to handle eBooks, comics/mangas and audiobooks. Powered by Laravel.
 
 -   [**bookshelves-project**](https://github.com/bookshelves-project): Bookshelves project repository
--   [**bookshelves.ink**](https://bookshelves.ink): demo (front uses [`bookshelves-front`](https://github.com/bookshelves-project/bookshelves-front))
--   [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation from [this repository](https://github.com/bookshelves-project/bookshelves-docs)
+-   [**bookshelves.ink**](https://bookshelves.ink): demo
+-   [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation from [`bookshelves-project/bookshelves-docs`](https://github.com/bookshelves-project/bookshelves-docs)
 
 ## Features
 
@@ -28,7 +28,7 @@ Bookshelves is a web application to handle eBooks, comics and audiobooks. Powere
 -   [ ] find duplicate authors
 -   [ ] find duplicates series like A comme Association (multiple authors)
 
-## Installation
+## Setup
 
 Download dependencies
 
@@ -99,7 +99,7 @@ Connect to the admin panel at <http://localhost:8000/admin> with the default cre
 Go to the admin panel at <http://localhost:8000/admin>, find the `Libraries` entry in the sidebar and click on `New library`.
 
 -   `Name` is a label for your library
--   `Type` is a select with `audiobook`, `book`, `comic` and `manga` values.
+-   `Type` is a select with `audiobook`, `book` and `comic_manga` values.
 -   `Path` is absolute path to your library
 -   `Slug` is defined automatically from the name field
 -   `Enabled` is a checkbox to enable or disable the library
@@ -116,7 +116,7 @@ cp libraries-template.json libraries.json
 And add your books libraries in `libraries.json`.
 
 -   `name`: Library name, you can use any label
--   `type`: `LibraryTypeEnum` (`audiobook`, `book`, `comic`, `manga`)
+-   `type`: `LibraryTypeEnum` (`audiobook`, `book`, `comic_manga`)
 -   `path`: Absolute path to your library
 -   `is_enabled`: Optional, to enable or disable the library
 
@@ -124,7 +124,7 @@ And add your books libraries in `libraries.json`.
 [
     {
         "name": "My audiobooks",
-        "type": "audiobook", // LibraryTypeEnum: audiobook, book, comic, manga
+        "type": "audiobook", // LibraryTypeEnum: audiobook, book, `comic_manga`
         "path": "/absolute/path/to",
         "is_enabled": true // optional, to enable or disable the library
     }

@@ -40,8 +40,7 @@ class AudiobookBookJob implements ShouldQueue
     public function __construct(
         public Collection $tracks,
         public Library $library,
-    ) {
-    }
+    ) {}
 
     /**
      * Execute the job.

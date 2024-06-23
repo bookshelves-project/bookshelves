@@ -19,8 +19,7 @@ class SeriesDispatchJob implements ShouldQueue
      */
     public function __construct(
         public bool $fresh = false,
-    ) {
-    }
+    ) {}
 
     /**
      * Execute the job.

@@ -72,8 +72,7 @@ class AuthorModuleItem
         public ?string $lastname = null,
         public ?string $name = null,
         public ?string $role = null,
-    ) {
-    }
+    ) {}
 
     /**
      * Convert BookCreator to AuthorModule from config order.

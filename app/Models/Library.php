@@ -38,8 +38,7 @@ class Library extends Model
         'type_label',
         'is_audiobook',
         'is_book',
-        'is_comic',
-        'is_manga',
+        'is_comic_manga',
     ];
 
     protected $casts = [
@@ -68,19 +67,16 @@ class Library extends Model
         $items = collect();
 
         $lib_books = self::onlyBooks()->get();
-        $lib_comics = self::onlyComics()->get();
-        $lib_mangas = self::onlyMangas()->get();
+        $lib_comics_mangas = self::onlyComicsAndMangas()->get();
         $lib_audiobooks = self::onlyAudiobooks()->get();
         $lib_others = self::whereNotIn('type', [
             LibraryTypeEnum::book,
-            LibraryTypeEnum::comic,
-            LibraryTypeEnum::manga,
+            LibraryTypeEnum::comic_manga,
             LibraryTypeEnum::audiobook,
         ])->get();
 
         $items = $items->merge($lib_books);
-        $items = $items->merge($lib_comics);
-        $items = $items->merge($lib_mangas);
+        $items = $items->merge($lib_comics_mangas);
         $items = $items->merge($lib_audiobooks);
         $items = $items->merge($lib_others);
 
@@ -104,14 +100,9 @@ class Library extends Model
         return $query->where('type', LibraryTypeEnum::book);
     }
 
-    public function scopeOnlyComics(Builder $query)
+    public function scopeOnlyComicsAndMangas(Builder $query)
     {
-        return $query->where('type', LibraryTypeEnum::comic);
-    }
-
-    public function scopeOnlyMangas(Builder $query)
-    {
-        return $query->where('type', LibraryTypeEnum::manga);
+        return $query->where('type', LibraryTypeEnum::comic_manga);
     }
 
     public function scopeActive(Builder $query)
@@ -129,14 +120,9 @@ class Library extends Model
         return $this->type == LibraryTypeEnum::book;
     }
 
-    public function getIsComicAttribute(): bool
+    public function getIsComicMangaAttribute(): bool
     {
-        return $this->type == LibraryTypeEnum::comic;
-    }
-
-    public function getIsMangaAttribute(): bool
-    {
-        return $this->type == LibraryTypeEnum::manga;
+        return $this->type == LibraryTypeEnum::comic_manga;
     }
 
     protected static function countType(Collection $collection): int
@@ -165,12 +151,7 @@ class Library extends Model
 
     public static function getComicsCount(): int
     {
-        return self::countType(Library::onlyComics()->get());
-    }
-
-    public static function getMangasCount(): int
-    {
-        return self::countType(Library::onlyMangas()->get());
+        return self::countType(Library::onlyComicsAndMangas()->get());
     }
 
     public function getJsonCount(): int
