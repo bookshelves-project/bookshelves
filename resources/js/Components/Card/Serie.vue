@@ -25,7 +25,7 @@ const title = computed(() => {
     :square="square"
     :cover="serie.cover_thumbnail"
     :title="title"
-    :href="`/series/${serie.library?.slug}/${serie.slug}`"
+    :href="$route('series.show', { library: serie.library?.slug, serie: serie.slug })"
     :carousel="carousel"
     :color="serie.cover_color"
   >

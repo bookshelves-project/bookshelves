@@ -30,8 +30,7 @@ class BookConverter
         protected File $file,
         protected ?Book $book = null,
         protected ?AudiobookTrack $track = null,
-    ) {
-    }
+    ) {}
 
     /**
      * Set Book from Ebook.
@@ -96,7 +95,7 @@ class BookConverter
             'subtitle' => $this->ebook->getExtra('subtitle'),
             'authors' => $authors,
             'narrators' => $this->ebook->getExtra('narrators'),
-            'description' => $this->ebook->getDescription(),
+            'description' => $this->ebook->getDescriptionAdvanced()->toHtml(2000),
             'publisher' => $this->ebook->getPublisher(),
             'publish_date' => $this->ebook->getPublishDate(),
             'language' => $language,
@@ -280,7 +279,7 @@ class BookConverter
             'slug' => $this->ebook->getMetaTitle()->getSlug(),
             'contributor' => $this->ebook->getExtra('contributor'),
             'released_on' => $this->ebook->getPublishDate()?->format('Y-m-d'),
-            'description' => $this->ebook->getDescription(2000),
+            'description' => $this->ebook->getDescriptionAdvanced()->toHtml(2000),
             'rights' => $this->ebook->getCopyright(255),
             'volume' => $this->getVolume(),
             'page_count' => $this->ebook->getPagesCount(),

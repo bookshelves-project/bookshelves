@@ -16,8 +16,8 @@ defineProps<{
   >
     <ListingTabs
       :links="[
-        { label: 'Library', href: `/libraries/${library.slug}` },
-        { label: 'Series', href: `/libraries/${library.slug}/series` },
+        { label: 'Books', href: $route('libraries.show', { library: library.slug }) },
+        { label: 'Series', href: $route('series.index', { library: library.slug }) },
       ]"
     />
     <Listing

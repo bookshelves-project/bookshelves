@@ -8,10 +8,11 @@ use App\Models\Library;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
-#[Prefix('books')]
+// #[Prefix('libraries')]
 class BookController extends Controller
 {
-    #[Get('/{library:slug}/{book:slug}', name: 'books.show')]
+    // Moved to `routes/web.php` for priority
+    // #[Get('/{library:slug}/{book:slug}', name: 'books.show')]
     public function show(Library $library, Book $book)
     {
         $book->load([

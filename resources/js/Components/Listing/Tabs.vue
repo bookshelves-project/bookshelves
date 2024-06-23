@@ -62,7 +62,7 @@ onMounted(() => {
           v-for="link in links"
           :key="link.href"
           :href="link.href"
-          class="group relative min-w-0 flex-1 overflow-hidden bg-gray-900 py-4 px-4 text-center text-sm font-medium hover:bg-gray-800 focus:z-10"
+          class="group relative min-w-0 flex-1 overflow-hidden bg-gray-800/50 py-4 px-4 text-center text-sm font-medium hover:bg-gray-700 focus:z-10"
           :class="link.href === currentUrl ? 'text-gray-100' : 'text-gray-400'"
           aria-current="page"
         >

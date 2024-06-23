@@ -33,9 +33,10 @@ function readMore() {
 
 <template>
   <div>
-    <p>
-      {{ excerpt }}
-    </p>
+    <div
+      class="prose prose-invert"
+      v-html="excerpt"
+    />
     <button
       v-if="expandable"
       class="mt-2 text-purple-400 underline hover:text-purple-300"
