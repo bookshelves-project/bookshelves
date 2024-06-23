@@ -14,12 +14,12 @@
   "devDependencies": {
     "@antfu/eslint-config": "^2.21.1",
     "@inertiajs/vue3": "^1.2.0",
-    "@kiwilan/typescriptable-laravel": "^2.4.42",
+    "@kiwilan/typescriptable-laravel": "^2.4.43",
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/typography": "^0.5.13",
     "@types/nprogress": "^0.2.3",
     "@vitejs/plugin-vue": "^5.0.5",
-    "@vue/server-renderer": "^3.4.29",
+    "@vue/server-renderer": "^3.4.30",
     "@vueuse/core": "^10.11.0",
     "autoprefixer": "^10.4.19",
     "eslint": "8.57.0",
@@ -33,6 +33,6 @@
     "unplugin-svg-transformer": "^1.0.32",
     "unplugin-vue-components": "^0.27.0",
     "vite": "^5.3.1",
-    "vue": "^3.4.29"
+    "vue": "^3.4.30"
   }
 }

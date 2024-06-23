@@ -1,4 +1,5 @@
 import { usePage } from '@inertiajs/vue3'
+import { useRouter } from '@kiwilan/typescriptable-laravel'
 
 export interface Link {
   label: string
@@ -15,17 +16,18 @@ export interface Link {
 
 const mainLinks = ref<Link[]>([])
 
-const secondaryLinks: Link[] = [
-  { label: 'Help', icon: 'info', route: { name: 'pages.help' } },
-  { label: 'OPDS books', icon: 'opds', route: { name: 'opds.index' }, isExternal: true },
-  { label: 'Contact', icon: 'mail', route: { name: 'form.message' } },
-]
-
 const profileLinks: Link[] = [
 ]
 
 export function useNavigation() {
   const { props } = usePage()
+  const { baseURL } = useRouter()
+
+  const secondaryLinks: Link[] = [
+    { label: 'Help', icon: 'info', route: { name: 'pages.help' } },
+    { label: 'OPDS books', icon: 'opds', url: `${baseURL.value}/opds` },
+    { label: 'Contact', icon: 'mail', route: { name: 'form.message' } },
+  ]
 
   const libraries = props?.libraries as App.Models.Library[]
 

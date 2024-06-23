@@ -19,7 +19,7 @@ const { dateString } = useDate()
 
 function setBreadcrumbs() {
   breadcrumbs.value = [
-    { label: props.book.library?.name, route: { name: 'home' } },
+    { label: props.book.library?.name, route: { name: 'libraries.show', params: { library: props.book.library?.slug } } },
 
   ]
 

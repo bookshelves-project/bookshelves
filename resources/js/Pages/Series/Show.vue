@@ -48,9 +48,9 @@ onMounted(async () => {
         extension,
       }"
       :breadcrumbs="[
-        { label: serie.library?.name, route: { name: 'home' } },
-        { label: 'Series', route: { name: 'home' } },
-        { label: serie.title, route: { name: 'home' } },
+        { label: serie.library?.name, route: { name: 'libraries.show', params: { library: serie.library?.slug } } },
+        { label: 'Series', route: { name: 'series.index', params: { library: serie.library?.slug } } },
+        { label: serie.title, route: { name: 'series.show', params: { library: serie.library?.slug, serie: serie.slug } } },
       ]"
       :square="serie.library?.type === 'audiobook'"
     >

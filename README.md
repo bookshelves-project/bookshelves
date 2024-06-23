@@ -64,35 +64,100 @@ php artisan migrate:fresh --seed
 Build assets
 
 ```bash
-pnpm dev
+pnpm build
 ```
+
+Now you can serve application
+
+```bash
+php artisan serve
+```
+
+Bookshelves is now available at <http://localhost:8000> and you can access to the admin panel at <http://localhost:8000/admin>.
+
+### Environment values
+
+-   `APP_URL`: Application URL
+-   `VITE_SSR_PORT`: Port for SSR, default is 13714 (only used in production, if you use SSR)
+-   `SCOUT_DRIVER`: Search engine driver, default is `collection` depends of [Laravel Scout](https://laravel.com/docs/11.x/scout). Bookshelves use `meilisearch` driver.
+-   `CLOCKWORK_ENABLE`: Enable or disable Clockwork, default is `false` (debug tool)
+-   `BOOKSHELVES_SUPER_ADMIN_EMAIL`: Super admin email, used to create the first user
+-   `BOOKSHELVES_SUPER_ADMIN_PASSWORD`: Super admin password, used to create the first user
+-   `BOOKSHELVES_ANALYZER_ENGINE`: Analyzer engine, default is `native` (`native` or [`scout`](https://github.com/ewilan-riviere/scout))
+-   `BOOKSHELVES_ANALYZER_DEBUG`: Analyzer debug mode, default is `false` (print a JSON file for each book analyzed)
+-   `BOOKSHELVES_IMAGE_CONVERSION`: Image conversion engine, default is `false` (convert covers to different sizes)
+-   `BOOKSHELVES_API_WIKIPEDIA`: use Wikipedia API to get author information and photos, default is `true`
 
 ### Add librairies
 
-For books
+You have two solutions to create libraries: create a JSON file or use the admin panel (you can add libraries even if you use JSON file).
+
+#### Admin panel
+
+Connect to the admin panel at <http://localhost:8000/admin> with the default credentials defined in `.env` file (`BOOKSHELVES_SUPER_ADMIN_EMAIL` and `BOOKSHELVES_SUPER_ADMIN_PASSWORD`).
+
+Go to the admin panel at <http://localhost:8000/admin>, find the `Libraries` entry in the sidebar and click on `New library`.
+
+-   `Name` is a label for your library
+-   `Type` is a select with `audiobook`, `book`, `comic` and `manga` values.
+-   `Path` is absolute path to your library
+-   `Slug` is defined automatically from the name field
+-   `Enabled` is a checkbox to enable or disable the library
+-   `Path is valid` is a read-only field to check if the path is valid (automatically checked when you save the library)
+
+#### JSON file
+
+Create a `libraries.json` file from `libraries-template.json`.
 
 ```bash
-BOOKSHELVES_LIBRARY_BOOKS=/path/to/books
-BOOKSHELVES_LIBRARY_COMICS=/path/to/comics
-BOOKSHELVES_LIBRARY_MANGAS=/path/to/mangas
-BOOKSHELVES_LIBRARY_AUDIOBOOKS=/path/to/audiobooks
+cp libraries-template.json libraries.json
 ```
+
+And add your books libraries in `libraries.json`.
+
+-   `name`: Library name, you can use any label
+-   `type`: `LibraryTypeEnum` (`audiobook`, `book`, `comic`, `manga`)
+-   `path`: Absolute path to your library
+-   `is_enabled`: Optional, to enable or disable the library
+
+```json
+[
+    {
+        "name": "My audiobooks",
+        "type": "audiobook", // LibraryTypeEnum: audiobook, book, comic, manga
+        "path": "/absolute/path/to",
+        "is_enabled": true // optional, to enable or disable the library
+    }
+    // ...
+]
+```
+
+And when you execute the analyze command, Bookshelves will create database entries for each library and will scan books.
 
 ## Usage
 
-Execute scan command to check if books are available, `-v` option for verbose mode
+### Analyze
+
+Execute analyze command to analyze books and create database entries.
+
+-   `-f|--fresh` option for fresh mode (delete all books before analyze)
+-   `-l|--limit` option for limit mode (limit the number of books to analyze)
+
+```bash
+php artisan bookshelves:analyze -f
+```
+
+To get full documentation, you can read [**Bookshelves documentation**](https://bookshelves-documentation.netlify.app).
+
+### Preview
+
+Execute scan command to get a preview of scannable books (libraries have to be created).
+
+-   `-v` option for verbose mode
 
 ```bash
 php artisan bookshelves:scan
 ```
-
-And execute setup command to scan books and create database entries, `-f` option for fresh mode
-
-```bash
-php artisan bookshelves:setup -f
-```
-
-To get full documentation, you can read [**Bookshelves documentation**](https://bookshelves-documentation.netlify.app).
 
 ## Tests
 
