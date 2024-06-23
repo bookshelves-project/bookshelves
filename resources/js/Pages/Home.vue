@@ -1,33 +1,37 @@
 <script lang="ts" setup>
-const swipers: {
+import { useFetch } from '@kiwilan/typescriptable-laravel'
+
+const { laravel } = useFetch()
+const swipers = ref<{
   route?: string
   endpoint?: string
   title: string
   type: 'book' | 'serie'
   square?: boolean
-}[] = [
-  {
-    route: '/api/books/latest/audiobook',
-    title: 'Audiobooks recently added',
-    type: 'book',
-    square: true,
-  },
-  {
-    route: '/api/books/latest/book',
-    title: 'eBooks recently added',
-    type: 'book',
-  },
-  {
-    route: '/api/books/latest/comic',
-    title: 'Comics recently added',
-    type: 'book',
-  },
-  {
-    route: '/api/books/latest/manga',
-    title: 'Mangas recently added',
-    type: 'book',
-  },
-]
+}[]>([])
+
+async function fetchLibraries() {
+  const res = await laravel.get('api.libraries.index')
+  const body = await res.getBody<{ data: App.Models.Library[] }>()
+
+  return body?.data
+}
+
+async function parseLibraries() {
+  const libraries = await fetchLibraries()
+  if (libraries) {
+    swipers.value = libraries.map(library => ({
+      route: `/api/books/latest/${library.slug}`,
+      title: `${library.name} recently added`,
+      type: 'book',
+      square: library.type === 'audiobook',
+    }))
+  }
+}
+
+onMounted(() => {
+  parseLibraries()
+})
 </script>
 
 <template>

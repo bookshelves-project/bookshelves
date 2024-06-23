@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\LibraryTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SearchResource;
 use App\Models\Book;
+use App\Models\Library;
 use Kiwilan\Steward\Utils\PaginatorHelper;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
@@ -47,13 +47,11 @@ class BookController extends Controller
         ]);
     }
 
-    #[Get('/latest/{type}', name: 'api.books.latest.type')]
-    public function latestType(string $type)
+    #[Get('/latest/{library:slug}', name: 'api.books.latest.library')]
+    public function latestLibrary(Library $library)
     {
-        $type = LibraryTypeEnum::from($type);
-
         return response()->json([
-            'data' => $this->getBooks('added_at', true, 20, $type),
+            'data' => $this->getBooks('added_at', true, 20, $library),
         ]);
     }
 }
