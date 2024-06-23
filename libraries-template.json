@@ -1,13 +1,13 @@
 [
   {
     "name": "My audiobooks",
-    "type": "audiobook", // LibraryTypeEnum: audiobook, book, comic, manga
+    "type": "audiobook", // LibraryTypeEnum: audiobook, book, comic_manga
     "path": "/absolute/path/to",
     "is_enabled": true // optional, to enable or disable the library
   },
   {
     "name": "My amazing comics",
-    "type": "comic",
+    "type": "comic_manga",
     "path": "/absolute/path/to",
     "is_enabled": true
   },
@@ -25,7 +25,7 @@
   },
   {
     "name": "Recent mangas",
-    "type": "manga",
+    "type": "comic_manga",
     "path": "/absolute/path/to",
     "is_enabled": true
   }

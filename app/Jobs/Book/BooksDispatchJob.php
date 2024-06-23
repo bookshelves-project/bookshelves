@@ -26,8 +26,7 @@ class BooksDispatchJob implements ShouldQueue
     public function __construct(
         public Library $library,
         public bool $fresh = false,
-    ) {
-    }
+    ) {}
 
     /**
      * Execute the job.

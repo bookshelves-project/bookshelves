@@ -23,8 +23,7 @@ class BookFileScanner
         protected int $i = 0,
         protected array $typesEnum = [],
         protected int $count = 0,
-    ) {
-    }
+    ) {}
 
     /**
      * Get all files.

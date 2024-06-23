@@ -16,8 +16,7 @@ class BookFileItem
         protected ?string $mimeType = null,
         protected int $size = 0,
         protected ?DateTime $dateAdded = null,
-    ) {
-    }
+    ) {}
 
     public static function make(string $path, string $libraryId): ?self
     {

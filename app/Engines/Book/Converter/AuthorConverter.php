@@ -17,8 +17,7 @@ class AuthorConverter
     protected function __construct(
         protected Author $author,
         protected bool $fresh = false,
-    ) {
-    }
+    ) {}
 
     public static function make(Author $author, bool $fresh = false): self
     {

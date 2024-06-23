@@ -21,8 +21,7 @@ class BookEngine
         protected ?Book $book = null,
         protected bool $isExist = false,
         protected bool $default = false
-    ) {
-    }
+    ) {}
 
     /**
      * Create a `Book` and relations from `BookFileItem`.

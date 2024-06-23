@@ -21,8 +21,7 @@ class SerieJob implements ShouldQueue
     public function __construct(
         public Serie $serie,
         public bool $fresh = false,
-    ) {
-    }
+    ) {}
 
     /**
      * Execute the job.

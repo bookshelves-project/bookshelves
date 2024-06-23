@@ -29,8 +29,7 @@ class BookJob implements ShouldQueue
         protected string $number,
         protected string $library,
         protected bool $fresh = false,
-    ) {
-    }
+    ) {}
 
     /**
      * Execute the job.

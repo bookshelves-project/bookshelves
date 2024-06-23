@@ -19,8 +19,7 @@ class AuthorsDispatchJob implements ShouldQueue
      */
     public function __construct(
         public bool $fresh = false,
-    ) {
-    }
+    ) {}
 
     /**
      * Execute the job.
