@@ -17,7 +17,13 @@ Bookshelves is a web application to handle eBooks, comics/mangas and audiobooks.
 
 ## Features
 
-// TODO
+-   All your books in one place
+-   Search engine
+-   OPDS feed
+-   Read eBooks, comics/mangas and listen audiobooks
+-   Admin panel
+-   Libraries management
+-   Users management
 
 ### Roadmap
 
