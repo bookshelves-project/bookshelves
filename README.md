@@ -190,5 +190,5 @@ The Bookshelves is open-sourced software licensed under the [BSD 2-Clause Licens
 [filament-version-href]: https://filamentphp.com/
 [tests-src]: https://img.shields.io/github/actions/workflow/status/bookshelves-project/bookshelves/run-tests.yml?branch=main&label=tests&style=flat-square&colorA=18181B
 [tests-href]: https://github.com/bookshelves-project/bookshelves/actions/workflows/ci.yml
-[license-src]: https://img.shields.io/github/license/bookshelves-project/bookshelves.svg?style=flat&style=flat-square&colorA=18181B&colorB=777bb4
-[license-href]: https://github.com/bookshelves-project/bookshelves/blob/main/LICENSE
+[license-src]: https://img.shields.io/github/license/bookshelves-project/bookshelves.svg?style=flat-square&colorA=18181B&colorB=777BB4
+[license-href]: https://github.com/bookshelves-project/bookshelves/blob/main/README.md
