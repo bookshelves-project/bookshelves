@@ -26,6 +26,9 @@ Bookshelves is a web application to handle eBooks, comics/mangas and audiobooks.
 -   [ ] Add tests
 -   [ ] find duplicate authors
 -   [ ] find duplicates series like A comme Association (multiple authors)
+-   [ ] Read ebook in browser
+-   [ ] Read comic in browser
+-   [ ] Read audiobook in browser
 
 ## Setup
 
@@ -160,7 +163,19 @@ php artisan bookshelves:scan
 
 ## Tests
 
-Run tests.
+Create a `.env.testing` file
+
+```bash
+cp .env.testing.example .env.testing
+```
+
+Create key for testing
+
+```bash
+php artisan key:generate --env=testing
+```
+
+Run tests
 
 ```bash
 composer test
