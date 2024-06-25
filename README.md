@@ -1,6 +1,6 @@
 # **Bookshelves**
 
-![banner](https://raw.githubusercontent.com/bookshelves-project/bookshelves/main/public/vendor/images/banner-github.png)
+![banner](https://raw.githubusercontent.com/bookshelves-project/bookshelves/main/public/images/banner-github.jpg)
 
 [![php][php-version-src]][php-version-href]
 [![laravel][laravel-version-src]][laravel-version-href]
