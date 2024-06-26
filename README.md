@@ -9,7 +9,7 @@
 [![license][license-src]][license-href]
 [![tests][tests-src]][tests-href]
 
-Bookshelves is a web application to handle eBooks, comics/mangas and audiobooks. Powered by Laravel.
+[Bookshelves](https://bookshelves.ink/) is a web application to handle eBooks, comics/mangas and audiobooks. Powered by [Laravel](https://laravel.com/).
 
 -   [**bookshelves-project**](https://github.com/bookshelves-project): Bookshelves project repository
 -   [**bookshelves.ink**](https://bookshelves.ink): demo
@@ -17,7 +17,17 @@ Bookshelves is a web application to handle eBooks, comics/mangas and audiobooks.
 
 ## Features
 
-// TODO
+-   All your books in one place, parsed by [`kiwilan/php-ebook`](https://github.com/kiwilan/php-ebook)
+    -   Audiobooks: `.mp3`, `.m4b`
+    -   Comics/Mangas: `.cb7`, `.cba`, `.cbr`, `.cbt`, `.cbz`
+    -   eBooks: `.epub`, `.pdf`
+-   Search engine with [Meilisearch](https://www.meilisearch.com/)
+-   OPDS feed powered by [`kiwilan/php-opds`](https://github.com/kiwilan/php-opds)
+-   Read eBooks, comics/mangas and listen audiobooks
+-   Admin panel made by [`filament`](https://filamentphp.com/)
+    -   Libraries management
+    -   Users management
+-   SSR option powered by [`inertia`](https://inertiajs.com/)
 
 ### Roadmap
 
@@ -26,6 +36,10 @@ Bookshelves is a web application to handle eBooks, comics/mangas and audiobooks.
 -   [ ] Add tests
 -   [ ] find duplicate authors
 -   [ ] find duplicates series like A comme Association (multiple authors)
+-   [ ] Read ebook in browser
+-   [ ] Read comic in browser
+-   [ ] Read audiobook in browser
+-   [ ] Authentication
 
 ## Setup
 
@@ -160,21 +174,36 @@ php artisan bookshelves:scan
 
 ## Tests
 
-Run tests.
+Create a `.env.testing` file
+
+```bash
+cp .env.testing.example .env.testing
+```
+
+Create key for testing
+
+```bash
+php artisan key:generate --env=testing
+```
+
+Run tests
 
 ```bash
 composer test
 ```
 
-## Environment
+## Credits
 
-Bookshelves is powered by [`laravel`](https://laravel.com/) and administrator panel was built with [`filament`](https://filamentphp.com/).
-
-Search engine uses [`meilisearch`](https://www.meilisearch.com/) with [`laravel/scout`](https://laravel.com/docs/master/scout).
-
-EBooks, comics and audiobooks are handled by [`kiwilan/php-ebook`](https://github.com/kiwilan/php-ebook) and OPDS feature built by [`kiwilan/php-opds`](https://github.com/kiwilan/php-opds).
-
-A lot of amazing [`spatie`](https://spatie.be/) packages are used in this project.
+-   [`laravel`](https://laravel.com/) for a powerful framework
+-   [`filament`](https://filamentphp.com/) for a so efficient admin panel
+-   [`spatie`](https://github.com/spatie) for a lot of amazing packages
+-   [`tailwindcss`](https://tailwindcss.com/) for a so easy to use CSS framework
+-   [`vue`](https://vuejs.org/) for a so amazing JavaScript framework
+-   [`inertia`](https://inertiajs.com/) for a so efficient way to build modern monolithic applications
+-   [`meilisearch`](https://www.meilisearch.com/) for a fast and relevant search engine
+-   [`kiwilan/php-ebook`](https://github.com/kiwilan/php-ebook) for a PHP eBook parser
+-   [`kiwilan/php-opds`](https://github.com/kiwilan/php-opds) for a PHP OPDS feed generator
+-   [`ewilan-riviere`](https://github.com/ewilan-riviere) author of Bookshelves
 
 ## License
 
