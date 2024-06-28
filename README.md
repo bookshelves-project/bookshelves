@@ -12,7 +12,7 @@
 [Bookshelves](https://bookshelves.ink/) is a web application to handle eBooks, comics/mangas and audiobooks. Powered by [Laravel](https://laravel.com/).
 
 -   [**bookshelves-project**](https://github.com/bookshelves-project): Bookshelves project repository
--   [**bookshelves.ink**](https://bookshelves.ink): demo
+-   [**demo.bookshelves.ink**](https://demo.bookshelves.ink): demo
 -   [**bookshelves-documentation.netlify.app**](https://bookshelves-documentation.netlify.app): documentation from [`bookshelves-project/bookshelves-docs`](https://github.com/bookshelves-project/bookshelves-docs)
 
 ## Features
