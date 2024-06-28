@@ -28,6 +28,7 @@ class Download extends Model
 
         $download->setType($model);
         $download->name = $download->createName($model);
+        $download->saveQuietly();
 
         return $download;
     }
