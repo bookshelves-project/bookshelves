@@ -11,6 +11,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class AuthorResource extends Resource
 {
@@ -19,6 +20,16 @@ class AuthorResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
     protected static ?string $navigationGroup = 'Books';
+
+    protected static ?string $recordTitleAttribute = 'name';
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        /** @var Author $record */
+        return [
+            'Books' => "{$record->books_count}",
+        ];
+    }
 
     public static function form(Form $form): Form
     {
@@ -38,6 +49,14 @@ class AuthorResource extends Resource
                     ->square(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
+                    ->sortable()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('lastname')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('firstname')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('slug')
                     ->searchable()
@@ -47,6 +66,7 @@ class AuthorResource extends Resource
                 Tables\Columns\TextColumn::make('description')
                     ->limit(50),
                 Tables\Columns\TextColumn::make('books_count')
+                    ->label('Books')
                     ->sortable(),
             ])
             ->filters([

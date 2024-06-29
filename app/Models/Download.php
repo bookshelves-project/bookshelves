@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\BookFormatEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -13,10 +14,14 @@ class Download extends Model
     protected $fillable = [
         'ip',
         'user_agent',
-        'name',
-        'type',
-        'ulid_id',
-        'ulid_table',
+        'title',
+        'authors',
+        'format',
+        'is_series',
+    ];
+
+    protected $casts = [
+        'format' => BookFormatEnum::class,
     ];
 
     public static function generate(Request $request, Book|Serie $model): self
@@ -26,38 +31,56 @@ class Download extends Model
             'user_agent' => $request->userAgent(),
         ]);
 
-        $download->setType($model);
-        $download->name = $download->createName($model);
+        if ($model instanceof Serie) {
+            $model->append('format');
+            $download->serie()->associate($model);
+        } else {
+            $download->book()->associate($model);
+        }
+
+        $download->title = $download->createTitle($model);
+        $authors = $model->authors->pluck('name')->implode(', ');
+        $download->authors = strlen($authors) > 255 ? substr($authors, 0, 252).'...' : $authors;
+        $download->is_series = $model instanceof Serie;
+        $download->format = $model->format;
+
+        $download->library()->associate($model->library);
         $download->saveQuietly();
+        ray($download);
 
         return $download;
     }
 
-    public function createName(Book|Serie $model): string
+    public function createTitle(Book|Serie $model): string
     {
-        $name = 'unknown';
         if ($model instanceof Book) {
             if ($model->serie) {
-                $name = "{$model->serie->title} {$model->volume_pad}";
+                return "{$model->serie->title} #{$model->volume_pad} {$model->title}";
             }
 
-            $name .= " {$model->title} by {$model->authorMain->name} from ({$model->library->name})";
-
-            return trim($name);
+            return "{$model->title}";
         }
 
-        return "{$model->title}'s series by {$model->authorMain->name} from ({$model->library->name})";
-    }
-
-    public function setType(Book|Serie $model): void
-    {
-        $this->type = $model instanceof Book ? 'App\Models\Book' : 'App\Models\Serie';
-        $this->ulid_id = $model->id;
-        $this->ulid_table = $model instanceof Book ? 'books' : 'series';
+        return "{$model->title}";
     }
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function book(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Book::class);
+    }
+
+    public function serie(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Serie::class);
+    }
+
+    public function library(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Library::class);
     }
 }

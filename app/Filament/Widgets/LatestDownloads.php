@@ -3,6 +3,7 @@
 namespace App\Filament\Widgets;
 
 use App\Filament\Resources\DownloadResource;
+use App\Models\Download;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -15,7 +16,7 @@ class LatestDownloads extends BaseWidget
 
     public function table(Table $table): Table
     {
-        return $table
+        return DownloadResource::table($table)
             ->query(DownloadResource::getEloquentQuery())
             ->defaultPaginationPageOption(5)
             ->defaultSort('created_at', 'desc')
@@ -24,12 +25,30 @@ class LatestDownloads extends BaseWidget
                     ->dateTime('Y/m/d H:i:s')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('ip')
+                    ->label('IP')
                     ->badge()
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('type')
+                Tables\Columns\TextColumn::make('title')
+                    ->limit(50)
+                    ->tooltip(fn (Download $record) => $record->title)
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('authors')
+                    ->limit(50)
+                    ->tooltip(fn (Download $record) => $record->authors)
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('format')
+                    ->badge()
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\IconColumn::make('is_series')
+                    ->boolean()
+                    ->sortable()
+                    ->trueColor('info')
+                    ->falseColor('warning'),
+                Tables\Columns\TextColumn::make('library.name')
+                    ->badge()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.email')
                     ->searchable()

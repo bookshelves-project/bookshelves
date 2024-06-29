@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\BookFormatEnum;
 use App\Enums\LibraryTypeEnum;
 use App\Traits\HasAuthors;
 use App\Traits\HasBooksCollection;
@@ -99,6 +100,13 @@ class Serie extends Model implements HasMedia
             'library' => $this->library?->slug ?? 'unknown',
             'serie' => $this->slug,
         ]);
+    }
+
+    public function getFormatAttribute(): ?BookFormatEnum
+    {
+        $this->loadMissing('books');
+
+        return $this->books->first()?->format ?? null;
     }
 
     public function getFirstCharAttribute()

@@ -117,14 +117,14 @@
     "test": [
       "@php artisan test"
     ],
-    "test:filter": [
+    "test-filter": [
       "@php artisan test --filter"
     ],
-    "test:watch": [
+    "test-watch": [
       "Composer\\Config::disableProcessTimeout",
       "phpunit-watcher watch"
     ],
-    "test:filter:watch": [
+    "test-filter-watch": [
       "Composer\\Config::disableProcessTimeout",
       "phpunit-watcher watch --filter"
     ],

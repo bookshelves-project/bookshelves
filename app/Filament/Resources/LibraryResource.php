@@ -33,7 +33,7 @@ class LibraryResource extends Resource
                             ->placeholder('Enter library name'),
                         Components\Select::make('type')
                             ->required()
-                            ->options(LibraryTypeEnum::toValues())
+                            ->options(LibraryTypeEnum::toLabels())
                             ->default(LibraryTypeEnum::book),
                         Components\TextInput::make('path')
                             ->required()

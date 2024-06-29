@@ -17,7 +17,7 @@ function downloadBook() {
   const { push } = useNotification()
   push({
     title: `Download ${props.title}`,
-    description: 'Downloading book...',
+    description: 'Your download will start shortly...',
   })
 }
 </script>
