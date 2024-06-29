@@ -80,6 +80,7 @@ onMounted(async () => {
         dateString(book.released_on),
         book.page_count ? `${book.page_count} pages` : undefined,
         book.publisher ? `${book.publisher.name}` : undefined,
+        book.format === 'audio' ? `Read by ${book.audiobook_narrators?.join(', ')}` : undefined,
       ]"
       :badges="[
         book.isbn10 ? `ISBN-10: ${book.isbn10}` : undefined,
