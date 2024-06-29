@@ -14,6 +14,7 @@ use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Kiwilan\Steward\Filament\Config\FilamentLayout;
 
 class BookResource extends Resource
@@ -23,6 +24,23 @@ class BookResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
     protected static ?string $navigationGroup = 'Books';
+
+    protected static ?string $recordTitleAttribute = 'title';
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        /** @var Book $record */
+        if (! $record->serie) {
+            return [
+                'Format' => $record->format->getLabel(),
+            ];
+        }
+
+        return [
+            'Format' => $record->format->getLabel(),
+            'Serie' => "{$record->serie->title} #{$record->volume_pad}",
+        ];
+    }
 
     public static function form(Form $form): Form
     {
@@ -109,8 +127,10 @@ class BookResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\ToggleColumn::make('is_selected')
+                    ->label('Selected')
                     ->sortable(),
                 Tables\Columns\ToggleColumn::make('is_hidden')
+                    ->label('Hidden')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('publisher.name')
                     ->searchable()

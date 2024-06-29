@@ -27,16 +27,40 @@ class DownloadResource extends Resource
                     ->dateTime('Y/m/d H:i:s')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('ip')
+                    ->label('IP')
                     ->badge()
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('type')
+                Tables\Columns\TextColumn::make('title')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('authors')
+                    ->limit(50)
+                    ->tooltip(fn (Download $record) => $record->authors)
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('format')
+                    ->badge()
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\IconColumn::make('is_series')
+                    ->boolean()
+                    ->sortable()
+                    ->trueColor('info')
+                    ->falseColor('warning'),
+                Tables\Columns\TextColumn::make('library.name')
+                    ->badge()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.email')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('book_id')
+                    ->badge()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
+                Tables\Columns\TextColumn::make('serie_id')
+                    ->badge()
+                    ->toggleable()
+                    ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('user_agent')
                     ->limit(50)
                     ->tooltip(function (Tables\Columns\TextColumn $column): ?string {

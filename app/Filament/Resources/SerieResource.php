@@ -13,6 +13,7 @@ use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class SerieResource extends Resource
 {
@@ -21,6 +22,16 @@ class SerieResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationGroup = 'Books';
+
+    protected static ?string $recordTitleAttribute = 'title';
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        /** @var Serie $record */
+        return [
+            'Books' => "{$record->books_count}",
+        ];
+    }
 
     public static function form(Form $form): Form
     {
@@ -52,6 +63,7 @@ class SerieResource extends Resource
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('books_count')
+                    ->label('Books')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('description')
                     ->limit(50)
