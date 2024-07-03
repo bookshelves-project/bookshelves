@@ -4,6 +4,7 @@ namespace App\Console\Commands\Bookshelves;
 
 use App\Jobs\Clean\CleanJob;
 use Illuminate\Console\Command;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Commands\Commandable;
 
 /**
@@ -33,6 +34,10 @@ class CleanCommand extends Commandable
     public function handle()
     {
         $this->title();
+
+        $msg = 'Clean Bookshelves...';
+        Journal::info($msg);
+        $this->info($msg);
 
         CleanJob::dispatch();
 
