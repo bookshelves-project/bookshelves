@@ -36,7 +36,7 @@ class CleanCommand extends Commandable
         $this->title();
 
         $msg = 'Clean Bookshelves...';
-        Journal::info($msg);
+        Journal::info($msg)->toDatabase();
         $this->info($msg);
 
         CleanJob::dispatch();

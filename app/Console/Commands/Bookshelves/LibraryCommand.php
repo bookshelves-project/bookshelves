@@ -71,7 +71,7 @@ class LibraryCommand extends Commandable
 
         $engine = Bookshelves::analyzerEngine();
         $msg = "Parsing library: {$library->name} with `{$engine}`...";
-        Journal::info($msg);
+        Journal::info($msg)->toDatabase();
         $this->info($msg);
         $this->comment('Fresh: '.($this->fresh ? 'yes' : 'no'));
         $this->comment('Limit: '.($this->limit ?: 'no limit'));

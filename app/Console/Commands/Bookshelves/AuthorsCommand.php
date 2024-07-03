@@ -48,7 +48,7 @@ class AuthorsCommand extends Commandable
         $this->fresh = $this->option('fresh');
 
         $msg = 'Parse Authors to add metadata';
-        Journal::info($msg);
+        Journal::info($msg)->toDatabase();
         $this->info($msg);
 
         AuthorsDispatchJob::dispatch($this->fresh);

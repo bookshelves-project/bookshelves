@@ -77,7 +77,7 @@ class AnalyzeCommand extends Commandable
         CleanJsonJob::dispatch();
 
         $msg = 'Analyze libraries...';
-        Journal::info($msg);
+        Journal::info($msg)->toDatabase();
         $this->info($msg);
 
         foreach (Library::inOrder() as $library) {

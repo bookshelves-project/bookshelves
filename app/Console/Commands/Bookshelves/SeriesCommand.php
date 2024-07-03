@@ -48,7 +48,7 @@ class SeriesCommand extends Commandable
         $this->fresh = $this->option('fresh');
 
         $msg = 'Parse Series to add metadata';
-        Journal::info($msg);
+        Journal::info($msg)->toDatabase();
         $this->info($msg);
 
         SeriesDispatchJob::dispatch($this->fresh);
