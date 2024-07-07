@@ -4,12 +4,14 @@ namespace App\Models;
 
 use App\Enums\BookFormatEnum;
 use App\Enums\LibraryTypeEnum;
+use App\Observers\BookObserver;
 use App\Traits\HasAuthors;
 use App\Traits\HasBookFiles;
 use App\Traits\HasCovers;
 use App\Traits\HasLanguage;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\IsEntity;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,6 +28,7 @@ use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\QueryBuilder\AllowedFilter;
 
+#[ObservedBy(BookObserver::class)]
 class Book extends Model implements HasMedia
 {
     use HasAuthors;

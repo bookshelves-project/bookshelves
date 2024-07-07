@@ -36,6 +36,18 @@ class LibraryObserver
     public function deleted(Library $library): void
     {
         Cache::forget(Library::CACHE_KEY);
+
+        // delete all files in library
+        $library->files()->delete();
+
+        // delete all books in library
+        $library->books()->delete();
+
+        // delete all series in library
+        $library->series()->delete();
+
+        // delete all audiobooks tracks in library
+        $library->audiobookTracks()->delete();
     }
 
     /**
