@@ -9,6 +9,7 @@
   >
 
   <x-stw-favicon />
+  <title inertia>{{ config('app.name', 'Bookshelves') }}</title>
 
   <!-- Scripts -->
   @routes

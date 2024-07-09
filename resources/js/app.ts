@@ -8,7 +8,7 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy'
 import './icons'
 
 createInertiaApp({
-  title: title => resolveTitle(title, 'Kiwiflix'),
+  title: title => resolveTitle(title, 'Bookshelves'),
   resolve: name => resolvePages(name, import.meta.glob('./Pages/**/*.vue')),
   setup({ el, App, props, plugin }) {
     createApp({ render: () => h(App, props) })
