@@ -48,6 +48,7 @@ class SerieController extends Controller
             'books.serie',
             'books.language',
             'books.library',
+            'books.authors',
             'authors',
             'media',
             'library',

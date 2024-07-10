@@ -23,6 +23,10 @@ class SerieModule
             ->first();
 
         if ($serie) {
+            if ($book->authors->isNotEmpty()) {
+                $serie->authors()->sync($book->authors->pluck('id'));
+            }
+
             return $serie;
         }
 
