@@ -26,7 +26,7 @@ onMounted(async () => {
     :title="titlePage"
     :description="serie.description"
     :image="serie.cover_social"
-    icon="catalog"
+    :icon="serie.format_icon as SvgName"
   >
     <ShowContainer
       :model="serie"

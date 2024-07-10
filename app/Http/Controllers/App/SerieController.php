@@ -42,6 +42,7 @@ class SerieController extends Controller
             ->withCount(['books'])
             ->firstOrFail();
 
+        $serie->append('format_icon');
         $serie->loadMissing([
             'books',
             'books.media',

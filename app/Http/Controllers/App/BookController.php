@@ -29,7 +29,7 @@ class BookController extends Controller
             'publisher',
             'language',
             'library',
-        ]);
+        ])->append('format_icon');
 
         $title = $book->title;
         if ($book->serie) {

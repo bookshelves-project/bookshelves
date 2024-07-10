@@ -79,6 +79,13 @@ class Serie extends Model implements HasMedia
 
     protected $withCount = [];
 
+    public function getFormatIconAttribute(): string
+    {
+        $this->loadMissing('library');
+
+        return $this->library->type->value;
+    }
+
     public function getBooksLinkAttribute(): string
     {
         return route('api.series.show.books', [

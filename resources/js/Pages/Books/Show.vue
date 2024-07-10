@@ -65,7 +65,7 @@ onMounted(async () => {
     :description="book.description"
     :image="book.cover_social"
     :color="book.cover_color"
-    icon="ereader"
+    :icon="book.format_icon as SvgName"
   >
     <ShowContainer
       :model="book"

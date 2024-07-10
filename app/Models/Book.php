@@ -120,6 +120,13 @@ class Book extends Model implements HasMedia
 
     protected $withCount = [];
 
+    public function getFormatIconAttribute(): string
+    {
+        $this->loadMissing('library');
+
+        return $this->library->type->value;
+    }
+
     public function getDownloadLinkAttribute(): string
     {
         return route('api.downloads.book', [
