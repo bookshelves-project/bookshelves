@@ -39,7 +39,7 @@ onMounted(() => {
     title="Welcome on Bookshelves"
     icon="home"
   >
-    <div class="py-6 space-y-12">
+    <div class="py-6 space-y-6">
       <SwiperHome
         v-for="swiper in swipers"
         :key="swiper.route"
