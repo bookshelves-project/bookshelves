@@ -138,6 +138,7 @@ class BookResource extends Resource
                     ->toggledHiddenByDefault(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime('d/m/Y H:i:s')
+                    ->sortable()
                     ->searchable(),
             ])
             ->filters([

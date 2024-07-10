@@ -43,6 +43,7 @@ class LatestDownloads extends BaseWidget
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_series')
+                    ->label('Series')
                     ->boolean()
                     ->sortable()
                     ->trueColor('info')

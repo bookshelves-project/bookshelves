@@ -9,7 +9,7 @@ const { inertia } = useFetch()
 const { open, close } = useSlideover()
 const { profileLinks } = useNavigation()
 
-const user = ref<App.Models.User>(page.props.auth?.user)
+const user = ref<App.Models.User>((page.props.auth as any)?.user)
 
 function logout() {
   close()

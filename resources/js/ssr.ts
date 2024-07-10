@@ -9,7 +9,7 @@ import './icons'
 
 createServer(page =>
   createInertiaApp({
-    title: title => resolveTitle(title, 'Kiwiflix'),
+    title: title => resolveTitle(title, 'Bookshelves'),
     page,
     render: renderToString,
     resolve: name => resolvePages(name, import.meta.glob('./Pages/**/*.vue')),

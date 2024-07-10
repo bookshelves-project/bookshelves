@@ -9,6 +9,7 @@ use App\Models\Library;
 use App\Models\Tag;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Commands\Commandable;
 use Kiwilan\Steward\Commands\Jobs\JobsClearCommand;
 use Kiwilan\Steward\Commands\Log\LogClearCommand;
@@ -75,7 +76,10 @@ class AnalyzeCommand extends Commandable
 
         CleanJsonJob::dispatch();
 
-        $this->info('Parse libraries...');
+        $msg = 'Analyze libraries...';
+        Journal::info($msg)->toDatabase();
+        $this->info($msg);
+
         foreach (Library::inOrder() as $library) {
             $this->call(LibraryCommand::class, [
                 'library-slug' => $library->slug,

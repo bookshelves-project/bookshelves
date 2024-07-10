@@ -4,6 +4,7 @@ namespace App\Console\Commands\Bookshelves;
 
 use App\Jobs\Serie\SeriesDispatchJob;
 use Illuminate\Console\Command;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Commands\Commandable;
 
 /**
@@ -45,6 +46,10 @@ class SeriesCommand extends Commandable
         $this->title();
 
         $this->fresh = $this->option('fresh');
+
+        $msg = 'Parse Series to add metadata';
+        Journal::info($msg);
+        $this->info($msg);
 
         SeriesDispatchJob::dispatch($this->fresh);
 

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useQuery } from '@kiwilan/typescriptable-laravel'
 
-type Entity = App.Models.Book | App.Models.Author | App.Models.Serie
+type Entity = App.Models.Book | App.Models.Author | App.Models.Serie | App.Models.Tag
 const props = defineProps<{
   query: App.Paginate<Entity>
   sortable?: { label: string, value: string }[]
