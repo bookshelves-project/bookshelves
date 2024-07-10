@@ -11,7 +11,7 @@ const extension = ref<string>()
 const { bytesToHuman, getSize } = useUtils()
 
 const titlePage = computed(() => {
-  return `${props.serie.title} (${props.serie.library?.type_label}) into ${props.serie?.title} · ${props.serie.books_count} books`
+  return `${props.serie.title} (${props.serie.library?.type_label}) · ${props.serie.books_count} books`
 })
 
 onMounted(async () => {
