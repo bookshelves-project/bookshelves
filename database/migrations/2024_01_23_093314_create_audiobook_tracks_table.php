@@ -14,13 +14,11 @@ return new class extends Migration
         Schema::create('audiobook_tracks', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
-            $table->string('parsed_title')->nullable();
             $table->string('track_title')->nullable();
             $table->string('subtitle')->nullable();
             $table->string('slug')->nullable();
 
             $table->foreignUlid('book_id')
-                ->nullable()
                 ->constrained('books')
                 ->cascadeOnDelete();
 
@@ -33,7 +31,6 @@ return new class extends Migration
             $table->json('tags')->nullable();
             $table->string('serie')->nullable();
             $table->float('volume')->nullable();
-            $table->string('format')->nullable();
 
             $table->string('track_number')->nullable();
             $table->string('comment')->nullable();

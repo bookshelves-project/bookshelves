@@ -16,6 +16,7 @@ class LanguageModule
             $langCode = 'en';
         }
 
+        /** @var ?Language $language */
         $language = Language::query()->where('slug', $langCode)->first();
 
         if (! $language) {

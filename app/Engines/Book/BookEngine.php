@@ -35,7 +35,8 @@ class BookEngine
             $self->printFile($self->ebook?->toArray(), "{$self->ebook?->getFilename()}-parser.json");
         }
 
-        BookConverter::make($self->ebook, $file);
+        $convert = BookConverter::make($self->ebook, $file);
+        $self->book = $convert->book();
 
         return $self;
     }

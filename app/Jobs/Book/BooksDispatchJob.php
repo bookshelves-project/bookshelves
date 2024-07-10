@@ -2,7 +2,6 @@
 
 namespace App\Jobs\Book;
 
-use App\Console\Commands\Bookshelves\AudiobooksCommand;
 use App\Engines\Book\File\BookFileItem;
 use App\Jobs\Clean\CleanDispatchJob;
 use App\Jobs\Clean\ScoutJob;
@@ -13,7 +12,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Artisan;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
 class BooksDispatchJob implements ShouldQueue
@@ -62,12 +60,6 @@ class BooksDispatchJob implements ShouldQueue
         foreach ($files as $file) {
             $i++;
             BookJob::dispatch($file, "{$i}/{$count}", $this->library->name, $this->fresh);
-        }
-
-        if ($this->library->is_audiobook) {
-            Artisan::call(AudiobooksCommand::class, [
-                'library-slug' => $this->library->slug,
-            ]);
         }
 
         CleanDispatchJob::dispatch();

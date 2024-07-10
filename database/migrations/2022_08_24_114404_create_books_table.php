@@ -21,7 +21,7 @@ return new class() extends Migration
             $table->text('description')->nullable();
             $table->date('released_on')->nullable();
             $table->json('audiobook_narrators')->nullable();
-            $table->integer('audiobook_chapters')->nullable();
+            $table->json('audiobook_chapters')->nullable();
             $table->boolean('is_audiobook')->default(false);
             $table->string('rights')->nullable();
             $table->float('volume')->nullable();
@@ -32,6 +32,7 @@ return new class() extends Migration
             $table->string('isbn13')->nullable();
             $table->json('identifiers')->nullable();
             $table->dateTime('added_at')->nullable();
+            $table->boolean('is_notified')->default(false);
 
             $table->timestamps();
         });

@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Cache;
+
 class Bookshelves
 {
     public function superAdminEmail(): string
@@ -39,16 +41,21 @@ class Bookshelves
         return config('bookshelves.api.wikipedia', false);
     }
 
+    public function notifyDiscord(): string
+    {
+        return config('bookshelves.notify.discord');
+    }
+
     public function appVersion(): string
     {
         $cache = 'app-version';
-        if (cache()->has($cache)) {
+        if (Cache::has($cache)) {
             return cache($cache);
         }
 
         $composer = json_decode(file_get_contents(base_path('composer.json')), true);
         $appVersion = $composer['version'] ?? '0.0.0';
-        cache()->put($cache, $appVersion);
+        Cache::put($cache, $appVersion);
 
         return $appVersion;
     }

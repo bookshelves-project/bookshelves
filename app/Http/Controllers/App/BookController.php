@@ -29,7 +29,9 @@ class BookController extends Controller
             'publisher',
             'language',
             'library',
-        ])->append('format_icon');
+        ])
+            ->loadCount('audiobookTracks')
+            ->append(['format_icon', 'audiobook_chapters_number']);
 
         $title = $book->title;
         if ($book->serie) {

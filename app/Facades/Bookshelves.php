@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static bool apiComicVine()
  * @method static bool apiIsbn()
  * @method static bool apiWikipedia()
+ * @method static string notifyDiscord()
  * @method static string appVersion()
  * @method static string analyzerEngine()
  * @method static string analyzerDebug()

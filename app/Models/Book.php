@@ -91,6 +91,7 @@ class Book extends Model implements HasMedia
         'serie_id',
         'publisher_id',
         'added_at',
+        'is_notified',
     ];
 
     protected $appends = [
@@ -112,6 +113,7 @@ class Book extends Model implements HasMedia
         'volume' => 'float',
         'page_count' => 'integer',
         'added_at' => 'datetime',
+        'is_notified' => 'boolean',
     ];
 
     protected $with = [
@@ -125,6 +127,16 @@ class Book extends Model implements HasMedia
         $this->loadMissing('library');
 
         return $this->library->type->value;
+    }
+
+    public function getAudiobookChaptersNumberAttribute(): int
+    {
+        $i = 0;
+        foreach ($this->audiobook_chapters as $chapter) {
+            $i++;
+        }
+
+        return $i;
     }
 
     public function getDownloadLinkAttribute(): string

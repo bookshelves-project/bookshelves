@@ -11,6 +11,10 @@ return [
         'debug' => env('BOOKSHELVES_ANALYZER_DEBUG', false),
     ],
 
+    'notify' => [
+        'discord' => env('BOOKSHELVES_NOTIFY_DISCORD', false),
+    ],
+
     // 'tmdb' => [
     //     'api_key' => env('BOOKSHELVES_TMDB_API_KEY'),
     // ],

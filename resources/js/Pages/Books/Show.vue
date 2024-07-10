@@ -86,6 +86,8 @@ onMounted(async () => {
         book.isbn10 ? `ISBN-10: ${book.isbn10}` : undefined,
         book.isbn13 ? `ISBN-13: ${book.isbn13}` : undefined,
         book.language ? `${book.language.name}` : undefined,
+        book.format === 'audio' ? `${book.audiobook_tracks_count} tracks` : undefined,
+        book.format === 'audio' ? `${book.audiobook_chapters_number} chapters` : undefined,
       ]"
       :download="{
         url: book.download_link,
