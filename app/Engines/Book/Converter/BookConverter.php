@@ -287,7 +287,6 @@ class BookConverter
 
             if ($isExists) {
                 /** @var Book $isExists */
-                Journal::warning("BookConverter: audiobook already exists {$this->file->path}");
                 $this->isAudiobookAndBookExists = true;
                 $isExists->audiobook_chapters = array_merge($isExists->audiobook_chapters, $this->ebook->getExtra('chapters'));
                 $isExists->saveNoSearch();
