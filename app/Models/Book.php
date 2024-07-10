@@ -129,8 +129,16 @@ class Book extends Model implements HasMedia
         return $this->library->type->value;
     }
 
-    public function getAudiobookChaptersNumberAttribute(): int
+    public function getAudiobookChaptersNumberAttribute(): ?int
     {
+        if (! $this->is_audiobook) {
+            return null;
+        }
+
+        if (! is_array($this->audiobook_chapters)) {
+            return null;
+        }
+
         $i = 0;
         foreach ($this->audiobook_chapters as $chapter) {
             $i++;
