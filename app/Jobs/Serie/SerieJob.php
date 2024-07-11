@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Serie;
 
+use App\Console\Commands\NotifierCommand;
 use App\Engines\Book\Converter\SerieConverter;
 use App\Models\Serie;
 use Illuminate\Bus\Queueable;
@@ -28,13 +29,17 @@ class SerieJob implements ShouldQueue
      */
     public function handle(): void
     {
-        if ($this->serie->api_parsed_at !== null && ! $this->fresh) {
+        if ($this->serie->parsed_at !== null && ! $this->fresh) {
             return;
         }
 
         $this->serie->loadMissing('library');
 
         Journal::info("SerieJob: {$this->serie->title} from {$this->serie->library->name}...");
-        SerieConverter::make($this->serie, $this->fresh);
+        $convert = SerieConverter::make($this->serie, $this->fresh);
+
+        if (! $this->fresh) {
+            NotifierCommand::serie($convert->getSerie());
+        }
     }
 }

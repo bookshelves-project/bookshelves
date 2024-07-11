@@ -20,7 +20,8 @@ class BookEngine
         protected ?Ebook $ebook = null,
         protected ?Book $book = null,
         protected bool $isExist = false,
-        protected bool $default = false
+        protected bool $default = false,
+        protected bool $isAudiobookAndBookExists = false,
     ) {}
 
     /**
@@ -37,6 +38,7 @@ class BookEngine
 
         $convert = BookConverter::make($self->ebook, $file);
         $self->book = $convert->book();
+        $self->isAudiobookAndBookExists = $convert->isAudiobookAndBookExists();
 
         return $self;
     }
@@ -59,6 +61,11 @@ class BookEngine
     public function isDefault(): bool
     {
         return $this->default;
+    }
+
+    public function isAudiobookAndBookExists(): bool
+    {
+        return $this->isAudiobookAndBookExists;
     }
 
     private function printFile(mixed $file, string $name, bool $raw = false): bool

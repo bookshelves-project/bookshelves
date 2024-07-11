@@ -49,6 +49,11 @@ class BookConverter
         return $this->book;
     }
 
+    public function isAudiobookAndBookExists(): bool
+    {
+        return $this->isAudiobookAndBookExists;
+    }
+
     private function parseBook(): self
     {
         $this->book = $this->createBook();

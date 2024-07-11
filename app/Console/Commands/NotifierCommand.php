@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Facades\Bookshelves;
 use App\Models\Book;
+use App\Models\Serie;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Kiwilan\LaravelNotifier\Facades\Notifier;
@@ -70,30 +71,54 @@ class NotifierCommand extends Commandable
         $notifier->send();
     }
 
-    public static function make(Book $book): void
+    public static function book(Book $book): void
     {
-        $book->refresh();
-        if ($book->is_notified) {
+        if (! $book->to_notify) {
             return;
         }
 
-        $title = "{$book->title}";
-        $text = $book->serie
-            ? "{$book->serie->title} #{$book->volume_pad} by {$book->authors_names}"
-            : $book->authors_names;
-        $image = $book->cover;
-        $color = $book->cover_color;
-        $url = $book->route;
+        if ($book->serie !== null) {
+            return;
+        }
 
-        $book->is_notified = true;
+        $book->refresh();
+        $book->loadMissing(['authors', 'library']);
+
+        $book->to_notify = false;
         $book->saveNoSearch();
 
         Artisan::call(NotifierCommand::class, [
-            'title' => $title,
-            'text' => $text,
-            'image' => $image,
-            'color' => $color,
-            'url' => $url,
+            'title' => "{$book->title} ({$book->library->name})",
+            'text' => "{$book->authors_names}",
+            'image' => $book->cover_thumbnail,
+            'color' => $book->cover_color,
+            'url' => $book->route,
+        ]);
+    }
+
+    public static function serie(Serie $serie): void
+    {
+        $serie->refresh();
+        $serie->loadMissing(['books', 'authors', 'library']);
+        $serie->loadCount('books');
+
+        $to_notify = $serie->books->filter(fn ($book) => $book->to_notify);
+
+        if ($to_notify->count() === 0) {
+            return;
+        }
+
+        foreach ($serie->books as $book) {
+            $book->to_notify = false;
+            $book->saveNoSearch();
+        }
+
+        Artisan::call(NotifierCommand::class, [
+            'title' => "{$serie->title} ({$serie->library->name})",
+            'text' => "{$serie->books_count} books by {$serie->authors_names}",
+            'image' => $serie->cover_thumbnail,
+            'color' => $serie->cover_color,
+            'url' => $serie->route,
         ]);
     }
 }

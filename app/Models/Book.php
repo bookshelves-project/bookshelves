@@ -90,9 +90,8 @@ class Book extends Model implements HasMedia
         'language_slug',
         'serie_id',
         'publisher_id',
-        'added_at',
-        'is_notified',
         'to_notify',
+        'added_at',
     ];
 
     protected $appends = [
@@ -113,9 +112,8 @@ class Book extends Model implements HasMedia
         'identifiers' => 'array',
         'volume' => 'float',
         'page_count' => 'integer',
-        'added_at' => 'datetime',
-        'is_notified' => 'boolean',
         'to_notify' => 'boolean',
+        'added_at' => 'datetime',
     ];
 
     protected $with = [

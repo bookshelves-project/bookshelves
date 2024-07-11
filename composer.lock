@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fddef10cd7a007c3746e347e36f0bd3b",
+    "content-hash": "23a98a78b605ebee51b828a9d1ca05d3",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -3088,16 +3088,16 @@
         },
         {
             "name": "kiwilan/php-ebook",
-            "version": "2.6.3",
+            "version": "2.6.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-ebook.git",
-                "reference": "a882a886699b9b45e44e12b273be92b11e666421"
+                "reference": "e283a5dc54c9d9cbbfaf199e0f760a468097495e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/a882a886699b9b45e44e12b273be92b11e666421",
-                "reference": "a882a886699b9b45e44e12b273be92b11e666421",
+                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/e283a5dc54c9d9cbbfaf199e0f760a468097495e",
+                "reference": "e283a5dc54c9d9cbbfaf199e0f760a468097495e",
                 "shasum": ""
             },
             "require": {
@@ -3160,7 +3160,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-ebook/issues",
-                "source": "https://github.com/kiwilan/php-ebook/tree/v2.6.3"
+                "source": "https://github.com/kiwilan/php-ebook/tree/v2.6.4"
             },
             "funding": [
                 {
@@ -3168,7 +3168,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-07-10T18:21:15+00:00"
+            "time": "2024-07-11T10:28:57+00:00"
         },
         {
             "name": "kiwilan/php-filelist",
@@ -13298,16 +13298,16 @@
         },
         {
             "name": "pestphp/pest",
-            "version": "v2.34.8",
+            "version": "v2.34.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pestphp/pest.git",
-                "reference": "e8f122bf47585c06431e0056189ec6bfd6f41f57"
+                "reference": "ef120125e036bf84c9e46a9e62219702f5b92e16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pestphp/pest/zipball/e8f122bf47585c06431e0056189ec6bfd6f41f57",
-                "reference": "e8f122bf47585c06431e0056189ec6bfd6f41f57",
+                "url": "https://api.github.com/repos/pestphp/pest/zipball/ef120125e036bf84c9e46a9e62219702f5b92e16",
+                "reference": "ef120125e036bf84c9e46a9e62219702f5b92e16",
                 "shasum": ""
             },
             "require": {
@@ -13326,7 +13326,7 @@
             },
             "require-dev": {
                 "pestphp/pest-dev-tools": "^2.16.0",
-                "pestphp/pest-plugin-type-coverage": "^2.8.3",
+                "pestphp/pest-plugin-type-coverage": "^2.8.4",
                 "symfony/process": "^6.4.0|^7.1.1"
             },
             "bin": [
@@ -13390,7 +13390,7 @@
             ],
             "support": {
                 "issues": "https://github.com/pestphp/pest/issues",
-                "source": "https://github.com/pestphp/pest/tree/v2.34.8"
+                "source": "https://github.com/pestphp/pest/tree/v2.34.9"
             },
             "funding": [
                 {
@@ -13402,7 +13402,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-06-10T22:02:16+00:00"
+            "time": "2024-07-11T08:36:26+00:00"
         },
         {
             "name": "pestphp/pest-plugin",
