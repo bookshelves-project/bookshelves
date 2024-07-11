@@ -5,6 +5,7 @@ namespace App\Jobs\Book;
 use App\Engines\Book\File\BookFileItem;
 use App\Jobs\Clean\CleanDispatchJob;
 use App\Jobs\Clean\ScoutJob;
+use App\Jobs\NotifierJob;
 use App\Models\File;
 use App\Models\Library;
 use Illuminate\Bus\Queueable;
@@ -65,6 +66,8 @@ class BooksDispatchJob implements ShouldQueue
         CleanDispatchJob::dispatch();
         if ($this->fresh) {
             ScoutJob::dispatch();
+        } else {
+            NotifierJob::dispatch($this->library);
         }
     }
 

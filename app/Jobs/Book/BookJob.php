@@ -2,7 +2,6 @@
 
 namespace App\Jobs\Book;
 
-use App\Console\Commands\NotifierCommand;
 use App\Engines\Book\BookEngine;
 use App\Engines\Book\File\BookFileItem;
 use App\Facades\Bookshelves;
@@ -54,8 +53,10 @@ class BookJob implements ShouldQueue
         Journal::debug("BookJob: {$this->number} {$title} from {$this->library}");
 
         if (! $this->fresh && $engine->book()) {
+            $engine->book()->to_notify = true;
+            $engine->book()->saveNoSearch();
+
             $engine->book()->searchable();
-            NotifierCommand::make($engine->book());
         }
     }
 

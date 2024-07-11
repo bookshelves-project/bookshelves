@@ -92,6 +92,7 @@ class Book extends Model implements HasMedia
         'publisher_id',
         'added_at',
         'is_notified',
+        'to_notify',
     ];
 
     protected $appends = [
@@ -114,6 +115,7 @@ class Book extends Model implements HasMedia
         'page_count' => 'integer',
         'added_at' => 'datetime',
         'is_notified' => 'boolean',
+        'to_notify' => 'boolean',
     ];
 
     protected $with = [
