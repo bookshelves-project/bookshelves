@@ -88,7 +88,7 @@ class NotifierCommand extends Commandable
         $book->saveNoSearch();
 
         Artisan::call(NotifierCommand::class, [
-            'title' => "{$book->title} ({$book->library->name})",
+            'title' => "{$book->title} - {$book->library->name}",
             'text' => "{$book->authors_names}",
             'image' => $book->cover_thumbnail,
             'color' => $book->cover_color,
@@ -114,7 +114,7 @@ class NotifierCommand extends Commandable
         }
 
         Artisan::call(NotifierCommand::class, [
-            'title' => "{$serie->title} ({$serie->library->name})",
+            'title' => "{$serie->title} - {$serie->library->name}",
             'text' => "{$serie->books_count} books by {$serie->authors_names}",
             'image' => $serie->cover_thumbnail,
             'color' => $serie->cover_color,
