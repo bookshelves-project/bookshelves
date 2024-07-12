@@ -36,7 +36,7 @@ const title = computed(() => {
       v-if="book.serie"
       #subtitle
     >
-      {{ book.serie?.title }} #{{ book.volume_pad }}
+      #{{ book.volume_pad }} {{ book.serie?.title }}
     </template>
     <template #extra>
       {{ book.authors_names }}
