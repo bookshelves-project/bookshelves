@@ -55,7 +55,6 @@ class Serie extends Model implements HasMedia
         'language',
         'created_at',
         'updated_at',
-        'language',
     ];
 
     protected $query_limit = 32;
@@ -64,7 +63,7 @@ class Serie extends Model implements HasMedia
         'title',
         'slug',
         'description',
-        'api_parsed_at',
+        'parsed_at',
     ];
 
     protected $appends = [
@@ -72,12 +71,19 @@ class Serie extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'api_parsed_at' => 'datetime',
+        'parsed_at' => 'datetime',
     ];
 
     protected $with = [];
 
     protected $withCount = [];
+
+    public function getFormatIconAttribute(): string
+    {
+        $this->loadMissing('library');
+
+        return $this->library->type->value;
+    }
 
     public function getBooksLinkAttribute(): string
     {

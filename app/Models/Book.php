@@ -90,6 +90,7 @@ class Book extends Model implements HasMedia
         'language_slug',
         'serie_id',
         'publisher_id',
+        'to_notify',
         'added_at',
     ];
 
@@ -111,6 +112,7 @@ class Book extends Model implements HasMedia
         'identifiers' => 'array',
         'volume' => 'float',
         'page_count' => 'integer',
+        'to_notify' => 'boolean',
         'added_at' => 'datetime',
     ];
 
@@ -119,6 +121,31 @@ class Book extends Model implements HasMedia
     ];
 
     protected $withCount = [];
+
+    public function getFormatIconAttribute(): string
+    {
+        $this->loadMissing('library');
+
+        return $this->library->type->value;
+    }
+
+    public function getAudiobookChaptersNumberAttribute(): ?int
+    {
+        if (! $this->is_audiobook) {
+            return null;
+        }
+
+        if (! is_array($this->audiobook_chapters)) {
+            return null;
+        }
+
+        $i = 0;
+        foreach ($this->audiobook_chapters as $chapter) {
+            $i++;
+        }
+
+        return $i;
+    }
 
     public function getDownloadLinkAttribute(): string
     {

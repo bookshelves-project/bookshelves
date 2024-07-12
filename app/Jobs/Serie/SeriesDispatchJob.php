@@ -26,13 +26,13 @@ class SeriesDispatchJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $authors = $this->getSeries($this->fresh);
-        if ($authors->isEmpty()) {
+        $series = $this->getSeries($this->fresh);
+        if ($series->isEmpty()) {
             return;
         }
 
-        foreach ($authors as $author) {
-            SerieJob::dispatch($author, $this->fresh);
+        foreach ($series as $serie) {
+            SerieJob::dispatch($serie, $this->fresh);
         }
     }
 
@@ -46,7 +46,7 @@ class SeriesDispatchJob implements ShouldQueue
         }
 
         return Serie::query()
-            ->where('api_parsed_at', null)
+            ->where('parsed_at', null)
             ->get();
     }
 }

@@ -8,6 +8,10 @@ defineProps<{
 const scrollEl = ref<HTMLDivElement>()
 
 function scrollLeft() {
+  if (typeof window === 'undefined') {
+    return ''
+  }
+
   scrollEl.value?.scrollBy({
     left: -window.innerWidth,
     behavior: 'smooth',
@@ -15,6 +19,10 @@ function scrollLeft() {
 }
 
 function scrollRight() {
+  if (typeof window === 'undefined') {
+    return ''
+  }
+
   scrollEl.value?.scrollBy({
     left: window.innerWidth,
     behavior: 'smooth',

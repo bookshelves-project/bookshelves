@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Book;
 
+use App\Console\Commands\NotifierCommand;
 use App\Engines\Book\BookEngine;
 use App\Engines\Book\File\BookFileItem;
 use App\Facades\Bookshelves;
@@ -54,6 +55,15 @@ class BookJob implements ShouldQueue
 
         if (! $this->fresh && $engine->book()) {
             $engine->book()->searchable();
+
+            if ($engine->isAudiobookAndBookExists()) {
+                return;
+            }
+
+            $engine->book()->to_notify = true;
+            $engine->book()->saveNoSearch();
+
+            NotifierCommand::book($engine->book());
         }
     }
 
@@ -69,6 +79,7 @@ class BookJob implements ShouldQueue
             'library_id' => $bookFile->libraryId(),
         ];
 
+        /** @var ?File $model */
         $model = File::query()
             ->where('path', $bookFile->path())
             ->where('library_id', $bookFile->libraryId())

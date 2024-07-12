@@ -25,10 +25,15 @@ class SerieConverter
         $self->setCover();
         $self->setBookDescription();
 
-        $serie->api_parsed_at = now();
+        $serie->parsed_at = now();
         $self->serie->saveNoSearch();
 
         return $self;
+    }
+
+    public function getSerie(): Serie
+    {
+        return $this->serie;
     }
 
     private function setBookDescription(): void

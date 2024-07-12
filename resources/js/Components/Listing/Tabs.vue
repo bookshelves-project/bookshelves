@@ -8,6 +8,10 @@ defineProps<{
 const libraryTab = ref<string>()
 
 const currentUrl = computed(() => {
+  if (typeof window === 'undefined') {
+    return ''
+  }
+
   let url = window.location.href
   const domain = window.location.origin
 

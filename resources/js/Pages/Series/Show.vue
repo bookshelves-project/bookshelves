@@ -11,7 +11,7 @@ const extension = ref<string>()
 const { bytesToHuman, getSize } = useUtils()
 
 const titlePage = computed(() => {
-  return `${props.serie.title} (${props.serie.library?.type}) into ${props.serie?.title} · ${props.serie.books_count} books`
+  return `${props.serie.title} (${props.serie.library?.type_label}) · ${props.serie.books_count} books`
 })
 
 onMounted(async () => {
@@ -26,7 +26,7 @@ onMounted(async () => {
     :title="titlePage"
     :description="serie.description"
     :image="serie.cover_social"
-    icon="catalog"
+    :icon="serie.format_icon as SvgName"
   >
     <ShowContainer
       :model="serie"

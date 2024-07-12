@@ -23,6 +23,11 @@ class SerieModule
             ->first();
 
         if ($serie) {
+            /** @var Serie $serie */
+            if ($book->authors->isNotEmpty()) {
+                $serie->authors()->syncWithoutDetaching($book->authors->pluck('id'));
+            }
+
             return $serie;
         }
 

@@ -35,7 +35,6 @@
 -   [ ] Add Plex-like solution
 -   [ ] Add tests
 -   [ ] find duplicate authors
--   [ ] find duplicates series like A comme Association (multiple authors)
 -   [ ] Read ebook in browser
 -   [ ] Read comic in browser
 -   [ ] Read audiobook in browser

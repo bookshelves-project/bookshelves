@@ -24,6 +24,8 @@ Bookshelves files use `.epub` format for eBooks, `.cbz` for comics and `.m4b` fo
 
 ### CBZ
 
+> If you want to handle metadata for Comics on [Calibre](https://calibre-ebook.com/), you can use [EmbedComicMetadata](https://www.mobileread.com/forums/showthread.php?t=264710) plugin.
+
 -   Desktop:
     -   [yacreader](https://www.yacreader.com/downloads): YACReader is a cross-platform comic reader developed using Qt4 with support for multiple comic files and image formats. YACReader comes with YACReaderLibrary, an application for browsing and managing your comic collections with various smooth transition effects.
 -   Android:
