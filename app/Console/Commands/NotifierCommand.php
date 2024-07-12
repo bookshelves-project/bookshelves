@@ -7,6 +7,7 @@ use App\Models\Book;
 use App\Models\Serie;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\LaravelNotifier\Facades\Notifier;
 use Kiwilan\Steward\Commands\Commandable;
 
@@ -94,6 +95,13 @@ class NotifierCommand extends Commandable
             'color' => $book->cover_color,
             'url' => $book->route,
         ]);
+        Journal::warning("Notified for {$book->title}.", [
+            'title' => "{$book->title} - {$book->library->name}",
+            'text' => "{$book->authors_names}",
+            'image' => $book->cover_thumbnail,
+            'color' => $book->cover_color,
+            'url' => $book->route,
+        ]);
     }
 
     public static function serie(Serie $serie): void
@@ -114,6 +122,13 @@ class NotifierCommand extends Commandable
         }
 
         Artisan::call(NotifierCommand::class, [
+            'title' => "{$serie->title} - {$serie->library->name}",
+            'text' => "{$serie->books_count} books by {$serie->authors_names}",
+            'image' => $serie->cover_thumbnail,
+            'color' => $serie->cover_color,
+            'url' => $serie->route,
+        ]);
+        Journal::warning("Notified for {$serie->title}.", [
             'title' => "{$serie->title} - {$serie->library->name}",
             'text' => "{$serie->books_count} books by {$serie->authors_names}",
             'image' => $serie->cover_thumbnail,
