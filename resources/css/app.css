@@ -45,3 +45,7 @@ body {
     /* @apply max-w-7xl; */
     @apply mx-auto;
 }
+
+code {
+    @apply bg-gray-700 px-1 py-0.5 rounded before:!content-[] after:!content-[];
+}

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 // https://inertiajs.com/title-and-meta#head-component
 import { Head, usePage } from '@inertiajs/vue3'
+import { useMeta } from '@/Composables/useMeta'
 
 export interface Props {
   title?: string
@@ -34,52 +35,24 @@ const props = withDefaults(defineProps<Props>(), {
   appColor: '#ffffff',
 })
 
-const page = usePage()
-const ziggy: any = page.props.ziggy
-const baseURL = ziggy.url
-const currentURL = ziggy.location
-
-function getDomainFromUrl(url: string) {
-  const urlObject = new URL(url)
-  return urlObject.hostname
-}
-
-function checkImageURL(image?: string) {
-  if (!image)
-    return `${baseURL}${props.appImage}`
-
-  if (image.startsWith('http'))
-    return image
-  else
-    return `${baseURL}${image}`
-}
-
-function limitText(text?: string, limit?: number): string {
-  if (!text)
-    return ''
-
-  if (!limit) {
-    return text
-  }
-
-  return text.length > limit ? `${text.substring(0, limit)}...` : text
-}
+const { limit, removeTags, imageUrl, domainFromUrl, currentUrl } = useMeta()
 
 let currentTitle = props.title
 if (props.title && props.appTitle)
   currentTitle = `${props.title} ${props.titleSeparator} ${props.appTitle}`
 if (!props.title)
   currentTitle = props.appTitle
-currentTitle = limitText(currentTitle, 60)
+currentTitle = limit(currentTitle, 50)
 
 let currentDescription = props.description || props.appDescription
-currentDescription = limitText(currentDescription, 160)
+currentDescription = removeTags(currentDescription)
+currentDescription = limit(currentDescription, 150)
 
-const currentImage = checkImageURL(props.image)
+const currentImage = imageUrl(props.image)
 const currentType = props.type
 const twitter = props.twitter
-const currentUrl = currentURL
-const currentDomain = getDomainFromUrl(currentURL)
+
+const currentDomain = domainFromUrl(currentUrl)
 const currentColor = props.color || props.appColor
 const currentAuthor = props.author || props.appTitle
 </script>
