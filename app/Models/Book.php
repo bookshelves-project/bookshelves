@@ -301,41 +301,40 @@ class Book extends Model implements HasMedia
     protected function setQueryAllowedFilters(): array
     {
         return [
-            AllowedFilter::custom('q', new GlobalSearchFilter(['title', 'serie'])),
+            // AllowedFilter::custom('q', new GlobalSearchFilter(['title', 'serie'])),
             AllowedFilter::exact('id'),
             AllowedFilter::partial('title'),
-            AllowedFilter::callback('serie',
-                fn (Builder $query, $value) => $query->whereHas('serie',
-                    fn (Builder $query) => $query->where('title', 'like', "%{$value}%")
-                )
-            ),
-            AllowedFilter::partial('volume'),
-            AllowedFilter::callback('authors',
-                fn (Builder $query, $value) => $query->whereHas('authors',
-                    fn (Builder $query) => $query->where('name', 'like', "%{$value}%")
-                )
-            ),
-            AllowedFilter::exact('is_hidden'),
-            AllowedFilter::exact('released_on'),
+            // AllowedFilter::callback('serie',
+            //     fn (Builder $query, $value) => $query->whereHas('serie',
+            //         fn (Builder $query) => $query->where('title', 'like', "%{$value}%")
+            //     )
+            // ),
+            AllowedFilter::exact('volume'),
+            // AllowedFilter::callback('authors',
+            //     fn (Builder $query, $value) => $query->whereHas('authors',
+            //         fn (Builder $query) => $query->where('name', 'like', "%{$value}%")
+            //     )
+            // ),
+            // AllowedFilter::exact('released_on'),
             AllowedFilter::callback('language',
                 fn (Builder $query, $value) => $query->whereHas('language',
-                    fn (Builder $query) => $query->where('name', 'like', "%{$value}%")
+                    fn (Builder $query) => $query->where('slug', '=', $value)
                 )
             ),
-            AllowedFilter::scope('languages', 'whereLanguagesIs'),
-            AllowedFilter::callback('publisher',
-                fn (Builder $query, $value) => $query->whereHas('publisher',
-                    fn (Builder $query) => $query->where('name', 'like', "%{$value}%")
-                )
-            ),
-            AllowedFilter::scope('disallow_serie', 'whereDisallowSerie'),
-            AllowedFilter::scope('language', 'whereLanguagesIs'),
-            AllowedFilter::scope('published', 'publishedBetween'),
-            AllowedFilter::scope('is_hidden', 'whereIsHidden'),
-            AllowedFilter::scope('author_like', 'whereAuthorIsLike'),
-            AllowedFilter::scope('tags_all', 'whereTagsAllIs'),
-            AllowedFilter::scope('tags', 'whereTagsIs'),
-            AllowedFilter::scope('isbn', 'whereIsbnIs'),
+            // AllowedFilter::scope('languages', 'whereLanguagesIs'),
+            // AllowedFilter::callback('publisher',
+            //     fn (Builder $query, $value) => $query->whereHas('publisher',
+            //         fn (Builder $query) => $query->where('name', 'like', "%{$value}%")
+            //     )
+            // ),
+            // AllowedFilter::scope('disallow_serie', 'whereDisallowSerie'),
+            // AllowedFilter::scope('language', 'whereLanguagesIs'),
+            // AllowedFilter::scope('published', 'publishedBetween'),
+            // AllowedFilter::scope('is_hidden', 'whereIsHidden'),
+            // AllowedFilter::scope('author_like', 'whereAuthorIsLike'),
+            // AllowedFilter::scope('tags_all', 'whereTagsAllIs'),
+            // AllowedFilter::scope('tags', 'whereTagsIs'),
+            // AllowedFilter::scope('isbn', 'whereIsbnIs'),
         ];
     }
 }

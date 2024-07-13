@@ -74,9 +74,9 @@ onMounted(() => {
             {{ link.label }}
           </span>
           <span
-            v-if="link.href === currentUrl"
             aria-hidden="true"
-            class="bg-indigo-500 absolute inset-x-0 bottom-0 h-0.5"
+            :class="link.href === currentUrl ? 'bg-indigo-500' : 'bg-gray-700'"
+            class="absolute inset-x-0 bottom-0 h-0.5"
           />
         </ILink>
       </nav>

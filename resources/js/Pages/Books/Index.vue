@@ -28,10 +28,15 @@ defineProps<{
           { label: 'Added at', value: 'created_at' },
         ]
         : [
+          { label: 'Series\'s Title', value: 'slug' },
           { label: 'Title', value: 'title' },
           { label: 'Release date', value: 'released_on' },
           { label: 'Added at', value: 'added_at' },
         ]"
+      :filterable="[
+        { label: 'English', value: 'en' },
+        { label: 'French', value: 'fr' },
+      ]"
     >
       <template
         v-if="breadcrumbs"
