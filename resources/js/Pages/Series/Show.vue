@@ -31,7 +31,7 @@ onMounted(async () => {
     <ShowContainer
       :model="serie"
       :library="serie.library"
-      :title="serie.title"
+      :title="`${serie.title}'s Series`"
       :cover="serie.cover_standard"
       :cover-color="serie.cover_color"
       :backdrop="serie.cover_social"

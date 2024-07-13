@@ -39,7 +39,7 @@ const { limit, removeTags, imageUrl, domainFromUrl, currentUrl } = useMeta()
 
 let currentTitle = props.title
 if (props.title && props.appTitle)
-  currentTitle = `${props.title} ${props.titleSeparator} ${props.appTitle}`
+  currentTitle = `${props.title}`
 if (!props.title)
   currentTitle = props.appTitle
 currentTitle = limit(currentTitle, 50)
