@@ -34,8 +34,7 @@ class BooksDispatchJob implements ShouldQueue
         Journal::debug('BooksDispatchJob: create BookJob for each item...');
 
         if (! file_exists($this->library->getJsonPath())) {
-            Journal::error('BooksDispatchJob: library json file not found', [
-                'library' => $this->library->name,
+            Journal::error("BooksDispatchJob: {$this->library->name} library json file not found", [
                 'path' => $this->library->getJsonPath(),
             ]);
 
