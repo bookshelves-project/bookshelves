@@ -33,6 +33,7 @@ Bookshelves files use `.epub` format for eBooks, `.cbz` for comics and `.m4b` fo
 -   Desktop
     -   [yacreader](https://www.yacreader.com/downloads): YACReader is a cross-platform comic reader developed using Qt4 with support for multiple comic files and image formats. YACReader comes with YACReaderLibrary, an application for browsing and managing your comic collections with various smooth transition effects.
 -   Android
+    -   [Perfect Viewer](https://play.google.com/store/apps/details?id=com.rookiestudio.perfectviewer): Perfect Viewer is a very fast image/comic viewer (no ads) that supports CBZ/ZIP, CBR/RAR, 7Z/CB7, LZH, CBT/TAR, PDF, and EPUB formats.
     -   [ComicScreen](https://play.google.com/store/apps/details?id=com.viewer.comicscreen)
     -   [CDisplayEx](https://play.google.com/store/apps/details?id=com.progdigy.cdisplay.free)
 
