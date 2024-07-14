@@ -60,7 +60,7 @@ const display = ref<Display>('media')
                 :name="(library.type as SvgName)"
                 class="w-5 h-5 mr-2"
               />
-              <span class="text-lg">
+              <span class="text-md">
                 Type : {{ library.type_label }}
               </span>
             </AppBadge>

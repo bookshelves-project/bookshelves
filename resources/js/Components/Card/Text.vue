@@ -3,18 +3,21 @@ const props = defineProps<{
   text?: string
 }>()
 
+const currentText = ref<string>()
 const limit = 600
 const expandable = ref(false)
 const excerpt = ref<string>()
 const expanded = ref(false)
 
+currentText.value = toPlainText(props.text)
+
 if (props.text && props.text.length > limit)
   expandable.value = true
 
 function spliceText() {
-  if (props.text) {
-    excerpt.value = props.text?.slice(0, limit)
-    if (props.text.length > limit)
+  if (currentText.value) {
+    excerpt.value = currentText.value?.slice(0, limit)
+    if (currentText.value.length > limit)
       excerpt.value += '...'
   }
 }
@@ -28,6 +31,12 @@ function readMore() {
   }
   excerpt.value = props.text
   expanded.value = true
+}
+
+function toPlainText(text: string | undefined) {
+  if (!text)
+    return ''
+  return text.replace(/<[^>]+>/g, '')
 }
 </script>
 

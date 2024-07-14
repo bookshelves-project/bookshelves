@@ -40,6 +40,14 @@ class CleanJob implements ShouldQueue
 
     private function cleanBooks(Library $library)
     {
+        if (! file_exists($library->getJsonPath())) {
+            Journal::error("CleanJob: {$library->name} library json file not found", [
+                'path' => $library->getJsonPath(),
+            ]);
+
+            return;
+        }
+
         $contents = file_get_contents($library->getJsonPath());
         $paths = (array) json_decode($contents, true);
 

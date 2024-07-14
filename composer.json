@@ -38,7 +38,7 @@
     "itsgoingd/clockwork": "^5.2",
     "kiwilan/php-audio": "^3.0",
     "kiwilan/php-ebook": "^2.6.4",
-    "kiwilan/php-filelist": "^0.0.31",
+    "kiwilan/php-filelist": "^0.0.33",
     "kiwilan/php-opds": "^2.0.11",
     "kiwilan/steward-laravel": "dev-main",
     "kiwilan/typescriptable-laravel": "^2.0",

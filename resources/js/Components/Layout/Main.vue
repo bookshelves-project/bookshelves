@@ -1,9 +1,13 @@
 <script lang="ts" setup>
+import { useMeta } from '@/Composables/useMeta'
+
 defineProps<{
   title?: string
   back?: string
   icon?: SvgName
 }>()
+
+const { limit } = useMeta()
 </script>
 
 <template>
@@ -33,7 +37,7 @@ defineProps<{
         v-if="title"
         class="text-base font-semibold leading-7 text-white px-5 py-4 sm:py-6"
       >
-        {{ title }}
+        {{ limit(title, 100) }}
       </h1>
     </header>
     <ul

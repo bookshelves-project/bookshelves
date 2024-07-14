@@ -2,6 +2,7 @@
 
 namespace App\Engines\Book\File;
 
+use App\Enums\BookFormatEnum;
 use App\Facades\Bookshelves;
 use App\Models\Library;
 use Kiwilan\FileList\FileList;
@@ -82,6 +83,7 @@ class BookFileScanner
         $jsonPath = $this->library->getJsonPath();
         $browser = FileList::make($this->library->path)
             ->saveAsJson($jsonPath)
+            ->onlyExtensions(BookFormatEnum::ALLOWED_EXTENSIONS)
             ->skipExtensions($this->skipExtensions);
 
         if ($limit) {

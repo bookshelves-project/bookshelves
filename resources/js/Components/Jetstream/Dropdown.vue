@@ -14,6 +14,10 @@ const props = defineProps({
     type: Array,
     default: () => ['py-1', 'bg-gray-800'],
   },
+  autoClose: {
+    type: Boolean,
+    default: true,
+  },
 })
 
 const open = ref(false)
@@ -69,7 +73,7 @@ const alignmentClasses = computed(() => {
         class="absolute z-50 mt-2 rounded-md shadow-lg"
         :class="[widthClass, alignmentClasses]"
         style="display: none;"
-        @click="open = false"
+        @click="autoClose ? open = false : null"
       >
         <div
           class="rounded-md ring-1 ring-black ring-opacity-5"

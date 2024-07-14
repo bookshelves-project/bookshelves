@@ -13,6 +13,18 @@ defineProps<{
   }
   icon: SvgName
 }>()
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   const elements = document.querySelectorAll('.hide-backticks')
+//   elements.forEach((element) => {
+//     const text = element.textContent
+//     const before = text?.split('`')[0] || ''
+//     const after = text?.split('`')[1] || ''
+//     element.setAttribute('data-before', before)
+//     element.setAttribute('data-after', after)
+//     element.textContent = ''
+//   })
+// })
 </script>
 
 <template>
@@ -20,7 +32,7 @@ defineProps<{
     :title="frontmatter.title"
     :icon="icon"
   >
-    <main class="main-container relative items-start space-y-6 py-10 md:flex md:space-y-0">
+    <main class="main-container relative items-start space-y-6 py-10 md:flex md:space-y-0 hide-backticks">
       <div class="order-2 space-y-2 md:sticky md:top-20">
         <a
           v-for="header in headers"

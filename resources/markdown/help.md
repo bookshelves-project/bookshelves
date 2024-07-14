@@ -8,40 +8,49 @@ description: How to use Bookshelves
 
 On Bookshelves, you can download books, comics and audiobooks. If you encounter an error, if you don't understand any aspect of the platform or if you have any suggestions, don't hesitate to use the [contact form](/form/message).
 
-## Read file
+## How to read eBooks, comics and audiobooks?
 
 Bookshelves files use `.epub` format for eBooks, `.cbz` for comics and `.m4b` for audiobooks. You can read these files with different softwares.
 
-### EPUB
+### `.epub` extension
 
--   eReader:
+> EPUB is an e-book file format that uses the ".epub" file extension. The term is short for electronic publication and is sometimes stylized as ePub. EPUB is supported by many e-readers, and compatible software is available for most smartphones, tablets, and computers.
+
+-   eReader
     -   [koreader/koreader](https://github.com/koreader/koreader): An ebook reader application supporting PDF, DjVu, EPUB, FB2 and many more formats, running on Kindle, Kobo, PocketBook, Ubuntu Touch and Android devices.
--   Desktop:
+-   Desktop
     -   [edrlab/thorium-reader](https://github.com/edrlab/thorium-reader): A cross-platform desktop ebook reader.
     -   [koodo-reader/koodo-reader](https://github.com/koodo-reader/koodo-reader): A simple ebook reader for desktop built with Vue.js and Electron.
--   Android:
+-   Android
     -   [ReadEra](https://play.google.com/store/apps/details?id=org.readera)
 
-### CBZ
+### `.cbz` extension
+
+> A file with .cbz extension is a comic book ZIP archive file that is a collection of images, representing the pages of a comic book. CBZ is different from other ebook files that are not compressed. Most of the ebook and comic book readers support viewing these files.
 
 > If you want to handle metadata for Comics on [Calibre](https://calibre-ebook.com/), you can use [EmbedComicMetadata](https://www.mobileread.com/forums/showthread.php?t=264710) plugin.
 
--   Desktop:
+-   Desktop
     -   [yacreader](https://www.yacreader.com/downloads): YACReader is a cross-platform comic reader developed using Qt4 with support for multiple comic files and image formats. YACReader comes with YACReaderLibrary, an application for browsing and managing your comic collections with various smooth transition effects.
--   Android:
+-   Android
+    -   [Perfect Viewer](https://play.google.com/store/apps/details?id=com.rookiestudio.perfectviewer): Perfect Viewer is a very fast image/comic viewer (no ads) that supports CBZ/ZIP, CBR/RAR, 7Z/CB7, LZH, CBT/TAR, PDF, and EPUB formats.
     -   [ComicScreen](https://play.google.com/store/apps/details?id=com.viewer.comicscreen)
     -   [CDisplayEx](https://play.google.com/store/apps/details?id=com.progdigy.cdisplay.free)
 
-### M4B
+### `.m4b` extension
 
--   Desktop :
-    -   [VLC](https://www.videolan.org/) for any OS
-    -   [IINA](https://iina.io/) for macOS
--   Android:
+> .m4b is the file extension for MPEG-4 files, commonly used for audio books. It can be read by any media player or audio book player with the ability to open these type of files and is a common file type for audio books downloaded from iTunes or Audible.
+
+-   Desktop
+    -   [VLC](https://www.videolan.org/) (any OS)
+    -   [IINA](https://iina.io/) (macOS)
+-   Android
     -   [Smart AudioBook Player](https://play.google.com/store/apps/details?id=ak.alizandro.smartaudiobookplayer): The app is designed specially for playing audio books. Assumed that you have audiobooks and already copied them to your phone.
     -   [Pulsar Music Player](https://play.google.com/store/apps/details?id=com.rhmsoft.pulsar): Pulsar is intuitive, lightweight and full featured music player for Android, you can use it as an audiobook player.
+-   Server
+    -   [audiobookshelf](https://github.com/advplyr/audiobookshelf): if you want to host your own audiobook server, audiobookshelf is a self-hosted audiobook and podcast server
 
-## DRM
+### What about DRM?
 
 All books, comics and audiobooks on Bookshelves are DRM-free. You can read more about DRM on [Wikipedia](https://en.wikipedia.org/wiki/Digital_rights_management).
 
