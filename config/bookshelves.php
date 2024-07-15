@@ -58,6 +58,11 @@ return [
         'blocked_starts_with' => explode(',', env('BOOKSHELVES_IPS_BLOCKED_STARTS_WITH', '')),
     ],
 
+    'umami' => [
+        'url' => env('BOOKSHELVES_UMAMI_URL'),
+        'key' => env('BOOKSHELVES_UMAMI_KEY'),
+    ],
+
     /*
      * Langs
      * ParserEngine will create Language with translations from Locale

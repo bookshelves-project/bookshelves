@@ -15,6 +15,14 @@
   @routes
   @vite(['resources/js/app.ts', "resources/js/Pages/{$page['component']}.vue"])
   @inertiaHead
+
+  @if (config('bookshelves.umami.url'))
+    <script
+      defer
+      src="{{ config('bookshelves.umami.url') }}"
+      data-website-id="{{ config('bookshelves.umami.key') }}"
+    ></script>
+  @endif
 </head>
 
 <body class="{{ config('app.env') === 'local' ? 'debug-screens' : '' }} font-sans antialiased">

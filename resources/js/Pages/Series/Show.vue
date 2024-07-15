@@ -46,6 +46,8 @@ onMounted(async () => {
         url: serie.download_link,
         size,
         extension,
+        direct: true,
+        filename: `${serie.title}.${extension}`,
       }"
       :breadcrumbs="[
         { label: serie.library?.name, route: { name: 'libraries.show', params: { library: serie.library?.slug } } },

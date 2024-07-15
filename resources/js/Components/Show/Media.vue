@@ -23,7 +23,7 @@ function downloadBook() {
 </script>
 
 <template>
-  <section class="card mt-10">
+  <section class="card lg:mt-10">
     <div class="lg:grid grid-cols-6 gap-10 space-y-6 lg:space-y-0">
       <div
         :class="{
