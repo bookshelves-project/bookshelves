@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\LibraryTypeEnum;
+use App\Facades\Bookshelves;
 use App\Http\Controllers\Controller;
 use App\Models\AudiobookTrack;
 use App\Models\Book;
@@ -21,6 +22,8 @@ class DownloadController extends Controller
     #[Get('/book/{book:id}', name: 'api.downloads.book')]
     public function book(Request $request, Book $book)
     {
+        $this->validIP($request->ip());
+
         $name = '';
         $serie = $book->serie?->name ?? '';
         $volume = $book->volume ?? '';
@@ -55,6 +58,8 @@ class DownloadController extends Controller
     #[Get('/serie/{serie:id}', name: 'api.downloads.serie')]
     public function serie(Request $request, Serie $serie)
     {
+        $this->validIP($request->ip());
+
         $files = [];
         $serie->loadMissing(['books', 'library']);
 
@@ -85,5 +90,30 @@ class DownloadController extends Controller
         Downloader::stream($name)
             ->files($files)
             ->get();
+    }
+
+    /**
+     * Check if the IP is valid to download.
+     *
+     * Allow 10 downloads per 24 hours.
+     */
+    private function validIP(string $ip): bool
+    {
+        $startsWith = Bookshelves::ipsBlockedStartsWith();
+        foreach ($startsWith as $start) {
+            if (Str::startsWith($ip, $start)) {
+                abort(403, 'Forbidden');
+            }
+        }
+
+        $downloads = Download::query()->where('ip', $ip)
+            ->where('created_at', '>=', now()->subDay())
+            ->count();
+
+        if ($downloads >= 10) {
+            abort(429, 'Too many requests');
+        }
+
+        return true;
     }
 }

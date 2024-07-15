@@ -75,6 +75,14 @@ class Bookshelves
         return config('bookshelves.authors.wikipedia_exact');
     }
 
+    /**
+     * @return array<string>
+     */
+    public function ipsBlockedStartsWith(): array
+    {
+        return config('bookshelves.ips.blocked_starts_with');
+    }
+
     public function exceptionParserLog(): string
     {
         $path = storage_path('app/exceptions-parser.json');

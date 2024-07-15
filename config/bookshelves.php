@@ -52,6 +52,12 @@ return [
         'cover' => env('BOOKSHELVES_PDF_COVER', true),
     ],
 
+    'ips' => [
+        'allowed' => explode(',', env('BOOKSHELVES_IPS_ALLOWED', '')),
+        'blocked' => explode(',', env('BOOKSHELVES_IPS_BLOCKED', '')),
+        'blocked_starts_with' => explode(',', env('BOOKSHELVES_IPS_BLOCKED_STARTS_WITH', '')),
+    ],
+
     /*
      * Langs
      * ParserEngine will create Language with translations from Locale
