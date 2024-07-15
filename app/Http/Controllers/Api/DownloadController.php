@@ -99,6 +99,11 @@ class DownloadController extends Controller
      */
     private function validIP(string $ip): bool
     {
+        $limit = Bookshelves::limitDownloads();
+        if (! $limit) {
+            return true;
+        }
+
         $startsWith = Bookshelves::ipsBlockedStartsWith();
         foreach ($startsWith as $start) {
             if (Str::startsWith($ip, $start)) {
@@ -110,7 +115,7 @@ class DownloadController extends Controller
             ->where('created_at', '>=', now()->subDay())
             ->count();
 
-        if ($downloads >= 10) {
+        if ($downloads >= $limit) {
             abort(429, 'Too many requests');
         }
 

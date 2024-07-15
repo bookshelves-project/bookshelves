@@ -52,6 +52,7 @@ return [
         'cover' => env('BOOKSHELVES_PDF_COVER', true),
     ],
 
+    'limit_downloads' => env('BOOKSHELVES_LIMIT_DOWNLOADS'),
     'ips' => [
         'allowed' => explode(',', env('BOOKSHELVES_IPS_ALLOWED', '')),
         'blocked' => explode(',', env('BOOKSHELVES_IPS_BLOCKED', '')),
