@@ -75,6 +75,11 @@ class Bookshelves
         return config('bookshelves.authors.wikipedia_exact');
     }
 
+    public function limitDownloads(): int|false
+    {
+        return config('bookshelves.limit_downloads') ?: false;
+    }
+
     /**
      * @return array<string>
      */

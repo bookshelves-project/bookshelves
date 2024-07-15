@@ -15,6 +15,8 @@ export interface DetailsMedia {
     url?: string
     size?: string
     extension?: string
+    direct?: boolean
+    filename?: string
   }
   breadcrumbs?: any[]
   square?: boolean
@@ -38,6 +40,7 @@ const display = ref<Display>('media')
       <Breadcrumbs
         v-if="breadcrumbs"
         :breadcrumbs="breadcrumbs"
+        class="hidden lg:block"
       />
       <Transition
         name="fade"
