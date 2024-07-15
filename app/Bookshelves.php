@@ -80,7 +80,11 @@ class Bookshelves
      */
     public function ipsBlockedStartsWith(): array
     {
-        return config('bookshelves.ips.blocked_starts_with');
+        if (config('bookshelves.ips.blocked_starts_with')) {
+            return config('bookshelves.ips.blocked_starts_with');
+        }
+
+        return [];
     }
 
     public function exceptionParserLog(): string
