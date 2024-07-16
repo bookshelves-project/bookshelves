@@ -56,7 +56,7 @@ return [
     'ips' => [
         'allowed' => explode(',', env('BOOKSHELVES_IPS_ALLOWED', '')),
         'blocked' => explode(',', env('BOOKSHELVES_IPS_BLOCKED', '')),
-        'blocked_starts_with' => explode(',', env('BOOKSHELVES_IPS_BLOCKED_STARTS_WITH', '')),
+        'blocked_pattern' => explode(',', env('BOOKSHELVES_IPS_PATTERN', '')),
     ],
 
     'umami' => [
