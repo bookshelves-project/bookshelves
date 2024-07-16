@@ -314,7 +314,6 @@ class BookConverter
                 'added_at' => $this->ebook->getCreatedAt(),
             ]);
         } else {
-            ray($this->ebook);
             $book = new Book([
                 'title' => $this->ebook->getTitle(),
                 'slug' => $this->ebook->getMetaTitle()->getSlug(),
