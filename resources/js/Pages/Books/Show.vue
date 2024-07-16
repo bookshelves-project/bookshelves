@@ -15,7 +15,7 @@ const breadcrumbs = ref<any[]>([])
 
 const { laravel } = useFetch()
 const { bytesToHuman, getSize } = useUtils()
-const { dateString } = useDate()
+const { formatDate } = useDate()
 
 function setBreadcrumbs() {
   breadcrumbs.value = [
@@ -77,12 +77,12 @@ onMounted(async () => {
       :overview="book.description"
       :tags="book.tags"
       :properties="[
-        dateString(book.released_on),
-        book.page_count ? `${book.page_count} pages` : undefined,
+        `Released on ${formatDate(book.released_on)}`,
         book.publisher ? `${book.publisher.name}` : undefined,
         book.format === 'audio' ? `Read by ${book.audiobook_narrators?.join(', ')}` : undefined,
       ]"
       :badges="[
+        book.page_count ? `${book.page_count} pages` : undefined,
         book.isbn10 ? `ISBN-10: ${book.isbn10}` : undefined,
         book.isbn13 ? `ISBN-13: ${book.isbn13}` : undefined,
         book.language ? `${book.language.name}` : undefined,

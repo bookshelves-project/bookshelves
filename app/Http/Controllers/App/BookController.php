@@ -39,6 +39,7 @@ class BookController extends Controller
         } else {
             $title = "{$title} by {$book->authors->implode('name', ', ')}";
         }
+        ray($book);
 
         return inertia('Books/Show', [
             'book' => $book,
