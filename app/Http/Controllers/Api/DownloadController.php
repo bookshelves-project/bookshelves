@@ -104,9 +104,9 @@ class DownloadController extends Controller
             return true;
         }
 
-        $startsWith = Bookshelves::ipsBlockedStartsWith();
-        foreach ($startsWith as $start) {
-            if (Str::startsWith($ip, $start)) {
+        $ipsPattern = Bookshelves::ipsBlockedPattern();
+        foreach ($ipsPattern as $pattern) {
+            if (Str::startsWith($ip, $pattern)) {
                 abort(403, 'Forbidden');
             }
         }

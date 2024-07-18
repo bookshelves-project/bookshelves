@@ -38,6 +38,7 @@ class SerieController extends Controller
     public function show(Library $library, string $serie)
     {
         $serie = Serie::query()
+            ->where('library_id', $library->id)
             ->where('slug', $serie)
             ->withCount(['books'])
             ->firstOrFail();

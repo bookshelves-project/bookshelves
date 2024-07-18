@@ -83,10 +83,10 @@ class Bookshelves
     /**
      * @return array<string>
      */
-    public function ipsBlockedStartsWith(): array
+    public function ipsBlockedPattern(): array
     {
-        if (config('bookshelves.ips.blocked_starts_with')) {
-            return config('bookshelves.ips.blocked_starts_with');
+        if (config('bookshelves.ips.blocked_pattern')) {
+            return config('bookshelves.ips.blocked_pattern');
         }
 
         return [];

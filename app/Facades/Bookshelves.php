@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static string analyzerDebug()
  * @method static bool authorWikipediaExact()
  * @method static int|false limitDownloads()
- * @method static array<string> ipsBlockedStartsWith()
+ * @method static array<string> ipsBlockedPattern()
  * @method static string exceptionParserLog()
  * @method static bool convertCovers()
  * @method static string imageDisk()
