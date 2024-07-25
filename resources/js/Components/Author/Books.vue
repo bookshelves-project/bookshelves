@@ -2,14 +2,12 @@
 import { useInstance } from '@/Composables/useInstance'
 import { useUtils } from '@/Composables/useUtils'
 
-interface Lib {
-  name: string
-  models: App.Models.Book[] | App.Models.Serie[]
-}
-
 defineProps<{
   author: App.Models.Author
-  library: Lib[]
+  library: {
+    name: string
+    models: App.Models.Book[] | App.Models.Serie[]
+  }[]
   type: 'book' | 'serie'
   title?: string
 }>()
