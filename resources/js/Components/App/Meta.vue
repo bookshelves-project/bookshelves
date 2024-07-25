@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 // https://inertiajs.com/title-and-meta#head-component
-import { Head, usePage } from '@inertiajs/vue3'
+import { Head } from '@inertiajs/vue3'
 import { useMeta } from '@/Composables/useMeta'
 
 export interface Props {

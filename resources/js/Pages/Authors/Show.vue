@@ -30,7 +30,7 @@ async function fetchItems(url: string, items: Ref<any>) {
     items.value = body?.data
   }
   catch (error) {
-    console.error(`Failed to fetch ${url}`)
+    console.error(`Failed to fetch ${url}`, error)
   }
 }
 
