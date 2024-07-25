@@ -76,7 +76,7 @@ onMounted(() => {
         >
           <AuthorBooks
             :author="author"
-            :library="toAny(series)"
+            :library="series"
             type="serie"
           />
           <AuthorBooks

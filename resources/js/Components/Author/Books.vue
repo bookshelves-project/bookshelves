@@ -4,7 +4,7 @@ import { useUtils } from '@/Composables/useUtils'
 
 interface Lib {
   name: string
-  models: App.Models.Book[] | App.Models.Serie[] | any[]
+  models: App.Models.Book[] | App.Models.Serie[]
 }
 
 defineProps<{
