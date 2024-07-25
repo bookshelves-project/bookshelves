@@ -15,7 +15,7 @@ export function useInstance() {
     return models as {
       name: string
       models: any[]
-    }
+    }[]
   }
 
   function toAny(models: any) {
