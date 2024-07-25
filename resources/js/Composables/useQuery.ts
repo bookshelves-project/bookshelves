@@ -1,5 +1,4 @@
 import { useForm, usePage } from '@inertiajs/vue3'
-import logo from 'unplugin-svg-transformer/cache/logo'
 import { onMounted, ref } from 'vue'
 
 type UrlQuery = Record<string, string | number | boolean | string[] | number[] | boolean[]>
