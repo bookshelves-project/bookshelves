@@ -17,7 +17,7 @@ class TagModule
      */
     public static function toCollection(Ebook $ebook): Collection
     {
-        $self = new self();
+        $self = new self;
         $items = collect([]);
 
         foreach ($ebook->getTags() as $key => $tag) {
@@ -115,7 +115,7 @@ class TagModule
             return collect([]);
         }
 
-        $self = new self();
+        $self = new self;
         $items = collect([]);
 
         foreach ($tags as $tag) {

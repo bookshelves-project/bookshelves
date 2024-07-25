@@ -26,6 +26,7 @@ class Download extends Model
 
     public static function generate(Request $request, Book|Serie $model): self
     {
+        /** @var ?Download */
         $download = Download::query()->create([
             'ip' => $request->ip(),
             'user_agent' => $request->userAgent(),

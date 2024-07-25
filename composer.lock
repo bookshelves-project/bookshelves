@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b22fbad10841c780e798dc635ee9792d",
+    "content-hash": "13b15d89fea870da905deec0cbaaefa8",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -3571,16 +3571,16 @@
         },
         {
             "name": "kiwilan/typescriptable-laravel",
-            "version": "3.1.0",
+            "version": "3.1.02",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/typescriptable-laravel.git",
-                "reference": "061c97c9ae9ae53f793abb41b7cd7d9eb88bd99e"
+                "reference": "0776a42186a634115b059ae65e318dced24ad95b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/typescriptable-laravel/zipball/061c97c9ae9ae53f793abb41b7cd7d9eb88bd99e",
-                "reference": "061c97c9ae9ae53f793abb41b7cd7d9eb88bd99e",
+                "url": "https://api.github.com/repos/kiwilan/typescriptable-laravel/zipball/0776a42186a634115b059ae65e318dced24ad95b",
+                "reference": "0776a42186a634115b059ae65e318dced24ad95b",
                 "shasum": ""
             },
             "require": {
@@ -3649,9 +3649,9 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/typescriptable-laravel/issues",
-                "source": "https://github.com/kiwilan/typescriptable-laravel/tree/v3.1.0"
+                "source": "https://github.com/kiwilan/typescriptable-laravel/tree/v3.1.02"
             },
-            "time": "2024-07-25T11:08:07+00:00"
+            "time": "2024-07-25T15:21:31+00:00"
         },
         {
             "name": "laravel/fortify",

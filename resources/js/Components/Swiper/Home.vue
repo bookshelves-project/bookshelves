@@ -33,6 +33,9 @@ async function fetchItems() {
   }
 }
 
+const books = (items: any) => items as App.Models.Book[]
+const series = (items: any) => items as App.Models.Serie[]
+
 onMounted(() => {
   fetchItems()
 })
@@ -42,7 +45,7 @@ onMounted(() => {
   <div v-if="items?.length">
     <SwiperBooks
       v-if="type === 'book'"
-      :books="items"
+      :books="books(items)"
       :title="title"
       :url="url"
       :square="square"
@@ -50,7 +53,7 @@ onMounted(() => {
     />
     <SwiperSeries
       v-else-if="type === 'serie'"
-      :series="items"
+      :series="series(items)"
       :title="title"
       :url="url"
       padding
