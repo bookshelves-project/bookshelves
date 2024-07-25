@@ -1,9 +1,10 @@
 <script lang="ts" setup>
+import { useInstance } from '@/Composables/useInstance'
 import { useUtils } from '@/Composables/useUtils'
 
 interface Lib {
   name: string
-  models: App.Models.Book[] | App.Models.Serie[]
+  models: App.Models.Book[] | App.Models.Serie[] | any[]
 }
 
 defineProps<{
@@ -14,9 +15,7 @@ defineProps<{
 }>()
 
 const { ucfirst } = useUtils()
-
-const books = (lib: Lib) => lib.models as App.Models.Book[]
-const series = (lib: Lib) => lib.models as App.Models.Serie[]
+const { toBooks, toSeries } = useInstance()
 </script>
 
 <template>
@@ -44,7 +43,7 @@ const series = (lib: Lib) => lib.models as App.Models.Serie[]
             <div class="books-grid mt-6">
               <template v-if="type === 'book'">
                 <CardBook
-                  v-for="book in books(lib)"
+                  v-for="book in toBooks(lib.models)"
                   :key="book.id"
                   :book="book"
                   :square="book.library?.type === 'audiobook'"
@@ -52,7 +51,7 @@ const series = (lib: Lib) => lib.models as App.Models.Serie[]
               </template>
               <template v-else>
                 <CardSerie
-                  v-for="serie in series(lib)"
+                  v-for="serie in toSeries(lib.models)"
                   :key="serie.id"
                   :serie="serie"
                   :square="serie.library?.type === 'audiobook'"

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { HttpResponse } from '@kiwilan/typescriptable-laravel'
 import { useFetch } from '@kiwilan/typescriptable-laravel'
+import { useInstance } from '@/Composables/useInstance'
 
 const props = defineProps<{
   endpoint?: App.Route.Name
@@ -33,8 +34,7 @@ async function fetchItems() {
   }
 }
 
-const books = (items: any) => items as App.Models.Book[]
-const series = (items: any) => items as App.Models.Serie[]
+const { toBooks, toSeries } = useInstance()
 
 onMounted(() => {
   fetchItems()
@@ -45,7 +45,7 @@ onMounted(() => {
   <div v-if="items?.length">
     <SwiperBooks
       v-if="type === 'book'"
-      :books="books(items)"
+      :books="toBooks(items)"
       :title="title"
       :url="url"
       :square="square"
@@ -53,7 +53,7 @@ onMounted(() => {
     />
     <SwiperSeries
       v-else-if="type === 'serie'"
-      :series="series(items)"
+      :series="toSeries(items)"
       :title="title"
       :url="url"
       padding
