@@ -11,9 +11,14 @@ export function useInstance() {
     return series as App.Models.Serie[]
   }
 
+  function toAny(models: any) {
+    return models as any
+  }
+
   return {
     toBooks,
     toAuthors,
     toSeries,
+    toAny,
   }
 }

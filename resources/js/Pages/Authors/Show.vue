@@ -22,7 +22,7 @@ const series = ref<{
   models: App.Models.Serie[]
 }[]>([])
 
-const { toSeries, toBooks } = useInstance()
+const { toAny } = useInstance()
 const { http } = useFetch()
 
 async function fetchItems(url: string, items: Ref<any>) {
@@ -76,18 +76,18 @@ onMounted(() => {
         >
           <AuthorBooks
             :author="author"
-            :library="toSeries(series)"
+            :library="toAny(series)"
             type="serie"
           />
           <AuthorBooks
             :author="author"
-            :library="toBooks(booksStandalone)"
+            :library="toAny(booksStandalone)"
             type="book"
             title="Standalone"
           />
           <AuthorBooks
             :author="author"
-            :library="toBooks(books)"
+            :library="toAny(books)"
             type="book"
           />
         </div>
