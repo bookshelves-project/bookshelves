@@ -5,6 +5,7 @@
 # supervisorctl stop bookshelves-worker
 composer i
 php artisan migrate --force
+php artisan typescriptable
 pnpm i
 pnpm build
 pnpm build:ssr
