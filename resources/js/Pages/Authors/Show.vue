@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useFetch } from '@kiwilan/typescriptable-laravel'
+import { useInstance } from '@/Composables/useInstance'
 
 const props = defineProps<{
   author: App.Models.Author
@@ -21,6 +22,7 @@ const series = ref<{
   models: App.Models.Serie[]
 }[]>([])
 
+const { toLib } = useInstance()
 const { http } = useFetch()
 
 async function fetchItems(url: string, items: Ref<any>) {
@@ -74,18 +76,18 @@ onMounted(() => {
         >
           <AuthorBooks
             :author="author"
-            :library="series"
+            :library="toLib(series)"
             type="serie"
           />
           <AuthorBooks
             :author="author"
-            :library="booksStandalone"
+            :library="toLib(booksStandalone)"
             type="book"
             title="Standalone"
           />
           <AuthorBooks
             :author="author"
-            :library="books"
+            :library="toLib(books)"
             type="book"
           />
         </div>
