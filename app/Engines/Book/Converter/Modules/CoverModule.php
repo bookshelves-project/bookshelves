@@ -20,7 +20,7 @@ class CoverModule
     {
         $book->clearCover();
 
-        $self = new self();
+        $self = new self;
 
         if (! $ebook->hasCover()) {
             Journal::warning("No cover for {$book->title}");

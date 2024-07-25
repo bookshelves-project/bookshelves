@@ -19,7 +19,7 @@ class AuthorModule
      */
     public static function make(array $authors): Collection
     {
-        $self = new self();
+        $self = new self;
 
         // `BookAuthor` to `AuthorModuleItem`
         $items = array_filter($authors, fn (BookAuthor $author) => $author->getName() !== null);
