@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f6c7142ba14da0da9cf502128ad52b56",
+    "content-hash": "b22fbad10841c780e798dc635ee9792d",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -3172,16 +3172,16 @@
         },
         {
             "name": "kiwilan/php-filelist",
-            "version": "0.0.33",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-filelist.git",
-                "reference": "94098f9ebbe3a5cdb631a0c19f1dd0d50ebbe4a7"
+                "reference": "2d8a4fb702948603b619f52e4bdfac477279936c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-filelist/zipball/94098f9ebbe3a5cdb631a0c19f1dd0d50ebbe4a7",
-                "reference": "94098f9ebbe3a5cdb631a0c19f1dd0d50ebbe4a7",
+                "url": "https://api.github.com/repos/kiwilan/php-filelist/zipball/2d8a4fb702948603b619f52e4bdfac477279936c",
+                "reference": "2d8a4fb702948603b619f52e4bdfac477279936c",
                 "shasum": ""
             },
             "require": {
@@ -3218,7 +3218,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-filelist/issues",
-                "source": "https://github.com/kiwilan/php-filelist/tree/v0.0.33"
+                "source": "https://github.com/kiwilan/php-filelist/tree/v0.1.0"
             },
             "funding": [
                 {
@@ -3226,7 +3226,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-07-13T08:46:30+00:00"
+            "time": "2024-07-25T14:32:55+00:00"
         },
         {
             "name": "kiwilan/php-http-pool",
