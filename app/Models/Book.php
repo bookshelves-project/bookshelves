@@ -147,6 +147,24 @@ class Book extends Model implements HasMedia
         return $i;
     }
 
+    public function getAudiobookDurationAttribute(): ?string
+    {
+        if (! $this->is_audiobook) {
+            return null;
+        }
+
+        if (! is_array($this->audiobook_chapters)) {
+            return null;
+        }
+
+        $duration = 0;
+        foreach ($this->audiobookTracks as $track) {
+            $duration += $track->duration;
+        }
+
+        return gmdate('H:i:s', intval($duration));
+    }
+
     public function getDownloadLinkAttribute(): string
     {
         return route('api.downloads.book', [

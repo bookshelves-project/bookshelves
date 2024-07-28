@@ -2940,16 +2940,16 @@
         },
         {
             "name": "kiwilan/php-audio",
-            "version": "3.0.07",
+            "version": "3.0.08",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-audio.git",
-                "reference": "21df5780e47b7e158231531f310def6441502c63"
+                "reference": "64583fa70d4fe28d0e9fc126a7dbadfe3ee81c1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-audio/zipball/21df5780e47b7e158231531f310def6441502c63",
-                "reference": "21df5780e47b7e158231531f310def6441502c63",
+                "url": "https://api.github.com/repos/kiwilan/php-audio/zipball/64583fa70d4fe28d0e9fc126a7dbadfe3ee81c1a",
+                "reference": "64583fa70d4fe28d0e9fc126a7dbadfe3ee81c1a",
                 "shasum": ""
             },
             "require": {
@@ -3010,7 +3010,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-audio/issues",
-                "source": "https://github.com/kiwilan/php-audio/tree/v3.0.07"
+                "source": "https://github.com/kiwilan/php-audio/tree/v3.0.08"
             },
             "funding": [
                 {
@@ -3018,20 +3018,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-06-04T05:29:19+00:00"
+            "time": "2024-07-28T13:47:00+00:00"
         },
         {
             "name": "kiwilan/php-ebook",
-            "version": "2.6.8",
+            "version": "2.6.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-ebook.git",
-                "reference": "335f00a47ead7462124db251b63fdc5ced894446"
+                "reference": "801049d9785fa0ded8749827c9d9874c90ee5a4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/335f00a47ead7462124db251b63fdc5ced894446",
-                "reference": "335f00a47ead7462124db251b63fdc5ced894446",
+                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/801049d9785fa0ded8749827c9d9874c90ee5a4b",
+                "reference": "801049d9785fa0ded8749827c9d9874c90ee5a4b",
                 "shasum": ""
             },
             "require": {
@@ -3040,7 +3040,7 @@
                 "php": "^8.1"
             },
             "require-dev": {
-                "kiwilan/php-audio": "^3.0.06",
+                "kiwilan/php-audio": "^3.0.08",
                 "laravel/pint": "^1.7",
                 "pestphp/pest": "^1.20",
                 "pestphp/pest-plugin-parallel": "^1.2",
@@ -3094,7 +3094,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-ebook/issues",
-                "source": "https://github.com/kiwilan/php-ebook/tree/v2.6.8"
+                "source": "https://github.com/kiwilan/php-ebook/tree/v2.6.9"
             },
             "funding": [
                 {
@@ -3102,7 +3102,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-07-28T08:06:33+00:00"
+            "time": "2024-07-28T13:59:18+00:00"
         },
         {
             "name": "kiwilan/php-filelist",

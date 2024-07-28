@@ -31,7 +31,7 @@ class BookController extends Controller
             'library',
         ])
             ->loadCount('audiobookTracks')
-            ->append(['format_icon', 'audiobook_chapters_number']);
+            ->append(['format_icon', 'audiobook_chapters_number', 'audiobook_duration']);
 
         $title = $book->title;
         if ($book->serie) {
