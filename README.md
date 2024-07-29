@@ -29,6 +29,29 @@
     -   Users management
 -   SSR option powered by [`inertia`](https://inertiajs.com/)
 
+## Installation
+
+### Docker
+
+```sh
+docker compose down --remove-orphans
+docker compose up -d --build
+```
+
+Execute bash in the app container
+
+```sh
+docker container exec -it bookshelves /bin/zsh
+```
+
+### Logs
+
+Check logs
+
+```sh
+docker logs bookshelves # docker logs bookshelves -f for live logs
+```
+
 ### Roadmap
 
 -   [ ] Add Docker installation option
