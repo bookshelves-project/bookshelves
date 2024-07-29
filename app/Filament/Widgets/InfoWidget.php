@@ -46,18 +46,6 @@ class InfoWidget extends Widget implements HasActions, HasForms
             });
     }
 
-    // public function recommendationsAction(): Action
-    // {
-    //     return Action::make('Recommendations')
-    //         ->label('Recommendations')
-    //         ->icon('heroicon-o-document-magnifying-glass')
-    //         ->outlined()
-    //         ->action(function () {
-    //             Journal::info('Start recommendations', 'Followed commands will be executed: recommendations.')->toDatabase();
-    //             Artisan::call(RecommendationsCommand::class);
-    //         });
-    // }
-
     public function jobsAction(): Action
     {
         return Action::make('jobs')
