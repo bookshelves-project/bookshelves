@@ -88,6 +88,7 @@ onMounted(async () => {
         book.language ? `${book.language.name}` : undefined,
         book.format === 'audio' && book.audiobook_tracks_count ? `${book.audiobook_tracks_count} track${book.audiobook_tracks_count > 1 ? 's' : ''}` : undefined,
         book.format === 'audio' && book.audiobook_chapters_number ? `${book.audiobook_chapters_number} chapter${book.audiobook_chapters_number > 1 ? 's' : ''}` : undefined,
+        book.format === 'audio' ? `Duration: ${book.audiobook_duration}` : undefined,
       ]"
       :download="{
         url: book.download_link,
