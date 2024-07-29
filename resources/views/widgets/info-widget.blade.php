@@ -3,7 +3,7 @@
     <div class="flex items-center gap-x-3">
       <div class="flex-1">
         <svg
-          class="h-5 text-gray-950 dark:text-white"
+          class="h-4 text-gray-950 dark:text-white"
           viewBox="0 0 642 98"
           fill="currentColor"
           xmlns="http://www.w3.org/2000/svg"

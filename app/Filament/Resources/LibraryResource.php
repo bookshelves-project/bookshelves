@@ -40,7 +40,8 @@ class LibraryResource extends Resource
                         Components\TextInput::make('path')
                             ->required()
                             ->columnSpan(2)
-                            ->placeholder('Enter absolute path of library'),
+                            ->placeholder('/path/to/library')
+                            ->helperText('Enter absolute path of library, the path will be checked for validity.'),
                     ]),
                 ]),
                 FilamentLayout::column([
