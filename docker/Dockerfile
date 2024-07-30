@@ -99,11 +99,12 @@ RUN curl https://raw.githubusercontent.com/creationix/nvm/v$NVM_VERSION/install.
   . $NVM_DIR/nvm.sh && \
   nvm install $NODE_VERSION && \
   nvm alias default $NODE_VERSION && \
-  nvm use default && \
-  curl -fsSL https://get.pnpm.io/install.sh | sh - --force
+  nvm use default
 
 # add node to $PATH
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+
+RUN npm install -g pnpm
 
 WORKDIR /app
 
@@ -112,28 +113,28 @@ RUN rm -rf /app/node_modules
 RUN rm -rf /app/public/storage
 RUN rm -rf /app/vendor
 
-# https://laravel.com/docs/10.x/deployment#optimizing-configuration-loading
-RUN composer install --no-interaction --optimize-autoloader --no-dev
-# Generate security key
-RUN php artisan key:generate
-# Optimizing Configuration loading
-RUN php artisan config:cache
-# Optimizing Route loading
-RUN php artisan route:cache
-# Optimizing View loading
-RUN php artisan view:cache
-# Storage link
-RUN php artisan storage:link
-
-# RUN pnpm install
-# RUN pnpm build:no-check
-# RUN pnpm build:ssr
+RUN pnpm config set store-dir /home/laravel/pnpm
+RUN pnpm install
+RUN pnpm build:no-check
+RUN pnpm build:ssr
 
 # Ensure that the storage and cache directories exist
 RUN mkdir -p /app/storage/framework/cache/data /app/storage/framework/sessions /app/storage/framework/views
 
 # Run storage:link to create the storage symlink
 # RUN php artisan storage:link
+
+# RUN composer install --no-interaction --optimize-autoloader --no-dev
+# RUN pnpm install
+# RUN php artisan key:generate
+
+RUN composer install --no-interaction --optimize-autoloader --no-dev
+RUN php artisan key:generate && \
+  php artisan config:cache && \
+  php artisan route:cache && \
+  php artisan view:cache && \
+  php artisan storage:link
+# php artisan typescriptable
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
