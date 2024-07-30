@@ -115,7 +115,7 @@ RUN rm -rf /app/public/storage
 RUN rm -rf /app/vendor
 
 # install dependencies
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install
 RUN pnpm install
 # RUN pnpm build:no-check
 # RUN pnpm build:ssr
@@ -124,7 +124,7 @@ RUN pnpm install
 RUN mkdir -p /app/storage/framework/cache/data /app/storage/framework/sessions /app/storage/framework/views
 
 # Run storage:link to create the storage symlink
-RUN php artisan storage:link
+# RUN php artisan storage:link
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
