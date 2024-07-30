@@ -38,6 +38,12 @@ docker compose down --remove-orphans
 docker compose up -d --build
 ```
 
+Migrate database with seeders
+
+```sh
+docker compose exec app php artisan migrate:fresh --seed
+```
+
 Execute bash in the app container
 
 ```sh
