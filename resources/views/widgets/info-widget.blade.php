@@ -19,7 +19,7 @@
             rel="noopener noreferrer"
             target="_blank"
           >
-            Bookshelves {{ \Composer\InstalledVersions::getRootPackage()['pretty_version'] }}
+            v{{ \Composer\InstalledVersions::getRootPackage()['pretty_version'] }}
           </a>
         </p>
       </div>
