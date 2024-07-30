@@ -72,6 +72,10 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # create laravel user
 RUN groupadd -g 1000 laravel && useradd -u 1000 -ms /bin/bash -g laravel laravel
 
+# copy app files
+COPY . /app
+COPY --chown=www-data:www-data . /app
+
 # set permissions
 RUN chown -R laravel:laravel /app
 
@@ -104,10 +108,6 @@ RUN curl https://raw.githubusercontent.com/creationix/nvm/v$NVM_VERSION/install.
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 WORKDIR /app
-
-# copy app files
-COPY . /app
-COPY --chown=www-data:www-data . /app
 
 # delete node_modules and vendor
 RUN rm -rf /app/node_modules
