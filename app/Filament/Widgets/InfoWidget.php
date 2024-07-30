@@ -13,7 +13,8 @@ use Filament\Support\Contracts\TranslatableContentDriver;
 use Filament\Widgets\Widget;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
-use Kiwilan\LaravelNotifier\Facades\Journal;
+use Kiwilan\Steward\Commands\Scout\ScoutFreshCommand;
+use Kiwilan\Steward\Jobs\LogClearJob;
 
 class InfoWidget extends Widget implements HasActions, HasForms
 {
@@ -41,22 +42,84 @@ class InfoWidget extends Widget implements HasActions, HasForms
             ->icon('heroicon-o-magnifying-glass')
             ->outlined()
             ->action(function () {
-                Journal::info('Start analyze', 'Followed commands will be executed: AnalyzeCommand.')->toDatabase();
+                Notification::make()
+                    ->title('Analyze')
+                    ->body('Start analyze command...')
+                    ->info()
+                    ->send();
                 Artisan::call(AnalyzeCommand::class);
             });
     }
 
-    public function jobsAction(): Action
+    public function scoutRefreshAction(): Action
     {
-        return Action::make('jobs')
-            ->label('Count jobs')
+        return Action::make('scout-refresh')
+            ->label('Scout refresh')
+            ->icon('heroicon-o-magnifying-glass-circle')
+            ->outlined()
+            ->action(function () {
+                Notification::make()
+                    ->title('Scout refresh')
+                    ->body('Start scout refresh...')
+                    ->info()
+                    ->send();
+                Artisan::call(ScoutFreshCommand::class);
+            });
+    }
+
+    public function logsViewerAction(): Action
+    {
+        return Action::make('logs-viewer')
+            ->label('Logs viewer')
+            ->icon('heroicon-o-clipboard-document-list')
+            ->outlined()
+            ->url(route('log-viewer.index'))
+            ->openUrlInNewTab();
+    }
+
+    public function logsClearAction(): Action
+    {
+        return Action::make('logs-clear')
+            ->label('Logs clear (job)')
+            ->icon('heroicon-o-clipboard')
+            ->outlined()
+            ->action(function () {
+                Notification::make()
+                    ->title('Logs clear')
+                    ->body('Start clear logs as job...')
+                    ->info()
+                    ->send();
+                LogClearJob::dispatch();
+            });
+    }
+
+    public function jobsCountAction(): Action
+    {
+        return Action::make('jobs-count')
+            ->label('Jobs count')
             ->icon('heroicon-o-inbox-stack')
             ->outlined()
             ->action(function () {
                 $count = DB::table('jobs')->count();
                 Notification::make()
-                    ->title('Jobs')
+                    ->title('Jobs count')
                     ->body("There are {$count} jobs in the queue.")
+                    ->info()
+                    ->send();
+            });
+    }
+
+    public function jobsClearAction(): Action
+    {
+        return Action::make('jobs')
+            ->label('Jobs clear')
+            ->icon('heroicon-o-inbox')
+            ->outlined()
+            ->action(function () {
+                DB::table('jobs')->truncate();
+                Notification::make()
+                    ->title('Jobs clear')
+                    ->body('All jobs have been cleared.')
                     ->info()
                     ->send();
             });

@@ -15,27 +15,26 @@
 
         <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
           <a
-            href="https://filamentphp.com"
+            href="https://github.com/bookshelves-project/bookshelves"
             rel="noopener noreferrer"
             target="_blank"
           >
-            Filament {{ \Composer\InstalledVersions::getPrettyVersion('filament/filament') }}
+            Bookshelves {{ \Composer\InstalledVersions::getRootPackage()['pretty_version'] }}
           </a>
-          <span>-</span>
-          <a
-            href="/log-viewer"
-            target="_blank"
-            rel="noopener noreferrer"
-          >Log viewer</a>
         </p>
       </div>
 
       {{ $this->analyzeAction }}
       <x-filament-actions::group
-        :actions="[$this->jobsAction]"
-        label="More"
+        :actions="[
+            $this->scoutRefreshAction,
+            $this->logsViewerAction,
+            $this->logsClearAction,
+            $this->jobsCountAction,
+            $this->jobsClearAction,
+        ]"
+        label="Actions"
         size="md"
-        icon-size="md"
         button="true"
         outlined="true"
         tooltip="More actions"
