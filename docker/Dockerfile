@@ -72,13 +72,6 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # create laravel user
 RUN groupadd -g 1000 laravel && useradd -u 1000 -ms /bin/bash -g laravel laravel
 
-# copy app files
-COPY . /app
-COPY --chown=www-data:www-data . /app
-
-# set permissions
-RUN chown -R laravel:laravel /app
-
 # switch to laravel user
 USER laravel
 
@@ -109,6 +102,10 @@ ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 WORKDIR /app
 
+# copy app files
+COPY . /app
+COPY --chown=www-data:www-data . /app
+
 # delete node_modules and vendor
 RUN rm -rf /app/node_modules
 RUN rm -rf /app/public/storage
@@ -137,6 +134,9 @@ RUN mkdir -p /app/storage/framework/cache/data /app/storage/framework/sessions /
 
 # Run storage:link to create the storage symlink
 # RUN php artisan storage:link
+
+# set permissions
+RUN chown -R laravel:laravel /app
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
