@@ -7,7 +7,7 @@ return [
     ],
 
     'analyzer' => [
-        'engine' => env('BOOKSHELVES_ANALYZER_ENGINE', 'native'), // native, scout
+        'engine' => env('BOOKSHELVES_ANALYZER_ENGINE', 'native'), // native, scout-seeker
         'debug' => env('BOOKSHELVES_ANALYZER_DEBUG', false),
     ],
 
