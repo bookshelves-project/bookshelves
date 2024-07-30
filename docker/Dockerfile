@@ -122,6 +122,8 @@ RUN php artisan config:cache
 RUN php artisan route:cache
 # Optimizing View loading
 RUN php artisan view:cache
+# Storage link
+RUN php artisan storage:link
 
 RUN pnpm install
 RUN pnpm build:no-check
