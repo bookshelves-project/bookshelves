@@ -1,6 +1,4 @@
 FROM php:8.2-fpm
-# ARG user
-# ARG uid
 
 # apt requirements
 RUN apt update && apt install -y \

@@ -41,7 +41,7 @@ docker compose up -d --build
 Migrate database with seeders
 
 ```sh
-docker compose exec app php artisan migrate:fresh --seed
+docker compose exec bookshelves php artisan migrate:fresh --seed
 ```
 
 Execute bash in the app container
