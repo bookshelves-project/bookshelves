@@ -47,7 +47,7 @@ docker compose exec bookshelves-app php artisan migrate:fresh --seed --force
 Execute bash in the app container
 
 ```sh
-docker container exec -it bookshelves /bin/zsh
+docker container exec -it bookshelves-app /bin/zsh
 ```
 
 ### Logs
@@ -55,7 +55,7 @@ docker container exec -it bookshelves /bin/zsh
 Check logs
 
 ```sh
-docker logs bookshelves # docker logs bookshelves -f for live logs
+docker logs bookshelves-app # docker logs bookshelves-app -f for live logs
 ```
 
 ### Roadmap
