@@ -41,13 +41,13 @@ docker compose up -d --build
 Migrate database with seeders
 
 ```sh
-docker compose exec bookshelves-app php artisan migrate:fresh --seed --force
+docker compose exec bookshelves_app php artisan migrate:fresh --seed --force
 ```
 
 Execute bash in the app container
 
 ```sh
-docker container exec -it bookshelves-app /bin/zsh
+docker container exec -it bookshelves_app /bin/zsh
 ```
 
 ### Logs
@@ -55,7 +55,7 @@ docker container exec -it bookshelves-app /bin/zsh
 Check logs
 
 ```sh
-docker logs bookshelves-app # docker logs bookshelves-app -f for live logs
+docker logs bookshelves_app # docker logs bookshelves_app -f for live logs
 ```
 
 ### Roadmap

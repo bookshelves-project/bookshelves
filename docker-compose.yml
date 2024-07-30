@@ -42,7 +42,7 @@ services:
         container_name: bookshelves-meilisearch
         restart: always
         ports:
-            - "7700:7700"
+            - "7701:7700"
         environment:
             - MEILI_ENV=production
             - MEILI_MASTER_KEY=${MEILISEARCH_KEY}
