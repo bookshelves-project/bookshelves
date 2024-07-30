@@ -131,7 +131,7 @@ RUN mkdir -p /app/storage/framework/cache/data /app/storage/framework/sessions /
 RUN php artisan storage:link
 
 # Change current user to www
-USER www-data
+# USER www-data
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
