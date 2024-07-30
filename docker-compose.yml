@@ -1,9 +1,9 @@
 services:
-    bookshelves:
+    bookshelves_app:
         build:
             context: ./
             dockerfile: docker/Dockerfile
-        container_name: bookshelves
+        container_name: bookshelves-app
         restart: always
         working_dir: /app
         volumes:
@@ -11,17 +11,17 @@ services:
             - ./storage/app/public:/app/public/storage
         environment:
             - DB_CONNECTION=mariadb
-            - DB_HOST=mariadb
+            - DB_HOST=bookshelves_mariadb
             - DB_PORT=3306
             - DB_DATABASE=bookshelves
             - DB_USERNAME=bookshelves
             - DB_PASSWORD=bookshelves_password
         depends_on:
-            - mariadb
+            - bookshelves_mariadb
 
-    mariadb:
+    bookshelves_mariadb:
         image: mariadb:11.4
-        container_name: mariadb
+        container_name: bookshelves-mariadb
         restart: always
         environment:
             - MARIADB_ROOT_PASSWORD=root
@@ -31,9 +31,9 @@ services:
         volumes:
             - mariadb_data:/var/lib/mariadb
 
-    nginx:
+    bookshelves_nginx:
         image: nginx:alpine
-        container_name: nginx
+        container_name: bookshelves-nginx
         restart: always
         ports:
             - "8000:80"
@@ -41,7 +41,7 @@ services:
             - ./:/var/www
             - ./docker/nginx:/etc/nginx/conf.d
         depends_on:
-            - bookshelves
+            - bookshelves_app
 
 volumes:
     mariadb_data:
