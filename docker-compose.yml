@@ -19,9 +19,9 @@ services:
         restart: always
         environment:
             - MARIADB_ROOT_PASSWORD=root
-            - MARIADB_USER=bookshelves
-            - MARIADB_PASSWORD=bookshelves_password
-            - MARIADB_DATABASE=bookshelves
+            - MARIADB_USER=${DB_USERNAME}
+            - MARIADB_PASSWORD=${DB_PASSWORD}
+            - MARIADB_DATABASE=${DB_DATABASE}
         volumes:
             - mariadb_data:/var/lib/mysql
 
@@ -45,7 +45,7 @@ services:
             - "7700:7700"
         environment:
             - MEILI_ENV=production
-            - MEILI_MASTER_KEY=bookshelves_master_key
+            - MEILI_MASTER_KEY=${MEILISEARCH_KEY}
             - MEILI_NO_ANALYTICS=true
         volumes:
             - meilisearch_data:/meili_data
