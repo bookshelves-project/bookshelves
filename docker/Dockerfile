@@ -115,7 +115,19 @@ RUN rm -rf /app/public/storage
 RUN rm -rf /app/vendor
 
 # install dependencies
-RUN composer install
+# RUN composer install
+
+# https://laravel.com/docs/10.x/deployment#optimizing-configuration-loading
+RUN composer install --no-interaction --optimize-autoloader --no-dev
+# Generate security key
+RUN php artisan key:generate
+# Optimizing Configuration loading
+RUN php artisan config:cache
+# Optimizing Route loading
+RUN php artisan route:cache
+# Optimizing View loading
+RUN php artisan view:cache
+
 RUN pnpm install
 # RUN pnpm build:no-check
 # RUN pnpm build:ssr
