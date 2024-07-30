@@ -111,14 +111,6 @@ ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
-# RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
-# RUN pnpm run build
-
-# RUN mkdir $NVM_DIR
-
-# ENV NODE_PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin
-# ENV PATH $NVM_DIR/v$NODE_VERSION/bin:$PATH
-
 WORKDIR /app
 
 # delete node_modules and vendor
@@ -129,7 +121,16 @@ RUN rm -rf /app/vendor
 # install dependencies
 RUN composer install --no-dev --optimize-autoloader
 RUN pnpm install --frozen-lockfile
+
+# Ensure that the storage and cache directories exist
+RUN mkdir -p /app/storage/framework/cache/data /app/storage/framework/sessions /app/storage/framework/views
+
+# Run storage:link to create the storage symlink
 RUN php artisan storage:link
 
+# Change current user to www
+USER www-data
+
+# Expose port 9000 and start php-fpm server
 EXPOSE 9000
 CMD ["php-fpm"]

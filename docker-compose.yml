@@ -1,48 +1,59 @@
 services:
+    # bookshelves:
+    #     build:
+    #         # args:
+    #         #     user: [current-user]
+    #         #     uid: 1000
+    #         context: ./
+    #         dockerfile: docker/Dockerfile
+    #     #     image: [image-name]
+    #     container_name: bookshelves
+    #     restart: always
+    #     working_dir: /app
+    #     volumes:
+    #         - ./:/app
     bookshelves:
         build:
-            # args:
-            #     user: [current-user]
-            #     uid: 1000
             context: ./
             dockerfile: docker/Dockerfile
-        #     image: [image-name]
         container_name: bookshelves
         restart: always
         working_dir: /app
         volumes:
             - ./:/app
+        environment:
+            - DB_CONNECTION=mysql
+            - DB_HOST=database
+            - DB_PORT=3306
+            - DB_DATABASE=bookshelves
+            - DB_USERNAME=bookshelves
+            - DB_PASSWORD=bookshelves_password
+        depends_on:
+            - database
+
     database:
         image: mysql:8.0
         container_name: mysql
         restart: always
-        # env_file: .env
         environment:
-            # MYSQL_DATABASE: ${DB_DATABASE}
-            # MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-            # MYSQL_PASSWORD: ${DB_PASSWORD}
-            # MYSQL_USER: ${DB_USERNAME}
             MYSQL_DATABASE: bookshelves
             MYSQL_ROOT_PASSWORD: root
             MYSQL_PASSWORD: bookshelves_password
             MYSQL_USER: bookshelves
-            SERVICE_TAGS: dev
-            SERVICE_NAME: mysql
-    #     volumes:
-    #         - ./docker-compose/mysql:/docker-entrypoint-initdb.d
-    #     networks:
-    #         - [network-name]
-    # nginx:
-    #     image: nginx:alpine
-    #     container_name: [nginx-container-name]
-    #     restart: unless-stopped
-    #     ports:
-    #         - 8000:80
-    #     volumes:
-    #         - ./:/var/www
-    #         - ./docker-compose/nginx:/etc/nginx/conf.d/
-    #     networks:
-    #         - [network-name]
-# networks:
-#     [network-name]:
-#         driver: bridge
+        volumes:
+            - mysql_data:/var/lib/mysql
+
+    nginx:
+        image: nginx:alpine
+        container_name: nginx
+        restart: always
+        ports:
+            - "8000:80"
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx:/etc/nginx/conf.d
+        depends_on:
+            - bookshelves
+
+volumes:
+    mysql_data:
