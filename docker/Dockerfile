@@ -125,9 +125,9 @@ RUN php artisan view:cache
 # Storage link
 RUN php artisan storage:link
 
-RUN pnpm install
-RUN pnpm build:no-check
-RUN pnpm build:ssr
+# RUN pnpm install
+# RUN pnpm build:no-check
+# RUN pnpm build:ssr
 
 # Ensure that the storage and cache directories exist
 RUN mkdir -p /app/storage/framework/cache/data /app/storage/framework/sessions /app/storage/framework/views
