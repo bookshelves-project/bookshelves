@@ -3,7 +3,7 @@ services:
         build:
             context: ./
             dockerfile: docker/Dockerfile
-        container_name: bookshelves-app
+        container_name: bookshelves_app
         restart: always
         working_dir: /app
         volumes:
@@ -15,7 +15,7 @@ services:
 
     bookshelves_mariadb:
         image: mariadb:11.4
-        container_name: bookshelves-mariadb
+        container_name: bookshelves_mariadb
         restart: always
         environment:
             - MARIADB_ROOT_PASSWORD=root
@@ -27,7 +27,7 @@ services:
 
     bookshelves_nginx:
         image: nginx:alpine
-        container_name: bookshelves-nginx
+        container_name: bookshelves_nginx
         restart: always
         ports:
             - "8000:80"
@@ -39,7 +39,7 @@ services:
 
     bookshelves_meilisearch:
         image: getmeili/meilisearch:v1.9.0
-        container_name: bookshelves-meilisearch
+        container_name: bookshelves_meilisearch
         restart: always
         ports:
             - "7701:7700"
