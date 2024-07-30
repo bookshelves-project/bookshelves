@@ -75,7 +75,7 @@ COPY . /app
 COPY --chown=www-data:www-data . /app
 
 # set permissions
-# RUN chown -R laravel:laravel /app
+RUN chown -R laravel:laravel /app
 
 # switch to laravel user
 USER laravel
