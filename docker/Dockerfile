@@ -100,7 +100,7 @@ RUN curl https://raw.githubusercontent.com/creationix/nvm/v$NVM_VERSION/install.
   nvm install $NODE_VERSION && \
   nvm alias default $NODE_VERSION && \
   nvm use default && \
-  curl -fsSL https://get.pnpm.io/install.sh | sh -
+  curl -fsSL https://get.pnpm.io/install.sh | sh - --force
 
 # add node to $PATH
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
