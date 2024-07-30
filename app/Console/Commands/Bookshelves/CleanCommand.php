@@ -44,6 +44,7 @@ class CleanCommand extends Commandable
         $this->info($msg);
 
         if ($all) {
+            $this->info('Clean all data...');
             CleanAllJob::dispatch();
         } else {
             CleanJob::dispatch();
