@@ -29,7 +29,7 @@ services:
             - MARIADB_PASSWORD=bookshelves_password
             - MARIADB_DATABASE=bookshelves
         volumes:
-            - mariadb_data:/var/lib/mariadb
+            - mariadb_data:/var/lib/mysql
 
     bookshelves_nginx:
         image: nginx:alpine
