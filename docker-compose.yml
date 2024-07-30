@@ -1,17 +1,4 @@
 services:
-    # bookshelves:
-    #     build:
-    #         # args:
-    #         #     user: [current-user]
-    #         #     uid: 1000
-    #         context: ./
-    #         dockerfile: docker/Dockerfile
-    #     #     image: [image-name]
-    #     container_name: bookshelves
-    #     restart: always
-    #     working_dir: /app
-    #     volumes:
-    #         - ./:/app
     bookshelves:
         build:
             context: ./
@@ -30,7 +17,7 @@ services:
             - DB_USERNAME=bookshelves
             - DB_PASSWORD=bookshelves_password
         depends_on:
-            - database
+            - mariadb
 
     mariadb:
         image: mariadb:11.4
