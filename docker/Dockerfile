@@ -111,8 +111,8 @@ RUN rm -rf /app/node_modules
 RUN rm -rf /app/public/storage
 RUN rm -rf /app/vendor
 
-# install dependencies
-# RUN composer install
+# set permissions
+RUN chown -R laravel:laravel /app
 
 # https://laravel.com/docs/10.x/deployment#optimizing-configuration-loading
 RUN composer install --no-interaction --optimize-autoloader --no-dev
