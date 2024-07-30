@@ -24,11 +24,10 @@ services:
         container_name: mariadb
         restart: always
         environment:
-            CONTAINER_NAME: mariadb
-            MARIADB_ROOT_PASSWORD: root
-            MARIADB_USER: testing
-            MARIADB_PASSWORD: testing
-            MARIADB_DATABASE: testing
+            - MARIADB_ROOT_PASSWORD=root
+            - MARIADB_USER=bookshelves
+            - MARIADB_PASSWORD=bookshelves_password
+            - MARIADB_DATABASE=bookshelves
         volumes:
             - mariadb_data:/var/lib/mariadb
 
