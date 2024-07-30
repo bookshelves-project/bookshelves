@@ -121,6 +121,8 @@ RUN rm -rf /app/vendor
 # install dependencies
 RUN composer install --no-dev --optimize-autoloader
 RUN pnpm install --frozen-lockfile
+RUN pnpm build
+RUN pnpm build:ssr
 
 # Ensure that the storage and cache directories exist
 RUN mkdir -p /app/storage/framework/cache/data /app/storage/framework/sessions /app/storage/framework/views
