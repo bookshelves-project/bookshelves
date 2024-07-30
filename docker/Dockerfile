@@ -97,7 +97,7 @@ ENV NVM_DIR /home/laravel/.nvm
 ENV NODE_VERSION 20.16.0
 
 # install nvm
-RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.39.7/install.sh | bash && \
+RUN curl https://raw.githubusercontent.com/creationix/nvm/v$NVM_VERSION/install.sh | bash && \
   . $NVM_DIR/nvm.sh && \
   nvm install $NODE_VERSION && \
   nvm alias default $NODE_VERSION && \
@@ -106,10 +106,6 @@ RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.39.7/install.sh | b
 
 # add node to $PATH
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
-
-# install pnpm
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
 
 WORKDIR /app
 
@@ -120,18 +116,15 @@ RUN rm -rf /app/vendor
 
 # install dependencies
 RUN composer install --no-dev --optimize-autoloader
-RUN pnpm install --frozen-lockfile
-RUN pnpm build:no-check
-RUN pnpm build:ssr
+RUN pnpm install
+# RUN pnpm build:no-check
+# RUN pnpm build:ssr
 
 # Ensure that the storage and cache directories exist
 RUN mkdir -p /app/storage/framework/cache/data /app/storage/framework/sessions /app/storage/framework/views
 
 # Run storage:link to create the storage symlink
 RUN php artisan storage:link
-
-# Change current user to www
-# USER www-data
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
