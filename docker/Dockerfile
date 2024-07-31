@@ -1,37 +1,52 @@
-FROM php:8.2-fpm
+ARG NODE_VERSION=20.16.0
+ARG PHP_VERSION=8.2
 
-# apt requirements
-RUN apt update && apt install -y \
-  apt-transport-https \
-  build-essential \
-  ca-certificates \
-  curl \
+FROM node:${NODE_VERSION}-alpine AS node_server
+
+FROM serversideup/php:${PHP_VERSION}-fpm-nginx-alpine AS php_server
+
+COPY --chmod=755 ./docker/99-init.sh /etc/entrypoint.d/
+COPY ./docker/php/custom-php.ini /usr/local/etc/php/conf.d/
+
+COPY --from=node_server /usr/lib /usr/lib
+COPY --from=node_server /usr/local/lib /usr/local/lib
+COPY --from=node_server /usr/local/include /usr/local/include
+COPY --from=node_server /usr/local/bin /usr/local/bin
+
+USER root
+
+# requirements
+# - autoconf (for imagick)
+# - build-base (for imagick) / build-essential with apt
+# - git (for imagick)
+# - icu-dev (for intl)
+# - imagemagick (for imagick)
+# - imagemagick-dev (for imagick) / libmagickwand-dev with apt
+# - zlib-dev (for imagick)
+RUN apk add --no-cache \
+  autoconf \
+  build-base \
   git \
+  icu-dev \
   imagemagick \
-  libmagickwand-dev \
-  libonig-dev \
-  libpng-dev \
-  libxml2-dev \
-  libzip-dev \
-  p7zip-full \
-  unzip \
-  vim \
-  wget \
-  zip \
-  zsh
+  imagemagick-dev \
+  zlib-dev
 
-# apt images requirements
-RUN apt install -y \
-  jpegoptim \
-  gifsicle \
-  pngquant \
-  optipng \
-  webp
 
-# apt clean
-RUN apt clean && rm -rf /var/lib/apt/lists/*
+# requirements for gd
+RUN apk add --no-cache \
+  libpng-dev
 
-# install PHP imagick
+# extensions loaded: bcmath, exif, gd, intl
+# extensions available: fileinfo, mbstring, pcntl, pdo_mysql, zip
+RUN docker-php-ext-install \
+  bcmath \
+  exif \
+  gd \
+  intl \
+  pdo_mysql
+
+# extension installed: imagick
 RUN git clone https://github.com/Imagick/imagick && \
   cd imagick && \
   phpize && \
@@ -39,103 +54,36 @@ RUN git clone https://github.com/Imagick/imagick && \
   make && \
   make install
 
-# install PHP extensions
-RUN docker-php-ext-install \
-  bcmath \
-  exif \
-  fileinfo \
-  gd \
-  intl \
-  mbstring \
-  pcntl \
-  pdo_mysql \
-  zip
+RUN npm install -g pnpm --force
 
-# install PHP rar
-RUN git clone https://github.com/cataphract/php-rar && \
-  cd php-rar && \
-  phpize && \
-  ./configure && \
-  make && \
-  make install
+COPY . .
 
-# pecl_path=$(pecl config-get ext_dir)
-# phpini_path=$(php -i | grep /.+/php.ini -oE)
-# sudo cp ./modules/rar.so $pecl_path
-# sudo echo "extension=rar.so" > $phpini_path
+RUN composer install --no-interaction --optimize-autoloader --no-scripts
 
-# install composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN php artisan key:generate
 
-# create laravel user
-RUN groupadd -g 1000 laravel && useradd -u 1000 -ms /bin/bash -g laravel laravel
+RUN rm -rf public/storage && \
+  php artisan storage:link
 
-# copy app files
-COPY . /app
-COPY --chown=www-data:www-data . /app
+RUN rm -rf public/storage/covers
 
-# set permissions
-RUN chown -R laravel:laravel /app
-
-# switch to laravel user
-USER laravel
-
-WORKDIR /home/laravel
-
-# install oh-my-zsh
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-RUN sed -i 's/robbyrussell/pmcgee/g' $HOME/.zshrc
-RUN cat <<EOT >>/home/laravel/.zshrc
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-EOT
-
-ENV NVM_VERSION 0.39.7
-ENV NVM_DIR /home/laravel/.nvm
-ENV NODE_VERSION 20.16.0
-
-# install nvm
-RUN curl https://raw.githubusercontent.com/creationix/nvm/v$NVM_VERSION/install.sh | bash && \
-  . $NVM_DIR/nvm.sh && \
-  nvm install $NODE_VERSION && \
-  nvm alias default $NODE_VERSION && \
-  nvm use default
-
-# add node to $PATH
-ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
-
-RUN npm install -g pnpm
-
-WORKDIR /app
-
-# delete node_modules and vendor
-RUN rm -rf /app/node_modules
-RUN rm -rf /app/public/storage
-RUN rm -rf /app/vendor
-
-RUN pnpm config set store-dir /home/laravel/pnpm
-RUN pnpm install
-RUN pnpm build:no-check
-RUN pnpm build:ssr
-
-# Ensure that the storage and cache directories exist
-RUN mkdir -p /app/storage/framework/cache/data /app/storage/framework/sessions /app/storage/framework/views
-
-# Run storage:link to create the storage symlink
-# RUN php artisan storage:link
-
-# RUN composer install --no-interaction --optimize-autoloader --no-dev
-# RUN pnpm install
-# RUN php artisan key:generate
-
-RUN composer install --no-interaction --optimize-autoloader --no-dev
-RUN php artisan key:generate && \
-  php artisan config:cache && \
+RUN php artisan config:cache && \
   php artisan route:cache && \
   php artisan view:cache && \
-  php artisan storage:link
-# php artisan typescriptable
+  php artisan optimize
 
-# Expose port 9000 and start php-fpm server
-EXPOSE 9000
-CMD ["php-fpm"]
+RUN pnpm install
+RUN pnpm build:no-check
+# RUN pnpm build:ssr
+
+# set permissions
+# RUN chown -R www-data:www-data * && \
+#   chown -R www-data:www-data .* && \
+#   chown -R www-data:www-data storage bootstrap/cache && \
+#   chmod -R 775 storage bootstrap/cache
+RUN chown -R www-data:www-data storage bootstrap/cache && \
+  chmod -R 775 storage bootstrap/cache
+
+USER www-data
+
+# CMD ["php artisan migrate --force"]

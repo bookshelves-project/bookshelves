@@ -5,10 +5,12 @@ services:
             dockerfile: docker/Dockerfile
         container_name: bookshelves_app
         restart: always
-        working_dir: /app
+        ports:
+            - "8000:80"
         volumes:
-            - ./:/app
-            - ./storage/app/public:/app/public/storage
+            - ./docker/nginx:/etc/nginx/conf.d
+        #     - .:/app
+        #     - ./storage/app/public:/app/public/storage
         env_file: .env
         depends_on:
             - bookshelves_mariadb
@@ -18,38 +20,38 @@ services:
         container_name: bookshelves_mariadb
         restart: always
         environment:
-            - MARIADB_ROOT_PASSWORD=root
+            - MARIADB_ROOT_PASSWORD=${DB_PASSWORD}
             - MARIADB_USER=${DB_USERNAME}
             - MARIADB_PASSWORD=${DB_PASSWORD}
             - MARIADB_DATABASE=${DB_DATABASE}
         volumes:
             - mariadb_data:/var/lib/mysql
 
-    bookshelves_nginx:
-        image: nginx:alpine
-        container_name: bookshelves_nginx
-        restart: always
-        ports:
-            - "8000:80"
-        volumes:
-            - ./:/var/www
-            - ./docker/nginx:/etc/nginx/conf.d
-        depends_on:
-            - bookshelves_app
+    # bookshelves_nginx:
+    #     image: nginx:alpine
+    #     container_name: bookshelves_nginx
+    #     restart: always
+    #     ports:
+    #         - "8000:80"
+    #     volumes:
+    #         - ./:/var/www
+    #         - ./docker/nginx:/etc/nginx/conf.d
+    #     depends_on:
+    #         - bookshelves_app
 
-    bookshelves_meilisearch:
-        image: getmeili/meilisearch:v1.9.0
-        container_name: bookshelves_meilisearch
-        restart: always
-        ports:
-            - "7701:7700"
-        environment:
-            - MEILI_ENV=production
-            - MEILI_MASTER_KEY=${MEILISEARCH_KEY}
-            - MEILI_NO_ANALYTICS=true
-        volumes:
-            - meilisearch_data:/meili_data
+    # bookshelves_meilisearch:
+    #     image: getmeili/meilisearch:v1.9.0
+    #     container_name: bookshelves_meilisearch
+    #     restart: always
+    #     ports:
+    #         - "7701:7700"
+    #     environment:
+    #         - MEILI_ENV=production
+    #         - MEILI_MASTER_KEY=${MEILISEARCH_KEY}
+    #         - MEILI_NO_ANALYTICS=true
+    #     volumes:
+    #         - meilisearch_data:/meili_data
 
 volumes:
     mariadb_data:
-    meilisearch_data:
+    # meilisearch_data:
