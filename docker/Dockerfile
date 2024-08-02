@@ -58,6 +58,7 @@ RUN npm install -g pnpm --force
 
 COPY . .
 
+RUN rm -rf vendor
 RUN composer install --no-interaction --optimize-autoloader --no-scripts
 
 RUN php artisan key:generate
@@ -72,6 +73,7 @@ RUN php artisan config:cache && \
   php artisan view:cache && \
   php artisan optimize
 
+RUN rm -rf node_modules
 RUN pnpm install
 RUN pnpm build:no-check
 # RUN pnpm build:ssr

@@ -34,3 +34,4 @@ _ide_helper_models.php
 libraries.json
 nohup.out
 .env.local
+.env.docker

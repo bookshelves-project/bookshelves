@@ -9,6 +9,7 @@ services:
             - "8000:80"
         volumes:
             - ./docker/nginx:/etc/nginx/conf.d
+            - .env:/var/www/html/.env
         #     - .:/app
         #     - ./storage/app/public:/app/public/storage
         env_file: .env
