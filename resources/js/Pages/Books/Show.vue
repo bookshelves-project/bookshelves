@@ -77,7 +77,7 @@ onMounted(async () => {
       :overview="book.description"
       :tags="book.tags"
       :properties="[
-        `Released on ${formatDate(book.released_on)}`,
+        book.released_on ? `Released on ${formatDate(book.released_on)}` : undefined,
         book.publisher ? `${book.publisher.name}` : undefined,
         book.format === 'audio' ? `Read by ${book.audiobook_narrators?.join(', ')}` : undefined,
       ]"
