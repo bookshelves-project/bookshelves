@@ -78,7 +78,7 @@ onMounted(async () => {
       :tags="book.tags"
       :properties="[
         book.released_on ? `Released on ${formatDate(book.released_on)}` : undefined,
-        book.publisher ? `${book.publisher.name}` : undefined,
+        book.publisher ? `Published by ${book.publisher.name}` : undefined,
         book.format === 'audio' ? `Read by ${book.audiobook_narrators?.join(', ')}` : undefined,
       ]"
       :badges="[
