@@ -1,3 +1,4 @@
+# https://serversideup.net/open-source/docker-php/docs/customizing-the-image/adding-your-own-start-up-scripts#entrypoint-script-requirements
 services:
     bookshelves_app:
         build:

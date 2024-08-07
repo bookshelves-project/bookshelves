@@ -90,6 +90,7 @@ class OpdsSetup
         $book = $book->load('tags', 'publisher', 'serie', 'authors', 'language', 'media');
         $series = null;
         $seriesContent = null;
+        $language = null;
 
         if ($book->serie) {
             $seriesTitle = $book->serie->title;
@@ -98,6 +99,10 @@ class OpdsSetup
             $seriesContent = <<<HTML
                 <strong>Series {$seriesTitle} vol.{$book->volume}</strong><br>
             HTML;
+        }
+
+        if ($book->language) {
+            $language = " in {$book->language->name}";
         }
 
         $summary = <<<HTML
@@ -115,7 +120,7 @@ class OpdsSetup
 
         return new OpdsEntryBook(
             id: $book->slug,
-            title: "{$book->title}{$series}",
+            title: "{$book->title}{$series}{$language}",
             summary: trim($summary),
             content: trim($summary),
             route: route('opds.books.show', ['book' => $book->slug]),
