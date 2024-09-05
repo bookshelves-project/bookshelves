@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('basename');
             $table->string('extension');
             $table->string('mime_type')->nullable();
-            $table->integer('size')->nullable();
+            $table->bigInteger('size')->nullable();
             $table->dateTime('date_added')->nullable();
 
             $table->timestamps();
