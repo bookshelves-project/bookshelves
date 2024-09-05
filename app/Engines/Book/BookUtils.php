@@ -56,7 +56,7 @@ class BookUtils
         // `La Quête d'Ewilan #01 : D'un monde à l'autre`
         // to `D'un monde à l'autre`
         if (preg_match('/#\d+ : (.*)/', $title, $matches)) {
-            $result = $matches[1] ?? null;
+            $result = $matches[1];
             if ($result) {
                 return trim($result);
             }
