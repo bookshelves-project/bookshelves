@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { useRouter } from '@kiwilan/typescriptable-laravel'
 import type { SearchEntity } from '@/Types'
+import { useRouter } from '@kiwilan/typescriptable-laravel'
 
 const props = defineProps<{
   response: SearchEntity

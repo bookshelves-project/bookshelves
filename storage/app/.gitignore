@@ -4,5 +4,6 @@
 !data/
 !debug/
 !library/
+!model-backup/
 !public/
 !.gitignore

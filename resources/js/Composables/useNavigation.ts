@@ -35,7 +35,7 @@ export function useNavigation() {
     mainLinks.value = [
       { label: 'Dashboard', icon: 'home', route: { name: 'home' } },
       { label: 'Authors', icon: 'quill', route: { name: 'authors.index' } },
-      // { label: 'Tags', icon: 'tag', route: { name: 'tags.index' } },
+      { label: 'Tags', icon: 'tag', route: { name: 'tags.index' } },
       { label: 'Seperator', isSeperator: true },
     ]
 

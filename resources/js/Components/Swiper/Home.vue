@@ -1,15 +1,15 @@
 <script lang="ts" setup>
 import type { HttpResponse } from '@kiwilan/typescriptable-laravel'
-import { useFetch } from '@kiwilan/typescriptable-laravel'
 import { useInstance } from '@/Composables/useInstance'
+import { useFetch } from '@kiwilan/typescriptable-laravel'
 
 const props = defineProps<{
   endpoint?: App.Route.Name
   route?: string
   type: 'book' | 'serie'
   title?: string
-  url?: string
   square?: boolean
+  link?: string
 }>()
 
 const items = ref<App.Models.Book[] | App.Models.Serie[]>()
@@ -47,7 +47,7 @@ onMounted(() => {
       v-if="type === 'book'"
       :books="toBooks(items)"
       :title="title"
-      :url="url"
+      :link="link"
       :square="square"
       padding
     />
@@ -55,7 +55,7 @@ onMounted(() => {
       v-else-if="type === 'serie'"
       :series="toSeries(items)"
       :title="title"
-      :url="url"
+      :link="link"
       padding
     />
   </div>

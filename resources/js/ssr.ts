@@ -1,9 +1,9 @@
 import { createInertiaApp } from '@inertiajs/vue3'
 import createServer from '@inertiajs/vue3/server'
+import { resolvePages, resolveTitle, VueTypescriptable } from '@kiwilan/typescriptable-laravel'
 import { renderToString } from '@vue/server-renderer'
-import { createSSRApp, h } from 'vue'
-import { VueTypescriptable, resolvePages, resolveTitle } from '@kiwilan/typescriptable-laravel'
 import { SvgTransformerPlugin } from 'unplugin-svg-transformer/vue'
+import { createSSRApp, h } from 'vue'
 import { ZiggyVue } from '../../vendor/tightenco/ziggy'
 import './icons'
 

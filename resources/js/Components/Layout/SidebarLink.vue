@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { useInertia, useRouter } from '@kiwilan/typescriptable-laravel'
 import type { Link } from '@/Composables/useNavigation'
+import { useInertia, useRouter } from '@kiwilan/typescriptable-laravel'
 
 export interface Props {
   link: Link

@@ -223,6 +223,11 @@ class Book extends Model implements HasMedia
         return $query->whereRelation('library', 'type', $type);
     }
 
+    public function scopeWhereTagIs(Builder $query, Tag $tag): Builder
+    {
+        return $query->whereHas('tags', fn ($query) => $query->where('tag_id', $tag->id));
+    }
+
     public function file(): BelongsTo
     {
         return $this->belongsTo(File::class);

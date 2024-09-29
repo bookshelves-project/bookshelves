@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import { useMeta } from '@/Composables/useMeta'
 // https://inertiajs.com/title-and-meta#head-component
 import { Head } from '@inertiajs/vue3'
-import { useMeta } from '@/Composables/useMeta'
 
 export interface Props {
   title?: string

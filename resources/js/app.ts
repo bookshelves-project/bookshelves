@@ -1,10 +1,10 @@
-import '../css/app.css'
-
 import { createInertiaApp, router } from '@inertiajs/vue3'
-import { SvgTransformerPlugin } from 'unplugin-svg-transformer/vue'
-import { VueTypescriptable, resolvePages, resolveTitle } from '@kiwilan/typescriptable-laravel'
+
+import { resolvePages, resolveTitle, VueTypescriptable } from '@kiwilan/typescriptable-laravel'
 import NProgress from 'nprogress'
+import { SvgTransformerPlugin } from 'unplugin-svg-transformer/vue'
 import { ZiggyVue } from '../../vendor/tightenco/ziggy'
+import '../css/app.css'
 import './icons'
 
 createInertiaApp({

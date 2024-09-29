@@ -29,6 +29,41 @@
     -   Users management
 -   SSR option powered by [`inertia`](https://inertiajs.com/)
 
+## Installation
+
+### Docker
+
+```sh
+docker compose down --remove-orphans
+docker compose up -d --build
+```
+
+Migrate database with seeders
+
+```sh
+docker compose exec bookshelves_app php artisan migrate:fresh --seed --force
+```
+
+Execute bash in the app container
+
+```sh
+docker container exec -it bookshelves_app /bin/zsh
+```
+
+### Logs
+
+Check logs
+
+```sh
+docker logs bookshelves_app # docker logs bookshelves_app -f for live logs
+```
+
+Check NGINX logs
+
+```sh
+docker container exec bookshelves_app tail -f /var/log/nginx/bookshelves.log
+```
+
 ### Roadmap
 
 -   [ ] Add Docker installation option

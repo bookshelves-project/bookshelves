@@ -90,8 +90,8 @@ class BookFileScanner
             $browser->limit($limit);
         }
 
-        if ($engine === 'scout') {
-            $browser->withScout();
+        if ($engine === 'scout-seeker') {
+            $browser->withScoutSeeker();
         }
 
         $browser->run();

@@ -46,7 +46,7 @@ function scrollRight() {
         v-if="url"
         :href="url"
       >
-        <div class="text-gray-100 hover:text-gray-200 ml-5 bg-gray-700 hover:bg-gray-800 px-2 py-1.5 rounded-md">
+        <div class="text-gray-100 hover:text-gray-200 ml-5 bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded-md">
           See all
         </div>
       </ILink>

@@ -1,46 +1,59 @@
-version: '3.7'
+# https://serversideup.net/open-source/docker-php/docs/customizing-the-image/adding-your-own-start-up-scripts#entrypoint-script-requirements
 services:
-  app:
+  bookshelves_app:
     build:
-      args:
-        user: [current-user]
-        uid: 1000
       context: ./
-      dockerfile: Dockerfile
-    image: [image-name]
-    container_name: [container-name]
-    restart: unless-stopped
-    working_dir: /var/www/
-    volumes:
-      - ./:/var/www
-    networks:
-      - [network-name]
-  db:
-    image: mysql:8.0
-    container_name: [db-container-name]
-    restart: unless-stopped
-    environment:
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_USER: ${DB_USERNAME}
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
-    volumes:
-      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
-    networks:
-      - [network-name]
-  nginx:
-    image: nginx:alpine
-    container_name: [nginx-container-name]
-    restart: unless-stopped
+      dockerfile: docker/Dockerfile
+    container_name: bookshelves_app
+    restart: always
     ports:
-      - 8000:80
+      - '8000:80'
     volumes:
-      - ./:/var/www
-      - ./docker-compose/nginx:/etc/nginx/conf.d/
-    networks:
-      - [network-name]
-networks:
-  [network-name]:
-    driver: bridge
+      - ./docker/nginx:/etc/nginx/conf.d
+      - .env:/var/www/html/.env
+      #     - .:/app
+      #     - ./storage/app/public:/app/public/storage
+    env_file: .env
+    depends_on:
+      - bookshelves_mariadb
+
+  bookshelves_mariadb:
+    image: mariadb:11.4
+    container_name: bookshelves_mariadb
+    restart: always
+    environment:
+      - MARIADB_ROOT_PASSWORD=${DB_PASSWORD}
+      - MARIADB_USER=${DB_USERNAME}
+      - MARIADB_PASSWORD=${DB_PASSWORD}
+      - MARIADB_DATABASE=${DB_DATABASE}
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+    # bookshelves_nginx:
+    #     image: nginx:alpine
+    #     container_name: bookshelves_nginx
+    #     restart: always
+    #     ports:
+    #         - "8000:80"
+    #     volumes:
+    #         - ./:/var/www
+    #         - ./docker/nginx:/etc/nginx/conf.d
+    #     depends_on:
+    #         - bookshelves_app
+
+    # bookshelves_meilisearch:
+    #     image: getmeili/meilisearch:v1.9.0
+    #     container_name: bookshelves_meilisearch
+    #     restart: always
+    #     ports:
+    #         - "7701:7700"
+    #     environment:
+    #         - MEILI_ENV=production
+    #         - MEILI_MASTER_KEY=${MEILISEARCH_KEY}
+    #         - MEILI_NO_ANALYTICS=true
+    #     volumes:
+    #         - meilisearch_data:/meili_data
+
+volumes:
+  mariadb_data:
+  # meilisearch_data:

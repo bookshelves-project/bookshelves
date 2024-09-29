@@ -140,6 +140,11 @@ class Serie extends Model implements HasMedia
         return $query->whereRelation('library', 'type', LibraryTypeEnum::book);
     }
 
+    public function scopeWhereTagIs(Builder $query, Tag $tag): Builder
+    {
+        return $query->whereHas('tags', fn (Builder $query) => $query->where('tags.id', $tag->id));
+    }
+
     public function books(): HasMany
     {
         // Get Books into Serie, by volume order.

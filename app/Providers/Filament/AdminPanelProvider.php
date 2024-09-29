@@ -32,9 +32,10 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Purple,
             ])
-            ->brandLogo(asset('favicon.svg'))
+            ->brandLogo(asset('/images/bookshelves-text-logo-color.svg'))
+            ->darkModeBrandLogo(asset('/images/bookshelves-text-logo-color-dark.svg'))
             ->brandName('Bookshelves')
-            ->brandLogoHeight('2.2rem')
+            ->brandLogoHeight('1.8rem')
             ->homeUrl('/')
             ->login(\App\Filament\Pages\Auth\Login::class)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

@@ -1,6 +1,4 @@
 <script setup>
-import { ref } from 'vue'
-import { Link, router, useForm } from '@inertiajs/vue3'
 import ActionMessage from '@/Components/Jetstream/ActionMessage.vue'
 import FormSection from '@/Components/Jetstream/FormSection.vue'
 import InputError from '@/Components/Jetstream/InputError.vue'
@@ -8,6 +6,8 @@ import InputLabel from '@/Components/Jetstream/InputLabel.vue'
 import PrimaryButton from '@/Components/Jetstream/PrimaryButton.vue'
 import SecondaryButton from '@/Components/Jetstream/SecondaryButton.vue'
 import TextInput from '@/Components/Jetstream/TextInput.vue'
+import { Link, router, useForm } from '@inertiajs/vue3'
+import { ref } from 'vue'
 
 const props = defineProps({
   user: Object,

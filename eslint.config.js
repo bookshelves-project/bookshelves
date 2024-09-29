@@ -9,6 +9,7 @@ export default antfu({
     'public/vendor/*',
     'public/js/filament/*',
     'resources/**/*.d.ts',
+    'resources/js/libraries/*',
     'storage/*',
     'vendor/*',
   ],

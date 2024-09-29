@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Jobs\Clean\CleanAllJob;
 use App\Jobs\Clean\CleanJob;
 use Illuminate\Console\Command;
 use Kiwilan\LaravelNotifier\Facades\Journal;
@@ -17,7 +18,8 @@ class CleanCommand extends Commandable
      *
      * @var string
      */
-    protected $signature = 'bookshelves:clean';
+    protected $signature = 'bookshelves:clean
+                            {--a|all : Clean all data}';
 
     /**
      * The console command description.
@@ -35,11 +37,18 @@ class CleanCommand extends Commandable
     {
         $this->title();
 
+        $all = $this->optionBool('all', false);
+
         $msg = 'Clean Bookshelves...';
         Journal::info($msg);
         $this->info($msg);
 
-        CleanJob::dispatch();
+        if ($all) {
+            $this->info('Clean all data...');
+            CleanAllJob::dispatch();
+        } else {
+            CleanJob::dispatch();
+        }
 
         return Command::SUCCESS;
     }

@@ -2,9 +2,9 @@
 defineProps<{
   books?: App.Models.Book[]
   title?: string
-  url?: string
   padding?: boolean
   square?: boolean
+  link?: string
 }>()
 </script>
 
@@ -12,7 +12,7 @@ defineProps<{
   <AppCarousel
     v-if="books && books.length"
     :title="title"
-    :url="url"
+    :url="link"
     :padding="padding"
   >
     <template

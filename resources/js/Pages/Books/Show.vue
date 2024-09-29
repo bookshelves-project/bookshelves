@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { useDate, useFetch } from '@kiwilan/typescriptable-laravel'
 import type { Entity } from '@/Types'
 import { useUtils } from '@/Composables/useUtils'
+import { useDate, useFetch } from '@kiwilan/typescriptable-laravel'
 
 const props = defineProps<{
   book: App.Models.Book
@@ -77,8 +77,8 @@ onMounted(async () => {
       :overview="book.description"
       :tags="book.tags"
       :properties="[
-        `Released on ${formatDate(book.released_on)}`,
-        book.publisher ? `${book.publisher.name}` : undefined,
+        book.released_on ? `Released on ${formatDate(book.released_on)}` : undefined,
+        book.publisher ? `Published by ${book.publisher.name}` : undefined,
         book.format === 'audio' ? `Read by ${book.audiobook_narrators?.join(', ')}` : undefined,
       ]"
       :badges="[

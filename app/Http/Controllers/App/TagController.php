@@ -26,22 +26,37 @@ class TagController extends Controller
     }
 
     #[Get('/{tag:slug}', name: 'tags.show')]
-    public function show(Tag $tag)
+    public function show(Request $request, Tag $tag)
     {
-        $books = Book::with(['tags'])
-            ->whereHas('tags', fn ($query) => $query->where('tag_id', $tag->id))
-            ->get();
-        $series = Serie::with(['tags'])
-            ->whereHas('tags', fn ($query) => $query->where('tag_id', $tag->id))
-            ->get();
-
         return inertia('Tags/Show', [
             'tag' => $tag,
             'title' => "{$tag->name}",
-            'models' => [
-                ...$books,
-                ...$series,
+            'query' => HttpQuery::for(
+                Book::with(['media', 'authors', 'serie', 'library', 'language', 'tags'])->whereTagIs($tag),
+                $request,
+            )->inertia(),
+            'breadcrumbs' => [
+                ['label' => $tag->name, 'route' => ['name' => 'tags.show', 'params' => ['tag' => $tag->slug]]],
             ],
+            'square' => false,
+            'series' => false,
+        ]);
+    }
+
+    #[Get('/{tag:slug}/series', name: 'tags.show.series')]
+    public function showSeries(Request $request, Tag $tag)
+    {
+        return inertia('Tags/Show', [
+            'tag' => $tag,
+            'title' => "{$tag->name}",
+            'query' => HttpQuery::for(
+                Serie::with(['media', 'authors', 'library', 'language', 'tags'])->whereTagIs($tag),
+                $request,
+            )->inertia(),
+            'breadcrumbs' => [
+                ['label' => $tag->name, 'route' => ['name' => 'tags.show', 'params' => ['tag' => $tag->slug]]],
+            ],
+            'series' => true,
         ]);
     }
 }

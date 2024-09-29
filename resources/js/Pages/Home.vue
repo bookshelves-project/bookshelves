@@ -8,6 +8,7 @@ const swipers = ref<{
   title: string
   type: 'book' | 'serie'
   square?: boolean
+  link: string
 }[]>([])
 
 async function fetchLibraries() {
@@ -25,6 +26,7 @@ async function parseLibraries() {
       title: `${library.name} recently added`,
       type: 'book',
       square: library.type === 'audiobook',
+      link: `/libraries/${library.slug}?limit=50&sort=-added_at`,
     }))
   }
 }
@@ -47,6 +49,7 @@ onMounted(() => {
         :title="swiper.title"
         :type="swiper.type"
         :square="swiper.square"
+        :link="swiper.link"
       />
     </div>
   </App>
