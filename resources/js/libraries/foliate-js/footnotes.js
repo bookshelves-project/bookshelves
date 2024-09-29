@@ -14,8 +14,8 @@ function isFootnoteReference(a) {
   return {
     yes: refRoles.some(r => roles.has(r)) || refTypes.some(t => types.has(t)),
     maybe: () => !types.has('backlink') && !roles.has('doc-backlink')
-    && (isSuper(a) || a.children.length === 1 && isSuper(a.children[0])
-    || isSuper(a.parentElement)),
+      && (isSuper(a) || a.children.length === 1 && isSuper(a.children[0])
+        || isSuper(a.parentElement)),
   }
 }
 

@@ -830,7 +830,8 @@ class MOBI6 {
     try {
       this.landmarks = await this.getGuide()
       const tocHref = this.landmarks
-        .find(({ type }) => type?.includes('toc'))?.href
+        .find(({ type }) => type?.includes('toc'))
+        ?.href
       if (tocHref) {
         const { index } = this.resolveHref(tocHref)
         const doc = await this.sections[index].createDocument()
@@ -1038,7 +1039,7 @@ function parsePosURI(str) {
 }
 function makePosURI(fid = 0, off = 0) {
   return `kindle:pos:fid:${fid.toString(32).toUpperCase().padStart(4, '0')
-    }:off:${off.toString(32).toUpperCase().padStart(10, '0')}`
+  }:off:${off.toString(32).toUpperCase().padStart(10, '0')}`
 }
 
 // `kindle:pos:` links are originally links that contain fragments identifiers
@@ -1110,14 +1111,13 @@ class KF8 {
     }
     catch {}
 
-    const skelTable = (await getIndexData(kf8.skel, loadRecord)).table
-      .map(({ name, tagMap }, index) => ({
-        index,
-        name,
-        numFrag: tagMap[1][0],
-        offset: tagMap[6][0],
-        length: tagMap[6][1],
-      }))
+    const skelTable = (await getIndexData(kf8.skel, loadRecord)).table.map(({ name, tagMap }, index) => ({
+      index,
+      name,
+      numFrag: tagMap[1][0],
+      offset: tagMap[6][0],
+      length: tagMap[6][1],
+    }))
     const fragData = await getIndexData(kf8.frag, loadRecord)
     const fragTable = fragData.table.map(({ name, tagMap }) => ({
       insertOffset: Number.parseInt(name),
@@ -1190,7 +1190,8 @@ class KF8 {
     this.rendition = {
       layout: exth.fixedLayout === 'true' ? 'pre-paginated' : 'reflowable',
       viewport: Object.fromEntries(exth.originalResolution
-        ?.split('x')?.slice(0, 2)
+        ?.split('x')
+        ?.slice(0, 2)
         ?.map((x, i) => [i ? 'height' : 'width', x]) ?? []),
     }
 

@@ -1,6 +1,4 @@
 <script setup>
-import { ref } from 'vue'
-import { useForm } from '@inertiajs/vue3'
 import ActionMessage from '@/Components/Jetstream/ActionMessage.vue'
 import ActionSection from '@/Components/Jetstream/ActionSection.vue'
 import Checkbox from '@/Components/Jetstream/Checkbox.vue'
@@ -14,6 +12,8 @@ import PrimaryButton from '@/Components/Jetstream/PrimaryButton.vue'
 import SecondaryButton from '@/Components/Jetstream/SecondaryButton.vue'
 import SectionBorder from '@/Components/Jetstream/SectionBorder.vue'
 import TextInput from '@/Components/Jetstream/TextInput.vue'
+import { useForm } from '@inertiajs/vue3'
+import { ref } from 'vue'
 
 const props = defineProps({
   tokens: Array,

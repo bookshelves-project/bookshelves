@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import { useNotification } from '@/Composables/useNotification'
 import { useForm } from '@inertiajs/vue3'
 import { useInertia, useRouter } from '@kiwilan/typescriptable-laravel'
-import { useNotification } from '@/Composables/useNotification'
 
 const form = useForm({
   type: 'bug-feedback',

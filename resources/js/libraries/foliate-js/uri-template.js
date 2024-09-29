@@ -49,7 +49,8 @@ export function replace(str, map) {
       .map(([name, value]) => value
         ? (named ? name + (value ? `=${value}` : ifemp) : value)
         : '')
-      .filter(x => x).join(sep)
+      .filter(x => x)
+      .join(sep)
   })
 }
 

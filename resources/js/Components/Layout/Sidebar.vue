@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { onClickOutside } from '@vueuse/core'
-import { useSidebar } from '@kiwilan/typescriptable-laravel'
 import { useNavigation } from '@/Composables/useNavigation'
+import { useSidebar } from '@kiwilan/typescriptable-laravel'
+import { onClickOutside } from '@vueuse/core'
 
 const { overlay, layer, isOpen, close } = useSidebar()
 

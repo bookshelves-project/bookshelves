@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { onClickOutside } from '@vueuse/core'
 import { useSlideover } from '@kiwilan/typescriptable-laravel'
+import { onClickOutside } from '@vueuse/core'
 
 defineProps<{
   title?: string

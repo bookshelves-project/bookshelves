@@ -1,6 +1,7 @@
 function findIndices(arr, f) {
   return arr
-    .map((x, i, a) => f(x, i, a) ? i : null).filter(x => x != null)
+    .map((x, i, a) => f(x, i, a) ? i : null)
+    .filter(x => x != null)
 }
 function splitAt(arr, is) {
   return [-1, ...is, arr.length].reduce(({ xs, a }, b) =>
@@ -167,16 +168,16 @@ export function parse(cfi) {
 function partToString({ index, id, offset, temporal, spatial, text, side }) {
   const param = side ? `;s=${side}` : ''
   return `/${index}${
-         id ? `[${escapeCFI(id)}${param}]` : ''
+    id ? `[${escapeCFI(id)}${param}]` : ''
     // "CFI expressions [..] SHOULD include an explicit character offset"
-         }${offset != null && index % 2 ? `:${offset}` : ''
-         }${temporal ? `~${temporal}` : ''
-         }${spatial ? `@${spatial.join(':')}` : ''
-         }${text || (!id && side)
-? `[${
-             text?.map(escapeCFI)?.join(',') ?? ''
-             }${param}]`
-: ''}`
+  }${offset != null && index % 2 ? `:${offset}` : ''
+  }${temporal ? `~${temporal}` : ''
+  }${spatial ? `@${spatial.join(':')}` : ''
+  }${text || (!id && side)
+    ? `[${
+      text?.map(escapeCFI)?.join(',') ?? ''
+    }${param}]`
+    : ''}`
 }
 
 function toInnerString(parsed) {

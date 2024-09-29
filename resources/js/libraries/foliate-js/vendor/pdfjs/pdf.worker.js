@@ -1229,7 +1229,7 @@
           }
         }
         exports.FeatureTest = FeatureTest
-        const hexNumbers = [...Array(256).keys()].map(n => n.toString(16).padStart(2, '0'))
+        const hexNumbers = [...Array.from({ length: 256 }).keys()].map(n => n.toString(16).padStart(2, '0'))
         class Util {
           static makeHexColor(r, g, b) {
             return `#${hexNumbers[r]}${hexNumbers[g]}${hexNumbers[b]}`

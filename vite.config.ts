@@ -1,10 +1,10 @@
-import { defineConfig } from 'vite'
-import laravel from 'laravel-vite-plugin'
-import vue from '@vitejs/plugin-vue'
 import typescriptable from '@kiwilan/typescriptable-laravel/vite'
+import vue from '@vitejs/plugin-vue'
+import laravel from 'laravel-vite-plugin'
+import AutoImport from 'unplugin-auto-import/vite'
 import svgTransformer from 'unplugin-svg-transformer/vite'
 import Components from 'unplugin-vue-components/vite'
-import AutoImport from 'unplugin-auto-import/vite'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   // build: {

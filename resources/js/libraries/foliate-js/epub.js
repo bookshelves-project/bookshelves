@@ -92,7 +92,7 @@ function pathRelative(from, to) {
   const as = from.replace(/\/$/, '').split('/')
   const bs = to.replace(/\/$/, '').split('/')
   const i = (as.length > bs.length ? as : bs).findIndex((_, i) => as[i] !== bs[i])
-  return i < 0 ? '' : Array(as.length - i).fill('..').concat(bs.slice(i)).join('/')
+  return i < 0 ? '' : Array.from({ length: as.length - i }).fill('..').concat(bs.slice(i)).join('/')
 }
 
 const pathDirname = str => str.slice(0, str.lastIndexOf('/') + 1)
@@ -622,7 +622,7 @@ class Resources {
 
     this.navPath = this.getItemByProperty('nav')?.href
     this.ncxPath = (this.getItemByID($spine.getAttribute('toc'))
-    ?? this.manifest.find(item => item.mediaType === MIME.NCX))?.href
+      ?? this.manifest.find(item => item.mediaType === MIME.NCX))?.href
 
     const $guide = $(opf.documentElement, 'guide')
     if ($guide) {
@@ -641,7 +641,8 @@ class Resources {
       .find(filterAttribute('name', 'cover'))
       ?.getAttribute('content'))
       ?? this.getItemByHref(this.guide
-        ?.find(ref => ref.type.includes('cover'))?.href)
+        ?.find(ref => ref.type.includes('cover'))
+        ?.href)
 
     this.cfis = CFI.fromElements($$itemref)
   }
@@ -865,9 +866,9 @@ class Loader {
       .replace(/(\d+(?:\.\d+)?|\.\d+)vh/gi, (_, d) => `${Number.parseFloat(d) * h / 100}px`)
     // `page-break-*` unsupported in columns; replace with `column-break-*`
       .replace(/page-break-(after|before|inside)\s*:/gi, (_, x) =>
-                `-webkit-column-break-${x}:`)
+        `-webkit-column-break-${x}:`)
       .replace(/break-(after|before|inside)\s*:\s*(avoid-)?page/gi, (_, x, y) =>
-                `break-${x}: ${y ?? ''}column`)
+        `break-${x}: ${y ?? ''}column`)
   }
 
   // find & replace all possible relative paths for all assets without parsing
@@ -1043,7 +1044,8 @@ ${doc.querySelector('parsererror').innerText}`)
         this.rendition.layout ??= 'pre-paginated'
       if (displayOptions.openToSpread === 'false') {
         this.sections
-          .find(section => section.linear !== 'no').pageSpread
+          .find(section => section.linear !== 'no')
+          .pageSpread
                     ??= this.dir === 'rtl' ? 'left' : 'right'
       }
     }

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { onClickOutside } from '@vueuse/core'
-import { useSearch } from '@kiwilan/typescriptable-laravel'
 import type { SearchEntity } from '@/Types'
+import { useSearch } from '@kiwilan/typescriptable-laravel'
+import { onClickOutside } from '@vueuse/core'
 
 const {
   keybinding,

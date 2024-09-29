@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { HttpResponse } from '@kiwilan/typescriptable-laravel'
-import { useFetch } from '@kiwilan/typescriptable-laravel'
 import { useInstance } from '@/Composables/useInstance'
+import { useFetch } from '@kiwilan/typescriptable-laravel'
 
 const props = defineProps<{
   endpoint?: App.Route.Name

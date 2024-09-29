@@ -165,7 +165,7 @@ export function getPublication(entry) {
       }),
       publisher: children.find(filterDC('publisher'))?.textContent,
       published: (children.find(filterDCTERMS('issued'))
-      ?? children.find(filterDC('date')))?.textContent,
+        ?? children.find(filterDC('date')))?.textContent,
       language: children.find(filterDC('language'))?.textContent,
       identifier: children.find(filterDC('identifier'))?.textContent,
       subject: children.filter(filter('category')).map(category => ({
@@ -173,11 +173,12 @@ export function getPublication(entry) {
         code: category.getAttribute('term'),
       })),
       [SYMBOL.CONTENT]: getContent(children.find(filter('content'))
-      ?? children.find(filter('summary'))),
+        ?? children.find(filter('summary'))),
     },
     links,
     images: REL.COVER.concat(REL.THUMBNAIL)
-      .map(R => linksByRel.get(R)?.[0]).filter(x => x),
+      .map(R => linksByRel.get(R)?.[0])
+      .filter(x => x),
   }
 }
 

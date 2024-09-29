@@ -1,7 +1,7 @@
-import './view.js'
-import { createTOCView } from './ui/tree.js'
-import { createMenu } from './ui/menu.js'
 import { Overlayer } from './overlayer.js'
+import { createMenu } from './ui/menu.js'
+import { createTOCView } from './ui/tree.js'
+import './view.js'
 
 async function isZip(file) {
   const arr = new Uint8Array(await file.slice(0, 4).arrayBuffer())

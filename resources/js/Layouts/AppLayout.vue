@@ -1,12 +1,12 @@
 <script setup>
-import { ref } from 'vue'
-import { Link, router } from '@inertiajs/vue3'
 import ApplicationMark from '@/Components/Jetstream/ApplicationMark.vue'
 import Banner from '@/Components/Jetstream/Banner.vue'
 import Dropdown from '@/Components/Jetstream/Dropdown.vue'
 import DropdownLink from '@/Components/Jetstream/DropdownLink.vue'
 import NavLink from '@/Components/Jetstream/NavLink.vue'
 import ResponsiveNavLink from '@/Components/Jetstream/ResponsiveNavLink.vue'
+import { Link, router } from '@inertiajs/vue3'
+import { ref } from 'vue'
 
 defineProps({
   title: String,

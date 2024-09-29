@@ -1,6 +1,4 @@
 <script setup>
-import { ref } from 'vue'
-import { useForm } from '@inertiajs/vue3'
 import ActionMessage from '@/Components/Jetstream/ActionMessage.vue'
 import ActionSection from '@/Components/Jetstream/ActionSection.vue'
 import DialogModal from '@/Components/Jetstream/DialogModal.vue'
@@ -8,6 +6,8 @@ import InputError from '@/Components/Jetstream/InputError.vue'
 import PrimaryButton from '@/Components/Jetstream/PrimaryButton.vue'
 import SecondaryButton from '@/Components/Jetstream/SecondaryButton.vue'
 import TextInput from '@/Components/Jetstream/TextInput.vue'
+import { useForm } from '@inertiajs/vue3'
+import { ref } from 'vue'
 
 defineProps({
   sessions: Array,

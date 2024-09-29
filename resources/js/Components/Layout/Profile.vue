@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { useFetch, useSlideover } from '@kiwilan/typescriptable-laravel'
-import { usePage } from '@inertiajs/vue3'
 import { useNavigation } from '@/Composables/useNavigation'
+import { usePage } from '@inertiajs/vue3'
+import { useFetch, useSlideover } from '@kiwilan/typescriptable-laravel'
 
 const page = usePage()
 const { inertia } = useFetch()

@@ -1,6 +1,6 @@
 import * as CFI from './epubcfi.js'
-import { SectionProgress, TOCProgress } from './progress.js'
 import { Overlayer } from './overlayer.js'
+import { SectionProgress, TOCProgress } from './progress.js'
 import { textWalker } from './text-walker.js'
 
 const SEARCH_PREFIX = 'foliate-search:'

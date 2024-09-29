@@ -270,8 +270,7 @@ export async function makeFB2(blob) {
     language: getElementText($('title-info lang')),
     author: $$('title-info author').map(getPerson),
     translator: $$('title-info translator').map(getPerson),
-    producer: $$('document-info author').map(getPerson)
-      .concat($$('document-info program-used').map(getElementText)),
+    producer: $$('document-info author').map(getPerson).concat($$('document-info program-used').map(getElementText)),
     publisher: getElementText($('publish-info publisher')),
     published: getDate($('title-info date')),
     modified: getDate($('document-info date')),

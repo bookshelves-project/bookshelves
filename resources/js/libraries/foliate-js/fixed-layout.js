@@ -9,7 +9,8 @@ function getViewport(doc, viewport) {
   // use `viewBox` for SVG
   if (doc.documentElement.localName === 'svg') {
     const [, , width, height] = doc.documentElement
-      .getAttribute('viewBox')?.split(/\s/) ?? []
+      .getAttribute('viewBox')
+      ?.split(/\s/) ?? []
     return { width, height }
   }
 

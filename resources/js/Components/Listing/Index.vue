@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import { useQuery } from '@/Composables/useQuery'
 // import { useQuery } from '@kiwilan/typescriptable-laravel'
 import { useFetch } from '@kiwilan/typescriptable-laravel'
-import { useQuery } from '@/Composables/useQuery'
 
 type Entity = App.Models.Book | App.Models.Author | App.Models.Serie | App.Models.Tag
 const props = defineProps<{
