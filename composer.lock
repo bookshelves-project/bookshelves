@@ -3232,12 +3232,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/steward-laravel.git",
-                "reference": "b806dd8d2ac9a1fd203c57c3c195e3d299cba99a"
+                "reference": "0dbdc50c0e8e784e54350bf1e3d2d72a63255ed9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/b806dd8d2ac9a1fd203c57c3c195e3d299cba99a",
-                "reference": "b806dd8d2ac9a1fd203c57c3c195e3d299cba99a",
+                "url": "https://api.github.com/repos/kiwilan/steward-laravel/zipball/0dbdc50c0e8e784e54350bf1e3d2d72a63255ed9",
+                "reference": "0dbdc50c0e8e784e54350bf1e3d2d72a63255ed9",
                 "shasum": ""
             },
             "require": {
@@ -3314,7 +3314,7 @@
                 "issues": "https://github.com/kiwilan/steward-laravel/issues",
                 "source": "https://github.com/kiwilan/steward-laravel/tree/main"
             },
-            "time": "2024-10-09T10:33:46+00:00"
+            "time": "2024-10-09T10:38:44+00:00"
         },
         {
             "name": "kiwilan/typescriptable-laravel",
