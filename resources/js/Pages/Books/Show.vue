@@ -101,6 +101,15 @@ onMounted(async () => {
       <template #eyebrow>
         <ShowAuthors :authors="book.authors" />
       </template>
+      <template #buttons>
+        <AppButton
+          :href="book.reader_url"
+          icon="external-link"
+          color="secondary"
+        >
+          <span>Reader</span>
+        </AppButton>
+      </template>
       <template
         v-if="book.serie"
         #undertitle

@@ -1,3 +1,4 @@
+export * from './foliate'
 export interface Entity {
   title?: string
   slug?: string
