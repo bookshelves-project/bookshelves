@@ -15,5 +15,6 @@ onMounted(async () => {
 <template>
   <div>
     home
+    <div id="reader" />
   </div>
 </template>
