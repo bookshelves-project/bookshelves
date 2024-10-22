@@ -22,4 +22,18 @@ class ReaderController extends Controller
             'book' => $book,
         ]);
     }
+
+    #[Get('/{library}/{book}', name: 'reader.show')]
+    public function show(string $library, string $book)
+    {
+        /** @var Book|null */
+        $book = Book::query()
+            ->where('library_id', $library)
+            ->where('slug', $book)
+            ->first();
+
+        return inertia('Reader', [
+            'book' => $book,
+        ]);
+    }
 }

@@ -196,6 +196,14 @@ class Book extends Model implements HasMedia
         return str_pad(strval($this->volume), 2, '0', STR_PAD_LEFT);
     }
 
+    public function getReaderUrlAttribute(): string
+    {
+        return route('reader.show', [
+            'library' => $this->library->id,
+            'book' => $this->slug,
+        ]);
+    }
+
     public function scopeAvailable(Builder $query): Builder
     {
         return $query->where('is_hidden', false);
