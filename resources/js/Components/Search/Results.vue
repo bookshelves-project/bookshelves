@@ -44,6 +44,18 @@ const seeResults = computed(() => {
                 class="text-sm text-gray-400"
               >
                 {{ item.library.type_label }} in {{ item.library.name }}
+                <span v-if="item.authors">/</span>
+                <span
+                  v-if="item.authors"
+                  class="ml-1"
+                >
+                  <span
+                    v-for="(author, index) in item.authors"
+                    :key="index"
+                  >
+                    By {{ author.name }}<span v-if="index < item.authors.length - 1">, </span>
+                  </span>
+                </span>
               </div>
               <div class="flex items-center space-x-1">
                 <span>
