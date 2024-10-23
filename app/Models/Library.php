@@ -210,9 +210,6 @@ class Library extends Model
         return $this->hasMany(AudiobookTrack::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Collection<int, Library>
-     */
     public static function cache(): \Illuminate\Database\Eloquent\Collection
     {
         $cache = Cache::get(self::CACHE_KEY);
