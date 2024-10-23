@@ -221,6 +221,7 @@ class Library extends Model
             return $cache;
         }
 
+        /** @var \Illuminate\Database\Eloquent\Collection<int, Library> $libraries */
         $libraries = \App\Models\Library::query()
             ->orderBy('name')
             ->get(['name', 'slug', 'type']);
