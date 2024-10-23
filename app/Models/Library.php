@@ -221,13 +221,13 @@ class Library extends Model
             return $cache;
         }
 
-        /** @var \Illuminate\Database\Eloquent\Collection<int, Library> $libraries */
         $libraries = \App\Models\Library::query()
             ->orderBy('name')
             ->get(['name', 'slug', 'type']);
         // cache during one week
         Cache::put(self::CACHE_KEY, $libraries, 60 * 24 * 7);
 
+        /** @var \Illuminate\Database\Eloquent\Collection<int, Library> $libraries */
         return $libraries;
     }
 
