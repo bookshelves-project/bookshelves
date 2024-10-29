@@ -64,4 +64,19 @@ class SerieController extends Controller
             'square' => $library->type->isAudiobook(),
         ]);
     }
+
+    #[Get('/{library:slug}/series/{serie:slug}/cover', name: 'series.cover')]
+    public function cover(Library $library, Serie $serie)
+    {
+        $serie->loadMissing([
+            'media',
+        ]);
+
+        $path = $serie->cover_path;
+
+        return response()->file($path, [
+            'Content-Type' => 'image/jpeg',
+            'Content-Disposition' => 'inline; filename="'.basename($path).'"',
+        ]);
+    }
 }
