@@ -29,12 +29,12 @@ class CoverModule
         }
 
         $name = uniqid().'.avif';
-        $path = storage_path("app/cache/{$name}");
+        $temp_path = storage_path("app/cache/{$name}");
         $contents = $ebook->getCover()->getContents();
 
-        File::put($path, $contents);
-        $self->resize($path);
-        $contents = File::get($path);
+        File::put($temp_path, $contents);
+        $self->resize($temp_path);
+        $contents = File::get($temp_path);
 
         SpatieMedia::make($book)
             ->addMediaFromString($contents)
@@ -45,7 +45,7 @@ class CoverModule
             ->color()
             ->save();
 
-        unlink($path);
+        File::delete($temp_path);
 
         return $book;
     }
