@@ -57,6 +57,11 @@ class BookController extends Controller
             'media',
         ]);
 
-        return response()->redirectTo($book->cover_standard);
+        $path = $book->cover_path;
+
+        return response()->file($path, [
+            'Content-Type' => 'image/jpeg',
+            'Content-Disposition' => 'inline; filename="'.basename($path).'"',
+        ]);
     }
 }

@@ -45,6 +45,7 @@ trait HasCovers
             'cover_social',
             'cover_square',
             'cover_color',
+            'cover_path',
         ]);
     }
 
@@ -181,6 +182,18 @@ trait HasCovers
         }
 
         return '#ffffff';
+    }
+
+    public function getCoverPathAttribute(): ?string
+    {
+        if (! $this->relationLoaded('media')) {
+            return null;
+        }
+
+        /** @var ?Media $media */
+        $media = $this->getFirstMedia(Bookshelves::imageCollection());
+
+        return $media?->getPath();
     }
 
     private function getCover(string $conversion = ''): string
