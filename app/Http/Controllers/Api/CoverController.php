@@ -27,7 +27,7 @@ class CoverController extends Controller
         ]);
     }
 
-    #[Get('/{library:slug}/{serie:slug}', name: 'api.series.cover')]
+    #[Get('/{library:slug}/series/{serie:slug}', name: 'api.series.cover')]
     public function serie(Library $library, Serie $serie)
     {
         $serie->loadMissing([
