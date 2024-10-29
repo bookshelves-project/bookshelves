@@ -15,7 +15,7 @@ class BookController extends Controller
     // #[Get('/{library:slug}/{book:slug}', name: 'books.show')]
     public function show(Library $library, Book $book)
     {
-        $book->load([
+        $book->loadMissing([
             'authors',
             'serie',
             'serie.books',
@@ -49,5 +49,14 @@ class BookController extends Controller
             'book' => $book,
             'square' => $book->library?->type->isAudiobook(),
         ]);
+    }
+
+    public function cover(Library $library, Book $book)
+    {
+        $book->loadMissing([
+            'media',
+        ]);
+
+        return response()->redirectTo($book->cover_standard);
     }
 }
