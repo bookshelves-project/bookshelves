@@ -176,4 +176,14 @@ class Bookshelves
     {
         return config('bookshelves.image.cover.square');
     }
+
+    public function downloadNitroUrl(): string
+    {
+        return config('bookshelves.download.nitro.url');
+    }
+
+    public function downloadNitroToken(): string
+    {
+        return config('bookshelves.download.nitro.token');
+    }
 }

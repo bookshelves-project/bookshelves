@@ -15,10 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('ip')->nullable();
             $table->string('user_agent')->nullable();
-            $table->string('title')->nullable();
+            $table->string('name')->nullable();
             $table->string('authors')->nullable();
             $table->string('format')->nullable();
             $table->boolean('is_series')->default(0);
+
+            $table->foreignUlid('file_id')
+                ->nullable()
+                ->cascadeOnDelete();
 
             $table->foreignUlid('book_id')
                 ->nullable()

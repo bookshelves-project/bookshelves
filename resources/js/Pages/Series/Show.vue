@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { useDownload } from '@/Composables/useDownload'
+import { useNotification } from '@/Composables/useNotification'
 import { useUtils } from '@/Composables/useUtils'
 
 const props = defineProps<{
@@ -9,10 +11,19 @@ const props = defineProps<{
 const size = ref<string>()
 const extension = ref<string>()
 const { bytesToHuman, getSize } = useUtils()
+const { saveSerie } = useDownload()
 
 const titlePage = computed(() => {
   return `${props.serie.title} (${props.serie.library?.type_label}) · ${props.serie.books_count} books`
 })
+
+function notification() {
+  const { push } = useNotification()
+  push({
+    title: `Download ${props.serie.title}`,
+    description: 'Your download will start shortly...',
+  })
+}
 
 onMounted(async () => {
   const api = await getSize('serie', props.serie.id)
@@ -42,13 +53,6 @@ onMounted(async () => {
         serie.language ? `${serie.language.name}` : undefined,
         serie.library?.type_label,
       ]"
-      :download="{
-        url: serie.download_link,
-        size,
-        extension,
-        direct: true,
-        filename: `${serie.title}.${extension}`,
-      }"
       :breadcrumbs="[
         { label: serie.library?.name, route: { name: 'libraries.show', params: { library: serie.library?.slug } } },
         { label: 'Series', route: { name: 'series.index', params: { library: serie.library?.slug } } },
@@ -58,6 +62,24 @@ onMounted(async () => {
     >
       <template #eyebrow>
         <ShowAuthors :authors="serie.authors" />
+      </template>
+      <template #buttons>
+        <AppButton
+          icon="download"
+          @click="[saveSerie(serie), notification()]"
+        >
+          <span>Download</span>
+          <span class="ml-1">({{ size }})</span>
+        </AppButton>
+        <AppButton
+          :href="serie.download_url"
+          icon="download"
+          color="secondary"
+          download
+          @click="notification()"
+        >
+          <span>Download (legacy)</span>
+        </AppButton>
       </template>
       <template #swipers>
         <section
