@@ -123,6 +123,7 @@ return [
 
     'download' => [
         'nitro' => [
+            'enabled' => env('BOOKSHELVES_DOWNLOAD_NITRO_ENABLED', false),
             'url' => env('BOOKSHELVES_DOWNLOAD_NITRO_URL', 'http://localhost:3000'),
             'token' => env('BOOKSHELVES_DOWNLOAD_NITRO_TOKEN'),
         ],

@@ -41,6 +41,7 @@ class HandleInertiaRequests extends Middleware
             'appVersion' => Bookshelves::appVersion(),
             'appUrl' => config('app.url'),
             'libraries' => Library::cache(),
+            'use_nitro' => Bookshelves::downloadNitroEnable(),
         ];
     }
 }
