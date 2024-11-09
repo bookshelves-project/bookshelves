@@ -177,7 +177,7 @@ class Bookshelves
         return config('bookshelves.image.cover.square');
     }
 
-    public function downloadNitroEnable(): bool
+    public function downloadNitroEnabled(): bool
     {
         return config('bookshelves.download.nitro.enabled', false);
     }
