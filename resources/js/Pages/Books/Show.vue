@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import type { Entity } from '@/Types'
+import { useDownload } from '@/Composables/useDownload'
+import { useNotification } from '@/Composables/useNotification'
 import { useUtils } from '@/Composables/useUtils'
 import { useDate, useFetch } from '@kiwilan/typescriptable-laravel'
 
@@ -15,6 +17,7 @@ const breadcrumbs = ref<any[]>([])
 
 const { laravel } = useFetch()
 const { bytesToHuman, getSize } = useUtils()
+const { saveBook } = useDownload()
 const { formatDate } = useDate()
 
 function setBreadcrumbs() {
@@ -48,6 +51,14 @@ async function getRelatedBooks(): Promise<Entity[] | undefined> {
   }>()
 
   return body?.data
+}
+
+function notification() {
+  const { push } = useNotification()
+  push({
+    title: `Download ${props.book.title}`,
+    description: 'Your download will start shortly...',
+  })
 }
 
 onMounted(async () => {
@@ -90,11 +101,6 @@ onMounted(async () => {
         book.format === 'audio' && book.audiobook_chapters_number ? `${book.audiobook_chapters_number} chapter${book.audiobook_chapters_number > 1 ? 's' : ''}` : undefined,
         book.format === 'audio' ? `Duration: ${book.audiobook_duration}` : undefined,
       ]"
-      :download="{
-        url: book.download_link,
-        size,
-        extension,
-      }"
       :breadcrumbs="breadcrumbs"
       :square="book.library?.type === 'audiobook'"
     >
@@ -103,11 +109,20 @@ onMounted(async () => {
       </template>
       <template #buttons>
         <AppButton
-          :href="book.reader_url"
-          icon="external-link"
-          color="secondary"
+          icon="download"
+          @click="[saveBook(book), notification()]"
         >
-          <span>Reader</span>
+          <span>Download</span>
+          <span class="ml-1">({{ size }})</span>
+        </AppButton>
+        <AppButton
+          :href="book.download_url"
+          icon="download"
+          color="secondary"
+          download
+          @click="notification()"
+        >
+          <span>Download (legacy)</span>
         </AppButton>
       </template>
       <template

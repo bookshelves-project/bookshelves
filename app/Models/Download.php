@@ -6,6 +6,7 @@ use App\Enums\BookFormatEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Download extends Model
 {
@@ -14,14 +15,15 @@ class Download extends Model
     protected $fillable = [
         'ip',
         'user_agent',
-        'title',
-        'authors',
+        'name',
         'format',
         'is_series',
     ];
 
     protected $casts = [
         'format' => BookFormatEnum::class,
+        'size' => 'integer',
+        'is_series' => 'boolean',
     ];
 
     public static function generate(Request $request, Book|Serie $model): self
@@ -39,15 +41,19 @@ class Download extends Model
             $download->book()->associate($model);
         }
 
-        $download->title = $download->createTitle($model);
+        $download->name = $download->createTitle($model);
         $authors = $model->authors->pluck('name')->implode(', ');
         $download->authors = strlen($authors) > 255 ? substr($authors, 0, 252).'...' : $authors;
         $download->is_series = $model instanceof Serie;
         $download->format = $model->format;
 
         $download->library()->associate($model->library);
-        $download->saveQuietly();
-        ray($download);
+
+        if (Auth::check()) {
+            $download->user()->associate(Auth::user());
+        }
+
+        $download->save();
 
         return $download;
     }
@@ -63,6 +69,11 @@ class Download extends Model
         }
 
         return "{$model->title}";
+    }
+
+    public function file(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(File::class);
     }
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo

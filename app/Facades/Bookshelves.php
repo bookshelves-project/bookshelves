@@ -34,6 +34,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static array{width: int, height: int} imageCoverSocial()
  * @method static array{width: int, height: int} imageCoverOpds()
  * @method static array{width: int, height: int} imageCoverSquare()
+ * @method static string downloadNitroUrl()
+ * @method static string downloadNitroToken()
  */
 class Bookshelves extends Facade
 {

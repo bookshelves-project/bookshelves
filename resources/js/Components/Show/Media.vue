@@ -12,14 +12,6 @@ const badgesList = computed(() => {
 const tagsList = computed(() => {
   return props.tags?.filter(tag => tag)
 })
-
-function downloadBook() {
-  const { push } = useNotification()
-  push({
-    title: `Download ${props.title}`,
-    description: 'Your download will start shortly...',
-  })
-}
 </script>
 
 <template>
@@ -93,20 +85,7 @@ function downloadBook() {
             <ShowTags :tags="tagsList" />
           </div>
         </div>
-        <div
-          v-if="download && download?.url"
-          class="mb-6 mt-8 flex items-center space-x-3"
-        >
-          <AppButton
-            :href="download.url"
-            icon="download"
-            download
-            @click="downloadBook"
-          >
-            <span>Download</span>
-            <span class="uppercase ml-1">{{ download.extension }}</span>
-            <span class="ml-1">({{ download.size }})</span>
-          </AppButton>
+        <div class="mb-6 mt-8 flex items-center space-x-3">
           <slot name="buttons" />
         </div>
         <div

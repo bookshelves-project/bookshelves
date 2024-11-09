@@ -10,6 +10,7 @@ use App\Traits\HasCovers;
 use App\Traits\HasLanguage;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\IsEntity;
+use App\Utils\NitroStream;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -67,7 +68,8 @@ class Serie extends Model implements HasMedia
     ];
 
     protected $appends = [
-        'download_link',
+        'download_url',
+        'nitro_stream_url',
     ];
 
     protected $casts = [
@@ -93,11 +95,20 @@ class Serie extends Model implements HasMedia
         ]);
     }
 
-    public function getDownloadLinkAttribute(): string
+    public function getDownloadUrlAttribute(): string
     {
-        return route('api.downloads.serie', [
-            'serie' => $this->id,
-        ]);
+        return route('download.serie', ['serie_id' => $this->id]);
+    }
+
+    public function getNitroStreamUrlAttribute(): string
+    {
+        $this->loadMissing('library');
+        $type = null;
+        if ($this->library->type === LibraryTypeEnum::audiobook) {
+            $type = 'audiobook-serie';
+        }
+
+        return NitroStream::writeUrl('zip', $this->id, $type);
     }
 
     public function getRouteAttribute(): string

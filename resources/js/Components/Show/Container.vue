@@ -11,13 +11,6 @@ export interface DetailsMedia {
   properties?: Array<string | number | undefined>
   badges?: Array<string | number | undefined>
   tags?: App.Models.Tag[]
-  download?: {
-    url?: string
-    size?: string
-    extension?: string
-    direct?: boolean
-    filename?: string
-  }
   breadcrumbs?: any[]
   square?: boolean
 }

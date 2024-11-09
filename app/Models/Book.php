@@ -11,6 +11,7 @@ use App\Traits\HasCovers;
 use App\Traits\HasLanguage;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\IsEntity;
+use App\Utils\NitroStream;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
@@ -97,8 +98,9 @@ class Book extends Model implements HasMedia
     protected $appends = [
         'isbn',
         'volume_pad',
-        'download_link',
         'route',
+        'download_url',
+        'nitro_stream_url',
     ];
 
     protected $casts = [
@@ -165,11 +167,43 @@ class Book extends Model implements HasMedia
         return gmdate('H:i:s', intval($duration));
     }
 
-    public function getDownloadLinkAttribute(): string
+    public function getDownloadUrlAttribute(): string
     {
-        return route('api.downloads.book', [
-            'book' => $this->id,
-        ]);
+        return route('download.book', ['book_id' => $this->id]);
+    }
+
+    public function getNitroStreamUrlAttribute(): string
+    {
+        if ($this->is_audiobook) {
+            return NitroStream::writeUrl('zip', $this->id, 'audiobook');
+        }
+
+        return NitroStream::writeUrl('file', $this->id);
+    }
+
+    public function getHumanNameAttribute(bool $slug = false): string
+    {
+        $this->loadMissing(['serie', 'authorMain', 'library', 'language', 'audiobookTracks']);
+
+        $name = '';
+
+        if ($this->serie) {
+            $name .= "{$this->serie->title} {$this->volume_pad} ";
+        }
+
+        $name .= "{$this->title} ";
+
+        if ($this->authorMain) {
+            $name .= "{$this->authorMain->name} ";
+        }
+
+        $name .= "{$this->language->name}";
+
+        if ($slug) {
+            return NitroStream::clearSpaces($name);
+        }
+
+        return $name;
     }
 
     public function getRouteAttribute(): string
