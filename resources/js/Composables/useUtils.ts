@@ -1,3 +1,4 @@
+import { usePage } from '@inertiajs/vue3'
 import { useFetch } from '@kiwilan/typescriptable-laravel'
 
 export function useUtils() {
@@ -39,9 +40,16 @@ export function useUtils() {
     return body
   }
 
+  const useNitro = computed(() => {
+    const { props } = usePage()
+
+    return props.use_nitro ?? false
+  })
+
   return {
     bytesToHuman,
     ucfirst,
     getSize,
+    useNitro,
   }
 }

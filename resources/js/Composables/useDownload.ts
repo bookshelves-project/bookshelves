@@ -21,6 +21,15 @@ export function useDownload() {
     })
   }
 
+  async function save(model: App.Models.Book | App.Models.Serie, type: 'book' | 'serie') {
+    if (type === 'book') {
+      await saveBook(model as App.Models.Book)
+    }
+    else {
+      await saveSerie(model as App.Models.Serie)
+    }
+  }
+
   async function saveBook(book: App.Models.Book) {
     await execute('book', book.id)
 
@@ -34,7 +43,6 @@ export function useDownload() {
   }
 
   return {
-    saveBook,
-    saveSerie,
+    save,
   }
 }

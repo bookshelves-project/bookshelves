@@ -177,13 +177,18 @@ class Bookshelves
         return config('bookshelves.image.cover.square');
     }
 
+    public function downloadNitroEnable(): bool
+    {
+        return config('bookshelves.download.nitro.enabled', false);
+    }
+
     public function downloadNitroUrl(): string
     {
-        return config('bookshelves.download.nitro.url');
+        return config('bookshelves.download.nitro.url', 'http://localhost:3000');
     }
 
     public function downloadNitroToken(): string
     {
-        return config('bookshelves.download.nitro.token');
+        return config('bookshelves.download.nitro.token', '');
     }
 }
