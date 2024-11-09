@@ -48,7 +48,6 @@ function notification() {
       <AppButton
         :href="url"
         icon="download"
-        color="secondary"
         download
         @click="notification()"
       >
