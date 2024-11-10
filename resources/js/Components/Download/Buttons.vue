@@ -24,7 +24,7 @@ function notification() {
 </script>
 
 <template>
-  <div class="flex items-center space-x-3">
+  <div class="block md:flex items-center space-y-3 md:space-y-0 md:space-x-3">
     <template v-if="useNitro">
       <AppButton
         v-if="useNitro"
