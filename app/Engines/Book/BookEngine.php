@@ -30,7 +30,13 @@ class BookEngine
     public static function make(File $file): ?self
     {
         $self = new self($file);
-        $self->ebook = Ebook::read($file->path);
+        try {
+            $self->ebook = Ebook::read($file->path);
+        } catch (\Throwable $th) {
+            Journal::error("XML error on {$file->path}", [$th->getMessage()]);
+
+            return null;
+        }
 
         if (Bookshelves::analyzerDebug()) {
             $self->printFile($self->ebook?->toArray(), "{$self->ebook?->getFilename()}-parser.json");
