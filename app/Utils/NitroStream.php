@@ -3,19 +3,26 @@
 namespace App\Utils;
 
 use App\Facades\Bookshelves;
+use Illuminate\Support\Facades\Auth;
 
 class NitroStream
 {
-    public static function writeUrl(string $endpoint, string $id, ?string $type = null): string
+    public static function writeUrl(string|int $id, string $table = 'books', bool $zip = false, ?string $type = null): string
     {
         $assetsUrl = Bookshelves::downloadNitroUrl();
 
-        $url = "{$assetsUrl}/{$endpoint}/{$id}";
+        $url = "{$assetsUrl}/download";
         $params = http_build_query([
-            'key' => Bookshelves::downloadNitroToken(),
+            'csrf_token' => csrf_token(),
             'session' => session()->getId(),
-            'name' => 'bookshelves',
-            'bs-type' => $type,
+            'nitro_key' => Bookshelves::downloadNitroKey(),
+            'remember_token' => Auth::user()?->getRememberToken(),
+            'database' => env('DB_DATABASE'),
+            'table' => $table,
+            'id' => $id,
+            'zip' => $zip,
+            'type' => 'bookshelves',
+            'bs_type' => $type,
         ]);
 
         return "{$url}?{$params}";

@@ -9,7 +9,7 @@ defineProps<{
   hideTop?: boolean
 }>()
 
-const slots = useSlots()
+const slots: any = useSlots()
 </script>
 
 <template>

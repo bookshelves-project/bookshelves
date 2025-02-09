@@ -18,7 +18,7 @@ class BookFileItem
         protected ?DateTime $dateAdded = null,
     ) {}
 
-    public static function make(string $path, string $libraryId): ?self
+    public static function make(string $path, string|int $libraryId): ?self
     {
         /** @var ?string $extension */
         $extension = pathinfo($path, PATHINFO_EXTENSION);
