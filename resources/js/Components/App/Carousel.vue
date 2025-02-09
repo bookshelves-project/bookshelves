@@ -38,7 +38,7 @@ function scrollRight() {
         :class="{
           'pl-6': padding,
         }"
-        class="text-2xl font-semibold"
+        class="text-2xl font-semibold text-ellipsis truncate max-w-36 md:max-w-full"
       >
         {{ title }}
       </div>

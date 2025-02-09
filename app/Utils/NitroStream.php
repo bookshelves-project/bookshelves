@@ -17,7 +17,7 @@ class NitroStream
             'session' => session()->getId(),
             'nitro_key' => Bookshelves::downloadNitroKey(),
             'remember_token' => Auth::user()?->getRememberToken(),
-            'database' => env('DB_DATABASE'),
+            'database' => config('database.default'),
             'table' => $table,
             'id' => $id,
             'zip' => $zip,
