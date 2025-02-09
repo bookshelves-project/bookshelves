@@ -175,10 +175,10 @@ class Book extends Model implements HasMedia
     public function getNitroStreamUrlAttribute(): string
     {
         if ($this->is_audiobook) {
-            return NitroStream::writeUrl('zip', $this->id, 'audiobook');
+            return NitroStream::writeUrl(id: $this->id, table: 'books', zip: true, type: 'audiobook');
         }
 
-        return NitroStream::writeUrl('file', $this->id);
+        return NitroStream::writeUrl(id: $this->id, table: 'books');
     }
 
     public function getHumanNameAttribute(bool $slug = false): string

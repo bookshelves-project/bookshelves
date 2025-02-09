@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Collection;
 use Kiwilan\Steward\Utils\FileSize;
 use League\Glide\Urls\UrlBuilderFactory;
@@ -58,5 +59,10 @@ class MediaExtended extends BaseMedia
         // return $urlBuilder->getUrl(ltrim($url, '/storage'), $this->glide);
 
         return '';
+    }
+
+    public function temporaryUpload(): BelongsTo
+    {
+        return $this->belongsTo(BaseMedia::class);
     }
 }
