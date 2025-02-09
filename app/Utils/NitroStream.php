@@ -4,6 +4,7 @@ namespace App\Utils;
 
 use App\Facades\Bookshelves;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class NitroStream
 {
@@ -17,7 +18,7 @@ class NitroStream
             'session' => session()->getId(),
             'nitro_key' => Bookshelves::downloadNitroKey(),
             'remember_token' => Auth::user()?->getRememberToken(),
-            'database' => config('database.default'),
+            'database' => DB::connection()->getDatabaseName(),
             'table' => $table,
             'id' => $id,
             'zip' => $zip,
