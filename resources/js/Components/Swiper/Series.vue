@@ -10,7 +10,6 @@ defineProps<{
 
 <template>
   <AppCarousel
-    v-if="series && series.length"
     :title="title"
     :url="url"
     :padding="padding"

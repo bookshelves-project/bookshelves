@@ -2,9 +2,8 @@ import { defineStore } from 'pinia'
 
 export interface StatisticsApi {
   new: number
-  libraries: number
-  movies: number
-  tv_shows: number
+  books: number
+  series: number
 }
 
 export interface Statistics {
@@ -12,11 +11,11 @@ export interface Statistics {
     label: string
     value: number
   }
-  movies: {
+  books: {
     label: string
     value: number
   }
-  tv_shows: {
+  series: {
     label: string
     value: number
   }
@@ -29,16 +28,16 @@ export const useHomeStatisticsStore = defineStore('home-statistics', () => {
   function setStatistics(data: StatisticsApi) {
     statistics.value = {
       new: {
-        label: 'new releases',
+        label: 'new books',
         value: data.new,
       },
-      movies: {
-        label: 'absolutely fascinating movies*',
-        value: data.movies,
+      books: {
+        label: 'incredible books*',
+        value: data.books,
       },
-      tv_shows: {
-        label: 'totally overwhelming TV shows*',
-        value: data.tv_shows,
+      series: {
+        label: 'absolutely epic series*',
+        value: data.series,
       },
     }
     ready.value = true

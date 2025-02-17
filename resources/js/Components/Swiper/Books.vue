@@ -11,7 +11,6 @@ defineProps<{
 
 <template>
   <AppCarousel
-    v-if="books && books.length"
     :title="title"
     :url="link"
     :padding="padding"

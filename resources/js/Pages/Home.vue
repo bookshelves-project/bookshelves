@@ -14,11 +14,14 @@ onMounted(() => {
     icon="home"
   >
     <div class="py-6 space-y-6">
+      <HomeHero />
+      <HomeStatistics />
       <SwiperHome
         v-for="s in swiper.swipers"
         :key="s.route"
         :swiper="s"
       />
+      <HomeFeatures />
     </div>
   </App>
 </template>
