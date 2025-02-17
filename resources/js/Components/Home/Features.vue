@@ -46,7 +46,7 @@ const features: {
             <dt class="flex items-center gap-x-3 text-base/7 font-semibold text-gray-100">
               <SvgIcon
                 class="size-5 flex-none text-indigo-300"
-                :name="feature.icon"
+                :name="feature.icon as SvgName"
               />
               {{ feature.title }}
             </dt>
