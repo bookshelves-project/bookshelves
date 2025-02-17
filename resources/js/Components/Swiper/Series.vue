@@ -4,6 +4,7 @@ defineProps<{
   title?: string
   url?: string
   padding?: boolean
+  ready: boolean
 }>()
 </script>
 
@@ -13,6 +14,7 @@ defineProps<{
     :title="title"
     :url="url"
     :padding="padding"
+    :ready="ready"
   >
     <template
       v-for="serie in series"

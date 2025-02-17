@@ -5,6 +5,7 @@ defineProps<{
   padding?: boolean
   square?: boolean
   link?: string
+  ready: boolean
 }>()
 </script>
 
@@ -14,6 +15,7 @@ defineProps<{
     :title="title"
     :url="link"
     :padding="padding"
+    :ready="ready"
   >
     <template
       v-for="book in books"
