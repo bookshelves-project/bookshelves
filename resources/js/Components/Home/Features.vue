@@ -7,17 +7,17 @@ const features: {
   {
     icon: 'download',
     title: 'Fast download',
-    text: 'Powered by Nitro, the download speed is faster than ever. Download your favorite movies and TV shows in seconds.',
+    text: 'Powered by Nitro, the download speed is faster than ever. Download your favorite books and series in seconds.',
   },
   {
     icon: 'magnifying-glass',
     title: 'Blazing fast search',
-    text: 'Powered by MeiliSearch, the search engine is blazing fast. Find your favorite movies and TV shows before you finish typing.',
+    text: 'Powered by MeiliSearch, the search engine is blazing fast. Find your favorite books and series before you finish typing.',
   },
   {
     icon: 'paint',
     title: 'Ergonomic design',
-    text: 'Kiwiflix offer a clean and ergonomic design. You can easily find what you are looking for.',
+    text: 'Bookshelves offer a clean and ergonomic design. You can easily find what you are looking for.',
   },
 ]
 </script>
