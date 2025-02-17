@@ -30,7 +30,10 @@ const title = computed(() => {
     <template #subtitle>
       {{ author.name }}
     </template>
-    <template #extra>
+    <template
+      v-if="booksCount || seriesCount"
+      #extra
+    >
       {{ booksCount ?? 0 }} books, {{ seriesCount ?? 0 }} series
     </template>
   </CardModel>
