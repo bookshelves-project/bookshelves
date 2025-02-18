@@ -33,6 +33,7 @@
     "filament/filament": "^3.2",
     "filament/notifications": "^3.2",
     "filament/spatie-laravel-media-library-plugin": "^3.2",
+    "filament/spatie-laravel-settings-plugin": "^3.2",
     "http-interop/http-factory-guzzle": "^1.2",
     "inertiajs/inertia-laravel": "^1.0",
     "itsgoingd/clockwork": "^5.2",
@@ -52,6 +53,7 @@
     "spatie/laravel-medialibrary": "^11.0.0",
     "spatie/laravel-ray": "^1.35",
     "spatie/laravel-route-attributes": "^1.21",
+    "spatie/laravel-settings": "^3.4",
     "tightenco/ziggy": "^2.0"
   },
   "require-dev": {

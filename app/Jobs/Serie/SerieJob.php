@@ -4,6 +4,7 @@ namespace App\Jobs\Serie;
 
 use App\Console\Commands\NotifierCommand;
 use App\Engines\Book\Converter\SerieConverter;
+use App\Facades\Bookshelves;
 use App\Models\Serie;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -38,7 +39,7 @@ class SerieJob implements ShouldQueue
         Journal::info("SerieJob: {$this->serie->title} from {$this->serie->library->name}...");
         $convert = SerieConverter::make($this->serie, $this->fresh);
 
-        if (! $this->fresh) {
+        if (! $this->fresh && Bookshelves::displayNotifications()) {
             NotifierCommand::serie($convert->getSerie());
         }
     }

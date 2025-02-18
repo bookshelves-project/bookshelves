@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static int|false limitDownloads()
  * @method static array<string> ipsBlockedPattern()
  * @method static string exceptionParserLog()
+ * @method static bool displayNotifications()
  * @method static bool convertCovers()
  * @method static string imageDisk()
  * @method static string imageCollection()

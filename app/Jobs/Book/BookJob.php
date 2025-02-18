@@ -63,7 +63,9 @@ class BookJob implements ShouldQueue
             $engine->book()->to_notify = true;
             $engine->book()->saveNoSearch();
 
-            NotifierCommand::book($engine->book());
+            if (Bookshelves::displayNotifications()) {
+                NotifierCommand::book($engine->book());
+            }
         }
     }
 

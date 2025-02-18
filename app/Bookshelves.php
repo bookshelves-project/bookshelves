@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Settings\GeneralSettings;
 use Illuminate\Support\Facades\Cache;
 
 class Bookshelves
@@ -100,6 +101,11 @@ class Bookshelves
         }
 
         return $path;
+    }
+
+    public function displayNotifications(): bool
+    {
+        return app(GeneralSettings::class)->notify;
     }
 
     public function convertCovers(): bool
