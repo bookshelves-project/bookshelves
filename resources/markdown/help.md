@@ -50,6 +50,10 @@ Bookshelves files use `.epub` format for eBooks, `.cbz` for comics and `.m4b` fo
 -   Server
     -   [audiobookshelf](https://github.com/advplyr/audiobookshelf): if you want to host your own audiobook server, audiobookshelf is a self-hosted audiobook and podcast server
 
+### Kindle & comics
+
+If you have a Kindle, you can convert `.epub` and `.cbz` files using [KCC](https://github.com/ciromattia/kcc).
+
 ### What about DRM?
 
 All books, comics and audiobooks on Bookshelves are DRM-free. You can read more about DRM on [Wikipedia](https://en.wikipedia.org/wiki/Digital_rights_management).
