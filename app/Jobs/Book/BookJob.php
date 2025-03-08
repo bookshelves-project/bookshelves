@@ -44,6 +44,13 @@ class BookJob implements ShouldQueue
         }
 
         $engine = BookEngine::make($file);
+
+        if (! $engine) {
+            Journal::warning("BookJob: {$this->number} no engine detected");
+
+            return;
+        }
+
         if (! $engine->ebook()) {
             Journal::warning("BookJob: {$this->number} no ebook detected");
 
