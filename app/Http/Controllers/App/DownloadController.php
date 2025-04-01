@@ -20,6 +20,7 @@ class DownloadController extends DownloadBaseController
         $book = Book::query()
             ->findOrFail($book_id);
 
+        $this->checkIfExists($book);
         Download::generate($request, $book);
 
         return $this->downloadBook($book);

@@ -18,6 +18,8 @@ class DownloadController extends DownloadBaseController
     #[Get('/book/{book:id}', name: 'api.download.book')]
     public function book(Request $request, Book $book)
     {
+        $this->checkIfExists($book);
+
         $name = '';
         $serie = $book->serie?->name ?? '';
         $volume = $book->volume ?? '';

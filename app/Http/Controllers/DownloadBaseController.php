@@ -10,11 +10,19 @@ use App\Models\Download;
 use App\Models\Serie;
 use App\Utils\NitroStream;
 use Illuminate\Support\Str;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Utils\Downloader\Downloader;
 use Kiwilan\Steward\Utils\Downloader\DownloaderZipStreamItem;
 
 class DownloadBaseController extends Controller
 {
+    protected function checkIfExists(Book $book): void
+    {
+        if (! file_exists($book->file->path)) {
+            Journal::warning("File not found at {$book->file->path}")->toNotifier('discord');
+        }
+    }
+
     protected function downloadBook(Book $book)
     {
         $name = NitroStream::clearSpaces("{$book->getHumanNameAttribute()}");
