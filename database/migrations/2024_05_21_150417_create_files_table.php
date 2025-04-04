@@ -18,7 +18,7 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete();
 
-            $table->string('path');
+            $table->string('path', length: 1024);
             $table->string('basename');
             $table->string('extension');
             $table->string('mime_type')->nullable();
