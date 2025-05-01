@@ -2,7 +2,7 @@
 const display = ref(false)
 
 const currentMonth = new Date().getMonth()
-const months = [4, 5, 6]
+const months = [5]
 display.value = months.includes(currentMonth)
 </script>
 
