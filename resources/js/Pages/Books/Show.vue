@@ -123,6 +123,7 @@ onMounted(async () => {
           v-if="book.serie"
           :title="`${book.serie?.title} series`"
           :url="$route('series.show', { library: book.library?.slug, serie: book.serie?.slug })"
+          :ready="book.serie?.books.length > 0"
         >
           <CardBook
             v-for="b in book.serie?.books"
@@ -136,6 +137,7 @@ onMounted(async () => {
         <AppCarousel
           v-if="related?.length"
           :title="`${book.title} related`"
+          :ready="related.length > 0"
         >
           <CardEntity
             v-for="r in related"
