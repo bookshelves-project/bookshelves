@@ -57,7 +57,10 @@ function notification() {
         </AppButton>
       </template>
     </div>
-    <p class="mt-3 italic text-xs text-gray-300 prose">
+    <p
+      v-if="useNitro"
+      class="mt-3 italic text-xs text-gray-300 prose"
+    >
       First button with file size uses Nitro, a side service that allows you to download files faster. The second button is a direct link to the file, but it may be slower.
     </p>
   </div>
