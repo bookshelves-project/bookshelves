@@ -123,7 +123,7 @@ onMounted(async () => {
           v-if="book.serie"
           :title="`${book.serie?.title} series`"
           :url="$route('series.show', { library: book.library?.slug, serie: book.serie?.slug })"
-          :ready="book.serie?.books.length > 0"
+          :ready="book.serie?.books && book.serie?.books.length > 0"
         >
           <CardBook
             v-for="b in book.serie?.books"
