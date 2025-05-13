@@ -61,7 +61,7 @@ function notification() {
       v-if="useNitro"
       class="mt-3 italic text-xs text-gray-300 prose"
     >
-      First button with file size uses Nitro, a side service that allows you to download files faster. The second button is a direct link to the file, but it may be slower.
+      Colorfulled button with file size uses Nitro, a side service that allows you to download files faster. Outlined button is a direct link to the file, but it may be slower.
     </p>
   </div>
 </template>
