@@ -12,7 +12,7 @@ class LatestDownloads extends BaseWidget
 {
     protected int|string|array $columnSpan = 'full';
 
-    protected static ?int $sort = 1;
+    protected static ?int $sort = 3;
 
     public function table(Table $table): Table
     {
