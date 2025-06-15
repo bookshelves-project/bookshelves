@@ -13,11 +13,13 @@ class Download extends Model
     use HasFactory;
 
     protected $fillable = [
-        'ip',
-        'user_agent',
-        'name',
-        'format',
+        'ip', // IP address of the user
+        'user_agent', // Mozilla/5.0
+        'name', // L'Ami commun #01 L'Ami commun, tome I
+        'format', // epub, cbz
+        'authors', // Author names, e.g. "Author One, Author Two"
         'is_series',
+        'downloader_type',
     ];
 
     protected $casts = [
@@ -26,12 +28,13 @@ class Download extends Model
         'is_series' => 'boolean',
     ];
 
-    public static function generate(Request $request, Book|Serie $model): self
+    public static function generate(Request $request, Book|Serie $model, bool $use_nitro = false): self
     {
         /** @var ?Download */
         $download = Download::query()->create([
             'ip' => $request->ip(),
             'user_agent' => $request->userAgent(),
+            'downloader_type' => $use_nitro ? 'nitro' : 'native',
         ]);
 
         if ($model instanceof Serie) {

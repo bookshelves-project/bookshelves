@@ -29,6 +29,9 @@ class LatestDownloads extends BaseWidget
                     ->badge()
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('downloader_type')
+                    ->label('Type')
+                    ->badge(),
                 Tables\Columns\TextColumn::make('name')
                     ->limit(50)
                     ->tooltip(fn (Download $record) => $record->name)
