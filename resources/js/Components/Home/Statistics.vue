@@ -13,6 +13,7 @@ async function asyncData() {
   const { laravel } = useFetch()
   const res = await laravel.get('api.live.statistics')
   const body = await res.getBody<StatisticsApi>()
+
   if (!body) {
     console.warn('Failed to fetch statistics')
     return
@@ -38,7 +39,7 @@ onMounted(() => {
             Quality service for quality people.
           </p>
         </div>
-        <dl class="mt-6 grid grid-cols-1 gap-0.5 overflow-hidden rounded-2xl text-center md:grid-cols-3">
+        <dl class="mt-6 grid grid-cols-1 gap-0.5 overflow-hidden rounded-2xl text-center md:grid-cols-3 lg:grid-cols-4">
           <template v-if="stats.ready">
             <div
               v-for="statistic in stats.statistics"
@@ -55,7 +56,7 @@ onMounted(() => {
           </template>
           <template v-else>
             <div
-              v-for="i in 3"
+              v-for="i in 4"
               :key="i"
               class="animate-pulse w-full h-36 bg-gray-800"
             />

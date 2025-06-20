@@ -1,21 +1,26 @@
 import { defineStore } from 'pinia'
 
 export interface StatisticsApi {
-  new: number
-  books: number
-  series: number
+  recently_added_books: number
+  audiobook: number
+  book: number
+  comic_manga: number
 }
 
 export interface Statistics {
-  new: {
+  recently_added_books: {
     label: string
     value: number
   }
-  books: {
+  audiobook: {
     label: string
     value: number
   }
-  series: {
+  book: {
+    label: string
+    value: number
+  }
+  comic_manga: {
     label: string
     value: number
   }
@@ -27,17 +32,21 @@ export const useHomeStatisticsStore = defineStore('home-statistics', () => {
 
   function setStatistics(data: StatisticsApi) {
     statistics.value = {
-      new: {
+      recently_added_books: {
         label: 'new books',
-        value: data.new,
+        value: data.recently_added_books,
       },
-      books: {
-        label: 'incredible books*',
-        value: data.books,
+      audiobook: {
+        label: 'amazing audiobooks',
+        value: data.audiobook,
       },
-      series: {
-        label: 'absolutely epic series*',
-        value: data.series,
+      book: {
+        label: 'incredible books',
+        value: data.book,
+      },
+      comic_manga: {
+        label: 'fantastic comics & manga',
+        value: data.comic_manga,
       },
     }
     ready.value = true

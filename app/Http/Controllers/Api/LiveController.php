@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\LibraryTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
-use App\Models\Serie;
+use App\Models\Library;
 use Spatie\RouteAttributes\Attributes\Get;
 use Spatie\RouteAttributes\Attributes\Prefix;
 
@@ -33,14 +34,24 @@ class LiveController extends Controller
     #[Get('/statistics', name: 'api.live.statistics')]
     public function statistics()
     {
+        $types = LibraryTypeEnum::toArray();
+
+        $librairies = Library::query()
+            ->withCount('books')
+            ->get()
+            ->groupBy('type');
+
+        foreach ($librairies as $type => $libraries) {
+            $types[$type] = $libraries->sum('books_count');
+        }
+
         $booksAddedAtRecently = Book::query()
             ->where('added_at', '>=', now()->subDays(7))
             ->count();
 
         return response()->json([
-            'new' => $booksAddedAtRecently,
-            'books' => Book::count(),
-            'series' => Serie::count(),
+            'recently_added_books' => $booksAddedAtRecently,
+            ...$types,
         ]);
     }
 }
