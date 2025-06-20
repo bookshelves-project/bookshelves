@@ -75,6 +75,7 @@ class Serie extends Model implements HasMedia
 
     protected $casts = [
         'parsed_at' => 'datetime',
+        'is_audiobook' => 'boolean',
     ];
 
     protected $with = [];
