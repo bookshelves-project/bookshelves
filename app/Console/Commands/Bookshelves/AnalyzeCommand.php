@@ -8,6 +8,7 @@ use App\Jobs\Clean\CleanJsonJob;
 use App\Models\Library;
 use App\Models\Tag;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Commands\Commandable;
@@ -89,6 +90,8 @@ class AnalyzeCommand extends Commandable
         }
         $this->newLine();
 
+        Artisan::call('optimize:fresh');
+
         return Command::SUCCESS;
     }
 
@@ -128,6 +131,7 @@ class AnalyzeCommand extends Commandable
 
     private function genres(): void
     {
+        /** @var string[] */
         $genres = config('bookshelves.tags.genres_list');
 
         foreach ($genres as $genre) {
