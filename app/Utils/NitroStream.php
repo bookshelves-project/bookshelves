@@ -8,7 +8,13 @@ use Illuminate\Support\Facades\DB;
 
 class NitroStream
 {
-    public static function writeUrl(string|int $id, string $table = 'books', bool $zip = false, ?string $type = null): string
+    /**
+     * Generate a URL to download a file from Nitro.
+     *
+     * @param  string|int  $id  The ID of the file to download.
+     * @param  string  $table  The database table where the file is stored, it can be `books` or `series`.
+     */
+    public static function writeUrl(string|int $id, string $table = 'books'): string
     {
         $assetsUrl = Bookshelves::downloadNitroUrl();
 
@@ -21,9 +27,7 @@ class NitroStream
             'database' => DB::connection()->getDatabaseName(),
             'table' => $table,
             'id' => $id,
-            'zip' => $zip,
-            'type' => 'bookshelves',
-            'bs_type' => $type,
+            'project' => 'bookshelves',
         ]);
 
         return "{$url}?{$params}";
