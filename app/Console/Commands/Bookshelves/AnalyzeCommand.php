@@ -90,7 +90,9 @@ class AnalyzeCommand extends Commandable
         }
         $this->newLine();
 
-        Artisan::call('optimize:fresh');
+        if ($this->fresh) {
+            Artisan::call('optimize:fresh');
+        }
 
         return Command::SUCCESS;
     }
