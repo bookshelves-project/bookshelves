@@ -39,7 +39,7 @@ onMounted(() => {
             Quality service for quality people.
           </p>
         </div>
-        <dl class="mt-6 grid grid-cols-1 gap-0.5 overflow-hidden rounded-2xl text-center md:grid-cols-3 lg:grid-cols-4">
+        <dl class="mt-6 grid grid-cols-1 gap-0.5 overflow-hidden rounded-2xl text-center lg:grid-cols-4">
           <template v-if="stats.ready">
             <div
               v-for="statistic in stats.statistics"
