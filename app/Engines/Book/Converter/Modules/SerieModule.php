@@ -34,7 +34,7 @@ class SerieModule
         $serie = new Serie([
             'title' => $ebook->getSeries(),
             'slug' => $ebook->getMetaTitle()->getSeriesSlug(),
-            'is_audiobook' => $book->is_audiobook,
+            'is_audiobook' => $book->is_audiobook ?? false,
         ]);
         $serie->saveNoSearch();
 
