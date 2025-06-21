@@ -7,9 +7,9 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npm run type-check && vite build",
+    "build": "vite build",
     "build:ssr": "vite build --ssr",
-    "build:no-check": "vite build",
+    "build:check": "npm run type-check && vite build",
     "type-check": "vue-tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
