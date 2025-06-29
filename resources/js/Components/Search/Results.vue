@@ -41,7 +41,7 @@ const seeResults = computed(() => {
             <div>
               <div
                 v-if="item.library"
-                class="text-sm text-gray-400"
+                class="text-sm text-gray-400 truncate max-w-xs md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl"
               >
                 {{ item.library.type_label }} in {{ item.library.name }}
                 <span v-if="item.authors">/</span>

@@ -83,7 +83,7 @@ onMounted(() => {
     </form>
     <div
       v-if="response && response.count > 0"
-      class="absolute top-14 max-h-[90vh] w-full overflow-auto rounded-md border border-gray-600 bg-gray-800 px-2 py-1.5 shadow md:max-h-96"
+      class="fixed left-0 lg:absolute top-14 max-h-[90vh] w-full overflow-auto rounded-md border border-gray-600 bg-gray-800 px-2 py-1.5 shadow lg:max-h-96"
     >
       <SearchResults
         :response="response"
