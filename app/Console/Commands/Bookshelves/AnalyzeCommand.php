@@ -99,14 +99,18 @@ class AnalyzeCommand extends Commandable
 
     private function clear(): void
     {
+        $this->call(JobsClearCommand::class);
+
         $this->call(ModelBackupCommand::class, [
             'model' => 'App\Models\User',
         ]);
 
-        $this->call(JobsClearCommand::class);
-
         $this->call('migrate:fresh', ['--seed' => true, '--force' => true]);
         $this->comment('Database reset!');
+
+        $this->call(ModelRestoreCommand::class, [
+            'model' => 'App\Models\User',
+        ]);
 
         $this->call(LogClearCommand::class);
 
@@ -120,9 +124,6 @@ class AnalyzeCommand extends Commandable
         Library::cacheClear();
         CleanCoversJob::dispatch();
 
-        $this->call(ModelRestoreCommand::class, [
-            'model' => 'App\Models\User',
-        ]);
         $this->call('db:seed', [
             '--class' => 'EmptySeeder',
             '--force' => true,
