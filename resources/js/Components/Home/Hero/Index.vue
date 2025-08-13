@@ -82,7 +82,7 @@ onMounted(() => {
                   We help culture reach as many people as possible
                 </h1>
                 <p class="mt-8 text-pretty text-lg font-medium text-gray-400 sm:max-w-md sm:text-xl/8 lg:max-w-none">
-                  Bookshelves isn't just a project, it's a vision, an ideal and the beauty of impossible freedom. It's also perfectly illegal.
+                  Your favorite audiobooks, ebooks, comics, and manga, all in one place. Discover new titles and enjoy a seamless download experience.
                 </p>
               </div>
               <div class="mt-14 flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0">
