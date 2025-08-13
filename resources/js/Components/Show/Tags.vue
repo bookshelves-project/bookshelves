@@ -7,6 +7,7 @@ defineProps<{
 <template>
   <div v-if="tags">
     <ul class="flex flex-wrap gap-1">
+      <li>Tags:</li>
       <li
         v-for="(tag, id) in tags"
         :key="id"

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { DetailsMedia } from './Container.vue'
-import { useNotification } from '@/Composables/useNotification'
 
 const props = defineProps<DetailsMedia>()
 const propertiesList = computed(() => {
