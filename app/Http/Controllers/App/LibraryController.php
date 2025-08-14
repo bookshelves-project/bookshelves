@@ -15,7 +15,17 @@ class LibraryController extends Controller
     #[Get('/libraries', name: 'libraries.index')]
     public function index()
     {
-        return redirect()->route('home');
+        $libraries = Library::query()
+            ->withCount(['books', 'series'])
+            ->orderBy('name')
+            ->get();
+
+        return inertia('Libraries/Index', [
+            'libraries' => $libraries,
+            'breadcrumbs' => [
+                ['label' => 'Libraries', 'route' => ['name' => 'libraries.index']],
+            ],
+        ]);
     }
 
     #[Get('/libraries/{library:slug}', name: 'libraries.show')]
