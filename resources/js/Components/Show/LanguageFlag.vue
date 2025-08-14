@@ -9,7 +9,7 @@ const props = defineProps<{
     <img
       :src="`/images/flags/${props.language?.slug}.svg`"
       :alt="props.language?.slug"
-      class="w-6 h-6"
+      class="w-6 h-6 rounded-md"
     >
   </div>
 </template>
