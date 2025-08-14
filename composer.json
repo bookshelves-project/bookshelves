@@ -38,18 +38,20 @@
     "inertiajs/inertia-laravel": "^1.0",
     "itsgoingd/clockwork": "^5.2",
     "kiwilan/php-audio": "^4.0.01",
-    "kiwilan/php-ebook": "^3.0.04",
+    "kiwilan/php-ebook": "^3.0.07",
     "kiwilan/php-filelist": "^0.1.01",
     "kiwilan/php-opds": "^2.0.11",
     "kiwilan/steward-laravel": "dev-main",
     "kiwilan/typescriptable-laravel": "^3.1.03",
     "laravel/framework": "^11.0",
+    "laravel/horizon": "^5.33",
     "laravel/jetstream": "^5.0",
     "laravel/sanctum": "^4.0",
     "laravel/scout": "^10.8",
     "laravel/tinker": "^2.9",
     "meilisearch/meilisearch-php": "^1.7",
     "opcodesio/log-viewer": "^3.6",
+    "predis/predis": "^3.2",
     "spatie/laravel-medialibrary": "^11.0.0",
     "spatie/laravel-ray": "^1.35",
     "spatie/laravel-route-attributes": "^1.21",
@@ -132,7 +134,7 @@
     ],
     "queue": [
       "Composer\\Config::disableProcessTimeout",
-      "php artisan queue:listen --tries=3 --timeout=3600"
+      "php artisan queue:listen redis --tries=3 --timeout=3600"
     ]
   },
   "extra": {

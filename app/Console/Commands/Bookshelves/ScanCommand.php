@@ -59,17 +59,19 @@ class ScanCommand extends Commandable
 
     private function parseFiles(Library $library, bool $verbose)
     {
-        $this->info("{$library->name} scanning...");
+        $now = now();
+        $this->info("{$library->name} scanning at {$now->format('H:i:s')}...");
         $parser = BookFileScanner::make($library);
 
+        $now = now();
         if (! $parser) {
-            $this->warn("{$library->name} no files.");
+            $this->warn("{$library->name} no files found at {$now->format('H:i:s')}.");
             $this->newLine();
 
             return;
         }
 
-        $this->info("{$library->name} {$parser->getCount()} files in {$library->path}.");
+        $this->info("{$library->name} {$parser->getCount()} files in {$library->path} at {$now->format('H:i:s')}.");
 
         if ($verbose) {
             $this->table(
