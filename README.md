@@ -19,11 +19,11 @@
 
 -   All your books in one place, parsed by [`kiwilan/php-ebook`](https://github.com/kiwilan/php-ebook)
     -   Audiobooks: `.mp3`, `.m4b`
-    -   Comics/Mangas: `.cb7`, `.cba`, `.cbr`, `.cbt`, `.cbz`
+    -   Graphics (comics & manga): `.cb7`, `.cba`, `.cbr`, `.cbt`, `.cbz`
     -   eBooks: `.epub`, `.pdf`
 -   Search engine with [Meilisearch](https://www.meilisearch.com/)
 -   OPDS feed powered by [`kiwilan/php-opds`](https://github.com/kiwilan/php-opds)
--   Read eBooks, comics/mangas and listen audiobooks
+-   Read eBooks, graphics and listen audiobooks
 -   Admin panel made by [`filament`](https://filamentphp.com/)
     -   Libraries management
     -   Users management
@@ -146,7 +146,7 @@ Connect to the admin panel at <http://localhost:8000/admin> with the default cre
 Go to the admin panel at <http://localhost:8000/admin>, find the `Libraries` entry in the sidebar and click on `New library`.
 
 -   `Name` is a label for your library
--   `Type` is a select with `audiobook`, `book` and `comic_manga` values.
+-   `Type` is a select with `audiobook`, `book` and `graphic` values.
 -   `Path` is absolute path to your library
 -   `Slug` is defined automatically from the name field
 -   `Enabled` is a checkbox to enable or disable the library
@@ -163,7 +163,7 @@ cp libraries-template.json libraries.json
 And add your books libraries in `libraries.json`.
 
 -   `name`: Library name, you can use any label
--   `type`: `LibraryTypeEnum` (`audiobook`, `book`, `comic_manga`)
+-   `type`: `LibraryTypeEnum` (`audiobook`, `book`, `graphic`)
 -   `path`: Absolute path to your library
 -   `is_enabled`: Optional, to enable or disable the library
 
@@ -171,7 +171,7 @@ And add your books libraries in `libraries.json`.
 [
     {
         "name": "My audiobooks",
-        "type": "audiobook", // LibraryTypeEnum: audiobook, book, `comic_manga`
+        "type": "audiobook", // LibraryTypeEnum: audiobook, book, `graphic`
         "path": "/absolute/path/to",
         "is_enabled": true // optional, to enable or disable the library
     }

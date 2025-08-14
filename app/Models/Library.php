@@ -38,7 +38,7 @@ class Library extends Model
         'type_label',
         'is_audiobook',
         'is_book',
-        'is_comic_manga',
+        'is_graphic',
     ];
 
     protected $casts = [
@@ -67,16 +67,16 @@ class Library extends Model
         $items = collect();
 
         $lib_books = self::onlyBooks()->get();
-        $lib_comics_mangas = self::onlyComicsAndMangas()->get();
+        $lib_graphics = self::onlyGraphics()->get();
         $lib_audiobooks = self::onlyAudiobooks()->get();
         $lib_others = self::whereNotIn('type', [
             LibraryTypeEnum::book,
-            LibraryTypeEnum::comic_manga,
+            LibraryTypeEnum::graphic,
             LibraryTypeEnum::audiobook,
         ])->get();
 
         $items = $items->merge($lib_books);
-        $items = $items->merge($lib_comics_mangas);
+        $items = $items->merge($lib_graphics);
         $items = $items->merge($lib_audiobooks);
         $items = $items->merge($lib_others);
 
@@ -100,9 +100,9 @@ class Library extends Model
         return $query->where('type', LibraryTypeEnum::book);
     }
 
-    public function scopeOnlyComicsAndMangas(Builder $query)
+    public function scopeOnlyGraphics(Builder $query)
     {
-        return $query->where('type', LibraryTypeEnum::comic_manga);
+        return $query->where('type', LibraryTypeEnum::graphic);
     }
 
     public function scopeActive(Builder $query)
@@ -120,9 +120,9 @@ class Library extends Model
         return $this->type == LibraryTypeEnum::book;
     }
 
-    public function getIsComicMangaAttribute(): bool
+    public function getIsGraphicAttribute(): bool
     {
-        return $this->type == LibraryTypeEnum::comic_manga;
+        return $this->type == LibraryTypeEnum::graphic;
     }
 
     protected static function countType(Collection $collection): int
@@ -149,9 +149,9 @@ class Library extends Model
         return self::countType(Library::onlyBooks()->get());
     }
 
-    public static function getComicsCount(): int
+    public static function getGraphicsCount(): int
     {
-        return self::countType(Library::onlyComicsAndMangas()->get());
+        return self::countType(Library::onlyGraphics()->get());
     }
 
     public function getJsonCount(): int

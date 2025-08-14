@@ -4,7 +4,7 @@ export interface StatisticsApi {
   recently_added_books: number
   audiobook: number
   book: number
-  comic_manga: number
+  graphic: number
 }
 
 export interface Statistics {
@@ -20,7 +20,7 @@ export interface Statistics {
     label: string
     value: number
   }
-  comic_manga: {
+  graphic: {
     label: string
     value: number
   }
@@ -44,9 +44,9 @@ export const useHomeStatisticsStore = defineStore('home-statistics', () => {
         label: 'incredible books',
         value: data.book,
       },
-      comic_manga: {
+      graphic: {
         label: 'fantastic comics & manga',
-        value: data.comic_manga,
+        value: data.graphic,
       },
     }
     ready.value = true
