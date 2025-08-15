@@ -28,14 +28,12 @@ class TagModule
                 continue;
             }
 
-            $isExists = Tag::where('name', $model->name)->first();
+            $isExists = Tag::where('name', $model->name)
+                ->orWhere('slug', $model->slug)
+                ->first();
 
             if (! $isExists) {
-                $isExists = Tag::where('slug', $model->slug)->first();
-
-                if (! $isExists) {
-                    $isExists = $model->create($model->toArray());
-                }
+                $isExists = $model->createOrFirst($model->toArray());
             }
             $items->push($isExists);
         }
