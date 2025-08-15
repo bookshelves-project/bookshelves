@@ -51,7 +51,10 @@ class AuthorsCommand extends Commandable
         Journal::info($msg);
         $this->info($msg);
 
-        AuthorsDispatchJob::dispatch($this->fresh);
+        $msg = 'Disabled cause of Wikipedia API restrictions';
+        Journal::error($msg);
+        $this->error($msg);
+        // AuthorsDispatchJob::dispatch($this->fresh);
 
         return Command::SUCCESS;
     }
