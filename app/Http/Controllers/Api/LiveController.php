@@ -17,6 +17,7 @@ class LiveController extends Controller
     {
         $books = Book::query()
             ->with(['media'])
+            ->inRandomOrder()
             ->limit(5)
             ->get();
 
