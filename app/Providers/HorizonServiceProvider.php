@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Enums\UserRoleEnum;
 use Laravel\Horizon\Horizon;
 use Laravel\Horizon\HorizonApplicationServiceProvider;
@@ -29,13 +30,20 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
      */
     protected function gate(): void
     {
-        $super_admin_users = User::query()
-            ->where('role', UserRoleEnum::super_admin->value)
-            ->pluck('email')
-            ->toArray();
 
-        Gate::define('viewHorizon', function (User $user) use ($super_admin_users) {
-            return in_array($user->email, $super_admin_users);
+        Gate::define('viewHorizon', function (User $user) {
+            try {
+                $super_admin_users = User::query()
+                    ->where('role', UserRoleEnum::super_admin->value)
+                    ->pluck('email')
+                    ->toArray();
+
+                return in_array($user->email, $super_admin_users);
+            } catch (\Throwable $th) {
+                Journal::error($th);
+            }
+
+            return false;
         });
     }
 }
