@@ -17,7 +17,6 @@ class LiveController extends Controller
     {
         $books = Book::query()
             ->with(['media'])
-            ->latest()
             ->limit(5)
             ->get();
 
