@@ -17,6 +17,30 @@ class Bookshelves
         return config('bookshelves.super_admin.password');
     }
 
+    /**
+     * @return string[]
+     */
+    public function tagsGenreList(): array
+    {
+        return (array) config('bookshelves.tags.genres_list');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function tagsForbiddenList(): array
+    {
+        return (array) config('bookshelves.tags.forbidden');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function tagsConvertedList(): array
+    {
+        return (array) config('bookshelves.tags.converted');
+    }
+
     public function apiGoogleBooks(): bool
     {
         return config('bookshelves.api.google_books', false);
@@ -87,7 +111,7 @@ class Bookshelves
     public function ipsBlockedPattern(): array
     {
         if (config('bookshelves.ips.blocked_pattern')) {
-            return config('bookshelves.ips.blocked_pattern');
+            return (array) config('bookshelves.ips.blocked_pattern');
         }
 
         return [];

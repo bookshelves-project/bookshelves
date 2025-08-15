@@ -3,6 +3,7 @@
 namespace App\Engines\Book\Converter\Modules;
 
 use App\Enums\TagTypeEnum;
+use App\Facades\Bookshelves;
 use App\Models\Book;
 use App\Models\Tag;
 use Illuminate\Support\Collection;
@@ -30,7 +31,11 @@ class TagModule
             $isExists = Tag::where('name', $model->name)->first();
 
             if (! $isExists) {
-                $isExists = $model->create($model->toArray());
+                $isExists = Tag::where('slug', $model->slug)->first();
+
+                if (! $isExists) {
+                    $isExists = $model->create($model->toArray());
+                }
             }
             $items->push($isExists);
         }
@@ -73,11 +78,11 @@ class TagModule
 
     public static function make(string $tag): ?Tag
     {
-        $mainGenres = config('bookshelves.tags.genres_list');
+        $mainGenres = Bookshelves::tagsGenreList();
         $tag = str_replace(' and ', ' & ', $tag);
         $tag = str_replace('-', ' ', $tag);
-        $forbiddenTags = config('bookshelves.tags.forbidden');
-        $convertedTags = config('bookshelves.tags.converted');
+        $forbiddenTags = Bookshelves::tagsForbiddenList();
+        $convertedTags = Bookshelves::tagsConvertedList();
 
         foreach ($convertedTags as $key => $convertedTag) {
             if ($tag === $key) {

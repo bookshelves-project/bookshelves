@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Facade;
  *
  * @method static string superAdminEmail()
  * @method static string superAdminPassword()
+ * @method static string[] tagsGenreList()
+ * @method static string[] tagsForbiddenList()
+ * @method static string[] tagsConvertedList()
  * @method static bool apiGoogleBooks()
  * @method static bool apiOpenLibrary()
  * @method static bool apiComicVine()
