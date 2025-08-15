@@ -1,0 +1,15 @@
+.vscode
+node_modules
+vendor
+
+_ide_helper_models.php
+_ide_helper.php
+
+.DS_Store
+.env.docker
+.env.local
+.env.testing
+
+auto-imports.d.ts
+components.d.ts
+icons.d.ts
