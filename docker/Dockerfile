@@ -50,6 +50,13 @@ RUN apt-get update && apt-get install -y \
     && echo "extension=imagick.so" > /etc/php/${PHP_VERSION}/fpm/conf.d/20-imagick.ini \
     && echo "extension=imagick.so" > /etc/php/${PHP_VERSION}/cli/conf.d/20-imagick.ini
 
+# Install Rust & Cargo
+RUN apt-get update && apt-get install -y build-essential pkg-config libssl-dev \
+    && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+RUN cargo install scout-seeker
+
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
