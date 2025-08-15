@@ -39,6 +39,7 @@ class LibraryController extends Controller
                 $request,
             )->inertia(),
             'breadcrumbs' => [
+                ['label' => 'Libraries', 'route' => ['name' => 'libraries.index']],
                 ['label' => $library->name, 'route' => ['name' => 'libraries.show', 'params' => ['library' => $library->slug]]],
             ],
             'square' => $library->type == LibraryTypeEnum::audiobook,

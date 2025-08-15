@@ -20,9 +20,12 @@ class BooksDispatchJob implements ShouldQueue
 
     /**
      * Create a new job instance.
+     *
+     * @param  string[]  $paths
      */
     public function __construct(
         public Library $library,
+        public array $paths = [],
         public bool $fresh = false,
     ) {}
 
@@ -33,15 +36,11 @@ class BooksDispatchJob implements ShouldQueue
     {
         Journal::debug('BooksDispatchJob: create BookJob for each item...');
 
-        if (! file_exists($this->library->getJsonPath())) {
-            Journal::error("BooksDispatchJob: {$this->library->name} library json file not found", [
-                'path' => $this->library->getJsonPath(),
-            ]);
+        if (empty($this->paths)) {
+            Journal::error("BooksDispatchJob: {$this->library->name} library files are empty, nothing to parse.");
 
             return;
         }
-
-        $bookFiles = (array) json_decode(file_get_contents($this->library->getJsonPath()), true);
 
         $files = File::query()
             ->where('library_id', $this->library->id)
@@ -49,8 +48,8 @@ class BooksDispatchJob implements ShouldQueue
             ->map(fn (File $file) => $file->path)
             ->toArray();
 
-        $toParse = $this->findFilesToParse($bookFiles, $files);
-        $toDelete = $this->findFilesToDelete($bookFiles, $files);
+        $toParse = $this->findFilesToParse($this->paths, $files);
+        $toDelete = $this->findFilesToDelete($this->paths, $files);
         $this->deleteFiles($toDelete, $this->library->name);
 
         $files = [];

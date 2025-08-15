@@ -3,7 +3,6 @@
 namespace App\Console\Commands\Bookshelves;
 
 use App\Facades\Bookshelves;
-use App\Jobs\Book\BooksDispatchJob;
 use App\Jobs\Library\ParserJob;
 use App\Models\Library;
 use Illuminate\Console\Command;
@@ -83,8 +82,7 @@ class LibraryCommand extends Commandable
             $this->deleteModels($library->series);
         }
 
-        ParserJob::dispatch($library, $this->limit);
-        BooksDispatchJob::dispatch($library, $this->fresh);
+        ParserJob::dispatch($library, $this->limit, $this->fresh);
 
         return Command::SUCCESS;
     }
