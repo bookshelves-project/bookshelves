@@ -40,7 +40,7 @@ class RedisAudiobooksJob implements ShouldQueue
 
     private function parse(Library $library)
     {
-        Journal::info("RedisAudiobooksJob: starting for library {$library}...");
+        Journal::info("RedisAudiobooksJob: starting for library {$library->name}...");
 
         $groups = AudiobookTrack::select('slug', DB::raw('COUNT(*) as track_count'))
             ->where('library_id', $library)
@@ -66,7 +66,7 @@ class RedisAudiobooksJob implements ShouldQueue
         }
 
         Journal::debug("RedisAudiobooksJob: found {$i} groups with multiple book IDs");
-        Journal::info("RedisAudiobooksJob: finished for library {$library}");
+        Journal::info("RedisAudiobooksJob: finished for library {$library->name}");
     }
 
     /**

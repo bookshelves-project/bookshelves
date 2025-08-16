@@ -54,10 +54,10 @@ class RedisCommand extends Commandable
 
     private function parse(Library $library)
     {
-        $this->info("RedisAudiobooksJob: starting for library {$library}...");
+        $this->info("RedisAudiobooksJob: starting for library {$library->name}...");
 
         $groups = AudiobookTrack::select('slug', DB::raw('COUNT(*) as track_count'))
-            ->where('library_id', $library)
+            ->where('library_id', $library->id)
             ->groupBy('slug')
             ->having('track_count', '>', 1)
             ->get();
@@ -80,7 +80,7 @@ class RedisCommand extends Commandable
         }
 
         $this->comment("RedisAudiobooksJob: found {$i} groups with multiple book IDs");
-        $this->info("RedisAudiobooksJob: finished for library {$library}");
+        $this->info("RedisAudiobooksJob: finished for library {$library->name}");
     }
 
     /**
