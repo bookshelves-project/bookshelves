@@ -32,6 +32,8 @@ class CleanJob implements ShouldQueue
      */
     public function handle(): void
     {
+        Journal::debug('CleanJob: clean books, audiobooks, authors and series...');
+
         foreach (Library::all() as $library) {
             $this->cleanBooks($library);
         }
