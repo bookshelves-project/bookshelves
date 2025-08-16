@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
 # Update and install dependencies
 RUN apt-get update && apt-get install -y \
     # Install common dependencies
-    software-properties-common wget git zsh vim \
+    software-properties-common wget git vim \
     # apt zip php extension
     libzip-dev unzip zip p7zip \
     # apt intl php extension
@@ -69,8 +69,10 @@ RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
 RUN echo "listen = 0.0.0.0:9000" >> /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf \
     && ln -s /usr/sbin/php-fpm${PHP_VERSION} /usr/local/bin/php-fpm
 
-# Set up ZSH as the default shell
-SHELL ["/bin/zsh", "-c"]
+RUN git clone https://gitlab.com/bookshelves-project/bookshelves.git . \
+    && composer install --no-interaction --optimize-autoloader \
+    && pnpm install \
+    && pnpm build
 
 WORKDIR /app
 
