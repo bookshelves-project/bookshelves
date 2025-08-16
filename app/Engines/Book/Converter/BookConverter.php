@@ -290,7 +290,7 @@ class BookConverter
         if ($this->ebook->getFormat() === EbookFormatEnum::AUDIOBOOK) {
             $title = BookUtils::audiobookParseTitle($this->ebook->getTitle());
 
-            // This check won't work with Redis (race condition)
+            // This check could not work with Redis (race condition)
             $isExists = Book::query()
                 ->where('title', $title)
                 ->where('library_id', $this->file->library_id)

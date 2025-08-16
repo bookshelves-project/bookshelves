@@ -77,6 +77,8 @@ class SerieConverter
                 Journal::error('SerieConverter: No book found for serie', [
                     'serie' => $this->serie->id,
                 ]);
+
+                return $this;
             }
 
             /** @var Media|null $media */
