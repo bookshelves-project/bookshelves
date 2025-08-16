@@ -51,16 +51,11 @@ class BookshelvesRedisDuplicatesCommand extends Commandable
 
     private function find(string $class, string $column, string $name): void
     {
-        try {
-            $duplicates = $class::select($column, DB::raw('COUNT(*) as total'))
-                ->groupBy($column)
-                ->having('total', '>', 1)
-                ->get();
-        } catch (\Throwable $th) {
-            $this->error("Error finding {$name}: {$th->getMessage()}");
-
-            return;
-        }
+        /** @var \Illuminate\Database\Eloquent\Collection $duplicates */
+        $duplicates = $class::select($column, DB::raw('COUNT(*) as total'))
+            ->groupBy($column)
+            ->having('total', '>', 1)
+            ->get();
 
         if ($duplicates->isEmpty()) {
             $this->info("No duplicate {$name} found.");
@@ -70,8 +65,26 @@ class BookshelvesRedisDuplicatesCommand extends Commandable
 
         // $this->table(
         //     ['Slug', 'Total'],
-        //     $duplicates->toArray()
+        //     $duplicates->map(function ($item) use ($column) {
+        //         return [
+        //             $item->{$column},
+        //             $item->total,
+        //         ];
+        //     })->toArray()
         // );
+        $this->table(
+            ['Slug', 'Total'],
+            // array_map(fn ($duplicate) => [
+            //     $file->basename(),
+            //     $file->extension(),
+            //     $library->name,
+            // ], $duplicates)
+            $duplicates->map(fn ($duplicate) => [
+                $duplicate->{$column},
+                $duplicate->total,
+            ])->toArray()
+        );
+
         $this->info("Found {$duplicates->count()} duplicate {$name}.");
     }
 }
