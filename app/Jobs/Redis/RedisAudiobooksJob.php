@@ -11,6 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 
 /**
  * Parse `AudiobookTrack` to get all tracks with same `slug` and group them.
@@ -31,6 +32,8 @@ class RedisAudiobooksJob implements ShouldQueue
      */
     public function handle(): void
     {
+        Journal::info("RedisAudiobooksJob: starting for library {$this->library}...");
+
         $groups = AudiobookTrack::select('slug', DB::raw('COUNT(*) as track_count'))
             ->where('library_id', $this->library)
             ->groupBy('slug')
@@ -51,6 +54,8 @@ class RedisAudiobooksJob implements ShouldQueue
                 $this->handleMultipleBookIds($tracks);
             }
         }
+
+        Journal::info("RedisAudiobooksJob: finished for library {$this->library}");
     }
 
     /**

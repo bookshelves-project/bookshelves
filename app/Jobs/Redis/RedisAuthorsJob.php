@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 
 /**
  * Parse `AudiobookTrack` to get all tracks with same `slug` and group them.
@@ -28,6 +29,8 @@ class RedisAuthorsJob implements ShouldQueue
      */
     public function handle(): void
     {
+        Journal::info('RedisAuthorsJob: starting...');
+
         // 1️⃣ Identifier les slugs en doublon
         $duplicateSlugs = Author::select('slug', DB::raw('COUNT(*) as author_count'))
             ->groupBy('slug')
@@ -61,6 +64,6 @@ class RedisAuthorsJob implements ShouldQueue
             }
         });
 
-        echo "Tous les doublons d'Author ont été fusionnés avec leurs relations Books et Series.\n";
+        Journal::info('RedisAuthorsJob: finished');
     }
 }
