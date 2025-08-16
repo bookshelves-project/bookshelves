@@ -358,7 +358,7 @@ class BookConverter
         try {
             $book->saveNoSearch();
         } catch (\Throwable $th) {
-            if ($this->isAudiobookAndBookExists) {
+            if ($this->ebook->isAudio()) {
                 // book exists and saved in parallel
                 $this->book = Book::query()
                     ->where('slug', $book->slug)
