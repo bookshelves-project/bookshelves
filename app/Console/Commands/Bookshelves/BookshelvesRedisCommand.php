@@ -46,11 +46,14 @@ class BookshelvesRedisCommand extends Commandable
         $this->title();
 
         Library::where('type', LibraryTypeEnum::audiobook)->get()->each(function (Library $library) {
-            RedisAudiobooksJob::dispatch($library->slug);
+            RedisAudiobooksJob::dispatch($library->id);
         });
 
         RedisAuthorsJob::dispatch();
-        RedisSeriesJob::dispatch();
+
+        Library::all()->each(function (Library $library) {
+            RedisSeriesJob::dispatch($library->id);
+        });
 
         return Command::SUCCESS;
     }

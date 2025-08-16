@@ -21,6 +21,7 @@ class RedisSeriesJob implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
+        protected string|int $library,
     ) {}
 
     /**
@@ -28,8 +29,9 @@ class RedisSeriesJob implements ShouldQueue
      */
     public function handle(): void
     {
-        // 1️⃣ Identifier les slugs en doublon
+        // Identify duplicate slugs
         $duplicateSlugs = Serie::select('slug', DB::raw('COUNT(*) as serie_count'))
+            ->where('library_id', $this->library)
             ->groupBy('slug')
             ->having('serie_count', '>', 1)
             ->pluck('slug');

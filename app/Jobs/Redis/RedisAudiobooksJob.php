@@ -23,7 +23,7 @@ class RedisAudiobooksJob implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        protected string $library,
+        protected string|int $library,
     ) {}
 
     /**
@@ -32,6 +32,7 @@ class RedisAudiobooksJob implements ShouldQueue
     public function handle(): void
     {
         $groups = AudiobookTrack::select('slug', DB::raw('COUNT(*) as track_count'))
+            ->where('library_id', $this->library)
             ->groupBy('slug')
             ->having('track_count', '>', 1)
             ->get();
@@ -69,7 +70,7 @@ class RedisAudiobooksJob implements ShouldQueue
                 $track->book()->associate($main_book);
                 $track->saveQuietly();
 
-                Book::find($wrong_book)->delete();
+                Book::find($wrong_book)?->delete();
             }
         }
     }
