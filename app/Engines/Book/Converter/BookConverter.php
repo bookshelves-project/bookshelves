@@ -360,7 +360,10 @@ class BookConverter
                 ->where('slug', $book->slug)
                 ->where('library_id', $this->file->library_id)
                 ->first();
-            Journal::debug('BookConverter: book exists?', [$isExists]);
+            Journal::debug('BookConverter: book exists?', [
+                'slug' => $book->slug,
+                'exists' => $isExists->title ?? 'no',
+            ]);
 
             Book::withoutSyncingToSearch(function () use ($book) {
                 $book->saveQuietly();
