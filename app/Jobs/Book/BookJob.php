@@ -136,7 +136,10 @@ class BookJob implements ShouldQueue
         $this->log($exception->getMessage());
     }
 
-    private function fusionAudiobook(BookEngine $engine): void
+    /**
+     * Replaced by `BookshelvesRedisCommand`.
+     */
+    protected function fusionAudiobook(BookEngine $engine): void
     {
         $track_number = $engine->ebook()->getExtra('track_number');
         $track_number_int = intval($track_number);
