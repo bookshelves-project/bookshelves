@@ -138,6 +138,8 @@ class BookJob implements ShouldQueue
 
     private function fusionAudiobook(BookEngine $engine): void
     {
+        Journal::debug($engine->ebook()->getExtra('track_number'));
+
         // find all Book with same `slug`
         $books = Book::query()
             ->where('slug', $engine->book()->slug)
