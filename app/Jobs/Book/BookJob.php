@@ -154,7 +154,7 @@ class BookJob implements ShouldQueue
 
         Journal::debug("BookJob: audiobooks {$books->count()} to fusion.", [
             'books' => $books->pluck('id')->toArray(),
-            'first' => $first ? $first->id : null,
+            'keep' => $first ? $first->id : null,
         ]);
 
         /** @var Collection<int, AudiobookTrack> $tracks */
