@@ -65,6 +65,7 @@ class DuplicatesCommand extends Commandable
 
         if ($duplicates->isEmpty()) {
             $this->info("No duplicate {$name} found.");
+            $this->newLine();
 
             return;
         }
