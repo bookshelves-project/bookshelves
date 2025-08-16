@@ -131,7 +131,7 @@ class BookConverter
 
         $this->track->library()->associate($this->file->library);
         $this->track->file()->associate($this->file);
-        $this->track->book()->associate($this->book);
+        // $this->track->book()->associate($this->book);
         $this->track->saveQuietly();
 
         return $this;
