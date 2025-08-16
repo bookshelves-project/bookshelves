@@ -351,7 +351,23 @@ class BookConverter
 
         $book->format = $format;
         $book->file()->associate($this->file);
-        $book->saveNoSearch();
+
+        try {
+            $book->saveNoSearch();
+        } catch (\Throwable $th) {
+            if ($this->isAudiobookAndBookExists) {
+                // book exists and saved in parallel
+                $this->book = Book::query()
+                    ->where('slug', $book->slug)
+                    ->where('library_id', $this->file->library_id)
+                    ->first();
+                $this->isAudiobookAndBookExists = true;
+            }
+
+            Journal::error("BookConverter: failed to save book {$this->file->path}", [
+                'exception' => $th,
+            ]);
+        }
 
         return $book;
     }
