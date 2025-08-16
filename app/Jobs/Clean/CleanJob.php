@@ -2,9 +2,7 @@
 
 namespace App\Jobs\Clean;
 
-use App\Models\AudiobookTrack;
 use App\Models\Author;
-use App\Models\Book;
 use App\Models\File;
 use App\Models\Library;
 use App\Models\Serie;
@@ -14,7 +12,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Services\DirectoryService;
 
@@ -32,13 +29,12 @@ class CleanJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Journal::debug('CleanJob: clean books, audiobooks, authors and series...');
+        Journal::debug('CleanJob: clean books, authors and series...');
 
         foreach (Library::all() as $library) {
             $this->cleanBooks($library);
         }
 
-        $this->audiobookFusion();
         $this->cleanAuthors();
         $this->cleanSeries();
 
@@ -125,67 +121,5 @@ class CleanJob implements ShouldQueue
         foreach ($series as $serie) {
             $serie->delete();
         }
-    }
-
-    private function audiobookFusion(): void
-    {
-        // 1️⃣ Identifier les slugs + library_id qui ont plusieurs book_id
-        /** @var \Illuminate\Database\Eloquent\Collection<int, AudiobookTrack> $duplicates */
-        $duplicates = AudiobookTrack::select('slug', 'library_id', DB::raw('COUNT(DISTINCT book_id) as book_count'))
-            ->groupBy('slug', 'library_id')
-            ->having('book_count', '>', 1)
-            ->get();
-
-        foreach ($duplicates as $duplicate) {
-            DB::transaction(function () use ($duplicate) {
-                // Récupère tous les book_id pour ce groupe de tracks
-                $bookIds = AudiobookTrack::where('slug', $duplicate->slug)
-                    ->where('library_id', $duplicate->library_id)
-                    ->pluck('book_id')
-                    ->filter() // ignore les null
-                    ->unique()
-                    ->toArray();
-
-                Journal::info("CleanJob: Found duplicates for slug {$duplicate->slug} in library {$duplicate->library_id}", [
-                    'bookIds' => $bookIds,
-                ]);
-
-                if (count($bookIds) < 2) {
-                    Journal::debug("CleanJob: No duplicates found for slug {$duplicate->slug} in library {$duplicate->library_id}");
-
-                    return; // pas de doublon réel
-                }
-
-                // Collecte tous les AudiobookTrack liés
-                $trackIds = AudiobookTrack::whereIn('book_id', $bookIds)->pluck('id')->toArray();
-
-                // 2️⃣ Supprimer l'ancien lien Book pour les tracks
-                AudiobookTrack::whereIn('id', $trackIds)->update(['book_id' => null]);
-
-                // 3️⃣ Supprimer tous les Books doublons
-                Book::whereIn('id', $bookIds)->delete();
-
-                Journal::info("CleanJob: Merged audiobooks for slug {$duplicate->slug} in library {$duplicate->library_id}", [
-                    'duplicate' => $duplicate,
-                    'count' => count($trackIds),
-                ]);
-
-                // 4️⃣ Créer un nouveau Book principal
-                $newBook = new Book([
-                    'title' => $duplicate->title,
-                    'slug' => $duplicate->slug,
-                    'library_id' => $duplicate->library_id,
-                ]);
-                Journal::info("CleanJob: Created new book for slug {$duplicate->slug} in library {$duplicate->library_id}", [
-                    'book' => $newBook,
-                ]);
-                $newBook->saveNoSearch();
-
-                // 5️⃣ Réassocier tous les tracks au nouveau Book
-                AudiobookTrack::whereIn('id', $trackIds)->update(['book_id' => $newBook->id]);
-            });
-        }
-
-        Journal::info('All duplicate audiobooks have been merged.');
     }
 }

@@ -6,6 +6,7 @@ use App\Console\Commands\NotifierCommand;
 use App\Engines\Book\BookEngine;
 use App\Engines\Book\File\BookFileItem;
 use App\Facades\Bookshelves;
+use App\Models\Book;
 use App\Models\File;
 use Error;
 use Exception;
@@ -74,6 +75,10 @@ class BookJob implements ShouldQueue
                 NotifierCommand::book($engine->book());
             }
         }
+
+        if ($engine->book()->is_audiobook) {
+            $this->fusionAudiobook();
+        }
     }
 
     private function getFile(BookFileItem $bookFile): File
@@ -127,5 +132,27 @@ class BookJob implements ShouldQueue
     public function failed(Exception|Error $exception)
     {
         $this->log($exception->getMessage());
+    }
+
+    private function fusionAudiobook(BookEngine $engine): void
+    {
+        // find all Book with same `slug`
+        $books = Book::query()
+            ->where('slug', $engine->book()->slug)
+            ->where('id', '!=', $engine->book()->id)
+            ->get();
+
+        // skip if no other books found
+        if ($books->count() === 0) {
+            Journal::info("BookJob: audiobooks {$books->count()} to fusion.");
+        }
+
+        Journal::debug("BookJob: audiobooks {$books->count()} to fusion.", [
+            'books' => $books->pluck('id')->toArray(),
+        ]);
+
+        // foreach ($books as $book) {
+        //     $book->delete();
+        // }
     }
 }
