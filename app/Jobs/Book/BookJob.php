@@ -78,9 +78,9 @@ class BookJob implements ShouldQueue
             }
         }
 
-        if ($engine->book()->is_audiobook) {
-            $this->fusionAudiobook($engine);
-        }
+        // if ($engine->book()->is_audiobook) {
+        //     $this->fusionAudiobook($engine);
+        // }
     }
 
     private function getFile(BookFileItem $bookFile): File
