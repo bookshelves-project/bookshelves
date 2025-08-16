@@ -130,22 +130,25 @@ class CleanJob implements ShouldQueue
     private function audiobookFusion(): void
     {
         // 1️⃣ Identifier les slugs + library_id qui ont plusieurs book_id
-        $duplicateGroups = AudiobookTrack::select('slug', 'library_id', DB::raw('COUNT(DISTINCT book_id) as book_count'))
+        /** @var \Illuminate\Database\Eloquent\Collection<int, AudiobookTrack> $duplicates */
+        $duplicates = AudiobookTrack::select('slug', 'library_id', DB::raw('COUNT(DISTINCT book_id) as book_count'))
             ->groupBy('slug', 'library_id')
             ->having('book_count', '>', 1)
             ->get();
 
-        foreach ($duplicateGroups as $group) {
-            DB::transaction(function () use ($group) {
+        foreach ($duplicates as $duplicate) {
+            DB::transaction(function () use ($duplicate) {
                 // Récupère tous les book_id pour ce groupe de tracks
-                $bookIds = AudiobookTrack::where('slug', $group->slug)
-                    ->where('library_id', $group->library_id)
+                $bookIds = AudiobookTrack::where('slug', $duplicate->slug)
+                    ->where('library_id', $duplicate->library_id)
                     ->pluck('book_id')
                     ->filter() // ignore les null
                     ->unique()
                     ->toArray();
 
                 if (count($bookIds) < 2) {
+                    Journal::debug("CleanJob: No duplicates found for slug {$duplicate->slug} in library {$duplicate->library_id}");
+
                     return; // pas de doublon réel
                 }
 
@@ -160,9 +163,9 @@ class CleanJob implements ShouldQueue
 
                 // 4️⃣ Créer un nouveau Book principal
                 $newBook = Book::create([
-                    'title' => $group->slug, // ou un autre titre selon ta logique
-                    'slug' => $group->slug,
-                    'library_id' => $group->library_id,
+                    'title' => $duplicate->title,
+                    'slug' => $duplicate->slug,
+                    'library_id' => $duplicate->library_id,
                 ]);
 
                 // 5️⃣ Réassocier tous les tracks au nouveau Book
