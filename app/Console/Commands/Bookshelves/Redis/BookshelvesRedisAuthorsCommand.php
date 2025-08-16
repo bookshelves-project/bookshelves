@@ -45,6 +45,12 @@ class BookshelvesRedisAuthorsCommand extends Commandable
             ->having('total', '>', 1)
             ->get();
 
+        if ($duplicates->isEmpty()) {
+            $this->info('No duplicate authors found.');
+
+            return Command::SUCCESS;
+        }
+
         $this->table(
             ['Slug', 'Total'],
             $duplicates->toArray()
