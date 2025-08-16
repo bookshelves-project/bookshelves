@@ -15,12 +15,16 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class SerieConverter
 {
     protected function __construct(
-        protected Serie $serie,
+        protected ?Serie $serie,
         protected bool $fresh = false,
     ) {}
 
-    public static function make(Serie $serie, bool $fresh = false): self
+    public static function make(?Serie $serie, bool $fresh = false): ?self
     {
+        if (! $serie) {
+            return null;
+        }
+
         $self = new self($serie, $fresh);
         $self->setTags();
         $self->setCover();
@@ -74,7 +78,7 @@ class SerieConverter
             }
 
             if (! $book) {
-                Journal::error('SerieConverter: No book found for serie', [
+                Journal::warning('SerieConverter: No book found for serie', [
                     'serie' => $this->serie->id,
                 ]);
 

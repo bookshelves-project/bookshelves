@@ -131,7 +131,23 @@ class BookConverter
 
         $this->track->library()->associate($this->file->library);
         $this->track->file()->associate($this->file);
-        $this->track->book()->associate($this->book);
+
+        $book = Book::find($this->book->id);
+        if (! $book) {
+            $book = Book::query()
+                ->where('slug', $this->ebook->getMetaTitle()->getSlug())
+                ->where('library_id', $this->file->library_id)
+                ->first();
+        }
+
+        if ($book) {
+            $this->track->book()->associate($book);
+        } else {
+            Journal::error('BookConverter: No book found for track', [
+                'track' => $this->track->id,
+            ]);
+        }
+
         $this->track->saveQuietly();
 
         return $this;
