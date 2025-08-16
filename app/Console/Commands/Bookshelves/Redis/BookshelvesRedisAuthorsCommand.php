@@ -1,22 +1,20 @@
 <?php
 
-namespace App\Console\Commands\Bookshelves;
+namespace App\Console\Commands\Bookshelves\Redis;
 
-use App\Jobs\Redis\RedisAudiobooksJob;
-use App\Jobs\Redis\RedisAuthorsJob;
-use App\Jobs\Redis\RedisSeriesJob;
+use App\Models\Author;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Kiwilan\Steward\Commands\Commandable;
 
-class BookshelvesRedisCommand extends Commandable
+class BookshelvesRedisAuthorsCommand extends Commandable
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bookshelves:redis
-                            {--f|fresh : Fresh install}';
+    protected $signature = 'bookshelves:redis:authors';
 
     /**
      * The console command description.
@@ -29,7 +27,6 @@ class BookshelvesRedisCommand extends Commandable
      * Create a new command instance.
      */
     public function __construct(
-        public bool $fresh = false,
     ) {
         parent::__construct();
     }
@@ -43,12 +40,15 @@ class BookshelvesRedisCommand extends Commandable
     {
         $this->title();
 
-        $this->fresh = $this->option('fresh') ?: false;
+        $duplicates = Author::select('slug', DB::raw('COUNT(*) as total'))
+            ->groupBy('slug')
+            ->having('total', '>', 1)
+            ->get();
 
-        RedisAudiobooksJob::withChain([
-            new RedisSeriesJob($this->fresh),
-            new RedisAuthorsJob,
-        ])->dispatch();
+        $this->table(
+            ['Slug', 'Total'],
+            $duplicates->toArray()
+        );
 
         return Command::SUCCESS;
     }
