@@ -42,6 +42,11 @@ class BookshelvesRedisDuplicatesCommand extends Commandable
     {
         $this->title();
 
+        $duplicates = Serie::select('slug', DB::raw('COUNT(*) as total'))
+            ->groupBy('slug')
+            ->having('total', '>', 1)
+            ->get();
+
         $this->find(Author::class, column: 'slug', name: 'authors');
         $this->find(Serie::class, column: 'slug', name: 'series');
         $this->find(Book::class, column: 'slug', name: 'books');
