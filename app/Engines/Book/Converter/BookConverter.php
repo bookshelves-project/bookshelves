@@ -140,7 +140,10 @@ class BookConverter
     private function syncLibrary(): self
     {
         $this->book->library()->associate($this->file->library);
-        $this->book->saveNoSearch();
+
+        if (! $this->isAudiobookAndBookExists) {
+            $this->book->saveNoSearch();
+        }
 
         return $this;
     }
