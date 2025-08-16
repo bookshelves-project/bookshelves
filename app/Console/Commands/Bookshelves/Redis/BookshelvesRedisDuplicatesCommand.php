@@ -51,7 +51,6 @@ class BookshelvesRedisDuplicatesCommand extends Commandable
 
     private function find(string $class, string $column, string $name, bool $with_library = false): void
     {
-        /** @var \Illuminate\Database\Eloquent\Collection $duplicates */
         if ($with_library) {
             $duplicates = $class::select('slug', 'library_id', DB::raw('COUNT(*) as total'))
                 ->groupBy('slug', 'library_id')
@@ -76,7 +75,7 @@ class BookshelvesRedisDuplicatesCommand extends Commandable
                 $duplicates->map(fn ($duplicate) => [
                     $duplicate->{$column},
                     $duplicate->library_id,
-                    $duplicate->total, // @phpstan-ignore-line
+                    $duplicate->total,
                 ])->toArray()
             );
         } else {
@@ -84,7 +83,7 @@ class BookshelvesRedisDuplicatesCommand extends Commandable
                 ['Slug', 'Total'],
                 $duplicates->map(fn ($duplicate) => [
                     $duplicate->{$column},
-                    $duplicate->total, // @phpstan-ignore-line
+                    $duplicate->total,
                 ])->toArray()
             );
         }
