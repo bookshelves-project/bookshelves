@@ -354,7 +354,7 @@ class BookConverter
     {
         $book = null;
 
-        Cache::lock('book_'.$title.'_library_'.$this->file->library_id, 20)->block(5, function () use ($title, &$book) {
+        Cache::lock('book_'.$title.'_library_'.$this->file->library_id, 20)->block(10, function () use ($title, &$book) {
             $isExists = Book::where('title', $title)
                 ->where('slug', $this->ebook->getMetaTitle()->getSlug())
                 ->where('library_id', $this->file->library_id)
