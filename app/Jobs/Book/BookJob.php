@@ -144,7 +144,7 @@ class BookJob implements ShouldQueue
             ->get();
 
         // skip if no other books found
-        if ($books->count() === 1) {
+        if ($books->count() <= 1) {
             Journal::info("BookJob: audiobooks {$books->count()} to fusion.");
         }
 
