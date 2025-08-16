@@ -8,7 +8,7 @@ use App\Jobs\Redis\RedisSeriesJob;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\Commandable;
 
-class BookshelvesRedisCommand extends Commandable
+class RedisCommand extends Commandable
 {
     /**
      * The name and signature of the console command.

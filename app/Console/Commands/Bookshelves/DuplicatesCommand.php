@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Bookshelves\Redis;
+namespace App\Console\Commands\Bookshelves;
 
 use App\Models\Author;
 use App\Models\Book;
@@ -9,21 +9,21 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Kiwilan\Steward\Commands\Commandable;
 
-class BookshelvesRedisDuplicatesCommand extends Commandable
+class DuplicatesCommand extends Commandable
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bookshelves:redis:duplicates';
+    protected $signature = 'bookshelves:duplicates';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Redis clean-up for audiobooks, authors, and series.';
+    protected $description = 'Find duplicate entries in the database for authors, series, and books.';
 
     /**
      * Create a new command instance.
