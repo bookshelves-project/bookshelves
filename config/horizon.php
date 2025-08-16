@@ -206,7 +206,7 @@ return [
 
         'local' => [
             'supervisor-1' => [
-                'maxProcesses' => 3,
+                'maxProcesses' => env('HORIZON_MAX_PROCESSES', 2),
             ],
         ],
     ],
