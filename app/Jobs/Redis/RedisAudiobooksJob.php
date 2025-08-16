@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Book;
+namespace App\Jobs\Redis;
 
 use App\Models\AudiobookTrack;
 use App\Models\Book;

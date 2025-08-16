@@ -3,9 +3,9 @@
 namespace App\Console\Commands\Bookshelves;
 
 use App\Enums\LibraryTypeEnum;
-use App\Jobs\Book\RedisAudiobooksJob;
-use App\Jobs\Book\RedisAuthorsJob;
-use App\Jobs\Book\RedisSeriesJob;
+use App\Jobs\Redis\RedisAudiobooksJob;
+use App\Jobs\Redis\RedisAuthorsJob;
+use App\Jobs\Redis\RedisSeriesJob;
 use App\Models\Library;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\Commandable;
