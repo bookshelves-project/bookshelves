@@ -16,6 +16,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
 class BookJob implements ShouldQueue
@@ -146,8 +147,6 @@ class BookJob implements ShouldQueue
 
         // skip if no other books found
         if ($books->count() === 1) {
-            Journal::info('BookJob: audiobooks only one, skipping fusion.');
-
             return;
         }
 
@@ -158,8 +157,8 @@ class BookJob implements ShouldQueue
             'first' => $first ? $first->id : null,
         ]);
 
-        /** @var AudiobookTrack[] $tracks */
-        $tracks = [];
+        /** @var Collection<int, AudiobookTrack> $tracks */
+        $tracks = collect();
 
         $books->each(function (Book $book) use ($first, &$tracks) {
             if ($book->id === $first->id) {
@@ -167,14 +166,14 @@ class BookJob implements ShouldQueue
             }
 
             if ($book->audiobookTracks->isNotEmpty()) {
-                $tracks = array_merge($tracks, $book->audiobookTracks->toArray());
+                $tracks = $tracks->merge($book->audiobookTracks);
             }
 
             $book->unsearchable();
             $book->delete();
         });
 
-        $tracks = array_values($tracks);
+        $tracks = $tracks->values();
 
         foreach ($tracks as $track) {
             $track->book()->associate($first);
