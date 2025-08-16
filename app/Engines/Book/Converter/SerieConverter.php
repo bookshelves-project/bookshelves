@@ -43,15 +43,11 @@ class SerieConverter
 
     private function setBookDescription(): void
     {
-        if ($this->serie === null) {
-            return;
-        }
-
         if ($this->fresh) {
             $this->serie->description = null;
         }
 
-        if (! $this->serie->description) {
+        if ($this->serie && ! $this->serie->description) {
             $books = $this->serie->load('books')->books;
             $volume01 = $books->where('volume', 1)->first();
             if ($volume01) {
@@ -59,7 +55,7 @@ class SerieConverter
             } else {
                 $this->serie->description = $books->first()->description;
             }
-            $this->serie->saveNoSearch();
+            $this->serie?->saveNoSearch();
         }
     }
 
