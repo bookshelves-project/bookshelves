@@ -141,6 +141,7 @@ class BookConverter
             $book = Book::query()
                 ->where('slug', $this->ebook->getMetaTitle()->getSlug())
                 ->where('library_id', $this->file->library_id)
+                ->orderBy('created_at', 'asc')
                 ->first();
         }
 
