@@ -285,6 +285,10 @@ class BookConverter
 
         if ($this->ebook->getFormat() === EbookFormatEnum::AUDIOBOOK) {
             $title = BookUtils::audiobookParseTitle($this->ebook->getTitle());
+            Journal::debug('BookConverter: Checking for existing audiobook', [
+                'title' => $title,
+                'library_id' => $this->file->library_id,
+            ]);
             $isExists = Book::query()
                 ->where('title', $title)
                 ->where('library_id', $this->file->library_id)
