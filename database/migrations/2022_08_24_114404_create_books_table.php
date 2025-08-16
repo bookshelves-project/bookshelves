@@ -15,7 +15,7 @@ return new class extends Migration
             $table->ulid('id')->primary();
 
             $table->string('title');
-            $table->string('slug')->index()->unique();
+            $table->string('slug')->index();
             $table->string('format')->nullable();
             $table->string('contributor')->nullable();
             $table->text('description')->nullable();

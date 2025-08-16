@@ -15,7 +15,6 @@ use App\Models\AudiobookTrack;
 use App\Models\Book;
 use App\Models\File;
 use DateTime;
-use Illuminate\Support\Facades\Cache;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\Enums\EbookFormatEnum;
 use Kiwilan\LaravelNotifier\Facades\Journal;
@@ -64,7 +63,9 @@ class BookConverter
         }
 
         if ($this->isAudiobookAndBookExists) {
-            Journal::debug("BookConverter: Found existing audiobook, syncing with book {$this->book->title}");
+            Journal::debug('BookConverter: Found existing audiobook, syncing with book', [
+                'ebook' => $this->book->title,
+            ]);
 
             return $this;
         }
@@ -139,10 +140,7 @@ class BookConverter
     private function syncLibrary(): self
     {
         $this->book->library()->associate($this->file->library);
-
-        if (! $this->isAudiobookAndBookExists) {
-            $this->book->saveNoSearch();
-        }
+        $this->book->saveNoSearch();
 
         return $this;
     }
@@ -292,9 +290,18 @@ class BookConverter
         if ($this->ebook->getFormat() === EbookFormatEnum::AUDIOBOOK) {
             $title = BookUtils::audiobookParseTitle($this->ebook->getTitle());
 
-            $isExists = $this->checkIfAudiobookExists($title);
+            // This check won't work with Redis (race condition)
+            $isExists = Book::query()
+                ->where('title', $title)
+                ->where('library_id', $this->file->library_id)
+                ->first();
 
             if ($isExists) {
+                /** @var Book $isExists */
+                $this->isAudiobookAndBookExists = true;
+                $isExists->audiobook_chapters = array_merge($isExists->audiobook_chapters, $this->ebook->getExtra('chapters'));
+                $isExists->saveNoSearch();
+
                 return $isExists;
             }
 
@@ -346,53 +353,6 @@ class BookConverter
         $book->format = $format;
         $book->file()->associate($this->file);
         $book->saveNoSearch();
-
-        return $book;
-    }
-
-    private function checkIfAudiobookExists(string $title): ?Book
-    {
-        // $book = null;
-
-        // // To avoid race conditions
-        // Cache::lock('book_'.$title.'_library_'.$this->file->library_id, 20)->block(10, function () use ($title, &$book) {
-        //     $isExists = Book::where('title', $title)
-        //         ->where('slug', $this->ebook->getMetaTitle()->getSlug())
-        //         ->where('library_id', $this->file->library_id)
-        //         ->first();
-
-        //     if ($isExists) {
-        //         /** @var Book $isExists */
-        //         $this->isAudiobookAndBookExists = true;
-
-        //         // Merge chapters
-        //         $isExists->audiobook_chapters = array_merge(
-        //             $isExists->audiobook_chapters ?? [],
-        //             $this->ebook->getExtra('chapters') ?? []
-        //         );
-        //         $isExists->saveNoSearch();
-
-        //         $book = $isExists;
-        //     }
-        // });
-
-        // return $book;
-
-        try {
-            $book = Book::create([
-                'title' => $title,
-                'slug' => $this->ebook->getMetaTitle()->getSlug(),
-                'library_id' => $this->file->library_id,
-            ]);
-        } catch (\Illuminate\Database\QueryException $e) {
-            // Le Book existe déjà, on le récupère
-            $book = Book::where('title', $title)
-                ->where('slug', $this->ebook->getMetaTitle()->getSlug())
-                ->where('library_id', $this->file->library_id)
-                ->first();
-
-            $this->isAudiobookAndBookExists = true;
-        }
 
         return $book;
     }
