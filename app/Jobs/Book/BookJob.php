@@ -139,7 +139,8 @@ class BookJob implements ShouldQueue
         // find all Book with same `slug`
         $books = Book::query()
             ->where('slug', $engine->book()->slug)
-            ->where('id', '!=', $engine->book()->id)
+            // ->where('id', '!=', $engine->book()->id)
+            ->orderBy('created_at', 'asc')
             ->get();
 
         // skip if no other books found
@@ -147,8 +148,11 @@ class BookJob implements ShouldQueue
             Journal::info("BookJob: audiobooks {$books->count()} to fusion.");
         }
 
+        $first = $books->first();
+
         Journal::debug("BookJob: audiobooks {$books->count()} to fusion.", [
             'books' => $books->pluck('id')->toArray(),
+            'first' => $first ? $first->id : null,
         ]);
 
         // foreach ($books as $book) {
