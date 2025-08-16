@@ -42,31 +42,25 @@ class BookshelvesRedisDuplicatesCommand extends Commandable
     {
         $this->title();
 
-        try {
-            $this->find(Author::class, column: 'slug', name: 'authors');
-        } catch (\Throwable $th) {
-            // throw $th;
-        }
-        try {
-            $this->find(Serie::class, column: 'slug', name: 'series');
-        } catch (\Throwable $th) {
-            // throw $th;
-        }
-        try {
-            $this->find(Book::class, column: 'slug', name: 'books');
-        } catch (\Throwable $th) {
-            // throw $th;
-        }
+        $this->find(Author::class, column: 'slug', name: 'authors');
+        $this->find(Serie::class, column: 'slug', name: 'series');
+        $this->find(Book::class, column: 'slug', name: 'books');
 
         return Command::SUCCESS;
     }
 
     private function find(string $class, string $column, string $name): void
     {
-        $duplicates = $class::select($column, DB::raw('COUNT(*) as total'))
-            ->groupBy($column)
-            ->having('total', '>', 1)
-            ->get();
+        try {
+            $duplicates = $class::select($column, DB::raw('COUNT(*) as total'))
+                ->groupBy($column)
+                ->having('total', '>', 1)
+                ->get();
+        } catch (\Throwable $th) {
+            $this->error("Error finding {$name}: {$th->getMessage()}");
+
+            return;
+        }
 
         if ($duplicates->isEmpty()) {
             $this->info("No duplicate {$name} found.");
