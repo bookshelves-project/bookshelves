@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Redis;
 
+use App\Engines\Book\Converter\SerieConverter;
 use App\Models\Library;
 use App\Models\Serie;
 use Illuminate\Bus\Queueable;
@@ -23,6 +24,7 @@ class RedisSeriesJob implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
+        public bool $fresh = false,
     ) {}
 
     /**
@@ -52,6 +54,10 @@ class RedisSeriesJob implements ShouldQueue
             }
 
             Journal::debug("RedisSeriesJob: found {$i} duplicate series");
+        });
+
+        Serie::all()->each(function (Serie $serie) {
+            SerieConverter::make($serie, $this->fresh);
         });
 
         Journal::info("RedisSeriesJob: finished for library: {$library}");

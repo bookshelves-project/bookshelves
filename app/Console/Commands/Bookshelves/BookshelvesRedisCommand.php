@@ -15,7 +15,8 @@ class BookshelvesRedisCommand extends Commandable
      *
      * @var string
      */
-    protected $signature = 'bookshelves:redis';
+    protected $signature = 'bookshelves:redis
+                            {--f|fresh : Fresh install}';
 
     /**
      * The console command description.
@@ -28,6 +29,7 @@ class BookshelvesRedisCommand extends Commandable
      * Create a new command instance.
      */
     public function __construct(
+        public bool $fresh = false,
     ) {
         parent::__construct();
     }
@@ -41,8 +43,10 @@ class BookshelvesRedisCommand extends Commandable
     {
         $this->title();
 
+        $this->fresh = $this->option('fresh') ?: false;
+
         RedisAudiobooksJob::withChain([
-            new RedisSeriesJob,
+            new RedisSeriesJob($this->fresh),
             new RedisAuthorsJob,
         ])->dispatch();
 
