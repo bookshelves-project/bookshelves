@@ -51,7 +51,7 @@ trait HasCovers
 
     public function registerMediaConversions(?\Spatie\MediaLibrary\MediaCollections\Models\Media $media = null): void
     {
-        /** @var Book|Author|Serie $model */
+        /** @var Book|Author|Serie|null $model */
         $model = $media->getModel()->model_type::find($media->getModel()->model_id);
         if (! $model) {
             return;
