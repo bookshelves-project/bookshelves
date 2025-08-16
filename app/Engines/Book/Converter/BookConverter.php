@@ -293,6 +293,10 @@ class BookConverter
                 ->where('title', $title)
                 ->where('library_id', $this->file->library_id)
                 ->first();
+            Journal::debug('BookConverter: Found existing audiobook', [
+                'title' => $title,
+                'library_id' => $this->file->library_id,
+            ]);
 
             if ($isExists) {
                 /** @var Book $isExists */
