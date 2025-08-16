@@ -176,6 +176,9 @@ class CleanJob implements ShouldQueue
                     'slug' => $duplicate->slug,
                     'library_id' => $duplicate->library_id,
                 ]);
+                Journal::info("CleanJob: Created new book for slug {$duplicate->slug} in library {$duplicate->library_id}", [
+                    'book' => $newBook,
+                ]);
                 $newBook->saveNoSearch();
 
                 // 5️⃣ Réassocier tous les tracks au nouveau Book
