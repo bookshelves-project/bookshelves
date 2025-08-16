@@ -24,7 +24,7 @@ class BookshelvesRedisCommand extends Commandable
      *
      * @var string
      */
-    protected $description = 'Clean Audiobooks metadata and check relations.';
+    protected $description = 'Redis clean-up for audiobooks, authors, and series.';
 
     /**
      * Create a new command instance.
