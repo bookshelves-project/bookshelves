@@ -15,6 +15,7 @@ use App\Models\AudiobookTrack;
 use App\Models\Book;
 use App\Models\File;
 use DateTime;
+use Illuminate\Support\Facades\Cache;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\Enums\EbookFormatEnum;
 use Kiwilan\LaravelNotifier\Facades\Journal;
@@ -293,17 +294,9 @@ class BookConverter
         if ($this->ebook->getFormat() === EbookFormatEnum::AUDIOBOOK) {
             $title = BookUtils::audiobookParseTitle($this->ebook->getTitle());
 
-            $isExists = Book::query()
-                ->where('title', $title)
-                ->where('library_id', $this->file->library_id)
-                ->first();
+            $isExists = $this->checkIfAudiobookExists($title);
 
             if ($isExists) {
-                /** @var Book $isExists */
-                $this->isAudiobookAndBookExists = true;
-                $isExists->audiobook_chapters = array_merge($isExists->audiobook_chapters, $this->ebook->getExtra('chapters'));
-                $isExists->saveNoSearch();
-
                 return $isExists;
             }
 
@@ -354,34 +347,35 @@ class BookConverter
 
         $book->format = $format;
         $book->file()->associate($this->file);
+        $book->saveNoSearch();
 
-        try {
-            $isExists = Book::query()
-                ->where('slug', $book->slug)
+        return $book;
+    }
+
+    private function checkIfAudiobookExists(string $title): ?Book
+    {
+        $book = null;
+
+        Cache::lock('book_'.$title.'_library_'.$this->file->library_id, 10)->block(5, function () use ($title, &$book) {
+            $isExists = Book::where('title', $title)
+                ->where('slug', $this->ebook->getMetaTitle()->getSlug())
                 ->where('library_id', $this->file->library_id)
                 ->first();
-            Journal::debug('BookConverter: book exists?', [
-                'slug' => $book->slug,
-                'exists' => $isExists->title ?? 'no',
-            ]);
 
-            Book::withoutSyncingToSearch(function () use ($book) {
-                $book->saveQuietly();
-            });
-        } catch (\Throwable $th) {
-            if ($this->ebook->isAudio()) {
-                // book exists and saved in parallel
-                $this->book = Book::query()
-                    ->where('slug', $book->slug)
-                    ->where('library_id', $this->file->library_id)
-                    ->first();
+            if ($isExists) {
+                /** @var Book $isExists */
                 $this->isAudiobookAndBookExists = true;
-            }
 
-            Journal::error("BookConverter: failed to save book {$this->file->path}", [
-                'exception' => $th,
-            ]);
-        }
+                // Merge chapters
+                $isExists->audiobook_chapters = array_merge(
+                    $isExists->audiobook_chapters ?? [],
+                    $this->ebook->getExtra('chapters') ?? []
+                );
+                $isExists->saveNoSearch();
+
+                $book = $isExists;
+            }
+        });
 
         return $book;
     }
