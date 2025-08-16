@@ -3,23 +3,21 @@
 namespace App\Console\Commands\Bookshelves;
 
 use App\Enums\LibraryTypeEnum;
-use App\Facades\Bookshelves;
-use App\Jobs\Book\AudiobookCleanJob;
+use App\Jobs\Book\RedisAudiobooksJob;
+use App\Jobs\Book\RedisAuthorsJob;
+use App\Jobs\Book\RedisSeriesJob;
 use App\Models\Library;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\Commandable;
 
-/**
- * Main command of Bookshelves to generate Books with relations.
- */
-class AudiobookCleanCommand extends Commandable
+class RedisCleanCommand extends Commandable
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bookshelves:audiobook-clean';
+    protected $signature = 'bookshelves:redis-clean';
 
     /**
      * The console command description.
@@ -48,8 +46,11 @@ class AudiobookCleanCommand extends Commandable
         $this->title();
 
         Library::where('type', LibraryTypeEnum::audiobook)->get()->each(function (Library $library) {
-            AudiobookCleanJob::dispatch($library->slug);
+            RedisAudiobooksJob::dispatch($library->slug);
         });
+
+        RedisAuthorsJob::dispatch();
+        RedisSeriesJob::dispatch();
 
         return Command::SUCCESS;
     }

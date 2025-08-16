@@ -3,15 +3,19 @@
 namespace App\Jobs\Book;
 
 use App\Models\AudiobookTrack;
+use App\Models\Book;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Kiwilan\LaravelNotifier\Facades\Journal;
 
-class AudiobookCleanJob implements ShouldQueue
+/**
+ * Parse `AudiobookTrack` to get all tracks with same `slug` and group them.
+ */
+class RedisAudiobooksJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -20,7 +24,6 @@ class AudiobookCleanJob implements ShouldQueue
      */
     public function __construct(
         protected string $library,
-        protected bool $fresh = false,
     ) {}
 
     /**
@@ -28,7 +31,6 @@ class AudiobookCleanJob implements ShouldQueue
      */
     public function handle(): void
     {
-        // parse AudiobookTrack to get all tracks with same `slug` and group them
         $groups = AudiobookTrack::select('slug', DB::raw('COUNT(*) as track_count'))
             ->groupBy('slug')
             ->having('track_count', '>', 1)
@@ -36,12 +38,7 @@ class AudiobookCleanJob implements ShouldQueue
 
         foreach ($groups as $group) {
             $book_ids = [];
-
             $tracks = AudiobookTrack::where('slug', $group->slug)->get();
-            Journal::debug('tracks of '.$group->slug, [
-                'id' => $tracks->pluck('id')->toArray(),
-                'slug' => $tracks->pluck('slug')->toArray(),
-            ]);
 
             foreach ($tracks as $track) {
                 $book_ids[] = $track->book_id;
@@ -49,14 +46,30 @@ class AudiobookCleanJob implements ShouldQueue
 
             // Check if `book_ids` are same
             $book_ids = array_unique($book_ids);
-            if (count($book_ids) === 1) {
-                Journal::debug('single book_id for '.$group->slug, [
-                    'book_id' => $book_ids[0],
-                ]);
-            } else {
-                Journal::error('multiple book_ids for '.$group->slug, [
-                    'book_ids' => $book_ids,
-                ]);
+            if (count($book_ids) !== 1) {
+                $this->handleMultipleBookIds($tracks);
+            }
+        }
+    }
+
+    /**
+     * Handle multiple book_ids for an audiobook.
+     *
+     * @param  Collection<int, AudiobookTrack>  $tracks
+     */
+    private function handleMultipleBookIds(Collection $tracks): void
+    {
+        $main_book = $tracks->first()->book_id;
+
+        foreach ($tracks as $track) {
+            if ($track->book_id !== $main_book) {
+                $wrong_book = $track->book_id;
+
+                $track->book()->dissociate();
+                $track->book()->associate($main_book);
+                $track->saveQuietly();
+
+                Book::find($wrong_book)->delete();
             }
         }
     }

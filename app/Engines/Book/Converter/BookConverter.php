@@ -312,6 +312,7 @@ class BookConverter
             $title = BookUtils::audiobookParseTitle($this->ebook->getTitle());
 
             // This check could not work with Redis (race condition)
+            // Use `AudiobookCleanJob` to clean up any existing audiobooks
             $isExists = Book::query()
                 ->where('title', $title)
                 ->where('library_id', $this->file->library_id)
