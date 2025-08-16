@@ -31,37 +31,41 @@ class RedisAuthorsJob implements ShouldQueue
     {
         Journal::info('RedisAuthorsJob: starting...');
 
-        // 1️⃣ Identifier les slugs en doublon
+        // Identify duplicate slugs
         $duplicateSlugs = Author::select('slug', DB::raw('COUNT(*) as author_count'))
             ->groupBy('slug')
             ->having('author_count', '>', 1)
             ->pluck('slug');
 
         DB::transaction(function () use ($duplicateSlugs) {
+            $i = 0;
             foreach ($duplicateSlugs as $slug) {
-                // Récupère tous les auteurs avec ce slug
+                // Get all authors with this slug
                 $authors = Author::where('slug', $slug)->get();
 
-                // Choisis le premier comme principal
+                // Choose the first as main
                 $mainAuthor = $authors->shift();
 
                 foreach ($authors as $duplicate) {
-                    // 🔹 Rattache les Books (MorphToMany)
+                    $i++;
+                    // Attach Books (MorphToMany)
                     $bookIds = $duplicate->books()->pluck('id')->toArray();
                     if (! empty($bookIds)) {
                         $mainAuthor->books()->syncWithoutDetaching($bookIds);
                     }
 
-                    // 🔹 Rattache les Series (MorphToMany)
+                    // Attach Series (MorphToMany)
                     $serieIds = $duplicate->series()->pluck('id')->toArray();
                     if (! empty($serieIds)) {
                         $mainAuthor->series()->syncWithoutDetaching($serieIds);
                     }
 
-                    // 🔹 Supprime l'auteur doublon
+                    // Delete duplicate author
                     $duplicate->delete();
                 }
             }
+
+            Journal::debug("RedisAuthorsJob: found {$i} duplicate authors");
         });
 
         Journal::info('RedisAuthorsJob: finished');

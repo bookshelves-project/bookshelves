@@ -30,8 +30,6 @@ class BookshelvesRedisCommand extends Commandable
      * Create a new command instance.
      */
     public function __construct(
-        // public bool $fresh = false,
-        // public ?int $limit = null,
     ) {
         parent::__construct();
     }

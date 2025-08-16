@@ -40,30 +40,34 @@ class RedisSeriesJob implements ShouldQueue
             ->pluck('slug');
 
         DB::transaction(function () use ($duplicateSlugs) {
+            $i = 0;
             foreach ($duplicateSlugs as $slug) {
-                // Récupère toutes les Series pour ce slug
+                // Get all series with this slug
                 $series = Serie::where('slug', $slug)->get();
 
-                // Choisir la première comme principale
+                // Choose the first as main
                 $mainSerie = $series->shift();
 
                 foreach ($series as $duplicate) {
-                    // 🔹 Rattache les Books HasMany à la Serie principale
+                    $i++;
+                    // Attach Books HasMany to the main Serie
                     foreach ($duplicate->books as $book) {
                         $book->serie_id = $mainSerie->id;
                         $book->save();
                     }
 
-                    // 🔹 Rattache les Authors MorphToMany à la Serie principale
+                    // Attach Authors MorphToMany to the main Serie
                     $authorIds = $duplicate->authors()->pluck('id')->toArray();
                     if (! empty($authorIds)) {
                         $mainSerie->authors()->syncWithoutDetaching($authorIds);
                     }
 
-                    // 🔹 Supprime la Serie doublon
+                    // Delete duplicate serie
                     $duplicate->delete();
                 }
             }
+
+            Journal::debug("RedisSeriesJob: found {$i} duplicate series");
         });
 
         Journal::info("RedisSeriesJob: finished for library: {$this->library}");

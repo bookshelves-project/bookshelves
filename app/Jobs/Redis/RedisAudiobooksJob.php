@@ -40,6 +40,7 @@ class RedisAudiobooksJob implements ShouldQueue
             ->having('track_count', '>', 1)
             ->get();
 
+        $i = 0;
         foreach ($groups as $group) {
             $book_ids = [];
             $tracks = AudiobookTrack::where('slug', $group->slug)->get();
@@ -51,10 +52,12 @@ class RedisAudiobooksJob implements ShouldQueue
             // Check if `book_ids` are same
             $book_ids = array_unique($book_ids);
             if (count($book_ids) !== 1) {
+                $i++;
                 $this->handleMultipleBookIds($tracks);
             }
         }
 
+        Journal::debug("RedisAudiobooksJob: found {$i} groups with multiple book IDs");
         Journal::info("RedisAudiobooksJob: finished for library {$this->library}");
     }
 
