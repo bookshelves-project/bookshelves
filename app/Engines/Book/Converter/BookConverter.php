@@ -356,7 +356,9 @@ class BookConverter
         $book->file()->associate($this->file);
 
         try {
-            $book->saveNoSearch();
+            Book::withoutSyncingToSearch(function () use ($book) {
+                $book->saveQuietly();
+            });
         } catch (\Throwable $th) {
             if ($this->ebook->isAudio()) {
                 // book exists and saved in parallel
