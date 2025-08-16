@@ -3,18 +3,20 @@
 namespace App\Console\Commands\Bookshelves\Redis;
 
 use App\Models\Author;
+use App\Models\Book;
+use App\Models\Serie;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Kiwilan\Steward\Commands\Commandable;
 
-class BookshelvesRedisAuthorsCommand extends Commandable
+class BookshelvesRedisDuplicatesCommand extends Commandable
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bookshelves:redis:authors';
+    protected $signature = 'bookshelves:redis:duplicates';
 
     /**
      * The console command description.
@@ -40,22 +42,29 @@ class BookshelvesRedisAuthorsCommand extends Commandable
     {
         $this->title();
 
-        $duplicates = Author::select('slug', DB::raw('COUNT(*) as total'))
-            ->groupBy('slug')
+        $this->find(Author::class, column: 'slug', name: 'authors');
+        $this->find(Serie::class, column: 'slug', name: 'series');
+        $this->find(Book::class, column: 'slug', name: 'books');
+
+        return Command::SUCCESS;
+    }
+
+    private function find(string $class, string $column, string $name): void
+    {
+        $duplicates = $class::select($column, DB::raw('COUNT(*) as total'))
+            ->groupBy($column)
             ->having('total', '>', 1)
             ->get();
 
         if ($duplicates->isEmpty()) {
-            $this->info('No duplicate authors found.');
+            $this->info("No duplicate {$name} found.");
 
-            return Command::SUCCESS;
+            return;
         }
 
         $this->table(
             ['Slug', 'Total'],
             $duplicates->toArray()
         );
-
-        return Command::SUCCESS;
     }
 }
