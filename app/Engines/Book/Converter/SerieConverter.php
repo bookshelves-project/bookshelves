@@ -43,6 +43,10 @@ class SerieConverter
 
     private function setBookDescription(): void
     {
+        if ($this->serie === null) {
+            return;
+        }
+
         if ($this->fresh) {
             $this->serie->description = null;
         }

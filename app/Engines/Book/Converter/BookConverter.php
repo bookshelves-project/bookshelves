@@ -11,6 +11,7 @@ use App\Engines\Book\Converter\Modules\PublisherModule;
 use App\Engines\Book\Converter\Modules\SerieModule;
 use App\Engines\Book\Converter\Modules\TagModule;
 use App\Enums\BookFormatEnum;
+use App\Facades\Bookshelves;
 use App\Models\AudiobookTrack;
 use App\Models\Book;
 use App\Models\File;
@@ -63,9 +64,11 @@ class BookConverter
         }
 
         if ($this->isAudiobookAndBookExists) {
-            Journal::debug('BookConverter: Found existing audiobook, syncing with book', [
-                'ebook' => $this->book->title,
-            ]);
+            if (Bookshelves::verbose()) {
+                Journal::debug('BookConverter: Found existing audiobook, syncing with book', [
+                    'ebook' => $this->book->title,
+                ]);
+            }
 
             return $this;
         }
@@ -97,7 +100,8 @@ class BookConverter
 
         if (! $language) {
             Journal::warning('BookConverter: No language found for '.$this->ebook->getTitle(), [
-                'ebook' => $this->ebook->toArray(),
+                'language' => $this->ebook->getLanguage(),
+                'extras' => $this->ebook->getExtras(),
             ]);
         }
 

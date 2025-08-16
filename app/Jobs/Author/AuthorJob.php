@@ -29,7 +29,7 @@ class AuthorJob implements ShouldQueue
     public function handle(): void
     {
         $msg = 'Disabled cause of Wikipedia API restrictions';
-        Journal::warning($msg);
+        Journal::debug($msg);
 
         // if ($this->author->api_parsed_at !== null && ! $this->fresh) {
         //     return;
