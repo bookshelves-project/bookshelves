@@ -52,11 +52,11 @@ class SerieCommand extends Commandable
 
     private function parse(Library $library)
     {
-        $this->info("SerieCommand: starting for library {$library}...");
+        $this->info("SerieCommand: starting for library {$library->name}...");
 
         // Identify duplicate slugs
         $duplicateSlugs = Serie::select('slug', DB::raw('COUNT(*) as serie_count'))
-            ->where('library_id', $library)
+            ->where('library_id', $library->id)
             ->groupBy('slug')
             ->having('serie_count', '>', 1)
             ->pluck('slug');
@@ -75,7 +75,7 @@ class SerieCommand extends Commandable
             SerieConverter::make($serie, $this->fresh);
         });
 
-        $this->info("SerieCommand: finished for library: {$library}");
+        $this->info("SerieCommand: finished for library: {$library->name}");
     }
 
     private function handleSerie(string $slug): void
