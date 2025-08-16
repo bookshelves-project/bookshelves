@@ -46,10 +46,11 @@ class BookshelvesRedisDuplicatesCommand extends Commandable
             ->groupBy('slug')
             ->having('total', '>', 1)
             ->get();
+        $this->info("Found {$duplicates->count()} duplicate series.");
 
-        $this->find(Author::class, column: 'slug', name: 'authors');
-        $this->find(Serie::class, column: 'slug', name: 'series');
-        $this->find(Book::class, column: 'slug', name: 'books');
+        // $this->find(Author::class, column: 'slug', name: 'authors');
+        // $this->find(Serie::class, column: 'slug', name: 'series');
+        // $this->find(Book::class, column: 'slug', name: 'books');
 
         return Command::SUCCESS;
     }
