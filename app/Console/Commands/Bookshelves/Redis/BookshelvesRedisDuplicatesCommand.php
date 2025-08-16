@@ -42,9 +42,21 @@ class BookshelvesRedisDuplicatesCommand extends Commandable
     {
         $this->title();
 
-        $this->find(Author::class, column: 'slug', name: 'authors');
-        $this->find(Serie::class, column: 'slug', name: 'series');
-        $this->find(Book::class, column: 'slug', name: 'books');
+        try {
+            $this->find(Author::class, column: 'slug', name: 'authors');
+        } catch (\Throwable $th) {
+            // throw $th;
+        }
+        try {
+            $this->find(Serie::class, column: 'slug', name: 'series');
+        } catch (\Throwable $th) {
+            // throw $th;
+        }
+        try {
+            $this->find(Book::class, column: 'slug', name: 'books');
+        } catch (\Throwable $th) {
+            // throw $th;
+        }
 
         return Command::SUCCESS;
     }
