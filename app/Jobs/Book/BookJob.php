@@ -153,11 +153,13 @@ class BookJob implements ShouldQueue
             return;
         }
 
-        Journal::debug('FUSION AUDIOBOOKS', [
-            'track_number' => $track_number,
-            'track_number_int' => $track_number_int,
-            'after_slash' => $after_slash,
-        ]);
+        if (Bookshelves::verbose()) {
+            Journal::debug('FUSION AUDIOBOOKS', [
+                'track_number' => $track_number,
+                'track_number_int' => $track_number_int,
+                'after_slash' => $after_slash,
+            ]);
+        }
 
         // find all Book with same `slug`
         $books = Book::query()
@@ -173,10 +175,12 @@ class BookJob implements ShouldQueue
         // keep only first as main
         $first = $books->first();
 
-        Journal::debug("BookJob: audiobooks {$books->count()} to fusion.", [
-            'books' => $books->pluck('id')->toArray(),
-            'keep' => $first ? $first->id : null,
-        ]);
+        if (Bookshelves::verbose()) {
+            Journal::debug("BookJob: audiobooks {$books->count()} to fusion.", [
+                'books' => $books->pluck('id')->toArray(),
+                'keep' => $first ? $first->id : null,
+            ]);
+        }
 
         /** @var Collection<int, AudiobookTrack> $tracks */
         $tracks = collect();

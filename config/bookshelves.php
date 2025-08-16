@@ -21,7 +21,7 @@ return [
 
     // 'download_limit' => env('BOOKSHELVES_DOWNLOAD_LIMIT', 5),
 
-    // 'verbose' => env('BOOKSHELVES_VERBOSE', false),
+    'verbose' => env('BOOKSHELVES_VERBOSE', false),
 
     // 'notification' => [
     //     'discord' => env('BOOKSHELVES_NOTIFICATION_DISCORD', false),

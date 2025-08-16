@@ -71,6 +71,11 @@ class Bookshelves
         return config('bookshelves.notify.discord');
     }
 
+    public function verbose(): bool
+    {
+        return config('bookshelves.verbose', false);
+    }
+
     public function appVersion(): string
     {
         $cache = 'app-version';

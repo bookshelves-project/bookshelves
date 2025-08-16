@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static bool apiIsbn()
  * @method static bool apiWikipedia()
  * @method static string notifyDiscord()
+ * @method static bool verbose()
  * @method static string appVersion()
  * @method static string analyzerEngine()
  * @method static string analyzerDebug()
