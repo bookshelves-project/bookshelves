@@ -5,6 +5,7 @@ namespace App\Engines\Book\Converter;
 use App\Facades\Bookshelves;
 use App\Models\Book;
 use App\Models\Serie;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Utils\SpatieMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -70,6 +71,12 @@ class SerieConverter
                 $book = Book::query()
                     ->where('serie_id', $this->serie->id)
                     ->first();
+            }
+
+            if (! $book) {
+                Journal::error('SerieConverter: No book found for serie', [
+                    'serie' => $this->serie->id,
+                ]);
             }
 
             /** @var Media|null $media */
