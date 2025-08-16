@@ -289,7 +289,6 @@ class BookConverter
 
         if ($this->ebook->getFormat() === EbookFormatEnum::AUDIOBOOK) {
             $title = BookUtils::audiobookParseTitle($this->ebook->getTitle());
-            Journal::debug("BookConverter: Checking for existing audiobook '{$title}'");
 
             $isExists = Book::query()
                 ->where('title', $title)
@@ -302,11 +301,7 @@ class BookConverter
                 $isExists->audiobook_chapters = array_merge($isExists->audiobook_chapters, $this->ebook->getExtra('chapters'));
                 $isExists->saveNoSearch();
 
-                Journal::debug("BookConverter: Found existing audiobook '{$title}'");
-
                 return $isExists;
-            } else {
-                Journal::debug("BookConverter: No existing audiobook found '{$title}'");
             }
 
             $book = new Book([
@@ -357,8 +352,6 @@ class BookConverter
         $book->format = $format;
         $book->file()->associate($this->file);
         $book->saveNoSearch();
-
-        Journal::debug("BookConverter: Book saved {$book->title}");
 
         return $book;
     }
