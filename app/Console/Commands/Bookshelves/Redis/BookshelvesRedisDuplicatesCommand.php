@@ -43,19 +43,26 @@ class BookshelvesRedisDuplicatesCommand extends Commandable
         $this->title();
 
         $this->find(Author::class, column: 'slug', name: 'authors');
-        $this->find(Serie::class, column: 'slug', name: 'series');
-        $this->find(Book::class, column: 'slug', name: 'books');
+        $this->find(Serie::class, column: 'slug', name: 'series', with_library: true);
+        $this->find(Book::class, column: 'slug', name: 'books', with_library: true);
 
         return Command::SUCCESS;
     }
 
-    private function find(string $class, string $column, string $name): void
+    private function find(string $class, string $column, string $name, bool $with_library = false): void
     {
         /** @var \Illuminate\Database\Eloquent\Collection $duplicates */
-        $duplicates = $class::select($column, DB::raw('COUNT(*) as total'))
-            ->groupBy($column)
-            ->having('total', '>', 1)
-            ->get();
+        if ($with_library) {
+            $duplicates = $class::select('slug', 'library_id', DB::raw('COUNT(*) as total'))
+                ->groupBy('slug', 'library_id')
+                ->having('total', '>', 1)
+                ->get();
+        } else {
+            $duplicates = $class::select($column, DB::raw('COUNT(*) as total'))
+                ->groupBy($column)
+                ->having('total', '>', 1)
+                ->get();
+        }
 
         if ($duplicates->isEmpty()) {
             $this->info("No duplicate {$name} found.");
@@ -63,27 +70,24 @@ class BookshelvesRedisDuplicatesCommand extends Commandable
             return;
         }
 
-        // $this->table(
-        //     ['Slug', 'Total'],
-        //     $duplicates->map(function ($item) use ($column) {
-        //         return [
-        //             $item->{$column},
-        //             $item->total,
-        //         ];
-        //     })->toArray()
-        // );
-        $this->table(
-            ['Slug', 'Total'],
-            // array_map(fn ($duplicate) => [
-            //     $file->basename(),
-            //     $file->extension(),
-            //     $library->name,
-            // ], $duplicates)
-            $duplicates->map(fn ($duplicate) => [
-                $duplicate->{$column},
-                $duplicate->total,
-            ])->toArray()
-        );
+        if ($with_library) {
+            $this->table(
+                ['Slug', 'Library ID', 'Total'],
+                $duplicates->map(fn ($duplicate) => [
+                    $duplicate->{$column},
+                    $duplicate->library_id,
+                    $duplicate->total, // @phpstan-ignore-line
+                ])->toArray()
+            );
+        } else {
+            $this->table(
+                ['Slug', 'Total'],
+                $duplicates->map(fn ($duplicate) => [
+                    $duplicate->{$column},
+                    $duplicate->total, // @phpstan-ignore-line
+                ])->toArray()
+            );
+        }
 
         $this->info("Found {$duplicates->count()} duplicate {$name}.");
     }
