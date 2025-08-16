@@ -13,6 +13,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Services\DirectoryService;
@@ -38,6 +39,8 @@ class CleanJob implements ShouldQueue
         $this->audiobookFusion();
         $this->cleanAuthors();
         $this->cleanSeries();
+
+        Artisan::call('scout:fresh');
 
         DirectoryService::make()->clearDirectory(storage_path('app/cache'));
     }
@@ -165,8 +168,6 @@ class CleanJob implements ShouldQueue
             });
         }
 
-        echo "Post-traitement terminé : tous les Books doublons basés sur AudiobookTrack ont été fusionnés.\n";
-
-        // Journal::info('All duplicate books have been merged.');
+        Journal::info('All duplicate audiobooks have been merged.');
     }
 }
