@@ -100,8 +100,7 @@ class BookConverter
 
         if (! $language) {
             Journal::warning('BookConverter: No language found for '.$this->ebook->getTitle(), [
-                'language' => $this->ebook->getLanguage(),
-                'extras' => $this->ebook->getExtras(),
+                'path' => $this->ebook->getPath(),
             ]);
         }
 

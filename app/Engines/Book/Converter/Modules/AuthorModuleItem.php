@@ -18,7 +18,7 @@ class AuthorModuleItem
     /**
      * Convert BookCreator to AuthorModule from config order.
      */
-    public static function make(BookAuthor $author): ?self
+    public static function make(\Kiwilan\Ebook\Models\BookAuthor|\App\Engines\Book\Converter\Modules\AuthorModuleItem $author): ?self
     {
         $self = new self(
             name: $author->getName(),
