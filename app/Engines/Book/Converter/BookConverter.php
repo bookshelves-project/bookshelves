@@ -64,9 +64,7 @@ class BookConverter
         }
 
         if ($this->isAudiobookAndBookExists) {
-            Journal::debug('BookConverter: Found existing audiobook, syncing with book', [
-                'ebook' => $this->book->title,
-            ]);
+            Journal::debug("BookConverter: Found existing audiobook, syncing with book {$this->book->title}");
 
             return $this;
         }
@@ -356,7 +354,7 @@ class BookConverter
     {
         $book = null;
 
-        Cache::lock('book_'.$title.'_library_'.$this->file->library_id, 10)->block(5, function () use ($title, &$book) {
+        Cache::lock('book_'.$title.'_library_'.$this->file->library_id, 20)->block(5, function () use ($title, &$book) {
             $isExists = Book::where('title', $title)
                 ->where('slug', $this->ebook->getMetaTitle()->getSlug())
                 ->where('library_id', $this->file->library_id)
