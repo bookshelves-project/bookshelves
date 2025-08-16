@@ -8,6 +8,7 @@ use App\Jobs\Redis\RedisAuthorsJob;
 use App\Jobs\Redis\RedisSeriesJob;
 use App\Models\Library;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Bus;
 use Kiwilan\Steward\Commands\Commandable;
 
 class BookshelvesRedisCommand extends Commandable
@@ -43,15 +44,17 @@ class BookshelvesRedisCommand extends Commandable
     {
         $this->title();
 
-        Library::where('type', LibraryTypeEnum::audiobook)->get()->each(function (Library $library) {
-            RedisAudiobooksJob::dispatch($library->id);
-        });
-
-        RedisAuthorsJob::dispatch();
-
-        Library::all()->each(function (Library $library) {
-            RedisSeriesJob::dispatch($library->id);
-        });
+        $batch = Bus::batch([
+            Library::where('type', LibraryTypeEnum::audiobook)->get()->each(function (Library $library) {
+                RedisAudiobooksJob::dispatch($library->id);
+            }),
+        ])->then(function () {
+            Library::all()->each(function (Library $library) {
+                RedisSeriesJob::dispatch($library->id);
+            });
+        })->then(function () {
+            RedisAuthorsJob::dispatch();
+        })->dispatch();
 
         return Command::SUCCESS;
     }
