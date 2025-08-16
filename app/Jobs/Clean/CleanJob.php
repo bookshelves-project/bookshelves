@@ -161,8 +161,13 @@ class CleanJob implements ShouldQueue
                 // 3️⃣ Supprimer tous les Books doublons
                 Book::whereIn('id', $bookIds)->delete();
 
+                Journal::info("CleanJob: Merged audiobooks for slug {$duplicate->slug} in library {$duplicate->library_id}", [
+                    'duplicate' => $duplicate,
+                    'count' => count($trackIds),
+                ]);
+
                 // 4️⃣ Créer un nouveau Book principal
-                $newBook = Book::create([
+                $newBook = new Book([
                     'title' => $duplicate->title,
                     'slug' => $duplicate->slug,
                     'library_id' => $duplicate->library_id,
