@@ -55,7 +55,7 @@ class SerieConverter
             } else {
                 $this->serie->description = $books->first()->description;
             }
-            $this->serie?->saveNoSearch();
+            $this->serie->saveNoSearch();
         }
     }
 
