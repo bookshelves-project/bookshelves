@@ -53,6 +53,10 @@ trait HasCovers
     {
         /** @var Book|Author|Serie $model */
         $model = $media->getModel()->model_type::find($media->getModel()->model_id);
+        if (! $model) {
+            return;
+        }
+
         $name = $model->title;
         if ($model instanceof Author) {
             $name = $model->name;
