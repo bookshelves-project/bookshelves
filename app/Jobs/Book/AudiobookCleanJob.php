@@ -54,7 +54,7 @@ class AudiobookCleanJob implements ShouldQueue
                     'book_id' => $book_ids[0],
                 ]);
             } else {
-                Journal::debug('multiple book_ids for '.$group->slug, [
+                Journal::error('multiple book_ids for '.$group->slug, [
                     'book_ids' => $book_ids,
                 ]);
             }
