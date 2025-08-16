@@ -63,6 +63,10 @@ class BookConverter
         }
 
         if ($this->isAudiobookAndBookExists) {
+            Journal::debug('BookConverter: Found existing audiobook, syncing with book', [
+                'ebook' => $this->book->title,
+            ]);
+
             return $this;
         }
 
