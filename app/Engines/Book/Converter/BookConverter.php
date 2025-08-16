@@ -390,6 +390,8 @@ class BookConverter
                 ->where('slug', $this->ebook->getMetaTitle()->getSlug())
                 ->where('library_id', $this->file->library_id)
                 ->first();
+
+            $this->isAudiobookAndBookExists = true;
         }
 
         return $book;
