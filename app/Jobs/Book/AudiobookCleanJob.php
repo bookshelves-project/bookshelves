@@ -35,11 +35,29 @@ class AudiobookCleanJob implements ShouldQueue
             ->get();
 
         foreach ($groups as $group) {
+            $book_ids = [];
+
             $tracks = AudiobookTrack::where('slug', $group->slug)->get();
             Journal::debug('tracks of '.$group->slug, [
                 'id' => $tracks->pluck('id')->toArray(),
                 'slug' => $tracks->pluck('slug')->toArray(),
             ]);
+
+            foreach ($tracks as $track) {
+                $book_ids[] = $track->book_id;
+            }
+
+            // Check if `book_ids` are same
+            $book_ids = array_unique($book_ids);
+            if (count($book_ids) === 1) {
+                Journal::debug('single book_id for '.$group->slug, [
+                    'book_id' => $book_ids[0],
+                ]);
+            } else {
+                Journal::debug('multiple book_ids for '.$group->slug, [
+                    'book_ids' => $book_ids,
+                ]);
+            }
         }
     }
 }
