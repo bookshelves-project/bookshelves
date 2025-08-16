@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Redis;
 
+use App\Models\Library;
 use App\Models\Serie;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -22,7 +23,6 @@ class RedisSeriesJob implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        protected string|int $library,
     ) {}
 
     /**
@@ -30,11 +30,16 @@ class RedisSeriesJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Journal::info("RedisSeriesJob: starting for library {$this->library}...");
+        Library::all()->each(fn ($library) => $this->parse($library));
+    }
+
+    private function parse(Library $library): void
+    {
+        Journal::info("RedisSeriesJob: starting for library {$library}...");
 
         // Identify duplicate slugs
         $duplicateSlugs = Serie::select('slug', DB::raw('COUNT(*) as serie_count'))
-            ->where('library_id', $this->library)
+            ->where('library_id', $library)
             ->groupBy('slug')
             ->having('serie_count', '>', 1)
             ->pluck('slug');
@@ -42,34 +47,39 @@ class RedisSeriesJob implements ShouldQueue
         DB::transaction(function () use ($duplicateSlugs) {
             $i = 0;
             foreach ($duplicateSlugs as $slug) {
-                // Get all series with this slug
-                $series = Serie::where('slug', $slug)->get();
-
-                // Choose the first as main
-                $mainSerie = $series->shift();
-
-                foreach ($series as $duplicate) {
-                    $i++;
-                    // Attach Books HasMany to the main Serie
-                    foreach ($duplicate->books as $book) {
-                        $book->serie_id = $mainSerie->id;
-                        $book->save();
-                    }
-
-                    // Attach Authors MorphToMany to the main Serie
-                    $authorIds = $duplicate->authors()->pluck('id')->toArray();
-                    if (! empty($authorIds)) {
-                        $mainSerie->authors()->syncWithoutDetaching($authorIds);
-                    }
-
-                    // Delete duplicate serie
-                    $duplicate->delete();
-                }
+                $i++;
+                $this->handleSerie($slug);
             }
 
             Journal::debug("RedisSeriesJob: found {$i} duplicate series");
         });
 
-        Journal::info("RedisSeriesJob: finished for library: {$this->library}");
+        Journal::info("RedisSeriesJob: finished for library: {$library}");
+    }
+
+    private function handleSerie(string $slug): void
+    {
+        // Get all series with this slug
+        $series = Serie::where('slug', $slug)->get();
+
+        // Choose the first as main
+        $mainSerie = $series->shift();
+
+        foreach ($series as $duplicate) {
+            // Attach Books HasMany to the main Serie
+            foreach ($duplicate->books as $book) {
+                $book->serie_id = $mainSerie->id;
+                $book->save();
+            }
+
+            // Attach Authors MorphToMany to the main Serie
+            $authorIds = $duplicate->authors()->pluck('id')->toArray();
+            if (! empty($authorIds)) {
+                $mainSerie->authors()->syncWithoutDetaching($authorIds);
+            }
+
+            // Delete duplicate serie
+            $duplicate->delete();
+        }
     }
 }

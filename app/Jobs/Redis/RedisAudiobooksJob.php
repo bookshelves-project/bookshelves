@@ -2,8 +2,10 @@
 
 namespace App\Jobs\Redis;
 
+use App\Enums\LibraryTypeEnum;
 use App\Models\AudiobookTrack;
 use App\Models\Book;
+use App\Models\Library;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -24,7 +26,6 @@ class RedisAudiobooksJob implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        protected string|int $library,
     ) {}
 
     /**
@@ -32,10 +33,17 @@ class RedisAudiobooksJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Journal::info("RedisAudiobooksJob: starting for library {$this->library}...");
+        Library::where('type', LibraryTypeEnum::audiobook)->get()->each(function (Library $library) {
+            $this->parse($library);
+        });
+    }
+
+    private function parse(Library $library)
+    {
+        Journal::info("RedisAudiobooksJob: starting for library {$library}...");
 
         $groups = AudiobookTrack::select('slug', DB::raw('COUNT(*) as track_count'))
-            ->where('library_id', $this->library)
+            ->where('library_id', $library)
             ->groupBy('slug')
             ->having('track_count', '>', 1)
             ->get();
@@ -58,7 +66,7 @@ class RedisAudiobooksJob implements ShouldQueue
         }
 
         Journal::debug("RedisAudiobooksJob: found {$i} groups with multiple book IDs");
-        Journal::info("RedisAudiobooksJob: finished for library {$this->library}");
+        Journal::info("RedisAudiobooksJob: finished for library {$library}");
     }
 
     /**

@@ -2,13 +2,10 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Enums\LibraryTypeEnum;
 use App\Jobs\Redis\RedisAudiobooksJob;
 use App\Jobs\Redis\RedisAuthorsJob;
 use App\Jobs\Redis\RedisSeriesJob;
-use App\Models\Library;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Bus;
 use Kiwilan\Steward\Commands\Commandable;
 
 class BookshelvesRedisCommand extends Commandable
@@ -44,17 +41,10 @@ class BookshelvesRedisCommand extends Commandable
     {
         $this->title();
 
-        $batch = Bus::batch([
-            Library::where('type', LibraryTypeEnum::audiobook)->get()->each(function (Library $library) {
-                RedisAudiobooksJob::dispatch($library->id);
-            }),
-        ])->then(function () {
-            Library::all()->each(function (Library $library) {
-                RedisSeriesJob::dispatch($library->id);
-            });
-        })->then(function () {
-            RedisAuthorsJob::dispatch();
-        })->dispatch();
+        RedisAudiobooksJob::withChain([
+            new RedisSeriesJob,
+            new RedisAuthorsJob,
+        ])->dispatch();
 
         return Command::SUCCESS;
     }

@@ -40,34 +40,39 @@ class RedisAuthorsJob implements ShouldQueue
         DB::transaction(function () use ($duplicateSlugs) {
             $i = 0;
             foreach ($duplicateSlugs as $slug) {
-                // Get all authors with this slug
-                $authors = Author::where('slug', $slug)->get();
-
-                // Choose the first as main
-                $mainAuthor = $authors->shift();
-
-                foreach ($authors as $duplicate) {
-                    $i++;
-                    // Attach Books (MorphToMany)
-                    $bookIds = $duplicate->books()->pluck('id')->toArray();
-                    if (! empty($bookIds)) {
-                        $mainAuthor->books()->syncWithoutDetaching($bookIds);
-                    }
-
-                    // Attach Series (MorphToMany)
-                    $serieIds = $duplicate->series()->pluck('id')->toArray();
-                    if (! empty($serieIds)) {
-                        $mainAuthor->series()->syncWithoutDetaching($serieIds);
-                    }
-
-                    // Delete duplicate author
-                    $duplicate->delete();
-                }
+                $i++;
+                $this->handleAuthor($slug);
             }
 
             Journal::debug("RedisAuthorsJob: found {$i} duplicate authors");
         });
 
         Journal::info('RedisAuthorsJob: finished');
+    }
+
+    private function handleAuthor(string $slug): void
+    {
+        // Get all authors with this slug
+        $authors = Author::where('slug', $slug)->get();
+
+        // Choose the first as main
+        $mainAuthor = $authors->shift();
+
+        foreach ($authors as $duplicate) {
+            // Attach Books (MorphToMany)
+            $bookIds = $duplicate->books()->pluck('id')->toArray();
+            if (! empty($bookIds)) {
+                $mainAuthor->books()->syncWithoutDetaching($bookIds);
+            }
+
+            // Attach Series (MorphToMany)
+            $serieIds = $duplicate->series()->pluck('id')->toArray();
+            if (! empty($serieIds)) {
+                $mainAuthor->series()->syncWithoutDetaching($serieIds);
+            }
+
+            // Delete duplicate author
+            $duplicate->delete();
+        }
     }
 }
