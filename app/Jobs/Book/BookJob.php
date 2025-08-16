@@ -138,12 +138,16 @@ class BookJob implements ShouldQueue
 
     private function fusionAudiobook(BookEngine $engine): void
     {
-        Journal::debug($engine->ebook()->getExtra('track_number'));
+        $track_number = $engine->ebook()->getExtra('track_number');
+
+        Journal::debug('track_number', [
+            'track_number' => $track_number,
+            'track_number_int' => intval($track_number),
+        ]);
 
         // find all Book with same `slug`
         $books = Book::query()
             ->where('slug', $engine->book()->slug)
-            // ->where('id', '!=', $engine->book()->id)
             ->orderBy('created_at', 'asc')
             ->get();
 
@@ -152,6 +156,7 @@ class BookJob implements ShouldQueue
             return;
         }
 
+        // keep only first as main
         $first = $books->first();
 
         Journal::debug("BookJob: audiobooks {$books->count()} to fusion.", [
@@ -162,6 +167,7 @@ class BookJob implements ShouldQueue
         /** @var Collection<int, AudiobookTrack> $tracks */
         $tracks = collect();
 
+        // keep all tracks to associate with the first book
         $books->each(function (Book $book) use ($first, &$tracks) {
             if ($book->id === $first->id) {
                 return;
