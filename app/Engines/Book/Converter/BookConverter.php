@@ -356,6 +356,12 @@ class BookConverter
         $book->file()->associate($this->file);
 
         try {
+            $isExists = Book::query()
+                ->where('slug', $book->slug)
+                ->where('library_id', $this->file->library_id)
+                ->first();
+            Journal::debug('BookConverter: book exists?', [$isExists]);
+
             Book::withoutSyncingToSearch(function () use ($book) {
                 $book->saveQuietly();
             });
