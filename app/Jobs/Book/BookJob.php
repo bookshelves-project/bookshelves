@@ -77,7 +77,7 @@ class BookJob implements ShouldQueue
         }
 
         if ($engine->book()->is_audiobook) {
-            $this->fusionAudiobook();
+            $this->fusionAudiobook($engine);
         }
     }
 
