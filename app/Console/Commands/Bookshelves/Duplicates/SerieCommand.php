@@ -76,6 +76,7 @@ class SerieCommand extends Commandable
         });
 
         $this->info("SerieCommand: finished for library: {$library->name}");
+        $this->newLine();
     }
 
     private function handleSerie(string $slug): void
