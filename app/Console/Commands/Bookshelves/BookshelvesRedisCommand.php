@@ -10,14 +10,14 @@ use App\Models\Library;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\Commandable;
 
-class RedisCleanCommand extends Commandable
+class BookshelvesRedisCommand extends Commandable
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bookshelves:redis-clean';
+    protected $signature = 'bookshelves:redis';
 
     /**
      * The console command description.
