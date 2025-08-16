@@ -1,35 +1,53 @@
 <?php
 
-namespace App\Jobs\Redis;
+namespace App\Console\Commands\Bookshelves\Duplicates;
 
 use App\Models\Author;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Kiwilan\LaravelNotifier\Facades\Journal;
+use Kiwilan\Steward\Commands\Commandable;
 
-/**
- * Parse `AudiobookTrack` to get all tracks with same `slug` and group them.
- */
-class RedisAuthorsJob implements ShouldQueue
+class AuthorCommand extends Commandable
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'bookshelves:duplicates:author';
 
     /**
-     * Create a new job instance.
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Handle author duplicates.';
+
+    /**
+     * Create a new command instance.
      */
     public function __construct(
-    ) {}
+    ) {
+        parent::__construct();
+    }
 
     /**
-     * Execute the job.
+     * Execute the console command.
+     *
+     * @return int
      */
-    public function handle(): void
+    public function handle()
     {
-        Journal::info('RedisAuthorsJob: starting...');
+        $this->title();
+
+        $this->parse();
+
+        return Command::SUCCESS;
+    }
+
+    private function parse(): void
+    {
+        $this->info('RedisAuthorsJob: starting...');
 
         // Identify duplicate slugs
         $duplicateSlugs = Author::select('slug', DB::raw('COUNT(*) as author_count'))
@@ -44,10 +62,10 @@ class RedisAuthorsJob implements ShouldQueue
                 $this->handleAuthor($slug);
             }
 
-            Journal::debug("RedisAuthorsJob: found {$i} duplicate authors");
+            $this->comment("RedisAuthorsJob: found {$i} duplicate authors");
         });
 
-        Journal::info('RedisAuthorsJob: finished');
+        $this->info('RedisAuthorsJob: finished');
     }
 
     private function handleAuthor(string $slug): void

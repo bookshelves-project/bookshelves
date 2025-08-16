@@ -1,43 +1,58 @@
 <?php
 
-namespace App\Jobs\Redis;
+namespace App\Console\Commands\Bookshelves\Duplicates;
 
 use App\Engines\Book\Converter\SerieConverter;
 use App\Models\Library;
 use App\Models\Serie;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Kiwilan\LaravelNotifier\Facades\Journal;
+use Kiwilan\Steward\Commands\Commandable;
 
-/**
- * Parse `AudiobookTrack` to get all tracks with same `slug` and group them.
- */
-class RedisSeriesJob implements ShouldQueue
+class SerieCommand extends Commandable
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'bookshelves:duplicates:serie
+                            {--fresh : Whether to force fresh conversion}';
 
     /**
-     * Create a new job instance.
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Handle series duplicates.';
+
+    /**
+     * Create a new command instance.
      */
     public function __construct(
         public bool $fresh = false,
-    ) {}
-
-    /**
-     * Execute the job.
-     */
-    public function handle(): void
-    {
-        Library::all()->each(fn ($library) => $this->parse($library));
+    ) {
+        parent::__construct();
     }
 
-    private function parse(Library $library): void
+    /**
+     * Execute the console command.
+     *
+     * @return int
+     */
+    public function handle()
     {
-        Journal::info("RedisSeriesJob: starting for library {$library}...");
+        $this->title();
+        $this->fresh = $this->option('fresh');
+
+        Library::all()->each(fn ($library) => $this->parse($library));
+
+        return Command::SUCCESS;
+    }
+
+    private function parse(Library $library)
+    {
+        $this->info("SerieCommand: starting for library {$library}...");
 
         // Identify duplicate slugs
         $duplicateSlugs = Serie::select('slug', DB::raw('COUNT(*) as serie_count'))
@@ -53,14 +68,14 @@ class RedisSeriesJob implements ShouldQueue
                 $this->handleSerie($slug);
             }
 
-            Journal::debug("RedisSeriesJob: found {$i} duplicate series");
+            $this->comment("SerieCommand: found {$i} duplicate series");
         });
 
         Serie::all()->each(function (Serie $serie) {
             SerieConverter::make($serie, $this->fresh);
         });
 
-        Journal::info("RedisSeriesJob: finished for library: {$library}");
+        $this->info("SerieCommand: finished for library: {$library}");
     }
 
     private function handleSerie(string $slug): void

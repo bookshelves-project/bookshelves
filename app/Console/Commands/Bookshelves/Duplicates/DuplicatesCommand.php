@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Bookshelves;
+namespace App\Console\Commands\Bookshelves\Duplicates;
 
 use App\Models\Author;
 use App\Models\Book;

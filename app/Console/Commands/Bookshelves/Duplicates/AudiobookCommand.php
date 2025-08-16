@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Bookshelves\Redis;
+namespace App\Console\Commands\Bookshelves\Duplicates;
 
 use App\Enums\LibraryTypeEnum;
 use App\Models\AudiobookTrack;
@@ -11,22 +11,21 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Kiwilan\Steward\Commands\Commandable;
 
-class RedisCommand extends Commandable
+class AudiobookCommand extends Commandable
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bookshelves:redis:audiobook
-                            {--f|fresh : Fresh install}';
+    protected $signature = 'bookshelves:duplicates:audiobook';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Redis clean-up for audiobooks, authors, and series.';
+    protected $description = 'Handle audiobooks duplicates.';
 
     /**
      * Create a new command instance.
@@ -45,16 +44,14 @@ class RedisCommand extends Commandable
     {
         $this->title();
 
-        Library::where('type', LibraryTypeEnum::audiobook)->get()->each(function (Library $library) {
-            $this->parse($library);
-        });
+        Library::where('type', LibraryTypeEnum::audiobook)->each(fn ($library) => $this->parse($library));
 
         return Command::SUCCESS;
     }
 
     private function parse(Library $library)
     {
-        $this->info("RedisAudiobooksJob: starting for library {$library->name}...");
+        $this->info("AudiobookCommand: starting for library {$library->name}...");
 
         $groups = AudiobookTrack::select('slug', DB::raw('COUNT(*) as track_count'))
             ->where('library_id', $library->id)
@@ -79,8 +76,8 @@ class RedisCommand extends Commandable
             }
         }
 
-        $this->comment("RedisAudiobooksJob: found {$i} groups with multiple book IDs");
-        $this->info("RedisAudiobooksJob: finished for library {$library->name}");
+        $this->comment("AudiobookCommand: found {$i} groups with multiple book IDs");
+        $this->info("AudiobookCommand: finished for library {$library->name}");
     }
 
     /**
