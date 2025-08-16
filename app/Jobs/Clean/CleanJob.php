@@ -146,6 +146,10 @@ class CleanJob implements ShouldQueue
                     ->unique()
                     ->toArray();
 
+                Journal::info("CleanJob: Found duplicates for slug {$duplicate->slug} in library {$duplicate->library_id}", [
+                    'bookIds' => $bookIds,
+                ]);
+
                 if (count($bookIds) < 2) {
                     Journal::debug("CleanJob: No duplicates found for slug {$duplicate->slug} in library {$duplicate->library_id}");
 
@@ -172,6 +176,7 @@ class CleanJob implements ShouldQueue
                     'slug' => $duplicate->slug,
                     'library_id' => $duplicate->library_id,
                 ]);
+                $newBook->saveNoSearch();
 
                 // 5️⃣ Réassocier tous les tracks au nouveau Book
                 AudiobookTrack::whereIn('id', $trackIds)->update(['book_id' => $newBook->id]);
