@@ -6,6 +6,7 @@ use App\Console\Commands\NotifierCommand;
 use App\Engines\Book\BookEngine;
 use App\Engines\Book\File\BookFileItem;
 use App\Facades\Bookshelves;
+use App\Models\AudiobookTrack;
 use App\Models\Book;
 use App\Models\File;
 use Error;
@@ -157,8 +158,27 @@ class BookJob implements ShouldQueue
             'first' => $first ? $first->id : null,
         ]);
 
-        // foreach ($books as $book) {
-        //     $book->delete();
-        // }
+        /** @var AudiobookTrack[] $tracks */
+        $tracks = [];
+
+        $books->each(function (Book $book) use ($first, &$tracks) {
+            if ($book->id === $first->id) {
+                return;
+            }
+
+            if ($book->audiobookTracks->isNotEmpty()) {
+                $tracks = array_merge($tracks, $book->audiobookTracks->toArray());
+            }
+
+            $book->unsearchable();
+            $book->delete();
+        });
+
+        $tracks = array_values($tracks);
+
+        foreach ($tracks as $track) {
+            $track->book()->associate($first);
+            $track->saveQuietly();
+        }
     }
 }
