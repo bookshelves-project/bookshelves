@@ -303,6 +303,8 @@ class BookConverter
                 Journal::debug('BookConverter: Found existing audiobook');
 
                 return $isExists;
+            } else {
+                Journal::debug('BookConverter: No existing audiobook found');
             }
 
             $book = new Book([
