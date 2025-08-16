@@ -352,28 +352,45 @@ class BookConverter
 
     private function checkIfAudiobookExists(string $title): ?Book
     {
-        $book = null;
+        // $book = null;
 
-        Cache::lock('book_'.$title.'_library_'.$this->file->library_id, 20)->block(10, function () use ($title, &$book) {
-            $isExists = Book::where('title', $title)
+        // // To avoid race conditions
+        // Cache::lock('book_'.$title.'_library_'.$this->file->library_id, 20)->block(10, function () use ($title, &$book) {
+        //     $isExists = Book::where('title', $title)
+        //         ->where('slug', $this->ebook->getMetaTitle()->getSlug())
+        //         ->where('library_id', $this->file->library_id)
+        //         ->first();
+
+        //     if ($isExists) {
+        //         /** @var Book $isExists */
+        //         $this->isAudiobookAndBookExists = true;
+
+        //         // Merge chapters
+        //         $isExists->audiobook_chapters = array_merge(
+        //             $isExists->audiobook_chapters ?? [],
+        //             $this->ebook->getExtra('chapters') ?? []
+        //         );
+        //         $isExists->saveNoSearch();
+
+        //         $book = $isExists;
+        //     }
+        // });
+
+        // return $book;
+
+        try {
+            $book = Book::create([
+                'title' => $title,
+                'slug' => $this->ebook->getMetaTitle()->getSlug(),
+                'library_id' => $this->file->library_id,
+            ]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Le Book existe déjà, on le récupère
+            $book = Book::where('title', $title)
                 ->where('slug', $this->ebook->getMetaTitle()->getSlug())
                 ->where('library_id', $this->file->library_id)
                 ->first();
-
-            if ($isExists) {
-                /** @var Book $isExists */
-                $this->isAudiobookAndBookExists = true;
-
-                // Merge chapters
-                $isExists->audiobook_chapters = array_merge(
-                    $isExists->audiobook_chapters ?? [],
-                    $this->ebook->getExtra('chapters') ?? []
-                );
-                $isExists->saveNoSearch();
-
-                $book = $isExists;
-            }
-        });
+        }
 
         return $book;
     }
