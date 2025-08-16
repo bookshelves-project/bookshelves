@@ -64,6 +64,9 @@ class AnalyzeCommand extends Commandable
         $this->comment('Fresh: '.($this->fresh ? 'yes' : 'no'));
         $this->comment('Limit: '.($this->limit ?: 'no limit'));
         $this->newLine();
+        $this->comment('Queue: '.config('queue.default'));
+        $this->comment('Horizon: '.config('horizon.environments.local.supervisor-1.maxProcesses'));
+        $this->newLine();
 
         if ($this->fresh) {
             $this->info('Clear database... (fresh mode)');
