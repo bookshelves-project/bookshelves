@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Bookshelves\Redis;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Kiwilan\Steward\Commands\Commandable;
 
@@ -39,26 +40,22 @@ class BookshelvesRedisDuplicatesCommand extends Commandable
     {
         $this->title();
 
-        $duplicates = \App\Models\Serie::select('slug', DB::raw('COUNT(*) as total'))
-            ->groupBy('slug')
-            ->having('total', '>', 1)
-            ->get();
-        $this->info("Found {$duplicates->count()} duplicate series.");
+        $this->print(
+            \App\Models\Serie::select('slug', DB::raw('COUNT(*) as total'))
+                ->groupBy('slug')
+                ->having('total', '>', 1)
+                ->get(),
+            'series');
 
         // $this->find(Author::class, column: 'slug', name: 'authors');
-        $this->find(\App\Models\Serie::class, column: 'slug', name: 'series');
+        // $this->find(\App\Models\Serie::class, column: 'slug', name: 'series');
         // $this->find(Book::class, column: 'slug', name: 'books');
 
         return Command::SUCCESS;
     }
 
-    private function find(string $class, string $column, string $name): void
+    private function print(Collection $duplicates, string $name): void
     {
-        $duplicates = $class::select($column, DB::raw('COUNT(*) as total'))
-            ->groupBy($column)
-            ->having('total', '>', 1)
-            ->get();
-
         if ($duplicates->isEmpty()) {
             $this->info("No duplicate {$name} found.");
 
@@ -69,5 +66,6 @@ class BookshelvesRedisDuplicatesCommand extends Commandable
             ['Slug', 'Total'],
             $duplicates->toArray()
         );
+        $this->info("Found {$duplicates->count()} duplicate {$name}.");
     }
 }
