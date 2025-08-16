@@ -2,10 +2,13 @@
 
 namespace App\Console\Commands\Bookshelves\Redis;
 
-use App\Jobs\Redis\RedisAudiobooksJob;
-use App\Jobs\Redis\RedisAuthorsJob;
-use App\Jobs\Redis\RedisSeriesJob;
+use App\Enums\LibraryTypeEnum;
+use App\Models\AudiobookTrack;
+use App\Models\Book;
+use App\Models\Library;
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Kiwilan\Steward\Commands\Commandable;
 
 class RedisCommand extends Commandable
@@ -15,7 +18,7 @@ class RedisCommand extends Commandable
      *
      * @var string
      */
-    protected $signature = 'bookshelves:redis
+    protected $signature = 'bookshelves:redis:audiobook
                             {--f|fresh : Fresh install}';
 
     /**
@@ -29,7 +32,6 @@ class RedisCommand extends Commandable
      * Create a new command instance.
      */
     public function __construct(
-        public bool $fresh = false,
     ) {
         parent::__construct();
     }
@@ -43,13 +45,63 @@ class RedisCommand extends Commandable
     {
         $this->title();
 
-        $this->fresh = $this->option('fresh') ?: false;
-
-        RedisAudiobooksJob::withChain([
-            new RedisSeriesJob($this->fresh),
-            new RedisAuthorsJob,
-        ])->dispatch();
+        Library::where('type', LibraryTypeEnum::audiobook)->get()->each(function (Library $library) {
+            $this->parse($library);
+        });
 
         return Command::SUCCESS;
+    }
+
+    private function parse(Library $library)
+    {
+        $this->info("RedisAudiobooksJob: starting for library {$library}...");
+
+        $groups = AudiobookTrack::select('slug', DB::raw('COUNT(*) as track_count'))
+            ->where('library_id', $library)
+            ->groupBy('slug')
+            ->having('track_count', '>', 1)
+            ->get();
+
+        $i = 0;
+        foreach ($groups as $group) {
+            $book_ids = [];
+            $tracks = AudiobookTrack::where('slug', $group->slug)->get();
+
+            foreach ($tracks as $track) {
+                $book_ids[] = $track->book_id;
+            }
+
+            // Check if `book_ids` are same
+            $book_ids = array_unique($book_ids);
+            if (count($book_ids) !== 1) {
+                $i++;
+                $this->handleMultipleBookIds($tracks);
+            }
+        }
+
+        $this->comment("RedisAudiobooksJob: found {$i} groups with multiple book IDs");
+        $this->info("RedisAudiobooksJob: finished for library {$library}");
+    }
+
+    /**
+     * Handle multiple book_ids for an audiobook.
+     *
+     * @param  Collection<int, AudiobookTrack>  $tracks
+     */
+    private function handleMultipleBookIds(Collection $tracks): void
+    {
+        $main_book = $tracks->first()->book_id;
+
+        foreach ($tracks as $track) {
+            if ($track->book_id !== $main_book) {
+                $wrong_book = $track->book_id;
+
+                $track->book()->dissociate();
+                $track->book()->associate($main_book);
+                $track->saveQuietly();
+
+                Book::find($wrong_book)?->delete();
+            }
+        }
     }
 }
