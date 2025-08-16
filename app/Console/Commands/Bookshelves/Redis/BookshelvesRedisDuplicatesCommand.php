@@ -89,5 +89,6 @@ class BookshelvesRedisDuplicatesCommand extends Commandable
         }
 
         $this->info("Found {$duplicates->count()} duplicate {$name}.");
+        $this->newLine();
     }
 }
