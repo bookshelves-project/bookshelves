@@ -144,6 +144,14 @@ class BookJob implements ShouldQueue
             ? explode('/', $track_number)[1]
             : null;
 
+        // {"track_number":"1","track_number_int":1,"after_slash":null}
+        // {"track_number":"1/4","track_number_int":1,"after_slash":"4"}
+        // {"track_number":"2/2","track_number_int":2,"after_slash":"2"}
+        // skip if only one track
+        if ($track_number_int < 2 && $after_slash === null) {
+            return;
+        }
+
         Journal::debug('track_number', [
             'track_number' => $track_number,
             'track_number_int' => $track_number_int,
