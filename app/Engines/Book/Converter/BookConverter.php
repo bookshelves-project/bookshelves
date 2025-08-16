@@ -360,6 +360,10 @@ class BookConverter
         $book->file()->associate($this->file);
         $book->saveNoSearch();
 
+        Journal::debug('BookConverter: Book saved', [
+            'book' => $book->title,
+        ]);
+
         return $book;
     }
 }
