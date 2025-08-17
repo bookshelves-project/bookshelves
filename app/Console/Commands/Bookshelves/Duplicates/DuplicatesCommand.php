@@ -18,7 +18,8 @@ class DuplicatesCommand extends Commandable
      * @var string
      */
     protected $signature = 'bookshelves:duplicates
-                            {--c|clean : Execute clean commands}';
+                            {--c|clean : Execute clean commands}
+                            {--v|verbose : Increase verbosity of output}';
 
     /**
      * The console command description.
@@ -31,6 +32,7 @@ class DuplicatesCommand extends Commandable
      * Create a new command instance.
      */
     public function __construct(
+        protected bool $verbose = false,
     ) {
         parent::__construct();
     }
@@ -45,6 +47,7 @@ class DuplicatesCommand extends Commandable
         $this->title();
 
         $clean = $this->optionBool('clean');
+        $this->verbose = $this->optionBool('verbose');
 
         $this->find(Author::class, column: 'slug', name: 'authors');
         $this->find(Serie::class, column: 'slug', name: 'series', with_library: true);
@@ -87,23 +90,25 @@ class DuplicatesCommand extends Commandable
             return;
         }
 
-        if ($with_library) {
-            $this->table(
-                ['Slug', 'Library ID', 'Total'],
-                $duplicates->map(fn ($duplicate) => [
-                    $duplicate->{$column},
-                    $duplicate->library_id,
-                    $duplicate->total,
-                ])->toArray()
-            );
-        } else {
-            $this->table(
-                ['Slug', 'Total'],
-                $duplicates->map(fn ($duplicate) => [
-                    $duplicate->{$column},
-                    $duplicate->total,
-                ])->toArray()
-            );
+        if ($this->verbose) {
+            if ($with_library) {
+                $this->table(
+                    ['Slug', 'Library ID', 'Total'],
+                    $duplicates->map(fn ($duplicate) => [
+                        $duplicate->{$column},
+                        $duplicate->library_id,
+                        $duplicate->total,
+                    ])->toArray()
+                );
+            } else {
+                $this->table(
+                    ['Slug', 'Total'],
+                    $duplicates->map(fn ($duplicate) => [
+                        $duplicate->{$column},
+                        $duplicate->total,
+                    ])->toArray()
+                );
+            }
         }
 
         $this->info("Found {$duplicates->count()} duplicate {$name}.");
