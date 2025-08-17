@@ -18,8 +18,7 @@ class DuplicatesCommand extends Commandable
      * @var string
      */
     protected $signature = 'bookshelves:duplicates
-                            {--c|clean : Execute clean commands}
-                            {--v|verbose : Increase verbosity of output}';
+                            {--c|clean : Execute clean commands}';
 
     /**
      * The console command description.
