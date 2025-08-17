@@ -51,9 +51,16 @@ class DuplicatesCommand extends Commandable
         $this->find(Book::class, column: 'slug', name: 'books', with_library: true);
 
         if ($clean) {
+            $this->info('Executing clean commands...');
             Artisan::call(AudiobookCommand::class);
+            Artisan::output();
+
             Artisan::call(SerieCommand::class);
+            Artisan::output();
+
             Artisan::call(AuthorCommand::class);
+            Artisan::output();
+            $this->info('Clean commands executed successfully.');
         }
 
         return Command::SUCCESS;
