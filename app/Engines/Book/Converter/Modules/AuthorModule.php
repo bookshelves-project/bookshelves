@@ -53,11 +53,9 @@ class AuthorModule
         return $authorsSaved;
     }
 
-    private function createAnonymousAuthor(): AuthorModuleItem
+    private function createAnonymousAuthor(): BookAuthor
     {
-        return new AuthorModuleItem(
-            firstname: 'Anonymous',
-            lastname: null,
+        return new BookAuthor(
             name: 'Anonymous',
             role: 'aut'
         );
