@@ -55,13 +55,13 @@ class DuplicatesCommand extends Commandable
         if ($clean) {
             $this->info('Executing clean commands...');
             Artisan::call(AudiobookCommand::class);
-            Artisan::output();
+            $this->comment(Artisan::output());
 
             Artisan::call(SerieCommand::class);
-            Artisan::output();
+            $this->comment(Artisan::output());
 
             Artisan::call(AuthorCommand::class);
-            Artisan::output();
+            $this->comment(Artisan::output());
             $this->info('Clean commands executed successfully.');
         }
 
