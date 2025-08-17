@@ -4,7 +4,6 @@ namespace App\Jobs\Library;
 
 use App\Engines\Book\File\BookFileScanner;
 use App\Jobs\Book\BooksDispatchJob;
-use App\Jobs\Clean\DuplicatesJob;
 use App\Models\Library;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -48,6 +47,5 @@ class ParserJob implements ShouldQueue
         Journal::info($msg);
 
         BooksDispatchJob::dispatch($this->library, $parser->getPaths(), $this->fresh);
-        DuplicatesJob::dispatch();
     }
 }
