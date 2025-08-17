@@ -6,6 +6,7 @@ use App\Models\Author;
 use App\Models\Book;
 use App\Models\Serie;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Kiwilan\Steward\Commands\Commandable;
 
@@ -16,7 +17,8 @@ class DuplicatesCommand extends Commandable
      *
      * @var string
      */
-    protected $signature = 'bookshelves:duplicates';
+    protected $signature = 'bookshelves:duplicates
+                            {--c|clean : Execute clean commands}';
 
     /**
      * The console command description.
@@ -42,9 +44,17 @@ class DuplicatesCommand extends Commandable
     {
         $this->title();
 
+        $clean = $this->optionBool('clean');
+
         $this->find(Author::class, column: 'slug', name: 'authors');
         $this->find(Serie::class, column: 'slug', name: 'series', with_library: true);
         $this->find(Book::class, column: 'slug', name: 'books', with_library: true);
+
+        if ($clean) {
+            Artisan::call(AudiobookCommand::class);
+            Artisan::call(SerieCommand::class);
+            Artisan::call(AuthorCommand::class);
+        }
 
         return Command::SUCCESS;
     }
