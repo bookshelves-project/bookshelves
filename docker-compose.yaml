@@ -49,6 +49,7 @@ services:
     build: .
     container_name: ${CONTAINER_NAME}_horizon
     command: php artisan horizon
+    restart: ${CONTAINER_RESTART}
     volumes:
       - ${LIBRARY_PATH}:/library:ro
       - ${LIBRARY_PATH_2}:/library_2:ro
