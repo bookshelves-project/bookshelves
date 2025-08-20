@@ -23,7 +23,6 @@ npm-debug.log
 yarn-error.log
 /.fleet
 /.idea
-/.vscode
 .DS_Store
 _ide_helper.php
 auto-imports.d.ts

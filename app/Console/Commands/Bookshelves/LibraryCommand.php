@@ -2,14 +2,15 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Engines\Library\LibraryScanner;
 use App\Facades\Bookshelves;
-use App\Jobs\Library\ParserJob;
+use App\Jobs\Library\LibraryScanJob;
 use App\Models\Library;
 use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
-use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Commands\Commandable;
+use Kiwilan\Steward\Commands\Model\ModelBackupCommand;
+use Kiwilan\Steward\Commands\Model\ModelRestoreCommand;
+use Kiwilan\Steward\Services\DirectoryService;
 
 /**
  * Main command of Bookshelves to generate Books with relations.
@@ -21,9 +22,9 @@ class LibraryCommand extends Commandable
      *
      * @var string
      */
-    protected $signature = 'bookshelves:library
-                            {library-slug : Library slug to parse}
-                            {--f|fresh : Fresh parsing}
+    protected $signature = 'bookshelves:libraries
+                            {--m|monitor : only monitor files to get their status}
+                            {--f|fresh : fresh install, to delete all files and re-create them}
                             {--l|limit= : Limit epub files to generate, useful for debug}';
 
     /**
@@ -31,13 +32,13 @@ class LibraryCommand extends Commandable
      *
      * @var string
      */
-    protected $description = 'Parse library to generate Books with relations.';
+    protected $description = 'Scan libraries and create `File`, to get only count use `--m|monitor`';
 
     /**
      * Create a new command instance.
      */
     public function __construct(
-        protected ?string $librarySlug = null,
+        protected bool $monitor = false,
         protected bool $fresh = false,
         protected ?int $limit = null,
     ) {
@@ -53,42 +54,100 @@ class LibraryCommand extends Commandable
     {
         $this->title();
 
-        $this->librarySlug = (string) $this->argument('library-slug');
-        $this->fresh = $this->option('fresh') ?: false;
+        $this->monitor = $this->optionBool('monitor');
+        $this->fresh = $this->optionBool('fresh');
         $this->limit = $this->optionInt('limit') ?: null;
 
-        $library = Library::query()->where('slug', $this->librarySlug)->first();
-        if (! $library || ! $library instanceof Library) {
-            $libraries = Library::inOrder()->map(fn (Library $library) => $library->slug)->toArray();
-            $librariesStr = implode(', ', $libraries);
-            $msg = "LibraryCommand: library not found: {$this->librarySlug}, available: {$librariesStr}";
-            Journal::error($msg);
-            $this->error($msg);
-
-            return Command::FAILURE;
-        }
-
-        $engine = Bookshelves::analyzerEngine();
-        $msg = "Parsing library: {$library->name} with `{$engine}`...";
-        Journal::info($msg);
-        $this->info($msg);
         $this->comment('Fresh: '.($this->fresh ? 'yes' : 'no'));
         $this->comment('Limit: '.($this->limit ?: 'no limit'));
+        $this->comment('Queue: '.config('queue.default'));
+        if (config('queue.default') === 'redis') {
+            $this->comment(' Redis processes: '.config('horizon.environments.production.supervisor-1.maxProcesses'));
+        }
+        $this->newLine();
 
         if ($this->fresh) {
-            $this->deleteModels($library->files);
-            $this->deleteModels($library->books);
-            $this->deleteModels($library->audiobookTracks);
-            $this->deleteModels($library->series);
+            $this->comment('Fresh install: deleting all files...');
+            $this->clearFresh();
         }
 
-        ParserJob::dispatch($library, $this->limit, $this->fresh);
+        $this->clearCache();
+
+        Library::inOrder()
+            ->each(function (Library $library) {
+                if ($this->monitor) {
+                    $this->monitor($library);
+                } else {
+                    LibraryScanJob::dispatch($library->slug, $this->limit, $this->fresh);
+                    $this->line("Dispatched scan job for `{$library->name}` library...");
+                }
+            });
 
         return Command::SUCCESS;
     }
 
-    private function deleteModels(Collection $models): void
+    private function monitor(Library $library): void
     {
-        $models->each(fn (Model $model) => $model->delete());
+        $verbose = $this->option('verbose');
+
+        $this->line("Scanning library: {$library->name}...");
+        $scanner = LibraryScanner::make($library, $this->limit);
+
+        if (! $scanner->isValid()) {
+            $this->error("Library {$library->name} with path `{$library->path}` is not valid.");
+
+            return;
+        }
+
+        if ($verbose) {
+            $this->newLine();
+            $this->table(
+                ['Path'],
+                array_map(fn ($item) => [strlen($item) > 80 ? substr($item, 0, 77).'...' : $item], $scanner->getFilePaths())
+            );
+            $this->newLine();
+        }
+
+        $this->comment("Found {$scanner->getCount()} files in library {$library->name}.");
+        $this->line('Library scanned.');
+        $this->newLine();
+    }
+
+    private function clearCache(): void
+    {
+        DirectoryService::make()->clearDirectory(storage_path('app/cache'));
+        DirectoryService::make()->clearDirectory(storage_path('app/index/book'));
+        DirectoryService::make()->clearDirectory(storage_path('app/index/library'));
+        DirectoryService::make()->clearDirectory(storage_path('clockwork'));
+    }
+
+    private function clearFresh(): void
+    {
+        // $this->call(JobsClearCommand::class);
+
+        $this->call(ModelBackupCommand::class, [
+            'model' => 'App\Models\User',
+        ]);
+
+        $this->call('migrate:fresh', ['--seed' => true, '--force' => true]);
+        $this->comment('Database reset!');
+
+        $this->call(ModelRestoreCommand::class, [
+            'model' => 'App\Models\User',
+        ]);
+
+        // $this->call(LogClearCommand::class);
+
+        $path = Bookshelves::exceptionParserLog();
+        // File::put($path, json_encode([]));
+        Library::cacheClear();
+        // CleanCoversJob::dispatch();
+
+        $this->call('db:seed', [
+            '--class' => 'EmptySeeder',
+            '--force' => true,
+        ]);
+
+        $this->newLine();
     }
 }

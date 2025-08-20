@@ -185,7 +185,7 @@ return [
             'queue' => ['default'],
             'balance' => 'auto',
             'autoScalingStrategy' => 'time',
-            'maxProcesses' => 1,
+            'maxProcesses' => env('HORIZON_MAX_PROCESSES', 2),
             'maxTime' => 0,
             'maxJobs' => 0,
             'memory' => 128,

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->boolean('path_is_valid')->default(false);
             $table->boolean('is_enabled')->default(true);
             $table->integer('sort')->default(0);
+            $table->dateTime('library_scanned_at')->nullable();
+            $table->dateTime('library_modified_at')->nullable();
 
             $table->timestamps();
         });

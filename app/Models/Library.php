@@ -32,6 +32,8 @@ class Library extends Model
         'path_is_valid',
         'is_enabled',
         'sort',
+        'library_scanned_at',
+        'library_modified_at',
     ];
 
     protected $appends = [
@@ -46,6 +48,8 @@ class Library extends Model
         'path_is_valid' => 'boolean',
         'is_enabled' => 'boolean',
         'sort' => 'integer',
+        'library_scanned_at' => 'datetime',
+        'library_modified_at' => 'datetime',
     ];
 
     public function getTypeLabelAttribute(): ?string
@@ -127,16 +131,16 @@ class Library extends Model
 
     protected static function countType(Collection $collection): int
     {
-        $count = 0;
-        foreach ($collection as $library) {
-            $path = $library->getJsonPath();
-            if (file_exists($path)) {
-                $json = json_decode(file_get_contents($path), true);
-                $count += count($json);
-            }
-        }
+        // $count = 0;
+        // foreach ($collection as $library) {
+        //     $path = $library->getJsonPath();
+        //     if (file_exists($path)) {
+        //         $json = json_decode(file_get_contents($path), true);
+        //         $count += count($json);
+        //     }
+        // }
 
-        return $count;
+        return 0;
     }
 
     public static function getAudiobooksCount(): int
@@ -154,40 +158,9 @@ class Library extends Model
         return self::countType(Library::onlyGraphics()->get());
     }
 
-    public function getJsonCount(): int
+    public function getLibraryIndexPath(): string
     {
-        $path = $this->getJsonPath();
-        if (file_exists($path)) {
-            $json = json_decode(file_get_contents($path), true);
-
-            return count($json);
-        }
-
-        return 0;
-    }
-
-    public static function getJsonDirectory(): string
-    {
-        return storage_path('app/library');
-    }
-
-    public function getJsonName(): string
-    {
-        return "{$this->slug}.json";
-    }
-
-    public function getJsonPath(): string
-    {
-        $name = $this->getJsonName();
-
-        return $this->getJsonDirectory().DIRECTORY_SEPARATOR.$name;
-    }
-
-    public function getJsonDataPath(): string
-    {
-        $name = $this->getJsonName();
-
-        return storage_path("app/data/{$name}");
+        return storage_path('app'.DIRECTORY_SEPARATOR.'index'.DIRECTORY_SEPARATOR.'library'.DIRECTORY_SEPARATOR.$this->slug.'.dat');
     }
 
     public function files(): \Illuminate\Database\Eloquent\Relations\HasMany

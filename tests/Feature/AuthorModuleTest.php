@@ -1,6 +1,6 @@
 <?php
 
-use App\Engines\Book\Converter\Modules\AuthorModule;
+use App\Engines\Converter\Modules\AuthorModule;
 use Kiwilan\Ebook\Ebook;
 
 test('can parse author name', function () {

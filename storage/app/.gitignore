@@ -1,9 +1,6 @@
 *
-!audiobooks/
 !cache/
-!data/
-!debug/
-!library/
+!index/
 !model-backup/
 !public/
 !.gitignore
