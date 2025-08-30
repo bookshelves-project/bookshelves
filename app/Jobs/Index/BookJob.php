@@ -84,7 +84,7 @@ class BookJob implements ShouldQueue
             'rights' => $copyright,
             'volume' => $this->parseVolume($ebook->getVolume()),
             'format' => $format,
-            'page_count' => $ebook->getPagesCount(),
+            'page_count' => $ebook->isAudio() ? null : $ebook->getPagesCount(),
             'isbn10' => $identifiers->get('isbn10') ?? null,
             'isbn13' => $identifiers->get('isbn13') ?? null,
             'identifiers' => $identifiers->toArray(),
