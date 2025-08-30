@@ -159,7 +159,7 @@ class AnalyzeCommand extends Commandable
 
 //     foreach ($files as $i => $file) {
 //         /** @var Ebook $ebook */
-//         $ebook = BookshelvesUtils::unserialize($file->getBookIndexPath());
+//         $ebook = BookshelvesUtils::unserialize($file->getFileIndexPath());
 //         if (Bookshelves::verbose()) {
 //             Journal::debug("LibraryScanJob: {$i}/{$count} {$file->basename} from {$this->library->name}");
 //         }

@@ -37,14 +37,30 @@ class LibraryJob implements ShouldQueue
     {
         $this->library = Library::find($this->library_id);
         $this->scanner = LibraryScanner::make($this->library, $this->limit);
+        $this->scanner->serialize();
+
         Journal::info("LibraryScanJob: Scanning library: {$this->library->name}...");
 
         if ($this->fresh) {
             Journal::info('LibraryScanJob: Fresh install!');
         }
 
-        $this->handleFiles();
+        // $this->handleFiles();
         $this->handleLibrary();
+    }
+
+    /**
+     * Handle library metadata updates.
+     */
+    private function handleLibrary(): void
+    {
+        if ($this->scanner->getScannedAt() && $this->scanner->getModifiedAt()) {
+            $this->library->library_scanned_at = new Carbon($this->scanner->getScannedAt());
+            $this->library->library_modified_at = new Carbon($this->scanner->getModifiedAt());
+            $this->library->save();
+        } else {
+            throw new \Exception("LibraryScanJob: Failed to retrieve scan dates for library: {$this->library->name}");
+        }
     }
 
     /**
@@ -84,20 +100,6 @@ class LibraryJob implements ShouldQueue
 
         Journal::info('LibraryScanJob: standard parsing...');
         $this->parseStandard();
-    }
-
-    /**
-     * Handle library metadata updates.
-     */
-    private function handleLibrary(): void
-    {
-        if ($this->scanner->getScannedAt() && $this->scanner->getModifiedAt()) {
-            $this->library->library_scanned_at = new Carbon($this->scanner->getScannedAt());
-            $this->library->library_modified_at = new Carbon($this->scanner->getModifiedAt());
-            $this->library->save();
-        } else {
-            throw new \Exception("LibraryScanJob: Failed to retrieve scan dates for library: {$this->library->name}");
-        }
     }
 
     /**

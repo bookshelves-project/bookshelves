@@ -45,7 +45,7 @@ class BookIndexJob implements ShouldQueue
         $this->parseEbook($file);
 
         /** @var Ebook $ebook */
-        $ebook = BookshelvesUtils::unserialize($file->getBookIndexPath());
+        $ebook = BookshelvesUtils::unserialize($file->getFileIndexPath());
 
         // $i = 0;
         // $count = count($file_items);
@@ -78,7 +78,7 @@ class BookIndexJob implements ShouldQueue
             return;
         }
 
-        $index_path = $file->getBookIndexPath();
+        $index_path = $file->getFileIndexPath();
         BookshelvesUtils::serialize($index_path, $ebook);
 
         if (! $ebook) {

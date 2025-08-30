@@ -67,6 +67,7 @@ class Book extends Model implements HasMedia
         'created_at',
         'updated_at',
         'added_at',
+        'calibre_added_at',
     ];
 
     protected $query_limit = 32;
@@ -116,6 +117,7 @@ class Book extends Model implements HasMedia
         'page_count' => 'integer',
         'to_notify' => 'boolean',
         'added_at' => 'datetime',
+        'calibre_added_at' => 'datetime',
     ];
 
     protected $with = [
@@ -289,6 +291,13 @@ class Book extends Model implements HasMedia
     public function library(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Library::class);
+    }
+
+    public function getBookIndexPath(): string
+    {
+        $this->loadMissing('library');
+
+        return storage_path('app'.DIRECTORY_SEPARATOR.'index'.DIRECTORY_SEPARATOR.'book'.DIRECTORY_SEPARATOR.$this->library->slug.DIRECTORY_SEPARATOR.$this->id.'.dat');
     }
 
     public function getRelated(): Collection

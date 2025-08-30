@@ -53,11 +53,4 @@ class File extends Model
     {
         return $this->belongsTo(Library::class);
     }
-
-    public function getBookIndexPath(): string
-    {
-        $this->loadMissing('library');
-
-        return storage_path('app'.DIRECTORY_SEPARATOR.'index'.DIRECTORY_SEPARATOR.'book'.DIRECTORY_SEPARATOR.$this->library->slug.DIRECTORY_SEPARATOR.$this->id.'.dat');
-    }
 }

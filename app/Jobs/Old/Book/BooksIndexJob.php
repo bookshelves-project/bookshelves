@@ -43,7 +43,7 @@ class BooksIndexJob implements ShouldQueue
         foreach ($this->files as $key => $file) {
             // Journal::info("BooksIndexJob: Indexing book: {$file->basename}...");
             /** @var Ebook $ebook */
-            $ebook = BookshelvesUtils::unserialize($file->getBookIndexPath());
+            $ebook = BookshelvesUtils::unserialize($file->getFileIndexPath());
             BookConverter::make($ebook, $file);
         }
 

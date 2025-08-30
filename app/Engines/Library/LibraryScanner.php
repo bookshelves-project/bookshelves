@@ -14,7 +14,8 @@ use Kiwilan\LaravelNotifier\Facades\Journal;
 /**
  * Scan a library to find all book files.
  *
- * Will convert file paths to `FileItem` objects.
+ * - Can convert file paths to `FileItem` objects.
+ * - Can serialize the index to a file.
  */
 class LibraryScanner
 {
@@ -25,11 +26,6 @@ class LibraryScanner
      * @var string[]
      */
     protected array $skip_extensions = [];
-
-    /**
-     * @var FileItem[]
-     */
-    protected array $file_items = [];
 
     protected function __construct(
         protected Library $library,
@@ -64,7 +60,6 @@ class LibraryScanner
         $self->file_paths = array_values($self->scan($limit));
         $self->count = count($self->file_paths);
         $self->scanned_at = new Carbon('now', timezone: config('app.timezone'));
-        $self->saveIndex();
 
         return $self;
     }
@@ -199,17 +194,18 @@ class LibraryScanner
     }
 
     /**
-     * Save the index to a file.
+     * Serialize the index to a file.
      */
-    private function saveIndex(): bool
+    public function serialize(?string $path = null): bool
     {
+        $path = $path ?? $this->library->getLibraryIndexPath();
+
         if (! $this->is_valid) {
-            Journal::error("LibraryScanner: {$this->library->name} path not valid: {$this->library->path}");
+            Journal::error("LibraryScanner: {$this->library->name} path not valid: {$path}");
 
             return false;
         }
 
-        $index_path = $this->library->getLibraryIndexPath();
         $data = [
             'library_id' => $this->library->id,
             'scanned_at' => $this->scanned_at?->format('Y-m-d H:i:s'),
@@ -218,6 +214,6 @@ class LibraryScanner
             'count' => $this->count,
         ];
 
-        return BookshelvesUtils::serialize($index_path, $data);
+        return BookshelvesUtils::serialize($path, $data);
     }
 }

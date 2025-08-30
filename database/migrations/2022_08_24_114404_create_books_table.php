@@ -33,6 +33,7 @@ return new class extends Migration
             $table->json('identifiers')->nullable();
             $table->boolean('to_notify')->default(false);
             $table->dateTime('added_at')->nullable();
+            $table->dateTime('calibre_added_at')->nullable();
 
             $table->timestamps();
         });

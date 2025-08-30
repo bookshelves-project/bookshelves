@@ -32,7 +32,9 @@ class AnalyzeJob implements ShouldQueue
 
         Bus::batch(
             Library::inOrder()
-                ->map(fn (Library $library) => new LibraryJob($library->id, $this->limit, $this->fresh))
+                ->map(
+                    fn (Library $library) => new LibraryJob($library->id, $this->limit, $this->fresh)
+                )
         )->then(function (Batch $batch) {
             Library::inOrder()->each(function (Library $library) {
                 $data = BookshelvesUtils::unserialize($library->getLibraryIndexPath());
