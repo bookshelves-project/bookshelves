@@ -2,7 +2,6 @@
 
 namespace App\Engines\Converter\Modules;
 
-use App\Jobs\Serie\SerieJob;
 use App\Models\Book;
 use App\Models\Serie;
 
@@ -51,8 +50,6 @@ class SerieModule
             $serie->authors()->sync($book->authors->pluck('id'));
         }
         $serie->saveNoSearch();
-
-        // SerieJob::dispatch($serie);
 
         return $serie;
     }

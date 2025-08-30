@@ -27,10 +27,23 @@ class SerieConverter
 
         $self = new self($serie, $fresh);
         $self->setTags();
-        $self->setCover();
         $self->setBookDescription();
 
         $serie->parsed_at = now();
+        $self->serie->saveNoSearch();
+
+        return $self;
+    }
+
+    public static function makeCover(?Serie $serie, bool $fresh = false): ?self
+    {
+        if (! $serie) {
+            return null;
+        }
+
+        $self = new self($serie, $fresh);
+        $self->setCover();
+
         $self->serie->saveNoSearch();
 
         return $self;

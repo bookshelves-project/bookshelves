@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Engines\BookshelvesUtils;
 use App\Jobs\Cover\BookCoverJob;
+use App\Jobs\Cover\SerieCoverJob;
 use App\Jobs\Index\IndexAuthorJob;
 use App\Jobs\Index\IndexBookJob;
 use App\Jobs\Index\IndexLanguageJob;
@@ -13,6 +14,7 @@ use App\Jobs\Index\IndexTagJob;
 use App\Jobs\Library\LibraryJob;
 use App\Models\Book;
 use App\Models\Library;
+use App\Models\Serie;
 use Illuminate\Bus\Batch;
 use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -52,15 +54,22 @@ class AnalyzeJob implements ShouldQueue
                 })
             )->then(function (Batch $batch) {
                 Bus::batch([
-                    new IndexAuthorJob,
-                    new IndexSerieJob,
                     new IndexLanguageJob,
                     new IndexPublisherJob,
                     new IndexTagJob,
+                    new IndexAuthorJob,
                 ])->then(function (Batch $batch) {
                     Bus::batch(
-                        Book::all()->map(fn (Book $book) => new BookCoverJob($book))
-                    )->dispatch();
+                        new IndexSerieJob,
+                    )->then(function (Batch $batch) {
+                        Bus::batch(
+                            Book::all()->map(fn (Book $book) => new BookCoverJob($book))
+                        )->then(function (Batch $batch) {
+                            Bus::batch(
+                                Serie::all()->map(fn (Serie $serie) => new SerieCoverJob($serie))
+                            )->dispatch();
+                        })->dispatch();
+                    })->dispatch();
                 })->dispatch();
             })->dispatch();
         })->dispatch();

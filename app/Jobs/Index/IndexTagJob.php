@@ -3,9 +3,9 @@
 namespace App\Jobs\Index;
 
 use App\Engines\BookshelvesUtils;
-use App\Engines\Converter\Modules\SerieModule;
 use App\Engines\Converter\Modules\TagModule;
 use App\Models\Book;
+use App\Models\Tag;
 use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -30,11 +30,7 @@ class IndexTagJob implements ShouldQueue
         Journal::info('IndexTagJob: handle tags...');
 
         $this->createTags();
-        // $this->attachTags();
-
-        // Tag::all()->load(['books'])->each(function (Tag $tag) {
-        //     TagConverter::make($tag, true);
-        // });
+        $this->attachTags();
     }
 
     private function createTags(): void
@@ -45,8 +41,8 @@ class IndexTagJob implements ShouldQueue
             if (! file_exists($index_path)) {
                 return;
             }
-            $data = BookshelvesUtils::unserialize($index_path);
-            $items->push(...$data);
+            $tags = BookshelvesUtils::unserialize($index_path);
+            $items->push(...$tags);
         });
 
         $items = $items->unique(fn ($tag) => $tag)->values();
@@ -62,14 +58,15 @@ class IndexTagJob implements ShouldQueue
             if (! file_exists($index_path)) {
                 return;
             }
-            $data = BookshelvesUtils::unserialize($index_path);
-            // $tag = Tag::where('slug', $data['slug'])
-            //     ->where('library_id', $data['library_id'])
-            //     ->first();
+            $tags = BookshelvesUtils::unserialize($index_path);
 
-            // if ($tag) {
-            //     SerieModule::associate($tag, $book);
-            // }
+            $items = [];
+            foreach ($tags as $tag) {
+                $items[] = Tag::where('slug', $tag)->first();
+            }
+
+            $items = array_values(array_filter($items));
+            $book->tags()->sync($items);
         });
     }
 }
