@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Engines\BookshelvesUtils;
+use App\Jobs\Clean\CleanIndexesJob;
 use App\Jobs\Cover\BookCoverJob;
 use App\Jobs\Cover\SerieCoverJob;
 use App\Jobs\Index\AuthorJob;
@@ -67,7 +68,11 @@ class AnalyzeJob implements ShouldQueue
                         )->then(function (Batch $batch) {
                             Bus::batch(
                                 Serie::all()->map(fn (Serie $serie) => new SerieCoverJob($serie))
-                            )->dispatch();
+                            )->then(function (Batch $batch) {
+                                Bus::batch(
+                                    new CleanIndexesJob
+                                )->dispatch();
+                            })->dispatch();
                         })->dispatch();
                     })->dispatch();
                 })->dispatch();
