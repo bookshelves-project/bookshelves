@@ -25,6 +25,7 @@ return new class extends Migration
             $table->boolean('is_audiobook')->default(false);
             $table->string('rights')->nullable();
             $table->float('volume')->nullable();
+            $table->boolean('has_series')->default(false);
             $table->integer('page_count')->nullable();
             $table->boolean('is_hidden')->default(false);
             $table->boolean('is_selected')->default(false);
@@ -33,7 +34,7 @@ return new class extends Migration
             $table->json('identifiers')->nullable();
             $table->boolean('to_notify')->default(false);
             $table->dateTime('added_at')->nullable();
-            $table->dateTime('calibre_added_at')->nullable();
+            $table->dateTime('calibre_timestamp')->nullable();
 
             $table->timestamps();
         });

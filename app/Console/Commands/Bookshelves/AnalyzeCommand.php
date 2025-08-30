@@ -110,9 +110,20 @@ class AnalyzeCommand extends Commandable
     private function clearCache(): void
     {
         DirectoryService::make()->clearDirectory(storage_path('app/cache'));
-        DirectoryService::make()->clearDirectory(storage_path('app/index/book'));
-        DirectoryService::make()->clearDirectory(storage_path('app/index/library'));
         DirectoryService::make()->clearDirectory(storage_path('clockwork'));
+
+        $indexes = [
+            'library',
+            'author',
+            'book',
+            'serie',
+            'tag',
+            'language',
+        ];
+
+        foreach ($indexes as $index) {
+            DirectoryService::make()->clearDirectory(storage_path("app/index/{$index}"));
+        }
     }
 
     // private function monitor(Library $library): void

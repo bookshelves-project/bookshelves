@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Engines\BookshelvesUtils;
 use App\Enums\LibraryTypeEnum;
 use App\Models\Scopes\EnabledScope;
 use App\Observers\LibraryObserver;
@@ -158,9 +159,9 @@ class Library extends Model
         return self::countType(Library::onlyGraphics()->get());
     }
 
-    public function getLibraryIndexPath(): string
+    public function getIndexLibraryPath(): string
     {
-        return storage_path('app'.DIRECTORY_SEPARATOR.'index'.DIRECTORY_SEPARATOR.'library'.DIRECTORY_SEPARATOR.$this->slug.'.dat');
+        return BookshelvesUtils::getIndexPath('library', $this->id);
     }
 
     public function files(): \Illuminate\Database\Eloquent\Relations\HasMany

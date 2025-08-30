@@ -12,6 +12,19 @@ use Kiwilan\LaravelNotifier\Facades\Journal;
  */
 class BookshelvesUtils
 {
+    public static function getIndexPath(string $folder, string|int $filename, ?string $subfolder = null, string $extension = 'dat'): string
+    {
+        $base = storage_path('app'.DIRECTORY_SEPARATOR.'index'.DIRECTORY_SEPARATOR);
+        $base .= $folder.DIRECTORY_SEPARATOR;
+        $filename = strval($filename);
+
+        if ($subfolder) {
+            $base .= $subfolder.DIRECTORY_SEPARATOR;
+        }
+
+        return $base.$filename.'.'.$extension;
+    }
+
     /**
      * Save the contents as a JSON file.
      */
@@ -27,6 +40,23 @@ class BookshelvesUtils
         }
 
         return false;
+    }
+
+    /**
+     * Load the contents from a JSON file.
+     */
+    public static function loadFromJSON(string $json_path): mixed
+    {
+        if (! file_exists($json_path)) {
+            return null;
+        }
+
+        $contents = file_get_contents($json_path);
+        if (! $contents) {
+            return null;
+        }
+
+        return json_decode($contents, true);
     }
 
     /**
@@ -56,17 +86,19 @@ class BookshelvesUtils
     /**
      * Ensure that the file exists and is writable (remove it before creating a new one).
      */
-    public static function ensureFileExists(string $path): void
+    public static function ensureFileExists(string $path, bool $recreate = true): void
     {
         $dirname = dirname($path);
         if (! is_dir($dirname)) {
             mkdir($dirname, 0755, true);
         }
 
-        if (file_exists($path)) {
+        if ($recreate && file_exists($path)) {
             unlink($path);
         }
-        touch($path);
+        if (! file_exists($path)) {
+            touch($path);
+        }
     }
 
     /**

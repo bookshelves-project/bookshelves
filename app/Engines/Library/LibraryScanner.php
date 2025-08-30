@@ -198,7 +198,7 @@ class LibraryScanner
      */
     public function serialize(?string $path = null): bool
     {
-        $path = $path ?? $this->library->getLibraryIndexPath();
+        $path = $path ?? $this->library->getIndexLibraryPath();
 
         if (! $this->is_valid) {
             Journal::error("LibraryScanner: {$this->library->name} path not valid: {$path}");

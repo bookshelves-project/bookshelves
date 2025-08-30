@@ -9,13 +9,14 @@ use App\Models\File;
 use App\Models\Library;
 use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Carbon;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
 class LibraryJob implements ShouldQueue
 {
-    use Batchable, Queueable;
+    use Batchable, Dispatchable, Queueable;
 
     private Library $library;
 
@@ -63,140 +64,140 @@ class LibraryJob implements ShouldQueue
         }
     }
 
-    /**
-     * Handle file processing.
-     */
-    private function handleFiles(): void
-    {
-        Journal::info('LibraryScanJob: Convert files to `FileItem`...');
-        $file_items = $this->scanner->convertToFileItems();
-        if (empty($file_items)) {
-            Journal::warning("LibraryScanJob: No files found in library: {$this->library->name}");
+    // /**
+    //  * Handle file processing.
+    //  */
+    // private function handleFiles(): void
+    // {
+    //     Journal::info('LibraryScanJob: Convert files to `FileItem`...');
+    //     $file_items = $this->scanner->convertToFileItems();
+    //     if (empty($file_items)) {
+    //         Journal::warning("LibraryScanJob: No files found in library: {$this->library->name}");
 
-            return;
-        }
+    //         return;
+    //     }
 
-        if ($this->fresh) {
-            $count = count($file_items);
-            Journal::info("LibraryScanJob: fresh parsing for {$count} files...");
-            // $this->dispatchBookJob($file_items);
-            // foreach ($file_items as $i => $file_item) {
-            //     BookIndexJob::dispatch($file_item, $this->library->id, "{$i}/{$count}");
-            // }
+    //     if ($this->fresh) {
+    //         $count = count($file_items);
+    //         Journal::info("LibraryScanJob: fresh parsing for {$count} files...");
+    //         // $this->dispatchBookJob($file_items);
+    //         // foreach ($file_items as $i => $file_item) {
+    //         //     BookIndexJob::dispatch($file_item, $this->library->id, "{$i}/{$count}");
+    //         // }
 
-            return;
-        }
+    //         return;
+    //     }
 
-        $index_count = $this->scanner->getCount();
-        $db_count = File::query()
-            ->where('library_id', $this->library->id)
-            ->count();
+    //     $index_count = $this->scanner->getCount();
+    //     $db_count = File::query()
+    //         ->where('library_id', $this->library->id)
+    //         ->count();
 
-        if ($index_count === $db_count) {
-            Journal::info('LibraryScanJob: already up to date.');
+    //     if ($index_count === $db_count) {
+    //         Journal::info('LibraryScanJob: already up to date.');
 
-            return;
-        }
+    //         return;
+    //     }
 
-        Journal::info('LibraryScanJob: standard parsing...');
-        $this->parseStandard();
-    }
+    //     Journal::info('LibraryScanJob: standard parsing...');
+    //     $this->parseStandard();
+    // }
 
-    /**
-     * Standard parse for files (parse only new files and remove deleted files).
-     */
-    private function parseStandard(): void
-    {
-        $files = File::query()
-            ->where('library_id', $this->library->id)
-            ->get()
-            ->map(fn (File $file) => $file->path)
-            ->toArray();
+    // /**
+    //  * Standard parse for files (parse only new files and remove deleted files).
+    //  */
+    // private function parseStandard(): void
+    // {
+    //     $files = File::query()
+    //         ->where('library_id', $this->library->id)
+    //         ->get()
+    //         ->map(fn (File $file) => $file->path)
+    //         ->toArray();
 
-        $new_files = $this->findNewFiles($this->scanner->getFilePaths(), $files);
-        $lost_files = $this->findLostFiles($this->scanner->getFilePaths(), $files);
-        $this->removeFiles($lost_files, $this->library->name);
+    //     $new_files = $this->findNewFiles($this->scanner->getFilePaths(), $files);
+    //     $lost_files = $this->findLostFiles($this->scanner->getFilePaths(), $files);
+    //     $this->removeFiles($lost_files, $this->library->name);
 
-        if (Bookshelves::verbose()) {
-            $count_new_files = count($new_files);
-            $count_lost_files = count($lost_files);
-            Journal::debug("LibraryScanJob: found {$count_new_files} new files to add.");
-            Journal::debug("LibraryScanJob: found {$count_lost_files} lost files to remove.");
-        }
+    //     if (Bookshelves::verbose()) {
+    //         $count_new_files = count($new_files);
+    //         $count_lost_files = count($lost_files);
+    //         Journal::debug("LibraryScanJob: found {$count_new_files} new files to add.");
+    //         Journal::debug("LibraryScanJob: found {$count_lost_files} lost files to remove.");
+    //     }
 
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    //     $finfo = finfo_open(FILEINFO_MIME_TYPE);
 
-        $file_items = [];
-        foreach ($new_files as $path) {
-            $file = FileItem::make($path, $this->library->id, $finfo);
-            if (! $file) {
-                continue;
-            }
+    //     $file_items = [];
+    //     foreach ($new_files as $path) {
+    //         $file = FileItem::make($path, $this->library->id, $finfo);
+    //         if (! $file) {
+    //             continue;
+    //         }
 
-            $file_items[] = $file;
-        }
+    //         $file_items[] = $file;
+    //     }
 
-        finfo_close($finfo);
-        // $this->dispatchBookJob($file_items);
-    }
+    //     finfo_close($finfo);
+    //     // $this->dispatchBookJob($file_items);
+    // }
 
-    /**
-     * Find new files to parse.
-     *
-     * @param  string[]  $paths
-     * @param  string[]  $files
-     * @return string[]
-     */
-    private function findNewFiles(array $paths, array $files): array
-    {
-        $paths = array_filter($paths, function (string $path) use ($files) {
-            if (! in_array($path, $files, true)) {
-                return true;
-            }
+    // /**
+    //  * Find new files to parse.
+    //  *
+    //  * @param  string[]  $paths
+    //  * @param  string[]  $files
+    //  * @return string[]
+    //  */
+    // private function findNewFiles(array $paths, array $files): array
+    // {
+    //     $paths = array_filter($paths, function (string $path) use ($files) {
+    //         if (! in_array($path, $files, true)) {
+    //             return true;
+    //         }
 
-            return false;
-        });
+    //         return false;
+    //     });
 
-        return array_values($paths);
-    }
+    //     return array_values($paths);
+    // }
 
-    /**
-     * Find lost files to remove.
-     *
-     * @param  string[]  $paths
-     * @param  string[]  $files
-     * @return string[]
-     */
-    private function findLostFiles(array $paths, array $files): array
-    {
-        $files = array_filter($files, function (string $file) use ($paths) {
-            if (! in_array($file, $paths, true)) {
-                return true;
-            }
+    // /**
+    //  * Find lost files to remove.
+    //  *
+    //  * @param  string[]  $paths
+    //  * @param  string[]  $files
+    //  * @return string[]
+    //  */
+    // private function findLostFiles(array $paths, array $files): array
+    // {
+    //     $files = array_filter($files, function (string $file) use ($paths) {
+    //         if (! in_array($file, $paths, true)) {
+    //             return true;
+    //         }
 
-            return false;
-        });
+    //         return false;
+    //     });
 
-        return array_values($files);
-    }
+    //     return array_values($files);
+    // }
 
-    /**
-     * Delete files.
-     *
-     * @param  string[]  $lost_files  Lost files paths.
-     */
-    private function removeFiles(array $lost_files, string $library_name): void
-    {
-        $files = File::query()
-            ->whereIn('path', $lost_files)
-            ->get();
+    // /**
+    //  * Delete files.
+    //  *
+    //  * @param  string[]  $lost_files  Lost files paths.
+    //  */
+    // private function removeFiles(array $lost_files, string $library_name): void
+    // {
+    //     $files = File::query()
+    //         ->whereIn('path', $lost_files)
+    //         ->get();
 
-        Journal::info("BooksDispatchJob: delete {$files->count()} files for {$library_name}...", [
-            'files' => $files->pluck('path')->toArray(),
-        ]);
+    //     Journal::info("BooksDispatchJob: delete {$files->count()} files for {$library_name}...", [
+    //         'files' => $files->pluck('path')->toArray(),
+    //     ]);
 
-        foreach ($files as $file) {
-            $file->delete();
-        }
-    }
+    //     foreach ($files as $file) {
+    //         $file->delete();
+    //     }
+    // }
 }

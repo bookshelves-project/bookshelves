@@ -5,39 +5,39 @@ namespace App\Engines\Converter\Modules;
 use App\Jobs\Serie\SerieJob;
 use App\Models\Book;
 use App\Models\Serie;
-use Kiwilan\Ebook\Ebook;
 
 class SerieModule
 {
-    public static function make(Ebook $ebook, Book $book): ?Serie
+    public static function make(string $title, string $slug, string|int $library_id): ?Serie
     {
-        if (! $ebook->getSeries()) {
+        $serie = Serie::create([
+            'title' => $title,
+            'slug' => $slug,
+        ]);
+        $serie->library()->associate($library_id);
+        $serie->saveNoSearch();
+
+        return $serie;
+    }
+
+    public static function associate(Serie $serie, Book $book): ?Serie
+    {
+        if (! $book->has_series) {
             return null;
         }
 
+        $book->serie()->associate($serie);
+        $book->saveNoSearch();
+
         $book->loadMissing(['library', 'language', 'authors', 'authorMain']);
 
-        $serie = Serie::query()
-            ->where('slug', $ebook->getMetaTitle()->getSeriesSlug())
-            ->where('library_id', $book->library?->id)
-            ->first();
-
-        if ($serie) {
-            /** @var Serie $serie */
-            if ($book->authors->isNotEmpty()) {
-                $serie->authors()->syncWithoutDetaching($book->authors->pluck('id'));
-            }
-
-            return $serie;
+        if ($book->authors->isNotEmpty()) {
+            $serie->authors()->syncWithoutDetaching($book->authors->pluck('id'));
         }
 
-        $serie = new Serie([
-            'title' => $ebook->getSeries(),
-            'slug' => $ebook->getMetaTitle()->getSeriesSlug(),
-            'is_audiobook' => $book->is_audiobook ?? false,
-        ]);
-        $serie->saveNoSearch();
-
+        if ($book->is_audiobook) {
+            $book->is_audiobook = true;
+        }
         if ($book->library) {
             $serie->library()->associate($book->library);
         }
