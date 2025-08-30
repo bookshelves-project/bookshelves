@@ -47,7 +47,9 @@ class BookJob implements ShouldQueue
         $ebook = Ebook::read($this->file_path);
 
         if (! $ebook->getTitle() || ! $ebook->getMetaTitle()) {
-            Journal::error("BookJob: No title or meta title found for {$file->basename}");
+            Journal::error("BookJob: No title or meta title found for {$file->basename}", [
+                'ebook' => $ebook->toArray(),
+            ]);
 
             return;
         }
