@@ -55,45 +55,40 @@ class BookJob implements ShouldQueue
         }
 
         $identifiers = IdentifierModule::toCollection($ebook);
-        $title = $ebook->isAudio()
-            ? BookshelvesUtils::audiobookParseTitle($ebook->getTitle())
-            : $ebook->getTitle();
-        $format = $ebook->isAudio()
-            ? BookFormatEnum::audio
-            : BookFormatEnum::fromExtension($file->extension);
-        $contributor = $ebook->isAudio()
-            ? $ebook->getExtra('encoding')
-            : $ebook->getExtra('contributor');
-        $audiobook_narrators = $ebook->isAudio() ? $ebook->getExtra('narrators') : null;
-        $audiobook_chapters = $ebook->isAudio() ? $ebook->getExtra('chapters') : null;
-        $copyright = $ebook->isAudio()
-            ? $ebook->getExtra('encoding')
-            : $ebook->getCopyright(255);
-        $calibre_timestamp = $ebook->isAudio()
-            ? $ebook->getCreatedAt()
-            : $ebook->getParser()->getEpub()?->getOpf()?->getMetaItem('calibre:timestamp')?->getContents();
 
         /** @var Book $book */
         $book = Book::create([
-            'title' => $title,
+            'title' => $ebook->isAudio()
+                ? BookshelvesUtils::audiobookParseTitle($ebook->getTitle())
+                : $ebook->getTitle(),
             'slug' => $ebook->getMetaTitle()->getSlug(),
-            'contributor' => $contributor,
+            'contributor' => $ebook->isAudio()
+                ? $ebook->getExtra('encoding')
+                : $ebook->getExtra('contributor'),
             'released_on' => $ebook->getPublishDate()?->format('Y-m-d'),
             'has_series' => $ebook->hasSeries(),
             'description' => $ebook->getDescriptionAdvanced()->toHtml(2000),
-            'rights' => $copyright,
+            'rights' => $ebook->isAudio()
+                ? $ebook->getExtra('encoding')
+                : $ebook->getCopyright(255),
             'volume' => $this->parseVolume($ebook->getVolume()),
-            'format' => $format,
-            'page_count' => $ebook->isAudio() ? null : $ebook->getPagesCount(),
+            'format' => $ebook->isAudio()
+                ? BookFormatEnum::audio
+                : BookFormatEnum::fromExtension($file->extension),
+            'page_count' => $ebook->isAudio()
+                ? null
+                : $ebook->getPagesCount(),
             'isbn10' => $identifiers->get('isbn10') ?? null,
             'isbn13' => $identifiers->get('isbn13') ?? null,
             'identifiers' => $identifiers->toArray(),
             'added_at' => $ebook->getCreatedAt(),
-            'calibre_timestamp' => $calibre_timestamp,
+            'calibre_timestamp' => $ebook->isAudio()
+                ? $ebook->getCreatedAt()
+                : $ebook->getParser()->getEpub()?->getOpf()?->getMetaItem('calibre:timestamp')?->getContents(),
 
             'is_audiobook' => $ebook->isAudio(),
-            'audiobook_narrators' => $audiobook_narrators,
-            'audiobook_chapters' => $audiobook_chapters,
+            'audiobook_narrators' => $ebook->isAudio() ? $ebook->getExtra('narrators') : null,
+            'audiobook_chapters' => $ebook->isAudio() ? $ebook->getExtra('chapters') : null,
         ]);
         $book->file()->associate($file);
         $book->library()->associate($this->library_id);
