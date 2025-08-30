@@ -3,11 +3,14 @@
 namespace App\Jobs;
 
 use App\Engines\BookshelvesUtils;
-use App\Jobs\Author\AuthorIndexJob;
-use App\Jobs\Book\BookCoverJob;
-use App\Jobs\Book\BookIndexJob;
+use App\Jobs\Cover\BookCoverJob;
+use App\Jobs\Index\IndexAuthorJob;
+use App\Jobs\Index\IndexBookJob;
+use App\Jobs\Index\IndexLanguageJob;
+use App\Jobs\Index\IndexPublisherJob;
+use App\Jobs\Index\IndexSerieJob;
+use App\Jobs\Index\IndexTagJob;
 use App\Jobs\Library\LibraryJob;
-use App\Jobs\Serie\SerieIndexJob;
 use App\Models\Book;
 use App\Models\Library;
 use Illuminate\Bus\Batch;
@@ -44,13 +47,16 @@ class AnalyzeJob implements ShouldQueue
                     $count = $data['count'];
 
                     return collect($data['file_paths'])->map(
-                        fn ($path, $i) => new BookIndexJob($path, $library->id, ($i + 1)."/{$count}")
+                        fn ($path, $i) => new IndexBookJob($path, $library->id, ($i + 1)."/{$count}")
                     );
                 })
             )->then(function (Batch $batch) {
                 Bus::batch([
-                    new AuthorIndexJob,
-                    new SerieIndexJob,
+                    new IndexAuthorJob,
+                    new IndexSerieJob,
+                    new IndexLanguageJob,
+                    new IndexPublisherJob,
+                    new IndexTagJob,
                 ])->then(function (Batch $batch) {
                     Bus::batch(
                         Book::all()->map(fn (Book $book) => new BookCoverJob($book))

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Book;
+namespace App\Jobs\Index;
 
 use App\Engines\BookshelvesUtils;
 use App\Engines\Converter\Modules\IdentifierModule;
@@ -15,7 +15,7 @@ use Illuminate\Foundation\Queue\Queueable;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
-class BookIndexJob implements ShouldQueue
+class IndexBookJob implements ShouldQueue
 {
     use Batchable, Dispatchable, Queueable;
 
@@ -38,14 +38,14 @@ class BookIndexJob implements ShouldQueue
         finfo_close($finfo);
 
         if (Bookshelves::verbose()) {
-            Journal::debug("BookIndexJob: {$this->position} for {$file_item->getBasename()}...");
+            Journal::debug("IndexBookJob: {$this->position} for {$file_item->getBasename()}...");
         }
 
         $file = $this->convertFileItem($file_item);
         $ebook = Ebook::read($this->file_path);
 
         if (! $ebook->getTitle() || ! $ebook->getMetaTitle()) {
-            Journal::error('BookIndexJob: No title or meta title found', [
+            Journal::error('IndexBookJob: No title or meta title found', [
                 'ebook' => $ebook->getPath(),
             ]);
 
@@ -87,15 +87,29 @@ class BookIndexJob implements ShouldQueue
             ]);
         }
 
+        // serialize tags
         if (! empty($ebook->getTags())) {
             BookshelvesUtils::serialize($book->getIndexTagPath(), $ebook->getTags());
         }
 
-        if (! $ebook->getLanguage()) {
+        // serialize language
+        if ($ebook->getLanguage() !== null) {
             BookshelvesUtils::serialize($book->getIndexLanguagePath(), $ebook->getLanguage());
         }
 
+        // serialize publisher
+        if ($ebook->getPublisher() !== null) {
+            BookshelvesUtils::serialize($book->getIndexPublisherPath(), $ebook->getPublisher());
+        }
+
+        // serialize cover
+        if ($ebook->hasCover()) {
+            BookshelvesUtils::ensureDirectoryExists($book->getIndexCoverPath());
+            file_put_contents($book->getIndexCoverPath(), $ebook->getCover()->getContents());
+        }
+
         // serialize ebook
+        $ebook->clearCover();
         BookshelvesUtils::serialize($book->getIndexBookPath(), $ebook);
     }
 

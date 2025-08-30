@@ -6,12 +6,33 @@ use App\Models\AudiobookTrack;
 use App\Models\Language;
 use Illuminate\Support\Collection;
 use Kiwilan\LaravelNotifier\Facades\Journal;
+use Kiwilan\Steward\Services\DirectoryService;
 
 /**
  * Some utility functions for bookshelves.
  */
 class BookshelvesUtils
 {
+    public static function clearCache(): void
+    {
+        DirectoryService::make()->clearDirectory(storage_path('app/cache'));
+        DirectoryService::make()->clearDirectory(storage_path('clockwork'));
+
+        $indexes = [
+            'author',
+            'book',
+            'cover',
+            'language',
+            'library',
+            'serie',
+            'tag',
+        ];
+
+        foreach ($indexes as $index) {
+            DirectoryService::make()->clearDirectory(storage_path("app/index/{$index}"));
+        }
+    }
+
     public static function getIndexPath(string $folder, string|int $filename, ?string $subfolder = null, string $extension = 'dat'): string
     {
         $base = storage_path('app'.DIRECTORY_SEPARATOR.'index'.DIRECTORY_SEPARATOR);
@@ -88,16 +109,21 @@ class BookshelvesUtils
      */
     public static function ensureFileExists(string $path, bool $recreate = true): void
     {
-        $dirname = dirname($path);
-        if (! is_dir($dirname)) {
-            mkdir($dirname, 0755, true);
-        }
+        self::ensureDirectoryExists($path);
 
         if ($recreate && file_exists($path)) {
             unlink($path);
         }
         if (! file_exists($path)) {
             touch($path);
+        }
+    }
+
+    public static function ensureDirectoryExists(string $path): void
+    {
+        $dirname = dirname($path);
+        if (! is_dir($dirname)) {
+            mkdir($dirname, 0755, true);
         }
     }
 

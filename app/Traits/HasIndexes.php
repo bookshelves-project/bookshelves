@@ -31,10 +31,20 @@ trait HasIndexes
         return $this->getIndexPath('language');
     }
 
-    private function getIndexPath(string $type): string
+    public function getIndexPublisherPath(): string
+    {
+        return $this->getIndexPath('publisher');
+    }
+
+    public function getIndexCoverPath(): string
+    {
+        return $this->getIndexPath('cover', 'jpg');
+    }
+
+    private function getIndexPath(string $type, string $extension = 'dat'): string
     {
         $this->loadMissing('library');
 
-        return BookshelvesUtils::getIndexPath(folder: $type, filename: $this->id, subfolder: $this->library->slug);
+        return BookshelvesUtils::getIndexPath(folder: $type, filename: $this->id, subfolder: $this->library->slug, extension: $extension);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Engines\BookshelvesUtils;
 use App\Engines\Library\LibraryScanner;
 use App\Facades\Bookshelves;
 use App\Jobs\AnalyzeJob;
@@ -10,7 +11,6 @@ use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\Commandable;
 use Kiwilan\Steward\Commands\Model\ModelBackupCommand;
 use Kiwilan\Steward\Commands\Model\ModelRestoreCommand;
-use Kiwilan\Steward\Services\DirectoryService;
 
 /**
  * Main command of Bookshelves to generate Books with relations.
@@ -71,7 +71,7 @@ class AnalyzeCommand extends Commandable
             $this->clearFresh();
         }
 
-        $this->clearCache();
+        BookshelvesUtils::clearCache();
         AnalyzeJob::dispatch($this->limit, $this->fresh);
 
         return Command::SUCCESS;
@@ -105,25 +105,6 @@ class AnalyzeCommand extends Commandable
         ]);
 
         $this->newLine();
-    }
-
-    private function clearCache(): void
-    {
-        DirectoryService::make()->clearDirectory(storage_path('app/cache'));
-        DirectoryService::make()->clearDirectory(storage_path('clockwork'));
-
-        $indexes = [
-            'library',
-            'author',
-            'book',
-            'serie',
-            'tag',
-            'language',
-        ];
-
-        foreach ($indexes as $index) {
-            DirectoryService::make()->clearDirectory(storage_path("app/index/{$index}"));
-        }
     }
 
     // private function monitor(Library $library): void

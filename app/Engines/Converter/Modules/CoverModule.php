@@ -5,7 +5,6 @@ namespace App\Engines\Converter\Modules;
 use App\Facades\Bookshelves;
 use App\Models\Book;
 use Illuminate\Support\Facades\File;
-use Kiwilan\Ebook\Ebook;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Utils\Picture;
 use Kiwilan\Steward\Utils\SpatieMedia;
@@ -16,13 +15,14 @@ class CoverModule
     /**
      * Generate Book image from original cover string file.
      */
-    public static function make(Ebook $ebook, Book $book): Book
+    public static function make(Book $book): Book
     {
         $book->clearCover();
 
         $self = new self;
+        $path = $book->getIndexCoverPath();
 
-        if (! $ebook->hasCover()) {
+        if (! file_exists($path)) {
             Journal::warning("No cover for {$book->title}");
 
             return $book;
@@ -30,7 +30,7 @@ class CoverModule
 
         $name = uniqid().'.avif';
         $temp_path = storage_path("app/cache/{$name}");
-        $contents = $ebook->getCover()->getContents();
+        $contents = file_get_contents($path);
 
         File::put($temp_path, $contents);
         $self->resize($temp_path);

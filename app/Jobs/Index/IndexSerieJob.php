@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Serie;
+namespace App\Jobs\Index;
 
 use App\Engines\BookshelvesUtils;
 use App\Engines\Converter\Modules\SerieModule;
@@ -13,7 +13,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
-class SerieIndexJob implements ShouldQueue
+class IndexSerieJob implements ShouldQueue
 {
     use Batchable, Dispatchable, Queueable;
 
@@ -28,7 +28,7 @@ class SerieIndexJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Journal::info('SerieIndexJob: handle series...');
+        Journal::info('IndexSerieJob: handle series...');
 
         $this->createSeries();
         $this->attachSeries();

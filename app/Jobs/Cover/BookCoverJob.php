@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Jobs\Book;
+namespace App\Jobs\Cover;
 
-use App\Engines\BookshelvesUtils;
 use App\Engines\Converter\Modules\CoverModule;
 use App\Facades\Bookshelves;
 use App\Models\Book;
 use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
-use Kiwilan\Ebook\Ebook;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
 class BookCoverJob implements ShouldQueue
@@ -32,8 +30,6 @@ class BookCoverJob implements ShouldQueue
             Journal::debug("BookCoverJob: {$this->book->title}...");
         }
 
-        /** @var Ebook $ebook */
-        $ebook = BookshelvesUtils::unserialize($this->book->getIndexBookPath());
-        CoverModule::make($ebook, $this->book);
+        CoverModule::make($this->book);
     }
 }

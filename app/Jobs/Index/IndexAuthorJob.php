@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Author;
+namespace App\Jobs\Index;
 
 use App\Engines\BookshelvesUtils;
 use App\Engines\Converter\Modules\AuthorModule;
@@ -13,7 +13,7 @@ use Illuminate\Foundation\Queue\Queueable;
 use Kiwilan\Ebook\Models\BookAuthor;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
-class AuthorIndexJob implements ShouldQueue
+class IndexAuthorJob implements ShouldQueue
 {
     use Batchable, Dispatchable, Queueable;
 
@@ -28,7 +28,7 @@ class AuthorIndexJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Journal::info('AuthorIndexJob: handle authors...');
+        Journal::info('IndexAuthorJob: handle authors...');
 
         $this->createAuthors();
         $this->attachAuthors();
@@ -39,6 +39,10 @@ class AuthorIndexJob implements ShouldQueue
         $items = collect();
         Book::all()->each(function (Book $book) use ($items) {
             $index_path = $book->getIndexAuthorPath();
+            if (! file_exists($index_path)) {
+                return;
+            }
+
             $data = BookshelvesUtils::unserialize($index_path);
 
             /** @var BookAuthor $author */
@@ -56,19 +60,33 @@ class AuthorIndexJob implements ShouldQueue
     {
         Book::all()->each(function (Book $book) {
             $index_path = $book->getIndexAuthorPath();
+            if (! file_exists($index_path)) {
+                return;
+            }
+
             $authors = BookshelvesUtils::unserialize($index_path);
-            $authors = collect($authors)->unique(fn ($author) => $author->getName())->values();
+            $authors = collect($authors)
+                ->filter(fn ($author) => $author !== null)
+                ->unique(fn ($author) => $author->getName())
+                ->values();
 
             $items = [];
             foreach ($authors as $author) {
                 $items[] = Author::where('name', $author->getName())->first();
             }
 
-            $book->authors()->syncWithoutDetaching($items);
-            $first = reset($items);
-            $book->authorMain()->associate($first);
+            if (empty($items)) {
+                return;
+            }
 
-            $book->saveNoSearch();
+            $book->authors()->syncWithoutDetaching($items);
+
+            $first = reset($items);
+            if ($first) {
+                $book->authorMain()->associate($first);
+                $book->saveNoSearch();
+            }
+
         });
     }
 }
