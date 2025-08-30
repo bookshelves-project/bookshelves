@@ -13,7 +13,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
-class IndexSerieJob implements ShouldQueue
+class SerieJob implements ShouldQueue
 {
     use Batchable, Dispatchable, Queueable;
 
@@ -28,7 +28,7 @@ class IndexSerieJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Journal::info('IndexSerieJob: handle series...');
+        Journal::info('SerieJob: handle series...');
 
         $this->createSeries();
         $this->attachSeries();

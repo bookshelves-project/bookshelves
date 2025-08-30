@@ -20,13 +20,24 @@ class LanguageModule
         $language = Language::query()->where('slug', $langCode)->first();
 
         if (! $language) {
-            $langName = ucfirst(Locale::getDisplayLanguage($langCode, 'en'));
-            $language = Language::query()->firstOrCreate([
-                'name' => $langName,
-                'slug' => $langCode,
-            ]);
+            $language = Language::query()->where('name', $langCode)->first();
+        }
+
+        if (! $language) {
+            $self = new self;
+            $language = $self->createLang($langCode);
         }
 
         return $language;
+    }
+
+    private function createLang(string $langCode): Language
+    {
+        $langName = ucfirst(Locale::getDisplayLanguage($langCode, 'en'));
+
+        return Language::query()->firstOrCreate([
+            'name' => $langName,
+            'slug' => $langCode,
+        ]);
     }
 }

@@ -12,7 +12,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
-class IndexPublisherJob implements ShouldQueue
+class PublisherJob implements ShouldQueue
 {
     use Batchable, Dispatchable, Queueable;
 
@@ -27,7 +27,7 @@ class IndexPublisherJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Journal::info('IndexPublisherJob: handle publishers...');
+        Journal::info('PublisherJob: handle publishers...');
 
         $this->createPublishers();
         $this->attachPublishers();

@@ -5,7 +5,9 @@ namespace App\Jobs\Index;
 use App\Engines\BookshelvesUtils;
 use App\Engines\Converter\Modules\IdentifierModule;
 use App\Engines\Library\FileItem;
+use App\Enums\BookFormatEnum;
 use App\Facades\Bookshelves;
+use App\Models\AudiobookTrack;
 use App\Models\Book;
 use App\Models\File;
 use Illuminate\Bus\Batchable;
@@ -15,7 +17,7 @@ use Illuminate\Foundation\Queue\Queueable;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
-class IndexBookJob implements ShouldQueue
+class BookJob implements ShouldQueue
 {
     use Batchable, Dispatchable, Queueable;
 
@@ -38,14 +40,14 @@ class IndexBookJob implements ShouldQueue
         finfo_close($finfo);
 
         if (Bookshelves::verbose()) {
-            Journal::debug("IndexBookJob: {$this->position} for {$file_item->getBasename()}...");
+            Journal::debug("BookJob: {$this->position} for {$file_item->getBasename()}...");
         }
 
         $file = $this->convertFileItem($file_item);
         $ebook = Ebook::read($this->file_path);
 
         if (! $ebook->getTitle() || ! $ebook->getMetaTitle()) {
-            Journal::error('IndexBookJob: No title or meta title found', [
+            Journal::error('BookJob: No title or meta title found', [
                 'ebook' => $ebook->getPath(),
             ]);
 
@@ -53,27 +55,57 @@ class IndexBookJob implements ShouldQueue
         }
 
         $identifiers = IdentifierModule::toCollection($ebook);
+        $title = $ebook->isAudio()
+            ? BookshelvesUtils::audiobookParseTitle($ebook->getTitle())
+            : $ebook->getTitle();
+        $format = $ebook->isAudio()
+            ? BookFormatEnum::audio
+            : BookFormatEnum::fromExtension($file->extension);
+        $contributor = $ebook->isAudio()
+            ? $ebook->getExtra('encoding')
+            : $ebook->getExtra('contributor');
+        $audiobook_narrators = $ebook->isAudio() ? $ebook->getExtra('narrators') : null;
+        $audiobook_chapters = $ebook->isAudio() ? $ebook->getExtra('chapters') : null;
+        $copyright = $ebook->isAudio()
+            ? $ebook->getExtra('encoding')
+            : $ebook->getCopyright(255);
+        $calibre_timestamp = $ebook->isAudio()
+            ? $ebook->getCreatedAt()
+            : $ebook->getParser()->getEpub()?->getOpf()?->getMetaItem('calibre:timestamp')?->getContents();
 
         /** @var Book $book */
         $book = Book::create([
-            'title' => $ebook->getTitle(),
+            'title' => $title,
             'slug' => $ebook->getMetaTitle()->getSlug(),
-            'contributor' => $ebook->getExtra('contributor'),
+            'contributor' => $contributor,
             'released_on' => $ebook->getPublishDate()?->format('Y-m-d'),
             'has_series' => $ebook->hasSeries(),
             'description' => $ebook->getDescriptionAdvanced()->toHtml(2000),
-            'rights' => $ebook->getCopyright(255),
+            'rights' => $copyright,
             'volume' => $this->parseVolume($ebook->getVolume()),
+            'format' => $format,
             'page_count' => $ebook->getPagesCount(),
             'isbn10' => $identifiers->get('isbn10') ?? null,
             'isbn13' => $identifiers->get('isbn13') ?? null,
             'identifiers' => $identifiers->toArray(),
             'added_at' => $ebook->getCreatedAt(),
-            'calibre_timestamp' => $ebook->getParser()->getEpub()?->getOpf()?->getMetaItem('calibre:timestamp')?->getContents(),
+            'calibre_timestamp' => $calibre_timestamp,
+
+            'is_audiobook' => $ebook->isAudio(),
+            'audiobook_narrators' => $audiobook_narrators,
+            'audiobook_chapters' => $audiobook_chapters,
         ]);
         $book->file()->associate($file);
         $book->library()->associate($this->library_id);
         $book->saveNoSearch();
+
+        if ($ebook->isAudio()) {
+            $track = $this->handleAudiobookTrack($ebook);
+            $track->library()->associate($file->library);
+            $track->file()->associate($file);
+            $track->book()->associate($book);
+            $track->save();
+        }
 
         // serialize authors
         BookshelvesUtils::serialize($book->getIndexAuthorPath(), [$ebook->getAuthorMain(), ...$ebook->getAuthors()]);
@@ -143,5 +175,39 @@ class IndexBookJob implements ShouldQueue
         }
 
         return strval($volume);
+    }
+
+    private function handleAudiobookTrack(Ebook $ebook): AudiobookTrack
+    {
+        $authors = array_map(fn ($author) => $author->getName(), $ebook->getAuthors());
+        $language = $ebook->getLanguage();
+
+        return AudiobookTrack::create([
+            'title' => $ebook->getTitle(),
+            'slug' => $ebook->getMetaTitle()->getSlug(),
+            'track_title' => $ebook->getExtra('audio_title'),
+            'subtitle' => $ebook->getExtra('subtitle'),
+            'authors' => $authors,
+            'narrators' => $ebook->getExtra('narrators'),
+            'description' => $ebook->getDescriptionAdvanced()->toHtml(2000),
+            'publisher' => $ebook->getPublisher(),
+            'publish_date' => $ebook->getPublishDate(),
+            'language' => $language,
+            'tags' => $ebook->getTags(),
+            'serie' => $ebook->getSeries(),
+            'volume' => $ebook->getVolume(),
+            'track_number' => $ebook->getExtra('track_number'),
+            'comment' => $ebook->getExtra('comment'),
+            'creation_date' => $ebook->getExtra('creation_date'),
+            'composer' => $ebook->getExtra('composer'),
+            'disc_number' => $ebook->getExtra('disc_number'),
+            'is_compilation' => $ebook->getExtra('is_compilation'),
+            'encoding' => $ebook->getExtra('encoding'),
+            'lyrics' => $ebook->getExtra('lyrics'),
+            'stik' => $ebook->getExtra('stik'),
+            'duration' => $ebook->getExtra('duration'),
+            'chapters' => $ebook->getExtra('chapters'),
+            'added_at' => $ebook->getCreatedAt(),
+        ]);
     }
 }

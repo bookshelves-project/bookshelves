@@ -13,7 +13,7 @@ use Illuminate\Foundation\Queue\Queueable;
 use Kiwilan\Ebook\Models\BookAuthor;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
-class IndexAuthorJob implements ShouldQueue
+class AuthorJob implements ShouldQueue
 {
     use Batchable, Dispatchable, Queueable;
 
@@ -28,7 +28,7 @@ class IndexAuthorJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Journal::info('IndexAuthorJob: handle authors...');
+        Journal::info('AuthorJob: handle authors...');
 
         $this->createAuthors();
         $this->attachAuthors();

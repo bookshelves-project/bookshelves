@@ -12,7 +12,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
-class IndexTagJob implements ShouldQueue
+class TagJob implements ShouldQueue
 {
     use Batchable, Dispatchable, Queueable;
 
@@ -27,7 +27,7 @@ class IndexTagJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Journal::info('IndexTagJob: handle tags...');
+        Journal::info('TagJob: handle tags...');
 
         $this->createTags();
         $this->attachTags();

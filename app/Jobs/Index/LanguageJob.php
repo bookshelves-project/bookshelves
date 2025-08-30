@@ -12,7 +12,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
-class IndexLanguageJob implements ShouldQueue
+class LanguageJob implements ShouldQueue
 {
     use Batchable, Dispatchable, Queueable;
 
@@ -27,7 +27,7 @@ class IndexLanguageJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Journal::info('IndexLanguageJob: handle languages...');
+        Journal::info('LanguageJob: handle languages...');
 
         $this->createLanguages();
         $this->attachLanguages();
@@ -62,6 +62,10 @@ class IndexLanguageJob implements ShouldQueue
             $data = BookshelvesUtils::unserialize($index_path);
 
             $language = Language::where('slug', $data)->first();
+            if (! $language) {
+                $language = Language::where('name', $data)->first();
+            }
+
             $book->language()->associate($language);
             $book->saveNoSearch();
         });

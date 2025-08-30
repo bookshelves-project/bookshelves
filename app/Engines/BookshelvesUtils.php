@@ -122,7 +122,7 @@ class BookshelvesUtils
     public static function ensureDirectoryExists(string $path): void
     {
         $dirname = dirname($path);
-        if (! is_dir($dirname)) {
+        if (! is_dir($dirname) && ! file_exists($dirname)) {
             mkdir($dirname, 0755, true);
         }
     }
