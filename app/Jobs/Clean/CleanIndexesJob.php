@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 
 class CleanIndexesJob implements ShouldQueue
 {
@@ -24,6 +25,8 @@ class CleanIndexesJob implements ShouldQueue
      */
     public function handle(): void
     {
+        Journal::debug('CleanIndexesJob: clean indexes...');
+
         BookshelvesUtils::clearCache();
     }
 }

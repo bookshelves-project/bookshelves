@@ -24,6 +24,7 @@ class BookshelvesUtils
             'cover',
             'language',
             'library',
+            'publisher',
             'serie',
             'tag',
         ];
