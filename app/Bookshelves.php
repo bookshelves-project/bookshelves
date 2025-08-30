@@ -95,11 +95,6 @@ class Bookshelves
         return config('bookshelves.analyzer.engine');
     }
 
-    public function analyzerDebug(): bool
-    {
-        return config('bookshelves.analyzer.debug');
-    }
-
     public function authorWikipediaExact(): bool
     {
         return config('bookshelves.authors.wikipedia_exact');

@@ -4,7 +4,7 @@ namespace App\Console\Commands\Bookshelves;
 
 use App\Engines\Library\LibraryScanner;
 use App\Facades\Bookshelves;
-use App\Jobs\Library\LibraryScanJob;
+use App\Jobs\AnalyzeJob;
 use App\Models\Library;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\Commandable;
@@ -15,14 +15,14 @@ use Kiwilan\Steward\Services\DirectoryService;
 /**
  * Main command of Bookshelves to generate Books with relations.
  */
-class LibraryCommand extends Commandable
+class AnalyzeCommand extends Commandable
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bookshelves:libraries
+    protected $signature = 'bookshelves:analyze
                             {--m|monitor : only monitor files to get their status}
                             {--f|fresh : fresh install, to delete all files and re-create them}
                             {--l|limit= : Limit epub files to generate, useful for debug}';
@@ -72,53 +72,9 @@ class LibraryCommand extends Commandable
         }
 
         $this->clearCache();
-
-        Library::inOrder()
-            ->each(function (Library $library) {
-                if ($this->monitor) {
-                    $this->monitor($library);
-                } else {
-                    LibraryScanJob::dispatch($library->slug, $this->limit, $this->fresh);
-                    $this->line("Dispatched scan job for `{$library->name}` library...");
-                }
-            });
+        AnalyzeJob::dispatch($this->limit, $this->fresh);
 
         return Command::SUCCESS;
-    }
-
-    private function monitor(Library $library): void
-    {
-        $verbose = $this->option('verbose');
-
-        $this->line("Scanning library: {$library->name}...");
-        $scanner = LibraryScanner::make($library, $this->limit);
-
-        if (! $scanner->isValid()) {
-            $this->error("Library {$library->name} with path `{$library->path}` is not valid.");
-
-            return;
-        }
-
-        if ($verbose) {
-            $this->newLine();
-            $this->table(
-                ['Path'],
-                array_map(fn ($item) => [strlen($item) > 80 ? substr($item, 0, 77).'...' : $item], $scanner->getFilePaths())
-            );
-            $this->newLine();
-        }
-
-        $this->comment("Found {$scanner->getCount()} files in library {$library->name}.");
-        $this->line('Library scanned.');
-        $this->newLine();
-    }
-
-    private function clearCache(): void
-    {
-        DirectoryService::make()->clearDirectory(storage_path('app/cache'));
-        DirectoryService::make()->clearDirectory(storage_path('app/index/book'));
-        DirectoryService::make()->clearDirectory(storage_path('app/index/library'));
-        DirectoryService::make()->clearDirectory(storage_path('clockwork'));
     }
 
     private function clearFresh(): void
@@ -150,4 +106,63 @@ class LibraryCommand extends Commandable
 
         $this->newLine();
     }
+
+    private function clearCache(): void
+    {
+        DirectoryService::make()->clearDirectory(storage_path('app/cache'));
+        DirectoryService::make()->clearDirectory(storage_path('app/index/book'));
+        DirectoryService::make()->clearDirectory(storage_path('app/index/library'));
+        DirectoryService::make()->clearDirectory(storage_path('clockwork'));
+    }
+
+    // private function monitor(Library $library): void
+    // {
+    //     $verbose = $this->option('verbose');
+
+    //     $this->line("Scanning library: {$library->name}...");
+    //     $scanner = LibraryScanner::make($library, $this->limit);
+
+    //     if (! $scanner->isValid()) {
+    //         $this->error("Library {$library->name} with path `{$library->path}` is not valid.");
+
+    //         return;
+    //     }
+
+    //     if ($verbose) {
+    //         $this->newLine();
+    //         $this->table(
+    //             ['Path'],
+    //             array_map(fn ($item) => [strlen($item) > 80 ? substr($item, 0, 77).'...' : $item], $scanner->getFilePaths())
+    //         );
+    //         $this->newLine();
+    //     }
+
+    //     $this->comment("Found {$scanner->getCount()} files in library {$library->name}.");
+    //     $this->line('Library scanned.');
+    //     $this->newLine();
+    // }
+
 }
+
+// private function dispatchBookJob(array $file_items): void
+// {
+//     $i = 0;
+//     $count = count($file_items);
+//     $files = [];
+
+//     foreach ($file_items as $file_item) {
+//         $i++;
+//         $file = $this->convertFileItem($file_item);
+//         $files[] = $file;
+//         $this->handleBookJob("{$i}/{$count}", $file);
+//     }
+
+//     foreach ($files as $i => $file) {
+//         /** @var Ebook $ebook */
+//         $ebook = BookshelvesUtils::unserialize($file->getBookIndexPath());
+//         if (Bookshelves::verbose()) {
+//             Journal::debug("LibraryScanJob: {$i}/{$count} {$file->basename} from {$this->library->name}");
+//         }
+//         BookConverter::make($ebook, $file);
+//     }
+// }

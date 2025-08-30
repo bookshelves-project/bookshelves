@@ -9,6 +9,6 @@ const props = defineProps<{
     class="inline-block ml-3">
     <img :src="`/images/flags/${props.language?.slug}.svg`"
       :alt="props.language?.slug"
-      class="w-6 h-6 rounded-md">
+      class="w-6 h-6 rounded-sm">
   </div>
 </template>

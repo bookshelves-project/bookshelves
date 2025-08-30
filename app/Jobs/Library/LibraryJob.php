@@ -2,31 +2,20 @@
 
 namespace App\Jobs\Library;
 
-use App\Engines\BookshelvesUtils;
-use App\Engines\Converter\BookConverter;
 use App\Engines\Library\FileItem;
 use App\Engines\Library\LibraryScanner;
 use App\Facades\Bookshelves;
 use App\Models\File;
 use App\Models\Library;
+use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Carbon;
-use Kiwilan\Ebook\Ebook;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
-/**
- * Job to scan a library and create files.
- *
- * @param  string  $library_slug
- * @param  int|null  $limit  Limit the number of files to process
- * @param  bool  $fresh  To delete all files and re-create them, if `false`, only create new files
- *
- * With standard parser, if Library hasn't new files, it will be skipped.
- */
-class LibraryScanJob implements ShouldQueue
+class LibraryJob implements ShouldQueue
 {
-    use Queueable;
+    use Batchable, Queueable;
 
     private Library $library;
 
@@ -36,9 +25,9 @@ class LibraryScanJob implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        private string $library_slug,
-        private ?int $limit = null,
-        private bool $fresh = false,
+        protected int|string $library_id,
+        protected ?int $limit = null,
+        protected bool $fresh = false,
     ) {}
 
     /**
@@ -46,7 +35,7 @@ class LibraryScanJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $this->library = Library::where('slug', $this->library_slug)->firstOrFail();
+        $this->library = Library::find($this->library_id);
         $this->scanner = LibraryScanner::make($this->library, $this->limit);
         Journal::info("LibraryScanJob: Scanning library: {$this->library->name}...");
 
@@ -58,19 +47,12 @@ class LibraryScanJob implements ShouldQueue
         $this->handleLibrary();
     }
 
-    private function handleLibrary(): void
-    {
-        if ($this->scanner->getScannedAt() && $this->scanner->getModifiedAt()) {
-            $this->library->library_scanned_at = new Carbon($this->scanner->getScannedAt());
-            $this->library->library_modified_at = new Carbon($this->scanner->getModifiedAt());
-            $this->library->save();
-        } else {
-            throw new \Exception("LibraryScanJob: Failed to retrieve scan dates for library: {$this->library->name}");
-        }
-    }
-
+    /**
+     * Handle file processing.
+     */
     private function handleFiles(): void
     {
+        Journal::info('LibraryScanJob: Convert files to `FileItem`...');
         $file_items = $this->scanner->convertToFileItems();
         if (empty($file_items)) {
             Journal::warning("LibraryScanJob: No files found in library: {$this->library->name}");
@@ -81,7 +63,10 @@ class LibraryScanJob implements ShouldQueue
         if ($this->fresh) {
             $count = count($file_items);
             Journal::info("LibraryScanJob: fresh parsing for {$count} files...");
-            $this->parseFresh($file_items);
+            // $this->dispatchBookJob($file_items);
+            // foreach ($file_items as $i => $file_item) {
+            //     BookIndexJob::dispatch($file_item, $this->library->id, "{$i}/{$count}");
+            // }
 
             return;
         }
@@ -99,6 +84,20 @@ class LibraryScanJob implements ShouldQueue
 
         Journal::info('LibraryScanJob: standard parsing...');
         $this->parseStandard();
+    }
+
+    /**
+     * Handle library metadata updates.
+     */
+    private function handleLibrary(): void
+    {
+        if ($this->scanner->getScannedAt() && $this->scanner->getModifiedAt()) {
+            $this->library->library_scanned_at = new Carbon($this->scanner->getScannedAt());
+            $this->library->library_modified_at = new Carbon($this->scanner->getModifiedAt());
+            $this->library->save();
+        } else {
+            throw new \Exception("LibraryScanJob: Failed to retrieve scan dates for library: {$this->library->name}");
+        }
     }
 
     /**
@@ -136,78 +135,7 @@ class LibraryScanJob implements ShouldQueue
         }
 
         finfo_close($finfo);
-        $this->dispatchBookJob($file_items);
-    }
-
-    /**
-     * Fresh parse for files (delete all and re-create).
-     */
-    private function parseFresh(array $file_items): void
-    {
-        $this->dispatchBookJob($file_items);
-    }
-
-    private function dispatchBookJob(array $file_items): void
-    {
-        $i = 0;
-        $count = count($file_items);
-        $files = [];
-
-        foreach ($file_items as $file_item) {
-            $i++;
-            $file = $this->convertFileItem($file_item);
-            $files[] = $file;
-            $this->handleBookJob("{$i}/{$count}", $file);
-        }
-
-        foreach ($files as $i => $file) {
-            /** @var Ebook $ebook */
-            $ebook = BookshelvesUtils::unserialize($file->getBookIndexPath());
-            if (Bookshelves::verbose()) {
-                Journal::debug("BookJob: {$i}/{$count} {$file->basename} from {$this->library->name}");
-            }
-            BookConverter::make($ebook, $file);
-        }
-    }
-
-    private function handleBookJob(string $number, File $file): void
-    {
-        if (Bookshelves::verbose()) {
-            Journal::debug("BookJob: {$number} {$file->basename} from {$this->library->name}");
-        }
-
-        try {
-            $ebook = Ebook::read($file->path);
-            $ebook->getPagesCount();
-        } catch (\Throwable $th) {
-            Journal::error("XML error on {$file->path}", [$th->getMessage()]);
-
-            return;
-        }
-
-        $index_path = $file->getBookIndexPath();
-        BookshelvesUtils::serialize($index_path, $ebook);
-
-        if (! $ebook) {
-            Journal::warning("BookJob: {$number} no ebook detected at {$file->path}", [
-                'ebook' => $ebook,
-            ]);
-
-            return;
-        }
-    }
-
-    private function convertFileItem(FileItem $file_item): File
-    {
-        return File::create([
-            'path' => $file_item->getPath(),
-            'basename' => $file_item->getBasename(),
-            'extension' => $file_item->getExtension(),
-            'mime_type' => $file_item->getMimeType(),
-            'size' => $file_item->getSize(),
-            'date_added' => $file_item->getDateAdded(),
-            'library_id' => $this->library->id,
-        ]);
+        // $this->dispatchBookJob($file_items);
     }
 
     /**
