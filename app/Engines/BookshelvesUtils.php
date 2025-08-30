@@ -123,8 +123,21 @@ class BookshelvesUtils
     public static function ensureDirectoryExists(string $path): void
     {
         $dirname = dirname($path);
-        if (! is_dir($dirname) && ! file_exists($dirname)) {
+
+        if (is_dir($dirname)) {
+            return;
+        }
+
+        if (file_exists($dirname) && ! is_dir($dirname)) {
+            throw new \RuntimeException("Path '$dirname' exists but is not a directory.");
+        }
+
+        try {
             mkdir($dirname, 0755, true);
+        } catch (\Throwable $e) {
+            if (! is_dir($dirname)) {
+                throw $e;
+            }
         }
     }
 
