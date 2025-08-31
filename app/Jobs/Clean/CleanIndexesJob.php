@@ -25,7 +25,7 @@ class CleanIndexesJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Journal::debug('CleanIndexesJob: clean indexes...');
+        Journal::info('CleanIndexesJob: clean indexes...');
 
         BookshelvesUtils::clearCache();
     }

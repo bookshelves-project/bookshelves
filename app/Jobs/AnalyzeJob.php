@@ -22,6 +22,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Bus;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 
 class AnalyzeJob implements ShouldQueue
 {
@@ -49,6 +50,7 @@ class AnalyzeJob implements ShouldQueue
     {
         Bus::batch(
             Library::inOrder()->flatMap(function (Library $library) {
+                Journal::info("Analyzing books of {$library->name}...");
                 $data = BookshelvesUtils::unserialize($library->getIndexLibraryPath());
                 $count = $data['count'];
 

@@ -2,17 +2,19 @@
 
 namespace App\Jobs;
 
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Artisan;
+use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Commands\Scout\ScoutFreshCommand;
 
 class ScoutJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * Create a new job instance.
@@ -24,6 +26,7 @@ class ScoutJob implements ShouldQueue
      */
     public function handle(): void
     {
+        Journal::info('Running scout...');
         Artisan::call(ScoutFreshCommand::class);
     }
 }
