@@ -27,56 +27,80 @@ class AnalyzeJob implements ShouldQueue
 {
     use Batchable, Dispatchable, Queueable;
 
-    /**
-     * Create a new job instance.
-     */
     public function __construct(
         protected ?int $limit = null,
         protected bool $fresh = false,
     ) {}
 
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {
-        Bus::batch(
-            Library::inOrder()
-                ->map(fn (Library $library) => new LibraryJob($library->id, $this->limit, $this->fresh))
-        )->then(function (Batch $batch) {
-            Bus::batch(
-                Library::inOrder()->flatMap(function (Library $library) {
-                    $data = BookshelvesUtils::unserialize($library->getIndexLibraryPath());
-                    $count = $data['count'];
+        self::stepLibraries($this->limit, $this->fresh);
+    }
 
-                    return collect($data['file_paths'])->map(
-                        fn ($path, $i) => new BookJob($path, $library->id, ($i + 1)."/{$count}")
-                    );
-                })
-            )->then(function (Batch $batch) {
-                Bus::batch([
-                    new LanguageJob,
-                    new PublisherJob,
-                    new TagJob,
-                    new AuthorJob,
-                ])->then(function (Batch $batch) {
-                    Bus::batch(
-                        new SerieJob,
-                    )->then(function (Batch $batch) {
-                        Bus::batch(
-                            Book::all()->map(fn (Book $book) => new BookCoverJob($book))
-                        )->then(function (Batch $batch) {
-                            Bus::batch(
-                                Serie::all()->map(fn (Serie $serie) => new SerieCoverJob($serie))
-                            )->then(function (Batch $batch) {
-                                Bus::batch(
-                                    new CleanIndexesJob
-                                )->dispatch();
-                            })->dispatch();
-                        })->dispatch();
-                    })->dispatch();
-                })->dispatch();
-            })->dispatch();
-        })->dispatch();
+    public static function stepLibraries(?int $limit, bool $fresh): void
+    {
+        Bus::batch(
+            Library::inOrder()->map(fn (Library $library) => new LibraryJob($library->id, $limit, $fresh)
+            )
+        )->then([self::class, 'stepBooks'])->dispatch();
+    }
+
+    public static function stepBooks(Batch $batch): void
+    {
+        Bus::batch(
+            Library::inOrder()->flatMap(function (Library $library) {
+                $data = BookshelvesUtils::unserialize($library->getIndexLibraryPath());
+                $count = $data['count'];
+
+                return collect($data['file_paths'])->map(
+                    fn ($path, $i) => new BookJob($path, $library->id, ($i + 1)."/{$count}")
+                );
+            })
+        )->then([self::class, 'stepIndexes'])->dispatch();
+    }
+
+    public static function stepIndexes(Batch $batch): void
+    {
+        Bus::batch([
+            new LanguageJob,
+            new PublisherJob,
+            new TagJob,
+            new AuthorJob,
+        ])->then([self::class, 'stepSeries'])->dispatch();
+    }
+
+    public static function stepSeries(Batch $batch): void
+    {
+        Bus::batch([
+            new SerieJob,
+        ])->then([self::class, 'stepBookCovers'])->dispatch();
+    }
+
+    public static function stepBookCovers(Batch $batch): void
+    {
+        Bus::batch(
+            Book::all()->map(fn (Book $book) => new BookCoverJob($book))
+        )->then([self::class, 'stepSerieCovers'])->dispatch();
+    }
+
+    public static function stepSerieCovers(Batch $batch): void
+    {
+        Bus::batch(
+            Serie::all()->map(fn (Serie $serie) => new SerieCoverJob($serie))
+        )->then([self::class, 'stepClean'])->dispatch();
+    }
+
+    public static function stepClean(Batch $batch): void
+    {
+        Bus::batch([
+            new CleanIndexesJob,
+        ])->then([self::class, 'stepScout'])->dispatch();
+    }
+
+    public static function stepScout(Batch $batch): void
+    {
+        Bus::batch([
+            new ScoutJob,
+        ])->dispatch();
     }
 }
