@@ -215,7 +215,7 @@ return [
                 'balanceCooldown' => 3,
             ],
             'low-worker' => [
-                'maxProcesses' => env('HORIZON_MAX_PROCESSES', 2),
+                'maxProcesses' => 5,
                 'balanceMaxShift' => 1,
                 'balanceCooldown' => 3,
             ],
@@ -226,7 +226,7 @@ return [
                 'maxProcesses' => env('HORIZON_MAX_PROCESSES', 2),
             ],
             'low-worker' => [
-                'maxProcesses' => env('HORIZON_MAX_PROCESSES', 2),
+                'maxProcesses' => 5,
             ],
         ],
     ],
