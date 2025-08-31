@@ -209,7 +209,12 @@ return [
 
     'environments' => [
         'production' => [
-            'supervisor-1' => [
+            'default-worker' => [
+                'maxProcesses' => env('HORIZON_MAX_PROCESSES', 2),
+                'balanceMaxShift' => 1,
+                'balanceCooldown' => 3,
+            ],
+            'low-worker' => [
                 'maxProcesses' => env('HORIZON_MAX_PROCESSES', 2),
                 'balanceMaxShift' => 1,
                 'balanceCooldown' => 3,
@@ -217,7 +222,10 @@ return [
         ],
 
         'local' => [
-            'supervisor-1' => [
+            'default-worker' => [
+                'maxProcesses' => env('HORIZON_MAX_PROCESSES', 2),
+            ],
+            'low-worker' => [
                 'maxProcesses' => env('HORIZON_MAX_PROCESSES', 2),
             ],
         ],
