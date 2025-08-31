@@ -197,7 +197,7 @@ return [
             'connection' => 'redis',
             'queue' => ['low'],
             'balance' => 'auto',
-            'maxProcesses' => 2,
+            'maxProcesses' => 5,
             'maxTime' => 0,
             'maxJobs' => 0,
             'memory' => 128,
@@ -216,7 +216,7 @@ return [
             ],
             'low-worker' => [
                 'maxProcesses' => 5,
-                'balanceMaxShift' => 1,
+                'balanceMaxShift' => 5,
                 'balanceCooldown' => 3,
             ],
         ],
