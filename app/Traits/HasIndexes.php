@@ -44,7 +44,8 @@ trait HasIndexes
     private function getIndexPath(string $type, string $extension = 'dat'): string
     {
         $this->loadMissing('library');
+        $subfolder = $this->library?->slug ?? 'unknown';
 
-        return BookshelvesUtils::getIndexPath(folder: $type, filename: $this->id, subfolder: $this->library->slug, extension: $extension);
+        return BookshelvesUtils::getIndexPath(folder: $type, filename: $this->id, subfolder: $subfolder, extension: $extension);
     }
 }
