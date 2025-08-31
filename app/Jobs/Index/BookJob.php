@@ -143,7 +143,10 @@ class BookJob implements ShouldQueue
             BookshelvesUtils::ensureDirectoryExists($book->getIndexCoverPath());
             file_put_contents($book->getIndexCoverPath(), $ebook->getCover()->getContents());
             if (! file_exists($book->getIndexCoverPath())) {
-                Journal::error("Failed to recreate cover for book {$file->path}.");
+                $ebook->clearCover();
+                Journal::error("Failed to recreate cover for book {$file->path}.", [
+                    'ebook' => $ebook,
+                ]);
                 // ray($ebook)->purple();
             }
         } else {
