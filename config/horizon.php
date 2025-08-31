@@ -179,17 +179,10 @@ return [
     |
     */
 
-    // 'defaults' => [
-    //     'supervisor-1' => [
-
-    //     ],
-    // ],
-
     'defaults' => [
         'default-worker' => [
             'connection' => 'redis',
             'queue' => ['default'],
-            // 'queue' => ['default', 'low'],
             'balance' => 'auto',
             'maxProcesses' => env('HORIZON_MAX_PROCESSES', 10),
             'maxTime' => 0,
