@@ -179,19 +179,38 @@ return [
     |
     */
 
+    // 'defaults' => [
+    //     'supervisor-1' => [
+
+    //     ],
+    // ],
+
     'defaults' => [
-        'supervisor-1' => [
+        'default-worker' => [
             'connection' => 'redis',
-            'queue' => ['default', 'low'],
+            'queue' => ['default'],
+            // 'queue' => ['default', 'low'],
             'balance' => 'auto',
-            'autoScalingStrategy' => 'time',
-            'maxProcesses' => env('HORIZON_MAX_PROCESSES', 2),
+            'maxProcesses' => env('HORIZON_MAX_PROCESSES', 10),
             'maxTime' => 0,
             'maxJobs' => 0,
             'memory' => 128,
             'tries' => 5,
             'timeout' => 3600,
             'nice' => 0,
+        ],
+
+        'low-worker' => [
+            'connection' => 'redis',
+            'queue' => ['low'],
+            'balance' => 'auto',
+            'maxProcesses' => 2,
+            'maxTime' => 0,
+            'maxJobs' => 0,
+            'memory' => 128,
+            'tries' => 5,
+            'timeout' => 3600,
+            'nice' => 5,
         ],
     ],
 
