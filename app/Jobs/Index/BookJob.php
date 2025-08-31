@@ -66,7 +66,7 @@ class BookJob implements ShouldQueue
 
         /** @var Book */
         $book = Book::withoutSyncingToSearch(function () use ($ebook, $identifiers, $file) {
-            return Book::create([
+            $book = Book::create([
                 'title' => $ebook->isAudio()
                     ? BookshelvesUtils::audiobookParseTitle($ebook->getTitle())
                     : $ebook->getTitle(),
@@ -99,11 +99,13 @@ class BookJob implements ShouldQueue
                 'audiobook_narrators' => $ebook->isAudio() ? $ebook->getExtra('narrators') : null,
                 'audiobook_chapters' => $ebook->isAudio() ? $ebook->getExtra('chapters') : null,
             ]);
-        });
 
-        $book->file()->associate($file);
-        $book->library()->associate($this->library_id);
-        $book->saveNoSearch();
+            $book->file()->associate($file);
+            $book->library()->associate($this->library_id);
+            $book->save();
+
+            return $book;
+        });
 
         if ($ebook->isAudio()) {
             $track = $this->handleAudiobookTrack($ebook);
