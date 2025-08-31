@@ -147,14 +147,14 @@ class BookJob implements ShouldQueue
                 Journal::error("Failed to recreate cover for book {$file->path}.", [
                     'ebook' => $ebook,
                 ]);
-                // ray($ebook)->purple();
+                ray($ebook)->purple();
             }
         } else {
             $ebook->clearCover();
             Journal::error("Cover not found for book {$file->path}.", [
                 'ebook' => $ebook,
             ]);
-            // ray($ebook)->purple();
+            ray($ebook)->purple();
         }
 
         // serialize ebook
