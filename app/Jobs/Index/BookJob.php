@@ -147,7 +147,10 @@ class BookJob implements ShouldQueue
                 // ray($ebook)->purple();
             }
         } else {
-            Journal::error("Cover not found for book {$file->path}.");
+            $ebook->clearCover();
+            Journal::error("Cover not found for book {$file->path}.", [
+                'ebook' => $ebook,
+            ]);
             // ray($ebook)->purple();
         }
 
