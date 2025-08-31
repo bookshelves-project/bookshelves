@@ -47,6 +47,7 @@ class BookJob implements ShouldQueue
         $ebook = Ebook::read($this->file_path);
 
         if (! $ebook->getTitle()) {
+            Journal::warning("No title found for {$file->basename}, trying to read again...");
             $ebook = Ebook::read($this->file_path);
         }
 
@@ -62,7 +63,7 @@ class BookJob implements ShouldQueue
         $identifiers = IdentifierModule::toCollection($ebook);
 
         /** @var Book $book */
-        $book = Book::create([
+        $book = new Book([
             'title' => $ebook->isAudio()
                 ? BookshelvesUtils::audiobookParseTitle($ebook->getTitle())
                 : $ebook->getTitle(),
@@ -95,6 +96,7 @@ class BookJob implements ShouldQueue
             'audiobook_narrators' => $ebook->isAudio() ? $ebook->getExtra('narrators') : null,
             'audiobook_chapters' => $ebook->isAudio() ? $ebook->getExtra('chapters') : null,
         ]);
+        $book->saveNoSearch();
         $book->file()->associate($file);
         $book->library()->associate($this->library_id);
         $book->saveNoSearch();
@@ -138,6 +140,13 @@ class BookJob implements ShouldQueue
         if ($ebook->hasCover()) {
             BookshelvesUtils::ensureDirectoryExists($book->getIndexCoverPath());
             file_put_contents($book->getIndexCoverPath(), $ebook->getCover()->getContents());
+            if (! file_exists($book->getIndexCoverPath())) {
+                Journal::error("Failed to recreate cover for book {$file->path}.");
+                // ray($ebook)->purple();
+            }
+        } else {
+            Journal::error("Cover not found for book {$file->path}.");
+            // ray($ebook)->purple();
         }
 
         // serialize ebook

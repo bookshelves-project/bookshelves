@@ -9,10 +9,12 @@ class SerieModule
 {
     public static function make(string $title, string $slug, string|int $library_id): ?Serie
     {
-        $serie = Serie::create([
+        $serie = new Serie([
             'title' => $title,
             'slug' => $slug,
         ]);
+        $serie->saveNoSearch();
+
         $serie->library()->associate($library_id);
         $serie->saveNoSearch();
 

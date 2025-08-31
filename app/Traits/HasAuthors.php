@@ -97,10 +97,11 @@ trait HasAuthors
             $author = Author::whereName($name)->first();
 
             if (! $author) {
-                $author = Author::create([
+                $author = new Author([
                     'name' => $name,
                 ]);
             }
+            $author->saveNoSearch();
             $authors_list->add($author);
         }
 
