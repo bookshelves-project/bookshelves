@@ -35,6 +35,7 @@ class TagJob implements ShouldQueue
 
     private function createTags(): void
     {
+        Journal::info('TagJob: parse indexes of books...');
         $items = collect();
         Book::all()->each(function (Book $book) use ($items) {
             $index_path = $book->getIndexTagPath();
@@ -45,7 +46,10 @@ class TagJob implements ShouldQueue
             $items->push(...$tags);
         });
 
+        Journal::info('TagJob: clean list...');
         $items = $items->unique(fn ($tag) => $tag)->values();
+
+        Journal::info('TagJob: create tags...');
         $items->each(function ($tag) {
             TagModule::make($tag);
         });
@@ -53,6 +57,7 @@ class TagJob implements ShouldQueue
 
     private function attachTags(): void
     {
+        Journal::info('TagJob: attach tags...');
         Book::all()->each(function (Book $book) {
             $index_path = $book->getIndexTagPath();
             if (! file_exists($index_path)) {
@@ -68,5 +73,6 @@ class TagJob implements ShouldQueue
             $items = array_values(array_filter($items));
             $book->tags()->sync($items);
         });
+        Journal::info('TagJob: done.');
     }
 }

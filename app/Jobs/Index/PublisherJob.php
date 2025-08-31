@@ -35,6 +35,7 @@ class PublisherJob implements ShouldQueue
 
     private function createPublishers(): void
     {
+        Journal::info('PublisherJob: parse indexes of books...');
         $items = collect();
         Book::all()->each(function (Book $book) use ($items) {
             $index_path = $book->getIndexPublisherPath();
@@ -45,7 +46,9 @@ class PublisherJob implements ShouldQueue
             $items->add($data);
         });
 
+        Journal::info('PublisherJob: clean list...');
         $items = $items->unique(fn ($publisher) => $publisher)->values();
+        Journal::info('PublisherJob: create publishers...');
         $items->each(function ($publisher) {
             PublisherModule::make($publisher);
         });
@@ -53,6 +56,7 @@ class PublisherJob implements ShouldQueue
 
     private function attachPublishers(): void
     {
+        Journal::info('PublisherJob: attach publishers...');
         Book::all()->each(function (Book $book) {
             $index_path = $book->getIndexPublisherPath();
             if (! file_exists($index_path)) {
@@ -66,5 +70,6 @@ class PublisherJob implements ShouldQueue
                 $book->saveNoSearch();
             }
         });
+        Journal::info('PublisherJob: done.');
     }
 }

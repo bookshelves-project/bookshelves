@@ -36,6 +36,7 @@ class AuthorJob implements ShouldQueue
 
     private function createAuthors(): void
     {
+        Journal::info('AuthorJob: parse indexes of books...');
         $items = collect();
         Book::all()->each(function (Book $book) use ($items) {
             $index_path = $book->getIndexAuthorPath();
@@ -51,13 +52,17 @@ class AuthorJob implements ShouldQueue
             }
         });
 
+        Journal::info('AuthorJob: clean list...');
         $items = $items->filter(fn ($author) => $author !== null);
         $items = $items->unique(fn ($author) => $author->getName())->values();
+
+        Journal::info('AuthorJob: create authors...');
         AuthorModule::make($items->toArray());
     }
 
     private function attachAuthors(): void
     {
+        Journal::info('AuthorJob: attach authors...');
         Book::all()->each(function (Book $book) {
             $index_path = $book->getIndexAuthorPath();
             if (! file_exists($index_path)) {
@@ -86,7 +91,7 @@ class AuthorJob implements ShouldQueue
                 $book->authorMain()->associate($first);
                 $book->saveNoSearch();
             }
-
         });
+        Journal::info('AuthorJob: done.');
     }
 }
