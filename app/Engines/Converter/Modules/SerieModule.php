@@ -18,6 +18,7 @@ class SerieModule
         });
 
         $serie->library()->associate($library_id);
+        $serie->saveNoSearch();
 
         return $serie;
     }

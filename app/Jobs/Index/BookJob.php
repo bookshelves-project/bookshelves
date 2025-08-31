@@ -98,8 +98,10 @@ class BookJob implements ShouldQueue
                 'audiobook_chapters' => $ebook->isAudio() ? $ebook->getExtra('chapters') : null,
             ]);
         });
+
         $book->file()->associate($file);
         $book->library()->associate($this->library_id);
+        $book->saveNoSearch();
 
         if ($ebook->isAudio()) {
             $track = $this->handleAudiobookTrack($ebook);
