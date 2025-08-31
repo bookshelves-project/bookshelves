@@ -94,7 +94,7 @@ return [
         'disk' => env('BOOKSHELVES_IMAGE_DISK', 'covers'),
         'collection' => env('BOOKSHELVES_IMAGE_COLLECTION', 'covers'),
         'driver' => env('BOOKSHELVES_IMAGE_DRIVER', 'gd'),
-        'format' => env('BOOKSHELVES_IMAGE_FORMAT', 'avif'),
+        'format' => env('BOOKSHELVES_IMAGE_FORMAT', 'webp'),
         'max_height' => env('BOOKSHELVES_IMAGE_MAX_HEIGHT', 1600),
         'conversion' => env('BOOKSHELVES_IMAGE_CONVERSION', true),
         'cover' => [

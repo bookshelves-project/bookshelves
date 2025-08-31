@@ -30,13 +30,9 @@ class CoverModule
             return $book;
         }
 
-        $name = uniqid().'.avif';
-        $temp_path = storage_path("app/cache/{$name}");
-        $contents = file_get_contents($path);
-
-        File::put($temp_path, $contents);
-        $self->resize($temp_path);
-        $contents = File::get($temp_path);
+        $name = uniqid().'.'.Bookshelves::imageFormat();
+        $self->resize($path);
+        $contents = File::get($path);
 
         SpatieMedia::make($book)
             ->addMediaFromString($contents)
@@ -46,8 +42,6 @@ class CoverModule
             ->disk(Bookshelves::imageDisk())
             ->color()
             ->save();
-
-        File::delete($temp_path);
 
         return $book;
     }
