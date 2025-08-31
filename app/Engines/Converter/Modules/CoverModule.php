@@ -23,7 +23,9 @@ class CoverModule
         $path = $book->getIndexCoverPath();
 
         if (! file_exists($path)) {
-            Journal::warning("No cover for {$book->title}");
+            Journal::warning("No cover for {$book->title}", [
+                'path' => $path,
+            ]);
 
             return $book;
         }
