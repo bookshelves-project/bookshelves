@@ -33,13 +33,15 @@ class AuthorModuleItem
 
     public function toAuthor(): Author
     {
-        return new Author([
-            'name' => $this->name,
-            'slug' => Str::slug($this->name, '-'),
-            'role' => $this->role,
-            'firstname' => $this->firstname,
-            'lastname' => $this->lastname,
-        ]);
+        return Author::withoutSyncingToSearch(function () {
+            return Author::create([
+                'name' => $this->name,
+                'slug' => Str::slug($this->name, '-'),
+                'role' => $this->role,
+                'firstname' => $this->firstname,
+                'lastname' => $this->lastname,
+            ]);
+        });
     }
 
     /**

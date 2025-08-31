@@ -62,44 +62,44 @@ class BookJob implements ShouldQueue
 
         $identifiers = IdentifierModule::toCollection($ebook);
 
-        /** @var Book $book */
-        $book = new Book([
-            'title' => $ebook->isAudio()
-                ? BookshelvesUtils::audiobookParseTitle($ebook->getTitle())
-                : $ebook->getTitle(),
-            'slug' => $ebook->getMetaTitle()->getSlug(),
-            'contributor' => $ebook->isAudio()
-                ? $ebook->getExtra('encoding')
-                : $ebook->getExtra('contributor'),
-            'released_on' => $ebook->getPublishDate()?->format('Y-m-d'),
-            'has_series' => $ebook->hasSeries(),
-            'description' => $ebook->getDescriptionAdvanced()->toHtml(2000),
-            'rights' => $ebook->isAudio()
-                ? $ebook->getExtra('encoding')
-                : $ebook->getCopyright(255),
-            'volume' => $this->parseVolume($ebook->getVolume()),
-            'format' => $ebook->isAudio()
-                ? BookFormatEnum::audio
-                : BookFormatEnum::fromExtension($file->extension),
-            'page_count' => $ebook->isAudio()
-                ? null
-                : $ebook->getPagesCount(),
-            'isbn10' => $identifiers->get('isbn10') ?? null,
-            'isbn13' => $identifiers->get('isbn13') ?? null,
-            'identifiers' => $identifiers->toArray(),
-            'added_at' => $ebook->getCreatedAt(),
-            'calibre_timestamp' => $ebook->isAudio()
-                ? $ebook->getCreatedAt()
-                : $ebook->getParser()->getEpub()?->getOpf()?->getMetaItem('calibre:timestamp')?->getContents(),
+        /** @var Book */
+        $book = Book::withoutSyncingToSearch(function () use ($ebook, $identifiers, $file) {
+            return Book::create([
+                'title' => $ebook->isAudio()
+                    ? BookshelvesUtils::audiobookParseTitle($ebook->getTitle())
+                    : $ebook->getTitle(),
+                'slug' => $ebook->getMetaTitle()->getSlug(),
+                'contributor' => $ebook->isAudio()
+                    ? $ebook->getExtra('encoding')
+                    : $ebook->getExtra('contributor'),
+                'released_on' => $ebook->getPublishDate()?->format('Y-m-d'),
+                'has_series' => $ebook->hasSeries(),
+                'description' => $ebook->getDescriptionAdvanced()->toHtml(2000),
+                'rights' => $ebook->isAudio()
+                    ? $ebook->getExtra('encoding')
+                    : $ebook->getCopyright(255),
+                'volume' => $this->parseVolume($ebook->getVolume()),
+                'format' => $ebook->isAudio()
+                    ? BookFormatEnum::audio
+                    : BookFormatEnum::fromExtension($file->extension),
+                'page_count' => $ebook->isAudio()
+                    ? null
+                    : $ebook->getPagesCount(),
+                'isbn10' => $identifiers->get('isbn10') ?? null,
+                'isbn13' => $identifiers->get('isbn13') ?? null,
+                'identifiers' => $identifiers->toArray(),
+                'added_at' => $ebook->getCreatedAt(),
+                'calibre_timestamp' => $ebook->isAudio()
+                    ? $ebook->getCreatedAt()
+                    : $ebook->getParser()->getEpub()?->getOpf()?->getMetaItem('calibre:timestamp')?->getContents(),
 
-            'is_audiobook' => $ebook->isAudio(),
-            'audiobook_narrators' => $ebook->isAudio() ? $ebook->getExtra('narrators') : null,
-            'audiobook_chapters' => $ebook->isAudio() ? $ebook->getExtra('chapters') : null,
-        ]);
-        $book->saveNoSearch();
+                'is_audiobook' => $ebook->isAudio(),
+                'audiobook_narrators' => $ebook->isAudio() ? $ebook->getExtra('narrators') : null,
+                'audiobook_chapters' => $ebook->isAudio() ? $ebook->getExtra('chapters') : null,
+            ]);
+        });
         $book->file()->associate($file);
         $book->library()->associate($this->library_id);
-        $book->saveNoSearch();
 
         if ($ebook->isAudio()) {
             $track = $this->handleAudiobookTrack($ebook);

@@ -95,7 +95,7 @@ class AnalyzeJob implements ShouldQueue
     public static function stepClean(Batch $batch): void
     {
         Bus::batch([
-            new CleanIndexesJob,
+            // new CleanIndexesJob,
         ])->then([self::class, 'stepScout'])->dispatch();
     }
 

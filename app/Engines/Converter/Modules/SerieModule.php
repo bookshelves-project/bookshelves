@@ -9,14 +9,15 @@ class SerieModule
 {
     public static function make(string $title, string $slug, string|int $library_id): ?Serie
     {
-        $serie = new Serie([
-            'title' => $title,
-            'slug' => $slug,
-        ]);
-        $serie->saveNoSearch();
+        /** @var Serie */
+        $serie = Serie::withoutSyncingToSearch(function () use ($title, $slug) {
+            return Serie::create([
+                'title' => $title,
+                'slug' => $slug,
+            ]);
+        });
 
         $serie->library()->associate($library_id);
-        $serie->saveNoSearch();
 
         return $serie;
     }

@@ -40,8 +40,6 @@ class AuthorModule
 
             if ($exists) {
                 $author = $exists;
-            } else {
-                $author->saveNoSearch();
             }
 
             $authorsSaved->push($author);
