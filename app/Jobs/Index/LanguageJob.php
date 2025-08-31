@@ -31,6 +31,8 @@ class LanguageJob implements ShouldQueue
 
         $this->createLanguages();
         $this->attachLanguages();
+
+        Journal::info('LanguageJob: done.');
     }
 
     private function createLanguages(): void
@@ -73,6 +75,6 @@ class LanguageJob implements ShouldQueue
             $book->language()->associate($language);
             $book->saveNoSearch();
         });
-        Journal::info('LanguageJob: done.');
+        Journal::info('LanguageJob: attached languages done.');
     }
 }

@@ -31,6 +31,8 @@ class PublisherJob implements ShouldQueue
 
         $this->createPublishers();
         $this->attachPublishers();
+
+        Journal::info('PublisherJob: done.');
     }
 
     private function createPublishers(): void
@@ -70,6 +72,6 @@ class PublisherJob implements ShouldQueue
                 $book->saveNoSearch();
             }
         });
-        Journal::info('PublisherJob: done.');
+        Journal::info('PublisherJob: attached publishers done.');
     }
 }

@@ -32,6 +32,8 @@ class AuthorJob implements ShouldQueue
 
         $this->createAuthors();
         $this->attachAuthors();
+
+        Journal::info('AuthorJob: done.');
     }
 
     private function createAuthors(): void
@@ -58,6 +60,7 @@ class AuthorJob implements ShouldQueue
 
         Journal::info('AuthorJob: create authors...');
         AuthorModule::make($items->toArray());
+        Journal::info('AuthorJob: done.');
     }
 
     private function attachAuthors(): void
@@ -92,6 +95,6 @@ class AuthorJob implements ShouldQueue
                 $book->saveNoSearch();
             }
         });
-        Journal::info('AuthorJob: done.');
+        Journal::info('AuthorJob: attached authors done.');
     }
 }

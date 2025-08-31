@@ -31,6 +31,8 @@ class TagJob implements ShouldQueue
 
         $this->createTags();
         $this->attachTags();
+
+        Journal::info('TagJob: done.');
     }
 
     private function createTags(): void
@@ -73,6 +75,6 @@ class TagJob implements ShouldQueue
             $items = array_values(array_filter($items));
             $book->tags()->sync($items);
         });
-        Journal::info('TagJob: done.');
+        Journal::info('TagJob: attached tags done.');
     }
 }

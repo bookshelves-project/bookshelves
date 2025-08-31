@@ -37,6 +37,8 @@ class SerieJob implements ShouldQueue
         Serie::all()->load(['tags'])->each(function (Serie $serie) {
             SerieConverter::make($serie, true);
         });
+
+        Journal::info('SerieJob: done.');
     }
 
     private function createSeries(): void
@@ -77,6 +79,6 @@ class SerieJob implements ShouldQueue
                 SerieModule::associate($serie, $book);
             }
         });
-        Journal::info('SerieJob: done.');
+        Journal::info('SerieJob: attached series done.');
     }
 }
