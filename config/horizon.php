@@ -210,7 +210,7 @@ return [
     'environments' => [
         'production' => [
             'default-worker' => [
-                'maxProcesses' => env('HORIZON_MAX_PROCESSES', 2),
+                'maxProcesses' => env('HORIZON_MAX_PROCESSES', 10),
                 'balanceMaxShift' => 1,
                 'balanceCooldown' => 3,
             ],
@@ -223,7 +223,7 @@ return [
 
         'local' => [
             'default-worker' => [
-                'maxProcesses' => env('HORIZON_MAX_PROCESSES', 2),
+                'maxProcesses' => env('HORIZON_MAX_PROCESSES', 10),
             ],
             'low-worker' => [
                 'maxProcesses' => 5,
