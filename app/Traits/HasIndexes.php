@@ -3,7 +3,6 @@
 namespace App\Traits;
 
 use App\Engines\BookshelvesUtils;
-use App\Facades\Bookshelves;
 
 trait HasIndexes
 {
@@ -39,7 +38,7 @@ trait HasIndexes
 
     public function getIndexCoverPath(): string
     {
-        return $this->getIndexPath('cover', Bookshelves::imageFormat());
+        return $this->getIndexPath('cover', 'jpg');
     }
 
     private function getIndexPath(string $type, string $extension = 'dat'): string
