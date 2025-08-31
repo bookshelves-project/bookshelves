@@ -2716,16 +2716,16 @@
         },
         {
             "name": "kiwilan/php-archive",
-            "version": "2.3.01",
+            "version": "2.3.02",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-archive.git",
-                "reference": "b45a04c5244b3546b965e7c4366d6fcef9534861"
+                "reference": "2e202603396a620720aad676c4037eebc0443090"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-archive/zipball/b45a04c5244b3546b965e7c4366d6fcef9534861",
-                "reference": "b45a04c5244b3546b965e7c4366d6fcef9534861",
+                "url": "https://api.github.com/repos/kiwilan/php-archive/zipball/2e202603396a620720aad676c4037eebc0443090",
+                "reference": "2e202603396a620720aad676c4037eebc0443090",
                 "shasum": ""
             },
             "require": {
@@ -2780,7 +2780,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-archive/issues",
-                "source": "https://github.com/kiwilan/php-archive/tree/v2.3.01"
+                "source": "https://github.com/kiwilan/php-archive/tree/v2.3.02"
             },
             "funding": [
                 {
@@ -2788,7 +2788,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-18T16:35:26+00:00"
+            "time": "2025-08-31T13:13:38+00:00"
         },
         {
             "name": "kiwilan/php-audio",
@@ -2876,24 +2876,25 @@
         },
         {
             "name": "kiwilan/php-ebook",
-            "version": "3.0.08",
+            "version": "3.0.09",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-ebook.git",
-                "reference": "05aedd32a68564e5893650a0c8c9ab1c6a0cf502"
+                "reference": "ddc5223f1ecc31a220369b3996a9202dbef875f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/05aedd32a68564e5893650a0c8c9ab1c6a0cf502",
-                "reference": "05aedd32a68564e5893650a0c8c9ab1c6a0cf502",
+                "url": "https://api.github.com/repos/kiwilan/php-ebook/zipball/ddc5223f1ecc31a220369b3996a9202dbef875f4",
+                "reference": "ddc5223f1ecc31a220369b3996a9202dbef875f4",
                 "shasum": ""
             },
             "require": {
-                "kiwilan/php-archive": "^2.3.01",
+                "kiwilan/php-archive": "^2.3.02",
                 "kiwilan/php-xml-reader": "^1.1.0",
                 "php": "^8.1"
             },
             "require-dev": {
+                "illuminate/support": "^9.0 || ^10.0 || ^11.0 || ^12.0",
                 "kiwilan/php-audio": "^4.0.01",
                 "laravel/pint": "^1.7",
                 "pestphp/pest": "^2.0",
@@ -2947,7 +2948,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-ebook/issues",
-                "source": "https://github.com/kiwilan/php-ebook/tree/v3.0.08"
+                "source": "https://github.com/kiwilan/php-ebook/tree/v3.0.09"
             },
             "funding": [
                 {
@@ -2955,7 +2956,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-08-30T14:12:07+00:00"
+            "time": "2025-08-31T14:21:46+00:00"
         },
         {
             "name": "kiwilan/php-filelist",
@@ -6481,16 +6482,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "2.2.0",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "b9e61a61e39e02dd90944e9115241c7f7e76bfd8"
+                "reference": "1e0cd5370df5dd2e556a36b9c62f62e555870495"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/b9e61a61e39e02dd90944e9115241c7f7e76bfd8",
-                "reference": "b9e61a61e39e02dd90944e9115241c7f7e76bfd8",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/1e0cd5370df5dd2e556a36b9c62f62e555870495",
+                "reference": "1e0cd5370df5dd2e556a36b9c62f62e555870495",
                 "shasum": ""
             },
             "require": {
@@ -6522,9 +6523,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.2.0"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.3.0"
             },
-            "time": "2025-07-13T07:04:09+00:00"
+            "time": "2025-08-30T15:50:23+00:00"
         },
         {
             "name": "pragmarx/google2fa",

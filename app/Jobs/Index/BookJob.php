@@ -46,15 +46,17 @@ class BookJob implements ShouldQueue
         $file = $this->convertFileItem($file_item);
         $ebook = Ebook::read($this->file_path);
 
-        if (! $ebook->getTitle()) {
-            Journal::warning("No title found for {$file->basename}, trying to read again...");
+        if ($ebook->isBadFile()) {
+            Journal::warning("{$file->basename} is bad file, trying to read again...");
             $ebook = Ebook::read($this->file_path);
         }
 
-        if (! $ebook->getTitle() || ! $ebook->getMetaTitle()) {
-            Journal::error("BookJob: No title or meta title found for {$file->basename}", [
+        if ($ebook->isBadFile()) {
+            $ebook->clearCover();
+            Journal::error("BookJob: {$file->basename} is bad file", [
                 'ebook' => $ebook->toArray(),
-                'exists' => file_exists($this->file_path),
+                'is_bad_file' => $ebook->isBadFile(),
+                'is_exists' => file_exists($this->file_path),
             ]);
 
             return;
@@ -145,16 +147,14 @@ class BookJob implements ShouldQueue
             if (! file_exists($book->getIndexCoverPath())) {
                 $ebook->clearCover();
                 Journal::error("Failed to recreate cover for book {$file->path}.", [
-                    'ebook' => $ebook,
+                    'ebook' => $ebook->toArray(),
                 ]);
-                ray($ebook)->purple();
             }
         } else {
             $ebook->clearCover();
             Journal::error("Cover not found for book {$file->path}.", [
-                'ebook' => $ebook,
+                'ebook' => $ebook->toArray(),
             ]);
-            ray($ebook)->purple();
         }
 
         // serialize ebook

@@ -50,9 +50,9 @@ class AnalyzeJob implements ShouldQueue
     {
         Bus::batch(
             Library::inOrder()->flatMap(function (Library $library) {
-                Journal::info("Analyzing books of {$library->name}...");
                 $data = BookshelvesUtils::unserialize($library->getIndexLibraryPath());
                 $count = $data['count'];
+                Journal::info("Analyzing {$count} books of {$library->name}...");
 
                 return collect($data['file_paths'])->map(
                     fn ($path, $i) => new BookJob($path, $library->id, ($i + 1)."/{$count}")
