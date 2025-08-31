@@ -43,7 +43,9 @@ class AnalyzeJob implements ShouldQueue
         Bus::batch(
             Library::inOrder()->map(fn (Library $library) => new LibraryJob($library->id, $limit, $fresh)
             )
-        )->then([self::class, 'stepBooks'])->dispatch();
+        )
+            ->then([self::class, 'stepBooks'])
+            ->dispatch();
     }
 
     public static function stepBooks(Batch $batch): void
@@ -58,7 +60,9 @@ class AnalyzeJob implements ShouldQueue
                     fn ($path, $i) => new BookJob($path, $library->id, ($i + 1)."/{$count}")
                 );
             })
-        )->then([self::class, 'stepIndexes'])->dispatch();
+        )
+            ->then([self::class, 'stepIndexes'])
+            ->dispatch();
     }
 
     public static function stepIndexes(Batch $batch): void

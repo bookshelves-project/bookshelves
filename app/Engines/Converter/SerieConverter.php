@@ -62,12 +62,20 @@ class SerieConverter
 
         if ($this->serie && ! $this->serie->description) {
             $books = $this->serie->load('books')->books;
+            if ($books->isEmpty()) {
+                $this->serie->description = 'No description available.';
+                $this->serie->saveNoSearch();
+
+                return;
+            }
+
             $volume01 = $books->where('volume', 1)->first();
             if ($volume01) {
                 $this->serie->description = $volume01->description;
             } else {
                 $this->serie->description = $books->first()->description;
             }
+
             $this->serie->saveNoSearch();
         }
     }
