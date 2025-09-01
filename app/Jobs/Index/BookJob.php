@@ -2,7 +2,6 @@
 
 namespace App\Jobs\Index;
 
-use App\Engines\BookshelvesUtils;
 use App\Engines\Converter\Modules\IdentifierModule;
 use App\Engines\Library\FileItem;
 use App\Enums\BookFormatEnum;
@@ -10,6 +9,7 @@ use App\Facades\Bookshelves;
 use App\Models\AudiobookTrack;
 use App\Models\Book;
 use App\Models\File;
+use App\Utils;
 use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -120,11 +120,11 @@ class BookJob implements ShouldQueue
         }
 
         // serialize authors
-        BookshelvesUtils::serialize($book->getIndexAuthorPath(), [$ebook->getAuthorMain(), ...$ebook->getAuthors()]);
+        Utils::serialize($book->getIndexAuthorPath(), [$ebook->getAuthorMain(), ...$ebook->getAuthors()]);
 
         // serialize series
         if ($ebook->hasSeries()) {
-            BookshelvesUtils::serialize($book->getIndexSeriePath(), [
+            Utils::serialize($book->getIndexSeriePath(), [
                 'title' => $ebook->getSeries(),
                 'slug' => $ebook->getMetaTitle()->getSeriesSlug(),
                 'library_id' => $this->library_id,
@@ -133,22 +133,22 @@ class BookJob implements ShouldQueue
 
         // serialize tags
         if (! empty($ebook->getTags())) {
-            BookshelvesUtils::serialize($book->getIndexTagPath(), $ebook->getTags());
+            Utils::serialize($book->getIndexTagPath(), $ebook->getTags());
         }
 
         // serialize language
         if ($ebook->getLanguage() !== null) {
-            BookshelvesUtils::serialize($book->getIndexLanguagePath(), $ebook->getLanguage());
+            Utils::serialize($book->getIndexLanguagePath(), $ebook->getLanguage());
         }
 
         // serialize publisher
         if ($ebook->getPublisher() !== null) {
-            BookshelvesUtils::serialize($book->getIndexPublisherPath(), $ebook->getPublisher());
+            Utils::serialize($book->getIndexPublisherPath(), $ebook->getPublisher());
         }
 
         // serialize cover
         if ($ebook->hasCover()) {
-            BookshelvesUtils::ensureDirectoryExists($book->getIndexCoverPath());
+            Utils::ensureDirectoryExists($book->getIndexCoverPath());
             file_put_contents($book->getIndexCoverPath(), $ebook->getCover()->getContents());
             if (! file_exists($book->getIndexCoverPath())) {
                 $ebook->clearCover();
@@ -165,7 +165,7 @@ class BookJob implements ShouldQueue
 
         // serialize ebook
         $ebook->clearCover();
-        BookshelvesUtils::serialize($book->getIndexBookPath(), $ebook);
+        Utils::serialize($book->getIndexBookPath(), $ebook);
     }
 
     private function convertFileItem(FileItem $file_item): File

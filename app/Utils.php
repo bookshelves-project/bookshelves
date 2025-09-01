@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Engines;
+namespace App;
 
-use App\Models\AudiobookTrack;
 use App\Models\Language;
 use Illuminate\Support\Collection;
 use Kiwilan\LaravelNotifier\Facades\Journal;
@@ -11,7 +10,7 @@ use Kiwilan\Steward\Services\DirectoryService;
 /**
  * Some utility functions for bookshelves.
  */
-class BookshelvesUtils
+class Utils
 {
     public static function clearCache(): void
     {
@@ -58,7 +57,7 @@ class BookshelvesUtils
         try {
             return file_put_contents($json_path, json_encode($contents, $flags)) !== false;
         } catch (\Throwable $th) {
-            Journal::error("BookshelvesUtils: failed to save index of {$json_path}", [$th->getMessage()]);
+            Journal::error("Utils: failed to save index of {$json_path}", [$th->getMessage()]);
         }
 
         return false;
@@ -91,7 +90,7 @@ class BookshelvesUtils
         try {
             return file_put_contents($file_path, serialize($contents));
         } catch (\Throwable $th) {
-            Journal::error("BookshelvesUtils: failed to save index of {$file_path}", [$th->getMessage()]);
+            Journal::error("Utils: failed to save index of {$file_path}", [$th->getMessage()]);
         }
 
         return false;
@@ -167,103 +166,5 @@ class BookshelvesUtils
         }
 
         return $lang;
-    }
-
-    public static function audiobookTrackCoverPath(AudiobookTrack $track): string
-    {
-        $name = "audiobook-{$track->id}.jpg";
-
-        return storage_path("app/audiobooks/{$name}");
-    }
-
-    public static function audiobookParseLang(?string $book_lang, ?string $book_comment): ?string
-    {
-        if (! $book_lang && ! $book_comment) {
-            return null;
-        }
-
-        $lang = $book_lang ?? $book_comment;
-        $lang_code = self::toIsoCode($lang);
-
-        foreach (Language::all() as $language) {
-            if ($lang_code === $language->slug) {
-                return $language->slug;
-            }
-
-            if (strtolower($lang) === strtolower($language->name)) {
-                return $language->slug;
-            }
-        }
-
-        return $lang_code;
-    }
-
-    private static function toIsoCode(?string $lang): ?string
-    {
-        if (! $lang) {
-            return null;
-        }
-
-        $lang = strtolower($lang);
-
-        $codes = [
-            'english' => 'en',
-            'french' => 'fr',
-            'spanish' => 'es',
-            'german' => 'de',
-            'italian' => 'it',
-            'portuguese' => 'pt',
-            'russian' => 'ru',
-            'japanese' => 'ja',
-            'chinese' => 'zh',
-            'korean' => 'ko',
-            'arabic' => 'ar',
-            'turkish' => 'tr',
-            'dutch' => 'nl',
-            'polish' => 'pl',
-            'swedish' => 'sv',
-            'danish' => 'da',
-            'norwegian' => 'no',
-            'finnish' => 'fi',
-            'czech' => 'cs',
-            'hungarian' => 'hu',
-            'greek' => 'el',
-            'hebrew' => 'he',
-            'hindi' => 'hi',
-            'indonesian' => 'id',
-            'malay' => 'ms',
-            'thai' => 'th',
-            'vietnamese' => 'vi',
-            'bulgarian' => 'bg',
-            'croatian' => 'hr',
-            'estonian' => 'et',
-            'latvian' => 'lv',
-            'lithuanian' => 'lt',
-            'romanian' => 'ro',
-            'slovak' => 'sk',
-            'slovenian' => 'sl',
-            'ukrainian' => 'uk',
-            'catalan' => 'ca',
-            'filipino' => 'fil',
-            'serbian' => 'sr',
-            'icelandic' => 'is',
-            'maltese' => 'mt',
-            'persian' => 'fa',
-            'swahili' => 'sw',
-            'afrikaans' => 'af',
-            'albanian' => 'sq',
-            'amharic' => 'am',
-            'armenian' => 'hy',
-            'azerbaijani' => 'az',
-            'basque' => 'eu',
-            'belarusian' => 'be',
-            'bengali' => 'bn',
-        ];
-
-        if (array_key_exists($lang, $codes)) {
-            return $codes[$lang];
-        }
-
-        return null;
     }
 }

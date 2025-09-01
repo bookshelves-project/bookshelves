@@ -2,7 +2,7 @@
 
 namespace App\Jobs\Clean;
 
-use App\Engines\BookshelvesUtils;
+use App\Utils;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -27,6 +27,6 @@ class CleanIndexesJob implements ShouldQueue
     {
         Journal::info('CleanIndexesJob: clean indexes...');
 
-        BookshelvesUtils::clearCache();
+        Utils::clearCache();
     }
 }

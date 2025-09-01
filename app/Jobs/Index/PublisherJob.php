@@ -2,10 +2,10 @@
 
 namespace App\Jobs\Index;
 
-use App\Engines\BookshelvesUtils;
 use App\Engines\Converter\Modules\PublisherModule;
 use App\Models\Book;
 use App\Models\Publisher;
+use App\Utils;
 use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -41,7 +41,7 @@ class PublisherJob implements ShouldQueue
             if (! file_exists($index_path)) {
                 return;
             }
-            $data = BookshelvesUtils::unserialize($index_path);
+            $data = Utils::unserialize($index_path);
             $items->add($data);
         });
 
@@ -58,7 +58,7 @@ class PublisherJob implements ShouldQueue
             if (! file_exists($index_path)) {
                 return;
             }
-            $data = BookshelvesUtils::unserialize($index_path);
+            $data = Utils::unserialize($index_path);
             $publisher = Publisher::where('name', $data)->first();
 
             if ($publisher) {

@@ -2,10 +2,10 @@
 
 namespace App\Engines\Library;
 
-use App\Engines\BookshelvesUtils;
 use App\Enums\BookFormatEnum;
 use App\Facades\Bookshelves;
 use App\Models\Library;
+use App\Utils;
 use Carbon\Carbon;
 use DateTime;
 use Kiwilan\FileList\FileList;
@@ -214,6 +214,6 @@ class LibraryScanner
             'count' => $this->count,
         ];
 
-        return BookshelvesUtils::serialize($path, $data);
+        return Utils::serialize($path, $data);
     }
 }

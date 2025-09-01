@@ -2,8 +2,8 @@
 
 namespace App\Jobs\Index;
 
-use App\Engines\BookshelvesUpdater;
 use App\Engines\Library\LibraryScanner;
+use App\Engines\Updater;
 use App\Models\Library;
 use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -45,7 +45,7 @@ class LibraryJob implements ShouldQueue
         }
 
         $this->handleLibrary();
-        BookshelvesUpdater::make($this->library, $this->scanner->getFilePaths(), $this->fresh);
+        Updater::make($this->library, $this->scanner->getFilePaths(), $this->fresh);
     }
 
     /**

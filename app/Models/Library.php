@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use App\Engines\BookshelvesUtils;
 use App\Enums\LibraryTypeEnum;
 use App\Models\Scopes\EnabledScope;
 use App\Observers\LibraryObserver;
+use App\Utils;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
@@ -161,7 +161,7 @@ class Library extends Model
 
     public function getIndexLibraryPath(): string
     {
-        return BookshelvesUtils::getIndexPath('library', $this->id);
+        return Utils::getIndexPath('library', $this->id);
     }
 
     public function files(): \Illuminate\Database\Eloquent\Relations\HasMany

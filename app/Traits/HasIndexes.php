@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Engines\BookshelvesUtils;
+use App\Utils;
 
 trait HasIndexes
 {
@@ -46,6 +46,6 @@ trait HasIndexes
         $this->loadMissing('library');
         $subfolder = $this->library?->slug ?? 'unknown';
 
-        return BookshelvesUtils::getIndexPath(folder: $type, filename: $this->id, subfolder: $subfolder, extension: $extension);
+        return Utils::getIndexPath(folder: $type, filename: $this->id, subfolder: $subfolder, extension: $extension);
     }
 }

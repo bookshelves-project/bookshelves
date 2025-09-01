@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Engines\BookshelvesUtils;
 use App\Jobs\Clean\CleanAudiobookJob;
 use App\Jobs\Clean\CleanIndexesJob;
 use App\Jobs\Clean\CleanJob;
@@ -19,6 +18,7 @@ use App\Jobs\Index\TagJob;
 use App\Models\Book;
 use App\Models\Library;
 use App\Models\Serie;
+use App\Utils;
 use Illuminate\Bus\Batch;
 use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -57,7 +57,7 @@ class AnalyzeJob implements ShouldQueue
     public static function stepBooks(Batch $batch, bool $fresh): void
     {
         $jobs = Library::inOrder()->flatMap(function (Library $library) use ($fresh) {
-            $data = BookshelvesUtils::unserialize($library->getIndexLibraryPath());
+            $data = Utils::unserialize($library->getIndexLibraryPath());
             $count = $data['count'];
 
             Journal::info("Analyzing {$count} books of {$library->name}...");

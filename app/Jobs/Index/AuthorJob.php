@@ -2,10 +2,10 @@
 
 namespace App\Jobs\Index;
 
-use App\Engines\BookshelvesUtils;
 use App\Engines\Converter\Modules\AuthorModule;
 use App\Models\Author;
 use App\Models\Book;
+use App\Utils;
 use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -43,7 +43,7 @@ class AuthorJob implements ShouldQueue
                 return;
             }
 
-            $data = BookshelvesUtils::unserialize($index_path);
+            $data = Utils::unserialize($index_path);
 
             /** @var BookAuthor $author */
             foreach ($data as $author) {
@@ -65,7 +65,7 @@ class AuthorJob implements ShouldQueue
                 return;
             }
 
-            $authors = BookshelvesUtils::unserialize($index_path);
+            $authors = Utils::unserialize($index_path);
             $authors = collect($authors)
                 ->filter(fn ($author) => $author !== null)
                 ->unique(fn ($author) => $author->getName())

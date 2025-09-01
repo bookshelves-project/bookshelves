@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands\Bookshelves;
 
-use App\Engines\BookshelvesUtils;
 use App\Engines\Library\LibraryScanner;
 use App\Facades\Bookshelves;
 use App\Jobs\AnalyzeJob;
 use App\Models\Library;
+use App\Utils;
 use Illuminate\Console\Command;
 use Kiwilan\Steward\Commands\Commandable;
 use Kiwilan\Steward\Commands\Model\ModelBackupCommand;
@@ -77,7 +77,7 @@ class AnalyzeCommand extends Commandable
             $this->clearFresh();
         }
 
-        BookshelvesUtils::clearCache();
+        Utils::clearCache();
         AnalyzeJob::dispatch($this->limit, $this->fresh);
 
         return Command::SUCCESS;

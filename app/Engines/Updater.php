@@ -5,12 +5,13 @@ namespace App\Engines;
 use App\Facades\Bookshelves;
 use App\Models\File;
 use App\Models\Library;
+use App\Utils;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
 /**
  * Update library with new and lost files.
  */
-class BookshelvesUpdater
+class Updater
 {
     public function __construct(
         public Library $library,
@@ -25,11 +26,11 @@ class BookshelvesUpdater
      */
     public static function make(Library $library, array $paths, bool $fresh = false): self
     {
-        Journal::debug('BookshelvesUpdater: create BookJob for each item...');
+        Journal::debug('Updater: create BookJob for each item...');
         $self = new self($library, $paths, $fresh);
 
         if ($self->fresh) {
-            Journal::info('BookshelvesUpdater: Fresh install!');
+            Journal::info('Updater: Fresh install!');
 
             return $self;
         }
@@ -41,7 +42,7 @@ class BookshelvesUpdater
     private function handle(): void
     {
         if (empty($this->paths)) {
-            Journal::error("BookshelvesUpdater: {$this->library->name} library files are empty, nothing to parse.");
+            Journal::error("Updater: {$this->library->name} library files are empty, nothing to parse.");
 
             return;
         }
@@ -56,17 +57,17 @@ class BookshelvesUpdater
         $lost_files = $this->findLostFiles($this->paths, $files);
         $this->removeFiles($lost_files, $this->library->name);
 
-        $data = BookshelvesUtils::unserialize($this->library->getIndexLibraryPath());
+        $data = Utils::unserialize($this->library->getIndexLibraryPath());
 
         $count_new_files = count($new_files);
         $data['file_paths'] = $new_files;
         $data['count'] = $count_new_files;
-        BookshelvesUtils::serialize($this->library->getIndexLibraryPath(), $data);
+        Utils::serialize($this->library->getIndexLibraryPath(), $data);
 
         if (Bookshelves::verbose()) {
             $count_lost_files = count($lost_files);
-            Journal::debug("BookshelvesUpdater: found {$count_new_files} new files to add for {$this->library->name} library.");
-            Journal::debug("BookshelvesUpdater: found {$count_lost_files} lost files to remove for {$this->library->name} library.");
+            Journal::debug("Updater: found {$count_new_files} new files to add for {$this->library->name} library.");
+            Journal::debug("Updater: found {$count_lost_files} lost files to remove for {$this->library->name} library.");
         }
     }
 

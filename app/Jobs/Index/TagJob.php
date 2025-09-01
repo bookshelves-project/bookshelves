@@ -2,10 +2,10 @@
 
 namespace App\Jobs\Index;
 
-use App\Engines\BookshelvesUtils;
 use App\Engines\Converter\Modules\TagModule;
 use App\Models\Book;
 use App\Models\Tag;
+use App\Utils;
 use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -41,7 +41,7 @@ class TagJob implements ShouldQueue
             if (! file_exists($index_path)) {
                 return;
             }
-            $tags = BookshelvesUtils::unserialize($index_path);
+            $tags = Utils::unserialize($index_path);
             $items->push(...$tags);
         });
 
@@ -58,7 +58,7 @@ class TagJob implements ShouldQueue
             if (! file_exists($index_path)) {
                 return;
             }
-            $tags = BookshelvesUtils::unserialize($index_path);
+            $tags = Utils::unserialize($index_path);
 
             $items = [];
             foreach ($tags as $tag) {
