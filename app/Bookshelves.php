@@ -162,11 +162,6 @@ class Bookshelves
         return config('bookshelves.image.max_height');
     }
 
-    public function imageConversion(): bool
-    {
-        return config('bookshelves.image.conversion');
-    }
-
     /**
      * @return array{width: int, height: int}
      */

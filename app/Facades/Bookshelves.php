@@ -33,7 +33,6 @@ use Illuminate\Support\Facades\Facade;
  * @method static string imageDriver()
  * @method static string imageFormat()
  * @method static int imageMaxHeight()
- * @method static bool imageConversion()
  * @method static array{width: int, height: int} imageCoverStandard()
  * @method static array{width: int, height: int} imageCoverThumbnail()
  * @method static array{width: int, height: int} imageCoverSocial()
