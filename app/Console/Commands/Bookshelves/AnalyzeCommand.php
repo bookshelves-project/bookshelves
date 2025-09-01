@@ -58,6 +58,12 @@ class AnalyzeCommand extends Commandable
         $this->fresh = $this->optionBool('fresh');
         $this->limit = $this->optionInt('limit') ?: null;
 
+        if ($this->monitor) {
+            Library::query()->each(fn (Library $library) => $this->monitor($library));
+
+            return Command::SUCCESS;
+        }
+
         $this->comment('Fresh: '.($this->fresh ? 'yes' : 'no'));
         $this->comment('Limit: '.($this->limit ?: 'no limit'));
         $this->comment('Queue: '.config('queue.default'));
@@ -79,8 +85,6 @@ class AnalyzeCommand extends Commandable
 
     private function clearFresh(): void
     {
-        // $this->call(JobsClearCommand::class);
-
         $this->call(ModelBackupCommand::class, [
             'model' => 'App\Models\User',
         ]);
@@ -92,12 +96,8 @@ class AnalyzeCommand extends Commandable
             'model' => 'App\Models\User',
         ]);
 
-        // $this->call(LogClearCommand::class);
-
         $path = Bookshelves::exceptionParserLog();
-        // File::put($path, json_encode([]));
         Library::cacheClear();
-        // CleanCoversJob::dispatch();
 
         $this->call('db:seed', [
             '--class' => 'EmptySeeder',
@@ -107,30 +107,30 @@ class AnalyzeCommand extends Commandable
         $this->newLine();
     }
 
-    // private function monitor(Library $library): void
-    // {
-    //     $verbose = $this->option('verbose');
+    private function monitor(Library $library): void
+    {
+        $verbose = $this->option('verbose');
 
-    //     $this->line("Scanning library: {$library->name}...");
-    //     $scanner = LibraryScanner::make($library, $this->limit);
+        $this->line("Scanning library: {$library->name}...");
+        $scanner = LibraryScanner::make($library, $this->limit);
 
-    //     if (! $scanner->isValid()) {
-    //         $this->error("Library {$library->name} with path `{$library->path}` is not valid.");
+        if (! $scanner->isValid()) {
+            $this->error("Library {$library->name} with path `{$library->path}` is not valid.");
 
-    //         return;
-    //     }
+            return;
+        }
 
-    //     if ($verbose) {
-    //         $this->newLine();
-    //         $this->table(
-    //             ['Path'],
-    //             array_map(fn ($item) => [strlen($item) > 80 ? substr($item, 0, 77).'...' : $item], $scanner->getFilePaths())
-    //         );
-    //         $this->newLine();
-    //     }
+        if ($verbose) {
+            $this->newLine();
+            $this->table(
+                ['Path'],
+                array_map(fn ($item) => [strlen($item) > 80 ? substr($item, 0, 77).'...' : $item], $scanner->getFilePaths())
+            );
+            $this->newLine();
+        }
 
-    //     $this->comment("Found {$scanner->getCount()} files in library {$library->name}.");
-    //     $this->line('Library scanned.');
-    //     $this->newLine();
-    // }
+        $this->comment("Found {$scanner->getCount()} files in library {$library->name}.");
+        $this->line('Library scanned.');
+        $this->newLine();
+    }
 }
