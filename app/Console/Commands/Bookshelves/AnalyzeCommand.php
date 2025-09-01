@@ -8,6 +8,7 @@ use App\Jobs\AnalyzeJob;
 use App\Models\Library;
 use App\Utils;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 use Kiwilan\Steward\Commands\Commandable;
 use Kiwilan\Steward\Commands\Model\ModelBackupCommand;
 use Kiwilan\Steward\Commands\Model\ModelRestoreCommand;
@@ -77,6 +78,8 @@ class AnalyzeCommand extends Commandable
             $this->comment('Fresh install: deleting all files...');
             $this->clearFresh();
         }
+
+        Artisan::call('optimize:fresh');
 
         Utils::clearCache();
         AnalyzeJob::dispatch($this->limit, $this->fresh);
