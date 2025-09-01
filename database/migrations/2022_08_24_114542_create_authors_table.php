@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('firstname')->nullable();
             $table->string('lastname')->nullable();
             $table->string('role')->nullable();
+            $table->boolean('has_cover')->default(false);
             $table->text('description')->nullable();
             $table->string('link')->nullable();
             $table->dateTime('api_parsed_at')->nullable();

@@ -3,26 +3,22 @@
 namespace App\Jobs\Clean;
 
 use App\Models\Author;
+use App\Models\Book;
 use App\Models\File;
 use App\Models\Library;
 use App\Models\Serie;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Artisan;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Services\DirectoryService;
 
 class CleanJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
-    /**
-     * Create a new job instance.
-     */
-    public function __construct() {}
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * Execute the job.
@@ -31,14 +27,9 @@ class CleanJob implements ShouldQueue
     {
         Journal::debug('CleanJob: clean books, authors and series...');
 
-        foreach (Library::all() as $library) {
-            $this->cleanBooks($library);
-        }
-
+        $this->cleanBooks();
         $this->cleanAuthors();
         $this->cleanSeries();
-
-        Artisan::call('scout:fresh');
 
         DirectoryService::make()->clearDirectory(storage_path('app/cache'));
     }
@@ -46,45 +37,21 @@ class CleanJob implements ShouldQueue
     /**
      * Clean Books with orphaned files.
      */
-    private function cleanBooks(Library $library)
+    private function cleanBooks()
     {
-        if (! file_exists($library->getJsonPath())) {
-            Journal::error("CleanJob: {$library->name} library json file not found", [
-                'path' => $library->getJsonPath(),
-            ]);
+        Library::all()->each(function (Library $library) {
+            File::query()
+                ->where('library_id', $library->id)
+                ->doesntHave('book')
+                ->doesntHave('audiobookTracks')
+                ->delete();
 
-            return;
-        }
-
-        $contents = file_get_contents($library->getJsonPath());
-        $paths = (array) json_decode($contents, true);
-
-        $files = File::query()
-            ->where('library_id', $library->id)
-            ->get()
-            ->map(fn (File $file) => $file->path)
-            ->toArray();
-
-        if (empty($files)) {
-            Journal::debug("CleanJob: {$library->name} no books detected");
-
-            return;
-        }
-
-        $paths = array_map(fn (string $path) => $path, $paths);
-
-        $orphans = array_diff($files, $paths);
-        $files = File::query()
-            ->whereIn('path', $orphans)
-            ->get();
-
-        if ($files->count() > 0) {
-            Journal::info("CleanJob: {$library->name} {$files->count()} to delete.");
-        }
-
-        foreach ($files as $file) {
-            $file->delete();
-        }
+            Book::query()
+                ->where('library_id', $library->id)
+                ->doesntHave('file')
+                ->doesntHave('audiobookTracks')
+                ->get();
+        });
     }
 
     /**

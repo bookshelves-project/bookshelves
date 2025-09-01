@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('contributor')->nullable();
             $table->text('description')->nullable();
             $table->date('released_on')->nullable();
+            $table->boolean('has_cover')->default(false);
             $table->json('audiobook_narrators')->nullable();
             $table->json('audiobook_chapters')->nullable();
             $table->boolean('is_audiobook')->default(false);

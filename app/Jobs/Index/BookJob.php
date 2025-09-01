@@ -28,6 +28,7 @@ class BookJob implements ShouldQueue
         public string $file_path,
         public int|string $library_id,
         public string $position,
+        public bool $fresh = false
     ) {}
 
     /**
@@ -102,6 +103,9 @@ class BookJob implements ShouldQueue
 
             $book->file()->associate($file);
             $book->library()->associate($this->library_id);
+            if (! $this->fresh) {
+                $book->to_notify = true;
+            }
             $book->save();
 
             return $book;

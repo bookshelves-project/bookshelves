@@ -30,7 +30,6 @@ class CoverModule
             return $book;
         }
 
-        $name = uniqid().'.'.Bookshelves::imageFormat();
         $self->resize($path);
         $contents = File::get($path);
 
@@ -42,6 +41,9 @@ class CoverModule
             ->disk(Bookshelves::imageDisk())
             ->color()
             ->save();
+
+        $book->has_cover = true;
+        $book->saveNoSearch();
 
         return $book;
     }

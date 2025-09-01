@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Library;
+namespace App\Jobs\Index;
 
 use App\Engines\BookshelvesUpdater;
 use App\Engines\Library\LibraryScanner;

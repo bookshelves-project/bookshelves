@@ -86,7 +86,7 @@ class SerieConverter
             $this->serie->clearCover();
         }
 
-        if (! $this->serie->hasCover()) {
+        if (! $this->serie->has_cover) {
             $book = Book::query()
                 ->where('volume', 1)
                 ->where('serie_id', $this->serie->id)
@@ -119,6 +119,9 @@ class SerieConverter
                 ->disk(Bookshelves::imageDisk())
                 ->color()
                 ->save();
+
+            $this->serie->has_cover = true;
+            $this->serie->saveNoSearch();
         }
 
         return $this;

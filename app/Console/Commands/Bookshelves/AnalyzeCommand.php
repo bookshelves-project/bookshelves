@@ -133,28 +133,4 @@ class AnalyzeCommand extends Commandable
     //     $this->line('Library scanned.');
     //     $this->newLine();
     // }
-
 }
-
-// private function dispatchBookJob(array $file_items): void
-// {
-//     $i = 0;
-//     $count = count($file_items);
-//     $files = [];
-
-//     foreach ($file_items as $file_item) {
-//         $i++;
-//         $file = $this->convertFileItem($file_item);
-//         $files[] = $file;
-//         $this->handleBookJob("{$i}/{$count}", $file);
-//     }
-
-//     foreach ($files as $i => $file) {
-//         /** @var Ebook $ebook */
-//         $ebook = BookshelvesUtils::unserialize($file->getFileIndexPath());
-//         if (Bookshelves::verbose()) {
-//             Journal::debug("LibraryScanJob: {$i}/{$count} {$file->basename} from {$this->library->name}");
-//         }
-//         BookConverter::make($ebook, $file);
-//     }
-// }

@@ -39,6 +39,10 @@ trait HasCovers
 
     public function initializeHasCovers(): void
     {
+        $this->fillable = array_merge($this->fillable, [
+            'has_cover',
+        ]);
+
         $this->appends = array_merge($this->appends, [
             'cover_standard',
             'cover_thumbnail',
@@ -46,6 +50,10 @@ trait HasCovers
             'cover_square',
             'cover_color',
             'cover_path',
+        ]);
+
+        $this->casts = array_merge($this->casts, [
+            'has_cover' => 'boolean',
         ]);
     }
 
@@ -161,7 +169,7 @@ trait HasCovers
         return $this->getCover(self::CONVERSION_SQUARE);
     }
 
-    public function hasCover(): bool
+    public function hasCoverCollection(): bool
     {
         return $this->getMedia(Bookshelves::imageCollection())->isNotEmpty();
     }

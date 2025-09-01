@@ -16,6 +16,7 @@ return new class extends Migration
 
             $table->string('title');
             $table->string('slug')->index();
+            $table->boolean('has_cover')->default(false);
             $table->text('description')->nullable();
             $table->boolean('is_audiobook')->default(false);
             $table->dateTime('parsed_at')->nullable();
