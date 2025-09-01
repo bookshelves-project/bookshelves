@@ -31,13 +31,10 @@ class LanguageJob implements ShouldQueue
 
         $this->createLanguages();
         $this->attachLanguages();
-
-        Journal::info('LanguageJob: done.');
     }
 
     private function createLanguages(): void
     {
-        Journal::info('LanguageJob: parse indexes of books...');
         $items = collect();
         Book::all()->each(function (Book $book) use ($items) {
             $index_path = $book->getIndexLanguagePath();
@@ -48,10 +45,8 @@ class LanguageJob implements ShouldQueue
             $items->add($data);
         });
 
-        Journal::info('LanguageJob: clean list...');
         $items = $items->unique(fn ($language) => $language)->values();
 
-        Journal::info('LanguageJob: create languages...');
         $items->each(function ($language) {
             LanguageModule::make($language);
         });
@@ -59,7 +54,6 @@ class LanguageJob implements ShouldQueue
 
     private function attachLanguages(): void
     {
-        Journal::info('LanguageJob: attach languages...');
         Book::all()->each(function (Book $book) {
             $index_path = $book->getIndexLanguagePath();
             if (! file_exists($index_path)) {
@@ -75,6 +69,5 @@ class LanguageJob implements ShouldQueue
             $book->language()->associate($language);
             $book->saveNoSearch();
         });
-        Journal::info('LanguageJob: attached languages done.');
     }
 }

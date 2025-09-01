@@ -33,17 +33,13 @@ class SerieJob implements ShouldQueue
         $this->createSeries();
         $this->attachSeries();
 
-        Journal::info('SerieJob: update series with books infos...');
         Serie::all()->load(['tags'])->each(function (Serie $serie) {
             SerieConverter::make($serie, true);
         });
-
-        Journal::info('SerieJob: done.');
     }
 
     private function createSeries(): void
     {
-        Journal::info('SerieJob: parse indexes of books...');
         $items = collect();
         Book::where('has_series', true)->each(function (Book $book) use ($items) {
             $index_path = $book->getIndexSeriePath();
@@ -54,9 +50,7 @@ class SerieJob implements ShouldQueue
             $items->add($data);
         });
 
-        Journal::info('SerieJob: clean list...');
         $items = $items->unique(fn ($serie) => $serie['slug'].$serie['library_id'])->values();
-        Journal::info('SerieJob: create series...');
         $items->each(function ($serie) {
             SerieModule::make($serie['title'], $serie['slug'], $serie['library_id']);
         });
@@ -64,7 +58,6 @@ class SerieJob implements ShouldQueue
 
     private function attachSeries(): void
     {
-        Journal::info('SerieJob: attach series...');
         Book::where('has_series', true)->each(function (Book $book) {
             $index_path = $book->getIndexSeriePath();
             if (! file_exists($index_path)) {
@@ -79,6 +72,5 @@ class SerieJob implements ShouldQueue
                 SerieModule::associate($serie, $book);
             }
         });
-        Journal::info('SerieJob: attached series done.');
     }
 }
