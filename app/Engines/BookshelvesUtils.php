@@ -187,12 +187,10 @@ class BookshelvesUtils
         }
 
         // `La Quête d'Ewilan #01 : D'un monde à l'autre`
+        // or `La Quête d'Ewilan 01 : D'un monde à l'autre`
         // to `D'un monde à l'autre`
-        if (preg_match('/#\d+ : (.*)/', $title, $matches)) {
-            $result = $matches[1];
-            if ($result) {
-                return trim($result);
-            }
+        if (preg_match('/#?\d+\s*:\s*(.*)/', $title, $matches)) {
+            return trim($matches[1]);
         }
 
         return $title;
