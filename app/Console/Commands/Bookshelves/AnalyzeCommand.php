@@ -69,7 +69,7 @@ class AnalyzeCommand extends Commandable
         $this->comment('Limit: '.($this->limit ?: 'no limit'));
         $this->comment('Queue: '.config('queue.default'));
         if (config('queue.default') === 'redis') {
-            $this->comment(' Redis processes: '.config('horizon.environments.production.supervisor-1.maxProcesses'));
+            $this->comment(' Horizon: '.Bookshelves::horizonMaxProcesses());
         }
         $this->comment('Convert covers: '.(Bookshelves::convertCovers() ? 'enabled' : 'disabled'));
         $this->newLine();

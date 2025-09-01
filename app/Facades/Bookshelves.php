@@ -41,6 +41,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static bool downloadNitroEnabled()
  * @method static string downloadNitroUrl()
  * @method static string downloadNitroKey()
+ * @method static int horizonMaxProcesses()
  */
 class Bookshelves extends Facade
 {

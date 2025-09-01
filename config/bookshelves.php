@@ -118,4 +118,6 @@ return [
             'key' => env('BOOKSHELVES_DOWNLOAD_NITRO_KEY'),
         ],
     ],
+
+    'horizon_max_processes' => env('HORIZON_MAX_PROCESSES', 10),
 ];

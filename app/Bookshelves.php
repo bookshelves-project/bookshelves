@@ -216,4 +216,9 @@ class Bookshelves
     {
         return config('bookshelves.download.nitro.key');
     }
+
+    public function horizonMaxProcesses(): int
+    {
+        return config('bookshelves.horizon_max_processes', 10);
+    }
 }
