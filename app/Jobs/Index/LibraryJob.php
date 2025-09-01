@@ -56,7 +56,7 @@ class LibraryJob implements ShouldQueue
         if ($this->scanner->getScannedAt() && $this->scanner->getModifiedAt()) {
             $this->library->library_scanned_at = new Carbon($this->scanner->getScannedAt());
             $this->library->library_modified_at = new Carbon($this->scanner->getModifiedAt());
-            $this->library->save();
+            $this->library->saveQuietly();
         } else {
             throw new \Exception("LibraryScanJob: Failed to retrieve scan dates for library: {$this->library->name}");
         }
