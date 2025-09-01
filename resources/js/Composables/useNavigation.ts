@@ -37,6 +37,7 @@ export function useNavigation() {
       { label: 'Authors', icon: 'quill', route: { name: 'authors.index' } },
       { label: 'Tags', icon: 'tag', route: { name: 'tags.index' } },
       { label: 'Seperator', isSeperator: true },
+      { label: 'All libraries', icon: 'libraries', route: { name: 'libraries.index' } },
     ]
 
     libraries.forEach((library) => {

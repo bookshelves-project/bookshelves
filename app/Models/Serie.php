@@ -64,6 +64,7 @@ class Serie extends Model implements HasMedia
         'title',
         'slug',
         'description',
+        'is_audiobook',
         'parsed_at',
     ];
 
@@ -74,6 +75,7 @@ class Serie extends Model implements HasMedia
 
     protected $casts = [
         'parsed_at' => 'datetime',
+        'is_audiobook' => 'boolean',
     ];
 
     protected $with = [];
@@ -102,12 +104,7 @@ class Serie extends Model implements HasMedia
 
     public function getNitroStreamUrlAttribute(): string
     {
-        $this->loadMissing('library');
-        if ($this->library->type === LibraryTypeEnum::audiobook) {
-            return NitroStream::writeUrl(id: $this->id, table: 'series', zip: true, type: 'audiobook-serie');
-        }
-
-        return NitroStream::writeUrl(id: $this->id, table: 'series', zip: true);
+        return NitroStream::writeUrl(id: $this->id, table: 'series');
     }
 
     public function getRouteAttribute(): string
@@ -175,7 +172,7 @@ class Serie extends Model implements HasMedia
         return [
             'id' => $this->id,
             'title' => $this->title,
-            // 'cover' => $this->cover_thumbnail,
+            'cover' => $this->cover_thumbnail,
             'library' => $this->library?->type_label,
         ];
     }

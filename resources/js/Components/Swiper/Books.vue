@@ -5,15 +5,16 @@ defineProps<{
   padding?: boolean
   square?: boolean
   link?: string
+  ready: boolean
 }>()
 </script>
 
 <template>
   <AppCarousel
-    v-if="books && books.length"
     :title="title"
     :url="link"
     :padding="padding"
+    :ready="ready"
   >
     <template
       v-for="book in books"

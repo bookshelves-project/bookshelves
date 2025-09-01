@@ -18,7 +18,7 @@ class NotifierCommand extends Commandable
      *
      * @var string
      */
-    protected $signature = 'notifier {title} {text} {image} {color} {url}';
+    protected $signature = 'notifier {title} {text?} {image?} {color?} {url?}';
 
     /**
      * The console command description.
@@ -78,12 +78,16 @@ class NotifierCommand extends Commandable
             return;
         }
 
-        if ($book->serie !== null) {
+        $book->refresh();
+        $book->loadMissing(['authors', 'library', 'serie', 'media']);
+
+        if ($book->serie?->title === null) {
+            Journal::warning("{$book->title} no series");
+            $book->to_notify = false;
+            $book->saveNoSearch();
+
             return;
         }
-
-        $book->refresh();
-        $book->loadMissing(['authors', 'library']);
 
         $book->to_notify = false;
         $book->saveNoSearch();

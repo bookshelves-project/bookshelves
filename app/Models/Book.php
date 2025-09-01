@@ -8,6 +8,7 @@ use App\Observers\BookObserver;
 use App\Traits\HasAuthors;
 use App\Traits\HasBookFiles;
 use App\Traits\HasCovers;
+use App\Traits\HasIndexes;
 use App\Traits\HasLanguage;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\IsEntity;
@@ -36,6 +37,7 @@ class Book extends Model implements HasMedia
     use HasBookFiles;
     use HasCovers;
     use HasFactory;
+    use HasIndexes;
     use HasLanguage;
     use HasMetaClass;
     use HasSearchableName, Searchable {
@@ -82,6 +84,7 @@ class Book extends Model implements HasMedia
         'is_audiobook',
         'rights',
         'volume',
+        'has_series',
         'page_count',
         'is_hidden',
         'is_selected',
@@ -93,6 +96,7 @@ class Book extends Model implements HasMedia
         'publisher_id',
         'to_notify',
         'added_at',
+        'calibre_timestamp',
     ];
 
     protected $appends = [
@@ -113,9 +117,11 @@ class Book extends Model implements HasMedia
         'is_selected' => 'boolean',
         'identifiers' => 'array',
         'volume' => 'float',
+        'has_series' => 'boolean',
         'page_count' => 'integer',
         'to_notify' => 'boolean',
         'added_at' => 'datetime',
+        'calibre_timestamp' => 'datetime',
     ];
 
     protected $with = [
@@ -174,10 +180,6 @@ class Book extends Model implements HasMedia
 
     public function getNitroStreamUrlAttribute(): string
     {
-        if ($this->is_audiobook) {
-            return NitroStream::writeUrl(id: $this->id, table: 'books', zip: true, type: 'audiobook');
-        }
-
         return NitroStream::writeUrl(id: $this->id, table: 'books');
     }
 
@@ -355,7 +357,7 @@ class Book extends Model implements HasMedia
         return [
             'id' => $this->id,
             'title' => $this->title,
-            // 'cover' => $this->cover_thumbnail,
+            'cover' => $this->cover_thumbnail,
             'serie' => $this->serie?->title,
             'library' => $this->library?->type_label,
             'isbn10' => $this->isbn10,

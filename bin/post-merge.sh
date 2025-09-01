@@ -8,7 +8,7 @@ php artisan migrate --force
 php artisan typescriptable
 pnpm i
 pnpm build
-pnpm build:ssr
+# pnpm build:ssr
 php artisan optimize:fresh
 php artisan config:cache
 php artisan route:cache

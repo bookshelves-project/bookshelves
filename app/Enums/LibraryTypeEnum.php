@@ -15,11 +15,14 @@ enum LibraryTypeEnum: string implements HasColor, HasIcon, HasLabel
 
     case book = 'book';
 
-    case comic_manga = 'comic_manga';
+    case graphic = 'graphic';
 
-    public function isComicOrManga(): bool
+    /**
+     * Check if the library type is graphic (comic or manga).
+     */
+    public function isGraphic(): bool
     {
-        return $this === self::comic_manga;
+        return $this === self::graphic;
     }
 
     public function isAudiobook(): bool
@@ -42,7 +45,7 @@ enum LibraryTypeEnum: string implements HasColor, HasIcon, HasLabel
         return match ($this) {
             self::audiobook => 'info',
             self::book => 'success',
-            self::comic_manga => 'warning',
+            self::graphic => 'warning',
         };
     }
 
@@ -51,7 +54,7 @@ enum LibraryTypeEnum: string implements HasColor, HasIcon, HasLabel
         return match ($this) {
             self::audiobook => 'heroicon-o-musical-note',
             self::book => 'heroicon-o-book-open',
-            self::comic_manga => 'heroicon-o-chat-bubble-bottom-center',
+            self::graphic => 'heroicon-o-chat-bubble-bottom-center',
         };
     }
 
@@ -60,7 +63,7 @@ enum LibraryTypeEnum: string implements HasColor, HasIcon, HasLabel
         return match ($this) {
             self::audiobook => __('Audiobook'),
             self::book => __('Book'),
-            self::comic_manga => __('Comic/Manga'),
+            self::graphic => __('Graphic'),
         };
     }
 }

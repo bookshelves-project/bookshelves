@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('authors')->nullable();
             $table->string('format')->nullable();
             $table->boolean('is_series')->default(0);
+            $table->string('downloader_type')->nullable();
 
             $table->foreignUlid('file_id')
                 ->nullable()

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-defineProps<{
+const props = defineProps<{
   library: App.Models.Library
   query: App.Paginate<App.Models.Book>
   breadcrumbs?: any[]
@@ -7,21 +7,27 @@ defineProps<{
   square?: boolean
   series?: boolean
 }>()
+
+const logo = computed(() => {
+  switch (props.library.type) {
+    case 'audiobook':
+      return 'ereader'
+      break
+
+    default:
+      break
+  }
+})
 </script>
 
 <template>
-  <App
-    :title="title"
-    icon="ereader"
-  >
-    <ListingTabs
-      :links="[
-        { label: 'Books', href: $route('libraries.show', { library: library.slug }) },
-        { label: 'Series', href: $route('series.index', { library: library.slug }) },
-      ]"
-    />
-    <Listing
-      :query="query"
+  <App :title="title"
+    :icon="library.type">
+    <ListingTabs :links="[
+      { label: 'Books', href: $route('libraries.show', { library: library.slug }) },
+      { label: 'Series', href: $route('series.index', { library: library.slug }) },
+    ]" />
+    <Listing :query="query"
       :sortable="series
         ? [
           { label: 'Title', value: 'title' },
@@ -36,29 +42,22 @@ defineProps<{
       :filterable="[
         { label: 'English', value: 'en' },
         { label: 'French', value: 'fr' },
-      ]"
-    >
-      <template
-        v-if="breadcrumbs"
-        #breadcrumbs
-      >
+      ]">
+      <template v-if="breadcrumbs"
+        #breadcrumbs>
         <Breadcrumbs :breadcrumbs="breadcrumbs" />
       </template>
       <template v-if="series">
-        <CardSerie
-          v-for="serie in query.data"
+        <CardSerie v-for="serie in query.data"
           :key="serie.id"
           :serie="serie"
-          :square="square"
-        />
+          :square="square" />
       </template>
       <template v-else>
-        <CardBook
-          v-for="book in query.data"
+        <CardBook v-for="book in query.data"
           :key="book.id"
           :book="book"
-          :square="square"
-        />
+          :square="square" />
       </template>
     </Listing>
   </App>

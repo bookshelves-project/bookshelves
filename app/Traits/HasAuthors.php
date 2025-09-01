@@ -97,9 +97,12 @@ trait HasAuthors
             $author = Author::whereName($name)->first();
 
             if (! $author) {
-                $author = Author::create([
-                    'name' => $name,
-                ]);
+                /** @var Author */
+                $author = Author::withoutSyncingToSearch(function () use ($name) {
+                    return Author::create([
+                        'name' => $name,
+                    ]);
+                });
             }
             $authors_list->add($author);
         }

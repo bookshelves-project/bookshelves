@@ -12,7 +12,7 @@ class LatestDownloads extends BaseWidget
 {
     protected int|string|array $columnSpan = 'full';
 
-    protected static ?int $sort = 2;
+    protected static ?int $sort = 3;
 
     public function table(Table $table): Table
     {
@@ -29,6 +29,9 @@ class LatestDownloads extends BaseWidget
                     ->badge()
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('downloader_type')
+                    ->label('Type')
+                    ->badge(),
                 Tables\Columns\TextColumn::make('name')
                     ->limit(50)
                     ->tooltip(fn (Download $record) => $record->name)

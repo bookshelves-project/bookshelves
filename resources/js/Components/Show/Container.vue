@@ -13,6 +13,7 @@ export interface DetailsMedia {
   tags?: App.Models.Tag[]
   breadcrumbs?: any[]
   square?: boolean
+  language?: App.Models.Language
 }
 
 const props = defineProps<DetailsMedia>()
@@ -47,19 +48,24 @@ const display = ref<Display>('media')
             v-if="library"
             #before
           >
-            <AppBadge
-              v-if="library"
-              size="md"
-              class="mb-3"
-            >
-              <SvgIcon
-                :name="(library.type as SvgName)"
-                class="w-5 h-5 mr-2"
-              />
-              <span class="text-md">
-                Type : {{ library.type_label }}
-              </span>
-            </AppBadge>
+            <div class="flex items-center mb-3">
+              <AppBadge
+                v-if="library"
+                size="md"
+              >
+                <SvgIcon
+                  :name="(library.type as SvgName)"
+                  class="w-5 h-5 mr-2"
+                />
+                <span class="text-md">
+                  Type : {{ library.type_label }}
+                </span>
+                <ShowLanguageFlag
+                  v-if="language"
+                  :language="language"
+                />
+              </AppBadge>
+            </div>
           </template>
           <template #title>
             <slot name="title" />

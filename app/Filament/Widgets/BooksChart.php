@@ -9,7 +9,7 @@ class BooksChart extends ChartWidget
 {
     protected static ?string $heading = 'Books per month';
 
-    protected static ?int $sort = 1;
+    protected static ?int $sort = 2;
 
     protected static string $color = 'success';
 

@@ -15,17 +15,7 @@ return [
         'discord' => env('BOOKSHELVES_NOTIFY_DISCORD', false),
     ],
 
-    // 'tmdb' => [
-    //     'api_key' => env('BOOKSHELVES_TMDB_API_KEY'),
-    // ],
-
-    // 'download_limit' => env('BOOKSHELVES_DOWNLOAD_LIMIT', 5),
-
-    // 'verbose' => env('BOOKSHELVES_VERBOSE', false),
-
-    // 'notification' => [
-    //     'discord' => env('BOOKSHELVES_NOTIFICATION_DISCORD', false),
-    // ],
+    'verbose' => env('BOOKSHELVES_VERBOSE', false),
 
     'slug' => \Illuminate\Support\Str::slug(env('APP_NAME', 'Bookshelves')),
     'repository_url' => env('BOOKSHELVES_REPOSITORY_URL', 'https://github.com/bookshelves-project'),
@@ -94,7 +84,7 @@ return [
         'disk' => env('BOOKSHELVES_IMAGE_DISK', 'covers'),
         'collection' => env('BOOKSHELVES_IMAGE_COLLECTION', 'covers'),
         'driver' => env('BOOKSHELVES_IMAGE_DRIVER', 'gd'),
-        'format' => env('BOOKSHELVES_IMAGE_FORMAT', 'avif'),
+        'format' => env('BOOKSHELVES_IMAGE_FORMAT', 'webp'),
         'max_height' => env('BOOKSHELVES_IMAGE_MAX_HEIGHT', 1600),
         'conversion' => env('BOOKSHELVES_IMAGE_CONVERSION', true),
         'cover' => [

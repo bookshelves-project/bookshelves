@@ -18,7 +18,7 @@ function logout() {
 </script>
 
 <template>
-  <div class="w-16 md:w-40 self-stretch border-l border-white/5">
+  <div class="w-16 lg:w-40 self-stretch border-l border-white/5">
     <button
       v-if="user"
       class="h-full w-full hover:bg-gray-700/30"

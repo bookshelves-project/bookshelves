@@ -1,0 +1,170 @@
+<?php
+
+namespace App;
+
+use App\Models\Language;
+use Illuminate\Support\Collection;
+use Kiwilan\LaravelNotifier\Facades\Journal;
+use Kiwilan\Steward\Services\DirectoryService;
+
+/**
+ * Some utility functions for bookshelves.
+ */
+class Utils
+{
+    public static function clearCache(): void
+    {
+        DirectoryService::make()->clearDirectory(storage_path('app/cache'));
+        DirectoryService::make()->clearDirectory(storage_path('clockwork'));
+
+        $indexes = [
+            'author',
+            'book',
+            'cover',
+            'language',
+            'library',
+            'publisher',
+            'serie',
+            'tag',
+        ];
+
+        foreach ($indexes as $index) {
+            DirectoryService::make()->clearDirectory(storage_path("app/index/{$index}"));
+        }
+    }
+
+    public static function getIndexPath(string $folder, string|int $filename, ?string $subfolder = null, string $extension = 'dat'): string
+    {
+        $base = storage_path('app'.DIRECTORY_SEPARATOR.'index'.DIRECTORY_SEPARATOR);
+        $base .= $folder.DIRECTORY_SEPARATOR;
+        $filename = strval($filename);
+
+        if ($subfolder) {
+            $base .= $subfolder.DIRECTORY_SEPARATOR;
+        }
+
+        return $base.$filename.'.'.$extension;
+    }
+
+    /**
+     * Save the contents as a JSON file.
+     */
+    public static function saveAsJSON(string $json_path, mixed $contents): bool
+    {
+        self::ensureFileExists($json_path);
+        $flags = config('app.debug') ? JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT : JSON_UNESCAPED_SLASHES;
+
+        try {
+            return file_put_contents($json_path, json_encode($contents, $flags)) !== false;
+        } catch (\Throwable $th) {
+            Journal::error("Utils: failed to save index of {$json_path}", [$th->getMessage()]);
+        }
+
+        return false;
+    }
+
+    /**
+     * Load the contents from a JSON file.
+     */
+    public static function loadFromJSON(string $json_path): mixed
+    {
+        if (! file_exists($json_path)) {
+            return null;
+        }
+
+        $contents = file_get_contents($json_path);
+        if (! $contents) {
+            return null;
+        }
+
+        return json_decode($contents, true);
+    }
+
+    /**
+     * Serialize the contents of a file.
+     */
+    public static function serialize(string $file_path, mixed $contents): bool
+    {
+        self::ensureFileExists($file_path);
+
+        try {
+            return file_put_contents($file_path, serialize($contents));
+        } catch (\Throwable $th) {
+            Journal::error("Utils: failed to save index of {$file_path}", [$th->getMessage()]);
+        }
+
+        return false;
+    }
+
+    /**
+     * Unserialize the contents of a file.
+     */
+    public static function unserialize(string $file_path): mixed
+    {
+        return unserialize(file_get_contents($file_path));
+    }
+
+    /**
+     * Ensure that the file exists and is writable (remove it before creating a new one).
+     */
+    public static function ensureFileExists(string $path, bool $recreate = true): void
+    {
+        self::ensureDirectoryExists($path);
+
+        if ($recreate && file_exists($path)) {
+            unlink($path);
+        }
+        if (! file_exists($path)) {
+            touch($path);
+        }
+    }
+
+    public static function ensureDirectoryExists(string $path): void
+    {
+        $dirname = dirname($path);
+
+        if (is_dir($dirname)) {
+            return;
+        }
+
+        if (file_exists($dirname) && ! is_dir($dirname)) {
+            throw new \RuntimeException("Path '$dirname' exists but is not a directory.");
+        }
+
+        try {
+            mkdir($dirname, 0755, true);
+        } catch (\Throwable $e) {
+            if (! is_dir($dirname)) {
+                throw $e;
+            }
+        }
+    }
+
+    /**
+     * Select the most used language in the author books.
+     *
+     * @param  Collection<int, \App\Models\Book>  $books
+     */
+    public static function selectLang(Collection $books): string
+    {
+        $languages = [];
+        foreach ($books as $book) {
+            $book->load('language');
+            if (! $book->language) {
+                continue;
+            }
+            if (array_key_exists($book->language->slug, $languages)) {
+                $languages[$book->language->slug]++;
+            } else {
+                $languages[$book->language->slug] = 1;
+            }
+        }
+
+        $lang = 'en';
+        if (count($languages) > 0) {
+            $lang = array_search(max($languages), $languages);
+        }
+
+        return $lang;
+    }
+}

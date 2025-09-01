@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 defineProps<{
   authors?: App.Models.Author[]
+  language?: App.Models.Language
 }>()
 </script>
 
@@ -9,6 +10,7 @@ defineProps<{
     v-if="authors"
     class="flex flex-wrap"
   >
+    <span class="mr-1">Written by </span>
     <ILink
       v-for="(author, id) in authors"
       :key="author.id"
@@ -20,5 +22,6 @@ defineProps<{
         class="mr-1"
       >,</span>
     </ILink>
+    <span class="ml-1">in <strong>{{ language?.name }}</strong></span>
   </div>
 </template>

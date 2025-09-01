@@ -39,6 +39,10 @@ trait HasCovers
 
     public function initializeHasCovers(): void
     {
+        $this->fillable = array_merge($this->fillable, [
+            'has_cover',
+        ]);
+
         $this->appends = array_merge($this->appends, [
             'cover_standard',
             'cover_thumbnail',
@@ -47,12 +51,20 @@ trait HasCovers
             'cover_color',
             'cover_path',
         ]);
+
+        $this->casts = array_merge($this->casts, [
+            'has_cover' => 'boolean',
+        ]);
     }
 
     public function registerMediaConversions(?\Spatie\MediaLibrary\MediaCollections\Models\Media $media = null): void
     {
-        /** @var Book|Author|Serie $model */
+        /** @var Book|Author|Serie|null $model */
         $model = $media->getModel()->model_type::find($media->getModel()->model_id);
+        if (! $model) {
+            return;
+        }
+
         $name = $model->title;
         if ($model instanceof Author) {
             $name = $model->name;
@@ -68,31 +80,64 @@ trait HasCovers
         $formatSquare = Bookshelves::imageCoverSquare();
 
         if (Bookshelves::convertCovers()) {
-            Journal::debug('Registering media conversions for '.$name);
+            if (Bookshelves::verbose()) {
+                Journal::debug('Registering media conversions for '.$name);
+            }
+
+            $thumbnail_width = $formatThumbnail['width'];
+            $thumbnail_height = $formatThumbnail['height'];
+
+            $standard_width = $formatStandard['width'];
+            $standard_height = $formatStandard['height'];
+
+            $social_width = $formatSocial['width'];
+            $social_height = $formatSocial['height'];
+
+            $opds_width = $formatOpds['width'];
+            $opds_height = $formatOpds['height'];
+
+            $square_width = $formatSquare['width'];
+            $square_height = $formatSquare['height'];
+
+            if ($this instanceof Book) {
+                if ($this->is_audiobook) {
+                    $thumbnail_width = $square_width;
+                    $thumbnail_height = $square_height;
+
+                    $standard_width = $square_width;
+                    $standard_height = $square_height;
+
+                    $social_width = $square_width;
+                    $social_height = $square_height;
+
+                    $opds_width = $square_width;
+                    $opds_height = $square_height;
+                }
+            }
 
             $this->addMediaConversion(self::CONVERSION_THUMBNAIL)
                 ->performOnCollections(Bookshelves::imageCollection())
-                ->fit(Fit::Crop, $formatThumbnail['width'], $formatThumbnail['height'])
+                ->fit(Fit::Crop, $thumbnail_width, $thumbnail_height)
                 ->format(Bookshelves::imageFormat());
 
             $this->addMediaConversion(self::CONVERSION_STANDARD)
                 ->performOnCollections(Bookshelves::imageCollection())
-                ->fit(Fit::Crop, $formatStandard['width'], $formatStandard['height'])
+                ->fit(Fit::Crop, $standard_width, $standard_height)
                 ->format(Bookshelves::imageFormat());
 
             $this->addMediaConversion(self::CONVERSION_SOCIAL)
                 ->performOnCollections(Bookshelves::imageCollection())
-                ->fit(Fit::Crop, $formatSocial['width'], $formatSocial['height'])
+                ->fit(Fit::Crop, $social_width, $social_height)
                 ->format('jpg');
 
             $this->addMediaConversion(self::CONVERSION_OPDS)
                 ->performOnCollections(Bookshelves::imageCollection())
-                ->fit(Fit::Crop, $formatOpds['width'], $formatOpds['height'])
+                ->fit(Fit::Crop, $opds_width, $opds_height)
                 ->format('jpg');
 
             $this->addMediaConversion(self::CONVERSION_SQUARE)
                 ->performOnCollections(Bookshelves::imageCollection())
-                ->fit(Fit::Crop, $formatSquare['width'], $formatSquare['height'])
+                ->fit(Fit::Crop, $square_width, $square_height)
                 ->format(Bookshelves::imageFormat());
         }
     }
@@ -155,7 +200,7 @@ trait HasCovers
         return $this->getCover(self::CONVERSION_SQUARE);
     }
 
-    public function hasCover(): bool
+    public function hasCoverCollection(): bool
     {
         return $this->getMedia(Bookshelves::imageCollection())->isNotEmpty();
     }

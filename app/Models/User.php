@@ -9,6 +9,7 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Kiwilan\Steward\Enums\UserRoleEnum;
 use Kiwilan\Steward\Traits\HasRole;
@@ -72,7 +73,7 @@ class User extends Authenticatable implements FilamentUser
 
     public static function getCurrentUser(): User|false
     {
-        if (! auth()->check()) {
+        if (! Auth::check()) {
             $firstAdmin = User::where('role', UserRoleEnum::super_admin)->first();
             if (! $firstAdmin) {
                 return User::factory()->create([
@@ -87,7 +88,7 @@ class User extends Authenticatable implements FilamentUser
         }
 
         /** @var User $user */
-        $user = auth()->user();
+        $user = Auth::user();
 
         return $user;
     }

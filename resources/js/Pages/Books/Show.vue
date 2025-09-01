@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { Entity } from '@/Types'
-import { useDownload } from '@/Composables/useDownload'
 import { useUtils } from '@/Composables/useUtils'
 import { useDate, useFetch } from '@kiwilan/typescriptable-laravel'
 
@@ -17,29 +16,30 @@ const breadcrumbs = ref<any[]>([])
 const { laravel } = useFetch()
 const { bytesToHuman, getSize } = useUtils()
 const { formatDate } = useDate()
+const langISO = `(${props.book.language?.slug.toUpperCase()})` || ''
 
 function setBreadcrumbs() {
   breadcrumbs.value = [
+    { label: 'Libraries', route: { name: 'libraries.index' } },
     { label: props.book.library?.name, route: { name: 'libraries.show', params: { library: props.book.library?.slug } } },
-
   ]
 
   if (props.book.serie) {
     breadcrumbs.value.push({
-      label: props.book.serie.title,
+      label: `${props.book.serie.title} ${langISO}`,
       route: { name: 'series.show', params: { library: props.book.library?.slug, serie: props.book.serie.slug } },
     })
   }
 
-  breadcrumbs.value.push({ label: `${props.book.title}`, route: { name: 'books.show', params: { library: props.book.library?.slug, book: props.book.slug } } })
+  breadcrumbs.value.push({ label: `${props.book.title} ${langISO}`, route: { name: 'books.show', params: { library: props.book.library?.slug, book: props.book.slug } } })
 }
 setBreadcrumbs()
 
 const titlePage = computed(() => {
   if (props.book.serie)
-    return `${props.book.serie.title} #${props.book.volume_pad} - ${props.book.title} by ${props.book.authors_names}`
+    return `${props.book.serie.title} #${props.book.volume_pad} - ${props.book.title} by ${props.book.authors_names} ${langISO}`
 
-  return `${props.book.title} by ${props.book.authors_names}`
+  return `${props.book.title} by ${props.book.authors_names} ${langISO}`
 })
 
 async function getRelatedBooks(): Promise<Entity[] | undefined> {
@@ -61,15 +61,12 @@ onMounted(async () => {
 </script>
 
 <template>
-  <App
-    :title="titlePage"
+  <App :title="titlePage"
     :description="book.description"
     :image="book.cover_social"
     :color="book.cover_color"
-    :icon="book.format_icon as SvgName"
-  >
-    <ShowContainer
-      :model="book"
+    :icon="book.format_icon as SvgName">
+    <ShowContainer :model="book"
       :library="book.library"
       :title="book.title"
       :cover="book.cover_standard"
@@ -84,67 +81,57 @@ onMounted(async () => {
       ]"
       :badges="[
         book.page_count ? `${book.page_count} pages` : undefined,
+        book.file?.extension ? `${book.file.extension.toUpperCase()}` : undefined,
         book.isbn10 ? `ISBN-10: ${book.isbn10}` : undefined,
         book.isbn13 ? `ISBN-13: ${book.isbn13}` : undefined,
-        book.language ? `${book.language.name}` : undefined,
         book.format === 'audio' && book.audiobook_tracks_count ? `${book.audiobook_tracks_count} track${book.audiobook_tracks_count > 1 ? 's' : ''}` : undefined,
         book.format === 'audio' && book.audiobook_chapters_number ? `${book.audiobook_chapters_number} chapter${book.audiobook_chapters_number > 1 ? 's' : ''}` : undefined,
         book.format === 'audio' ? `Duration: ${book.audiobook_duration}` : undefined,
       ]"
       :breadcrumbs="breadcrumbs"
       :square="book.library?.type === 'audiobook'"
-    >
+      :language="book.language">
       <template #eyebrow>
-        <ShowAuthors :authors="book.authors" />
+        <ShowAuthors :authors="book.authors"
+          :language="book.language" />
       </template>
       <template #buttons>
-        <DownloadButtons
-          :title="book.title"
+        <DownloadButtons :title="book.title"
           :model="book"
           type="book"
           :size="size"
-          :url="book.download_url"
-        />
+          :url="book.download_url" />
       </template>
-      <template
-        v-if="book.serie"
-        #undertitle
-      >
-        <ILink
-          :href="$route('series.show', { library: book.library?.slug, serie: book.serie?.slug })"
-          class="link"
-        >
+      <template v-if="book.serie"
+        #undertitle>
+        Series:
+        <ILink :href="$route('series.show', { library: book.library?.slug, serie: book.serie?.slug })"
+          class="link">
           {{ book.serie.title }}
         </ILink>
         #{{ props.book.volume_pad }}
       </template>
       <template #swipers>
-        <AppCarousel
-          v-if="book.serie"
+        <AppCarousel v-if="book.serie"
           :title="`${book.serie?.title} series`"
           :url="$route('series.show', { library: book.library?.slug, serie: book.serie?.slug })"
-        >
-          <CardBook
-            v-for="b in book.serie?.books"
+          :ready="book.serie?.books && book.serie?.books.length > 0">
+          <CardBook v-for="b in book.serie?.books"
             :key="b.id"
             :book="b"
             :square="square"
             carousel
-            class="w-56"
-          />
+            class="w-56" />
         </AppCarousel>
-        <AppCarousel
-          v-if="related?.length"
+        <AppCarousel v-if="related?.length"
           :title="`${book.title} related`"
-        >
-          <CardEntity
-            v-for="r in related"
+          :ready="related.length > 0">
+          <CardEntity v-for="r in related"
             :key="r.slug"
             :entity="r"
             :square="square"
             carousel
-            class="w-56"
-          />
+            class="w-56" />
         </AppCarousel>
       </template>
     </ShowContainer>

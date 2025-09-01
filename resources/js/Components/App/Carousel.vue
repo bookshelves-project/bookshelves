@@ -3,6 +3,7 @@ defineProps<{
   title?: string
   url?: string
   padding?: boolean
+  ready?: boolean
 }>()
 
 const scrollEl = ref<HTMLDivElement>()
@@ -34,44 +35,50 @@ function scrollRight() {
   <div>
     <div class="flex items-center">
       <div
-        v-if="title"
         :class="{
           'pl-6': padding,
         }"
-        class="text-2xl font-semibold text-ellipsis truncate max-w-36 md:max-w-full"
+        class="flex items-center space-x-5"
       >
-        {{ title }}
-      </div>
-      <ILink
-        v-if="url"
-        :href="url"
-      >
-        <div class="text-gray-100 hover:text-gray-200 ml-5 bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded-md">
-          See all
+        <div
+          v-if="title"
+          class="text-2xl font-semibold truncate overflow-hidden max-w-36 md:max-w-full"
+        >
+          {{ title }}
         </div>
-      </ILink>
+        <ILink
+          v-if="url"
+          :href="url"
+        >
+          <div class="text-gray-300 hover:text-gray-200 font-medium link">
+            See all
+          </div>
+        </ILink>
+      </div>
       <div class="flex-auto" />
-      <div class="space-x-1 pr-6">
-        <button
-          class="bg-gray-700 hover:bg-gray-800 rounded-md p-0.5"
-          title="Scroll left"
-          @click="scrollLeft()"
-        >
-          <SvgIcon
-            name="arrow-left"
-            class="w-5 h-5"
-          />
-        </button>
-        <button
-          class="bg-gray-700 hover:bg-gray-800 rounded-md p-0.5"
-          title="Scroll right"
-          @click="scrollRight()"
-        >
-          <SvgIcon
-            name="arrow-right"
-            class="w-5 h-5"
-          />
-        </button>
+      <div>
+        <div class="space-x-1 pr-6">
+          <button
+            class="bg-gray-700 hover:bg-gray-800 rounded-md p-0.5"
+            title="Scroll left"
+            @click="scrollLeft()"
+          >
+            <SvgIcon
+              name="arrow-left"
+              class="w-5 h-5"
+            />
+          </button>
+          <button
+            class="bg-gray-700 hover:bg-gray-800 rounded-md p-0.5"
+            title="Scroll right"
+            @click="scrollRight()"
+          >
+            <SvgIcon
+              name="arrow-right"
+              class="w-5 h-5"
+            />
+          </button>
+        </div>
       </div>
     </div>
     <div class="relative mt-3">
@@ -83,6 +90,13 @@ function scrollRight() {
           class="flex gap-6 w-max mt-5 pb-5 pr-6"
         >
           <div v-if="padding" />
+          <template v-if="!ready">
+            <div
+              v-for="i in 10"
+              :key="i"
+              class="bg-gray-800 animate-pulse h-[17rem] w-44 rounded-md"
+            />
+          </template>
           <slot />
         </div>
       </div>

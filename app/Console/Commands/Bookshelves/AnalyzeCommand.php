@@ -2,20 +2,16 @@
 
 namespace App\Console\Commands\Bookshelves;
 
+use App\Engines\Library\LibraryScanner;
 use App\Facades\Bookshelves;
-use App\Jobs\Clean\CleanCoversJob;
-use App\Jobs\Clean\CleanJsonJob;
+use App\Jobs\AnalyzeJob;
 use App\Models\Library;
-use App\Models\Tag;
+use App\Utils;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
-use Kiwilan\LaravelNotifier\Facades\Journal;
+use Illuminate\Support\Facades\Artisan;
 use Kiwilan\Steward\Commands\Commandable;
-use Kiwilan\Steward\Commands\Jobs\JobsClearCommand;
-use Kiwilan\Steward\Commands\Log\LogClearCommand;
 use Kiwilan\Steward\Commands\Model\ModelBackupCommand;
 use Kiwilan\Steward\Commands\Model\ModelRestoreCommand;
-use Kiwilan\Steward\Services\DirectoryService;
 
 /**
  * Main command of Bookshelves to generate Books with relations.
@@ -28,22 +24,24 @@ class AnalyzeCommand extends Commandable
      * @var string
      */
     protected $signature = 'bookshelves:analyze
-                            {--f|fresh : Fresh install}
-                            {--l|limit= : Limit of books to parse}';
+                            {--m|monitor : only monitor files to get their status}
+                            {--f|fresh : fresh install, to delete all files and re-create them}
+                            {--l|limit= : Limit epub files to generate, useful for debug}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Execute `bookshelves:library` for each library, with fresh install option to reset database.';
+    protected $description = 'Scan libraries and create `File`, to get only count use `--m|monitor`';
 
     /**
      * Create a new command instance.
      */
     public function __construct(
-        public bool $fresh = false,
-        public ?int $limit = null,
+        protected bool $monitor = false,
+        protected bool $fresh = false,
+        protected ?int $limit = null,
     ) {
         parent::__construct();
     }
@@ -57,67 +55,54 @@ class AnalyzeCommand extends Commandable
     {
         $this->title();
 
-        $this->fresh = $this->option('fresh') ?: false;
+        $this->monitor = $this->optionBool('monitor');
+        $this->fresh = $this->optionBool('fresh');
         $this->limit = $this->optionInt('limit') ?: null;
+
+        if ($this->monitor) {
+            Library::query()->each(fn (Library $library) => $this->monitor($library));
+
+            return Command::SUCCESS;
+        }
 
         $this->comment('Fresh: '.($this->fresh ? 'yes' : 'no'));
         $this->comment('Limit: '.($this->limit ?: 'no limit'));
+        $this->comment('Queue: '.config('queue.default'));
+        if (config('queue.default') === 'redis') {
+            $this->comment(' Redis processes: '.config('horizon.environments.production.supervisor-1.maxProcesses'));
+        }
+        $this->comment('Convert covers: '.(Bookshelves::convertCovers() ? 'enabled' : 'disabled'));
         $this->newLine();
 
         if ($this->fresh) {
-            $this->info('Clear database... (fresh mode)');
-            $this->clear();
-            $this->newLine();
-
-            $this->info('Create genres... (fresh mode)');
-            $this->genres();
-            $this->newLine();
+            $this->comment('Fresh install: deleting all files...');
+            $this->clearFresh();
         }
 
-        CleanJsonJob::dispatch();
+        Artisan::call('optimize:fresh');
 
-        $msg = 'Analyze libraries...';
-        Journal::info($msg)->toDatabase();
-        $this->info($msg);
-
-        foreach (Library::inOrder() as $library) {
-            $this->call(LibraryCommand::class, [
-                'library-slug' => $library->slug,
-                '--fresh' => $this->fresh,
-                '--limit' => $this->limit,
-            ]);
-        }
-        $this->newLine();
+        Utils::clearCache();
+        AnalyzeJob::dispatch($this->limit, $this->fresh);
 
         return Command::SUCCESS;
     }
 
-    private function clear(): void
+    private function clearFresh(): void
     {
         $this->call(ModelBackupCommand::class, [
             'model' => 'App\Models\User',
         ]);
 
-        $this->call(JobsClearCommand::class);
-
         $this->call('migrate:fresh', ['--seed' => true, '--force' => true]);
         $this->comment('Database reset!');
-
-        $this->call(LogClearCommand::class);
-
-        DirectoryService::make()->clearDirectory(storage_path('app/cache'));
-        DirectoryService::make()->clearDirectory(storage_path('app/data'));
-        DirectoryService::make()->clearDirectory(storage_path('app/debug'));
-        File::deleteDirectory(storage_path('app/public'));
-
-        $path = Bookshelves::exceptionParserLog();
-        File::put($path, json_encode([]));
-        Library::cacheClear();
-        CleanCoversJob::dispatch();
 
         $this->call(ModelRestoreCommand::class, [
             'model' => 'App\Models\User',
         ]);
+
+        $path = Bookshelves::exceptionParserLog();
+        Library::cacheClear();
+
         $this->call('db:seed', [
             '--class' => 'EmptySeeder',
             '--force' => true,
@@ -126,15 +111,30 @@ class AnalyzeCommand extends Commandable
         $this->newLine();
     }
 
-    private function genres(): void
+    private function monitor(Library $library): void
     {
-        $genres = config('bookshelves.tags.genres_list');
+        $verbose = $this->option('verbose');
 
-        foreach ($genres as $genre) {
-            Tag::query()->firstOrCreate([
-                'name' => $genre,
-                'type' => 'genre',
-            ]);
+        $this->line("Scanning library: {$library->name}...");
+        $scanner = LibraryScanner::make($library, $this->limit);
+
+        if (! $scanner->isValid()) {
+            $this->error("Library {$library->name} with path `{$library->path}` is not valid.");
+
+            return;
         }
+
+        if ($verbose) {
+            $this->newLine();
+            $this->table(
+                ['Path'],
+                array_map(fn ($item) => [strlen($item) > 80 ? substr($item, 0, 77).'...' : $item], $scanner->getFilePaths())
+            );
+            $this->newLine();
+        }
+
+        $this->comment("Found {$scanner->getCount()} files in library {$library->name}.");
+        $this->line('Library scanned.');
+        $this->newLine();
     }
 }

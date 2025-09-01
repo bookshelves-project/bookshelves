@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Settings\GeneralSettings;
 use Illuminate\Support\Facades\Cache;
 
 class Bookshelves
@@ -14,6 +15,30 @@ class Bookshelves
     public function superAdminPassword(): string
     {
         return config('bookshelves.super_admin.password');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function tagsGenreList(): array
+    {
+        return (array) config('bookshelves.tags.genres_list');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function tagsForbiddenList(): array
+    {
+        return (array) config('bookshelves.tags.forbidden');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function tagsConvertedList(): array
+    {
+        return (array) config('bookshelves.tags.converted');
     }
 
     public function apiGoogleBooks(): bool
@@ -46,6 +71,11 @@ class Bookshelves
         return config('bookshelves.notify.discord');
     }
 
+    public function verbose(): bool
+    {
+        return config('bookshelves.verbose', false);
+    }
+
     public function appVersion(): string
     {
         $cache = 'app-version';
@@ -65,11 +95,6 @@ class Bookshelves
         return config('bookshelves.analyzer.engine');
     }
 
-    public function analyzerDebug(): bool
-    {
-        return config('bookshelves.analyzer.debug');
-    }
-
     public function authorWikipediaExact(): bool
     {
         return config('bookshelves.authors.wikipedia_exact');
@@ -86,7 +111,7 @@ class Bookshelves
     public function ipsBlockedPattern(): array
     {
         if (config('bookshelves.ips.blocked_pattern')) {
-            return config('bookshelves.ips.blocked_pattern');
+            return (array) config('bookshelves.ips.blocked_pattern');
         }
 
         return [];
@@ -100,6 +125,11 @@ class Bookshelves
         }
 
         return $path;
+    }
+
+    public function displayNotifications(): bool
+    {
+        return app(GeneralSettings::class)->notify;
     }
 
     public function convertCovers(): bool
@@ -130,11 +160,6 @@ class Bookshelves
     public function imageMaxHeight(): int
     {
         return config('bookshelves.image.max_height');
-    }
-
-    public function imageConversion(): bool
-    {
-        return config('bookshelves.image.conversion');
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Enums\BookFormatEnum;
 use App\Models\AudiobookTrack;
 use App\Models\Book;
 
@@ -28,7 +29,7 @@ class BookObserver
      */
     public function deleted(Book $book): void
     {
-        if ($book->file()->exists()) {
+        if ($book->file()->exists() && $book->format !== BookFormatEnum::audio) {
             $book->file()->delete();
         }
 

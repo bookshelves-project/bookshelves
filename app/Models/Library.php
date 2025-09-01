@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\LibraryTypeEnum;
 use App\Models\Scopes\EnabledScope;
 use App\Observers\LibraryObserver;
+use App\Utils;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
@@ -32,13 +33,15 @@ class Library extends Model
         'path_is_valid',
         'is_enabled',
         'sort',
+        'library_scanned_at',
+        'library_modified_at',
     ];
 
     protected $appends = [
         'type_label',
         'is_audiobook',
         'is_book',
-        'is_comic_manga',
+        'is_graphic',
     ];
 
     protected $casts = [
@@ -46,6 +49,8 @@ class Library extends Model
         'path_is_valid' => 'boolean',
         'is_enabled' => 'boolean',
         'sort' => 'integer',
+        'library_scanned_at' => 'datetime',
+        'library_modified_at' => 'datetime',
     ];
 
     public function getTypeLabelAttribute(): ?string
@@ -67,16 +72,16 @@ class Library extends Model
         $items = collect();
 
         $lib_books = self::onlyBooks()->get();
-        $lib_comics_mangas = self::onlyComicsAndMangas()->get();
+        $lib_graphics = self::onlyGraphics()->get();
         $lib_audiobooks = self::onlyAudiobooks()->get();
         $lib_others = self::whereNotIn('type', [
             LibraryTypeEnum::book,
-            LibraryTypeEnum::comic_manga,
+            LibraryTypeEnum::graphic,
             LibraryTypeEnum::audiobook,
         ])->get();
 
         $items = $items->merge($lib_books);
-        $items = $items->merge($lib_comics_mangas);
+        $items = $items->merge($lib_graphics);
         $items = $items->merge($lib_audiobooks);
         $items = $items->merge($lib_others);
 
@@ -100,9 +105,9 @@ class Library extends Model
         return $query->where('type', LibraryTypeEnum::book);
     }
 
-    public function scopeOnlyComicsAndMangas(Builder $query)
+    public function scopeOnlyGraphics(Builder $query)
     {
-        return $query->where('type', LibraryTypeEnum::comic_manga);
+        return $query->where('type', LibraryTypeEnum::graphic);
     }
 
     public function scopeActive(Builder $query)
@@ -120,23 +125,23 @@ class Library extends Model
         return $this->type == LibraryTypeEnum::book;
     }
 
-    public function getIsComicMangaAttribute(): bool
+    public function getIsGraphicAttribute(): bool
     {
-        return $this->type == LibraryTypeEnum::comic_manga;
+        return $this->type == LibraryTypeEnum::graphic;
     }
 
     protected static function countType(Collection $collection): int
     {
-        $count = 0;
-        foreach ($collection as $library) {
-            $path = $library->getJsonPath();
-            if (file_exists($path)) {
-                $json = json_decode(file_get_contents($path), true);
-                $count += count($json);
-            }
-        }
+        // $count = 0;
+        // foreach ($collection as $library) {
+        //     $path = $library->getJsonPath();
+        //     if (file_exists($path)) {
+        //         $json = json_decode(file_get_contents($path), true);
+        //         $count += count($json);
+        //     }
+        // }
 
-        return $count;
+        return 0;
     }
 
     public static function getAudiobooksCount(): int
@@ -149,45 +154,14 @@ class Library extends Model
         return self::countType(Library::onlyBooks()->get());
     }
 
-    public static function getComicsCount(): int
+    public static function getGraphicsCount(): int
     {
-        return self::countType(Library::onlyComicsAndMangas()->get());
+        return self::countType(Library::onlyGraphics()->get());
     }
 
-    public function getJsonCount(): int
+    public function getIndexLibraryPath(): string
     {
-        $path = $this->getJsonPath();
-        if (file_exists($path)) {
-            $json = json_decode(file_get_contents($path), true);
-
-            return count($json);
-        }
-
-        return 0;
-    }
-
-    public static function getJsonDirectory(): string
-    {
-        return storage_path('app/library');
-    }
-
-    public function getJsonName(): string
-    {
-        return "{$this->slug}.json";
-    }
-
-    public function getJsonPath(): string
-    {
-        $name = $this->getJsonName();
-
-        return $this->getJsonDirectory().DIRECTORY_SEPARATOR.$name;
-    }
-
-    public function getJsonDataPath(): string
-    {
-        $name = $this->getJsonName();
-
-        return storage_path("app/data/{$name}");
+        return Utils::getIndexPath('library', $this->id);
     }
 
     public function files(): \Illuminate\Database\Eloquent\Relations\HasMany

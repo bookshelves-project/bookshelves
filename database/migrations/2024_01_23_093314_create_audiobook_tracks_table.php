@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('slug')->nullable();
 
             $table->foreignUlid('book_id')
+                ->index()
+                ->nullable()
                 ->constrained('books')
                 ->cascadeOnDelete();
 
