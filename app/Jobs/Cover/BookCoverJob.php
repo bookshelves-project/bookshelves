@@ -30,6 +30,11 @@ class BookCoverJob implements ShouldQueue
             Journal::debug("BookCoverJob: {$this->book->title}...");
         }
 
+        $is_exists = Book::query()->where('id', $this->book->id)->exists();
+        if (! $is_exists) {
+            return;
+        }
+
         CoverModule::make($this->book);
     }
 }
