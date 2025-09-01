@@ -176,26 +176,6 @@ class BookshelvesUtils
         return storage_path("app/audiobooks/{$name}");
     }
 
-    public static function audiobookParseTitle(?string $title): ?string
-    {
-        if (! $title) {
-            return null;
-        }
-
-        if (! str_contains($title, '#') && ! str_contains($title, ':')) {
-            return $title;
-        }
-
-        // `La Quête d'Ewilan #01 : D'un monde à l'autre`
-        // or `La Quête d'Ewilan 01 : D'un monde à l'autre`
-        // to `D'un monde à l'autre`
-        if (preg_match('/#?\d+\s*:\s*(.*)/', $title, $matches)) {
-            return trim($matches[1]);
-        }
-
-        return $title;
-    }
-
     public static function audiobookParseLang(?string $book_lang, ?string $book_comment): ?string
     {
         if (! $book_lang && ! $book_comment) {
