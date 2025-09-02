@@ -2960,16 +2960,16 @@
         },
         {
             "name": "kiwilan/php-filelist",
-            "version": "0.1.01",
+            "version": "0.1.02",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwilan/php-filelist.git",
-                "reference": "bcca4fcc632ae125ccfa352f7a5c80cd3e67cc40"
+                "reference": "772cedee7aa5c71505963f8f074113171e245271"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwilan/php-filelist/zipball/bcca4fcc632ae125ccfa352f7a5c80cd3e67cc40",
-                "reference": "bcca4fcc632ae125ccfa352f7a5c80cd3e67cc40",
+                "url": "https://api.github.com/repos/kiwilan/php-filelist/zipball/772cedee7aa5c71505963f8f074113171e245271",
+                "reference": "772cedee7aa5c71505963f8f074113171e245271",
                 "shasum": ""
             },
             "require": {
@@ -3006,7 +3006,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kiwilan/php-filelist/issues",
-                "source": "https://github.com/kiwilan/php-filelist/tree/v0.1.01"
+                "source": "https://github.com/kiwilan/php-filelist/tree/v0.1.02"
             },
             "funding": [
                 {
@@ -3014,7 +3014,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-08-24T14:47:08+00:00"
+            "time": "2025-09-02T14:48:45+00:00"
         },
         {
             "name": "kiwilan/php-http-pool",
