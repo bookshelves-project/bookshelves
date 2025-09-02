@@ -81,14 +81,6 @@ class NotifierCommand extends Commandable
         $book->refresh();
         $book->loadMissing(['authors', 'library', 'serie', 'media']);
 
-        if ($book->serie?->title === null) {
-            Journal::warning("{$book->title} no series");
-            $book->to_notify = false;
-            $book->saveNoSearch();
-
-            return;
-        }
-
         $book->to_notify = false;
         $book->saveNoSearch();
 
