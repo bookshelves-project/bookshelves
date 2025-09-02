@@ -2,7 +2,6 @@
 
 namespace App\Filament\Widgets;
 
-use App\Console\Commands\Bookshelves\AnalyzeCommand;
 use App\Jobs\AnalyzeJob;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
@@ -48,7 +47,6 @@ class InfoWidget extends Widget implements HasActions, HasForms
                     ->body('Start analyze command...')
                     ->info()
                     ->send();
-                // Artisan::call(AnalyzeCommand::class);
                 AnalyzeJob::dispatch();
             });
     }
