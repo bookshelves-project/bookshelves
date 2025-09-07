@@ -9,14 +9,14 @@ use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
 class LibraryJob implements ShouldQueue
 {
-    use Batchable, Dispatchable, Queueable;
-
-    private Library $library;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private LibraryScanner $scanner;
 
@@ -24,9 +24,9 @@ class LibraryJob implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        protected int|string $library_id,
-        protected ?int $limit = null,
+        protected Library $library,
         protected bool $fresh = false,
+        protected ?int $limit = null,
     ) {}
 
     /**
@@ -34,7 +34,6 @@ class LibraryJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $this->library = Library::find($this->library_id);
         $this->scanner = LibraryScanner::make($this->library, $this->limit);
         $this->scanner->serialize();
 
