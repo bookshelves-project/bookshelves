@@ -55,6 +55,8 @@ class BookJob implements ShouldQueue
                 'file' => $file->toArray(),
                 'exception' => $th->getMessage(),
             ]);
+
+            return;
         }
 
         if ($ebook->isBadFile()) {
