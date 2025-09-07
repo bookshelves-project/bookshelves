@@ -25,6 +25,8 @@ class PipelineJob implements ShouldQueue
         $fresh = $this->fresh;
         $limit = $this->limit;
 
+        Journal::info('Pipeline started')->toDatabase();
+
         $orchestrator = new \App\Jobs\JobOrchestrator;
         $orchestrator
             ->add('index.libraries', fn () => self::indexLibraries($fresh, $limit))
