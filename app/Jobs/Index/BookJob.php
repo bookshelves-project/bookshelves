@@ -198,7 +198,10 @@ class BookJob implements ShouldQueue
         }
 
         if ($file_id !== null && ! File::where('id', $file_id)->exists()) {
-            Journal::error("BookJob: Cannot assign file_id '$file_id' to book '$book_id' – file does not exist");
+            Journal::error("BookJob: Cannot assign file_id '$file_id' to book '$book_id' – file does not exist", [
+                'book' => $book,
+                'file_id' => $file_id,
+            ]);
 
             return false;
         }
