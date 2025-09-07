@@ -118,10 +118,15 @@ class BookJob implements ShouldQueue
         $book->file()->associate($file->id);
         $book->library()->associate($this->library_id);
         Book::withoutSyncingToSearch(function () use ($book) {
-            $book->saveNoSearch();
+            try {
+                $book->saveNoSearch();
+            } catch (\Throwable $th) {
+                Journal::error("BookJob: Failed to save book {$book->title}", [
+                    'book' => $book->toArray(),
+                    'exception' => $th->getMessage(),
+                ]);
+            }
         });
-
-        $this->safeUpdateBookFile($book->id, $file->id);
 
         if ($ebook->isAudio()) {
             $track = $this->handleAudiobookTrack($ebook);
@@ -191,33 +196,6 @@ class BookJob implements ShouldQueue
             'date_added' => $file_item->getDateAdded(),
             'library_id' => $this->library_id,
         ]);
-    }
-
-    private function safeUpdateBookFile(string $book_id, ?string $file_id): bool
-    {
-        /** @var Book|null $book */
-        $book = Book::find($book_id);
-        if (! $book) {
-            Journal::error("BookJob: Book not found: $book_id");
-
-            return false;
-        }
-
-        if ($file_id !== null && ! File::where('id', $file_id)->exists()) {
-            Journal::error("BookJob: Cannot assign file_id '$file_id' to book '$book_id' – file does not exist", [
-                'book' => $book,
-                'file_id' => $file_id,
-            ]);
-
-            return false;
-        }
-
-        /** @var Book */
-        $book = Book::withoutSyncingToSearch(function () use ($book) {
-            $book->saveQuietly();
-        });
-
-        return true;
     }
 
     /**
