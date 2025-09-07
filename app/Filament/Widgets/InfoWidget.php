@@ -38,12 +38,12 @@ class InfoWidget extends Widget implements HasActions, HasForms
     public function pipelineAction(): Action
     {
         return Action::make('pipeline')
-            ->label('Pipeline')
+            ->label('Analyze')
             ->icon('heroicon-o-magnifying-glass')
             ->outlined()
             ->action(function () {
                 Notification::make()
-                    ->title('Pipeline')
+                    ->title('Analyze')
                     ->body('Start pipeline job...')
                     ->info()
                     ->send();
