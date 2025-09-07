@@ -1,26 +1,15 @@
 <?php
 
-use App\Console\Commands\Bookshelves\AnalyzeCommand;
+use App\Console\Commands\PipelineCommand;
 use Illuminate\Support\Facades\Schedule;
 use Kiwilan\LaravelNotifier\Facades\Journal;
-use Kiwilan\Steward\Commands\Scout\ScoutFreshCommand;
 
-Schedule::command(AnalyzeCommand::class)
-    ->at('02:00')
+Schedule::command(PipelineCommand::class)
+    ->at('00:00')
     ->daily()
     ->onSuccess(function () {
-        Journal::info('AnalyzeCommand executed successfully');
+        Journal::info('PipelineCommand executed successfully');
     })
     ->onFailure(function () {
-        Journal::error('AnalyzeCommand failed')->toDatabase();
-    });
-
-Schedule::command(ScoutFreshCommand::class)
-    ->at('06:00')
-    ->daily()
-    ->onSuccess(function () {
-        Journal::info('ScoutFreshCommand executed successfully');
-    })
-    ->onFailure(function () {
-        Journal::error('ScoutFreshCommand failed')->toDatabase();
+        Journal::error('PipelineCommand failed')->toDatabase();
     });
