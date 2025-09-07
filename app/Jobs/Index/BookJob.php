@@ -77,51 +77,47 @@ class BookJob implements ShouldQueue
 
         $identifiers = IdentifierModule::toCollection($ebook);
 
-        /** @var Book */
-        $book = Book::withoutSyncingToSearch(function () use ($ebook, $identifiers, $file) {
-            $book = Book::create([
-                'title' => $ebook->isAudio()
-                    ? $this->audiobookParseTitle($ebook->getTitle())
-                    : $ebook->getTitle(),
-                'slug' => $ebook->getMetaTitle()->getSlug(),
-                'contributor' => $ebook->isAudio()
-                    ? $ebook->getExtra('encoding')
-                    : $ebook->getExtra('contributor'),
-                'released_on' => $ebook->getPublishDate()?->format('Y-m-d'),
-                'has_series' => $ebook->hasSeries(),
-                'description' => $ebook->getDescriptionAdvanced()->toHtml(2000),
-                'rights' => $ebook->isAudio()
-                    ? $ebook->getExtra('encoding')
-                    : $ebook->getCopyright(255),
-                'volume' => $this->parseVolume($ebook->getVolume()),
-                'format' => $ebook->isAudio()
-                    ? BookFormatEnum::audio
-                    : BookFormatEnum::fromExtension($file->extension),
-                'page_count' => $ebook->isAudio()
-                    ? null
-                    : $ebook->getPagesCount(),
-                'isbn10' => $identifiers->get('isbn10') ?? null,
-                'isbn13' => $identifiers->get('isbn13') ?? null,
-                'identifiers' => $identifiers->toArray(),
-                'added_at' => $ebook->getCreatedAt(),
-                'calibre_timestamp' => $ebook->isAudio()
-                    ? $ebook->getCreatedAt()
-                    : $ebook->getParser()->getEpub()?->getOpf()?->getMetaItem('calibre:timestamp')?->getContents(),
+        $book = Book::create([
+            'title' => $ebook->isAudio()
+                ? $this->audiobookParseTitle($ebook->getTitle())
+                : $ebook->getTitle(),
+            'slug' => $ebook->getMetaTitle()->getSlug(),
+            'contributor' => $ebook->isAudio()
+                ? $ebook->getExtra('encoding')
+                : $ebook->getExtra('contributor'),
+            'released_on' => $ebook->getPublishDate()?->format('Y-m-d'),
+            'has_series' => $ebook->hasSeries(),
+            'description' => $ebook->getDescriptionAdvanced()->toHtml(2000),
+            'rights' => $ebook->isAudio()
+                ? $ebook->getExtra('encoding')
+                : $ebook->getCopyright(255),
+            'volume' => $this->parseVolume($ebook->getVolume()),
+            'format' => $ebook->isAudio()
+                ? BookFormatEnum::audio
+                : BookFormatEnum::fromExtension($file->extension),
+            'page_count' => $ebook->isAudio()
+                ? null
+                : $ebook->getPagesCount(),
+            'isbn10' => $identifiers->get('isbn10') ?? null,
+            'isbn13' => $identifiers->get('isbn13') ?? null,
+            'identifiers' => $identifiers->toArray(),
+            'added_at' => $ebook->getCreatedAt(),
+            'calibre_timestamp' => $ebook->isAudio()
+                ? $ebook->getCreatedAt()
+                : $ebook->getParser()->getEpub()?->getOpf()?->getMetaItem('calibre:timestamp')?->getContents(),
 
-                'is_audiobook' => $ebook->isAudio(),
-                'audiobook_narrators' => $ebook->isAudio() ? $ebook->getExtra('narrators') : null,
-                'audiobook_chapters' => $ebook->isAudio() ? $ebook->getExtra('chapters') : null,
-            ]);
+            'is_audiobook' => $ebook->isAudio(),
+            'audiobook_narrators' => $ebook->isAudio() ? $ebook->getExtra('narrators') : null,
+            'audiobook_chapters' => $ebook->isAudio() ? $ebook->getExtra('chapters') : null,
+        ]);
 
-            $book->file()->associate($file);
-            $book->library()->associate($this->library_id);
-            if (! $this->fresh) {
-                $book->to_notify = true;
-            }
-            $book->save();
+        $book->file()->associate($file);
+        $book->library()->associate($this->library_id);
+        if (! $this->fresh) {
+            $book->to_notify = true;
+        }
 
-            return $book;
-        });
+        $this->safeUpdateBookFile($book->id, $file->id);
 
         if ($ebook->isAudio()) {
             $track = $this->handleAudiobookTrack($ebook);
@@ -191,6 +187,32 @@ class BookJob implements ShouldQueue
             'date_added' => $file_item->getDateAdded(),
             'library_id' => $this->library_id,
         ]);
+    }
+
+    private function safeUpdateBookFile(string $book_id, ?string $file_id)
+    {
+        /** @var Book|null $book */
+        $book = Book::find($book_id);
+        if (! $book) {
+            Journal::error("BookJob: Book not found: $book_id");
+
+            return false;
+        }
+
+        if ($file_id !== null && ! File::where('id', $file_id)->exists()) {
+            Journal::error("BookJob: Cannot assign file_id '$file_id' to book '$book_id' – file does not exist");
+
+            return false;
+        }
+
+        $book->file_id = $file_id;
+
+        /** @var Book */
+        $book = Book::withoutSyncingToSearch(function () use ($book) {
+            $book->saveQuietly();
+        });
+
+        return true;
     }
 
     /**
