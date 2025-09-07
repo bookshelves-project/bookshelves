@@ -30,9 +30,9 @@ class PipelineJob implements ShouldQueue
             ->add('index.libraries', fn () => self::indexLibraries($fresh, $limit))
             ->add('index.books', fn () => self::indexBooks($fresh))
             ->add('clean.audiobooks', fn () => self::cleanAudiobooks())
+            ->add('book.covers', fn () => self::bookCovers())
             ->add('index.series', fn () => self::indexSeries())
             ->add('indexes', fn () => self::indexes())
-            ->add('book.covers', fn () => self::bookCovers())
             ->add('serie.covers', fn () => self::serieCovers())
             ->add('clean', fn () => self::clean())
             ->add('scout', fn () => self::scout())
@@ -79,6 +79,14 @@ class PipelineJob implements ShouldQueue
         return [new \App\Jobs\Clean\CleanAudiobookJob];
     }
 
+    public static function bookCovers(): array
+    {
+        return \App\Models\Book::where('has_cover', false)
+            ->get()
+            ->map(fn (\App\Models\Book $book) => new \App\Jobs\Cover\BookCoverJob($book))
+            ->toArray();
+    }
+
     public static function indexes(): array
     {
         return [
@@ -92,14 +100,6 @@ class PipelineJob implements ShouldQueue
     public static function indexSeries(): array
     {
         return [new \App\Jobs\Index\SerieJob];
-    }
-
-    public static function bookCovers(): array
-    {
-        return \App\Models\Book::where('has_cover', false)
-            ->get()
-            ->map(fn (\App\Models\Book $book) => new \App\Jobs\Cover\BookCoverJob($book))
-            ->toArray();
     }
 
     public static function serieCovers(): array
