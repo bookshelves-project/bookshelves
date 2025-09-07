@@ -46,7 +46,16 @@ class BookJob implements ShouldQueue
         }
 
         $file = $this->convertFileItem($file_item);
-        $ebook = Ebook::read($this->file_path);
+        try {
+            $ebook = Ebook::read($this->file_path);
+        } catch (\Throwable $th) {
+            Journal::error("BookJob: Failed to read ebook {$file->basename}", [
+                'path' => $this->file_path,
+                'is_exists' => file_exists($this->file_path),
+                'file' => $file->toArray(),
+                'exception' => $th->getMessage(),
+            ]);
+        }
 
         if ($ebook->isBadFile()) {
             Journal::warning("{$file->basename} is bad file, trying to read again...");
