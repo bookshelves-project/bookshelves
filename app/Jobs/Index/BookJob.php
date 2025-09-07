@@ -16,6 +16,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\LaravelNotifier\Facades\Journal;
+use Throwable;
 
 class BookJob implements ShouldQueue
 {
@@ -252,5 +253,17 @@ class BookJob implements ShouldQueue
             'chapters' => $ebook->getExtra('chapters'),
             'added_at' => $ebook->getCreatedAt(),
         ]);
+    }
+
+    public function failed(?Throwable $exception): void
+    {
+        Journal::error("BookJob failed for file {$this->file_path} in library {$this->library_id}.", [
+            'exception' => $exception?->getMessage(),
+            'file_path' => $this->file_path,
+            'library_id' => $this->library_id,
+            'position' => $this->position,
+        ])
+            ->toDatabase()
+            ->toNotifier('discord');
     }
 }
