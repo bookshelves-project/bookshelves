@@ -189,7 +189,7 @@ class BookJob implements ShouldQueue
         ]);
     }
 
-    private function safeUpdateBookFile(string $book_id, ?string $file_id)
+    private function safeUpdateBookFile(string $book_id, ?string $file_id): bool
     {
         /** @var Book|null $book */
         $book = Book::find($book_id);
