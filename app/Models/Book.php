@@ -70,6 +70,7 @@ class Book extends Model implements HasMedia
         'updated_at',
         'added_at',
         'file_id',
+        'library_id',
     ];
 
     protected $query_limit = 32;

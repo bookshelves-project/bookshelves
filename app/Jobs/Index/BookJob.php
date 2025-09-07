@@ -14,20 +14,22 @@ use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 use Throwable;
 
 class BookJob implements ShouldQueue
 {
-    use Batchable, Dispatchable, Queueable;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * Create a new job instance.
      */
     public function __construct(
         public string $file_path,
-        public int|string $library_id,
+        public string|int $library_id,
         public string $position,
         public bool $fresh = false
     ) {}
@@ -77,6 +79,7 @@ class BookJob implements ShouldQueue
 
         $identifiers = IdentifierModule::toCollection($ebook);
 
+        /** @var Book */
         $book = Book::create([
             'title' => $ebook->isAudio()
                 ? $this->audiobookParseTitle($ebook->getTitle())
@@ -109,13 +112,8 @@ class BookJob implements ShouldQueue
             'is_audiobook' => $ebook->isAudio(),
             'audiobook_narrators' => $ebook->isAudio() ? $ebook->getExtra('narrators') : null,
             'audiobook_chapters' => $ebook->isAudio() ? $ebook->getExtra('chapters') : null,
+            'to_notify' => ! $this->fresh,
         ]);
-
-        $book->file()->associate($file);
-        $book->library()->associate($this->library_id);
-        if (! $this->fresh) {
-            $book->to_notify = true;
-        }
 
         $this->safeUpdateBookFile($book->id, $file->id);
 
@@ -205,7 +203,8 @@ class BookJob implements ShouldQueue
             return false;
         }
 
-        $book->file_id = $file_id;
+        $book->file()->associate($file_id);
+        $book->library()->associate($this->library_id);
 
         /** @var Book */
         $book = Book::withoutSyncingToSearch(function () use ($book) {
