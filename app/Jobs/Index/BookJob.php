@@ -115,6 +115,12 @@ class BookJob implements ShouldQueue
             'to_notify' => ! $this->fresh,
         ]);
 
+        $book->file()->associate($file->id);
+        $book->library()->associate($this->library_id);
+        Book::withoutSyncingToSearch(function () use ($book) {
+            $book->saveNoSearch();
+        });
+
         $this->safeUpdateBookFile($book->id, $file->id);
 
         if ($ebook->isAudio()) {
@@ -205,9 +211,6 @@ class BookJob implements ShouldQueue
 
             return false;
         }
-
-        $book->file()->associate($file_id);
-        $book->library()->associate($this->library_id);
 
         /** @var Book */
         $book = Book::withoutSyncingToSearch(function () use ($book) {
