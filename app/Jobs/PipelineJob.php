@@ -33,11 +33,11 @@ class PipelineJob implements ShouldQueue
             ->add('index.books', fn () => self::indexBooks($fresh))
             ->add('clean.audiobooks', fn () => self::cleanAudiobooks())
             ->add('book.covers', fn () => self::bookCovers())
-            ->add('index.series', fn () => self::indexSeries())
             ->add('indexes', fn () => self::indexes())
+            ->add('index.series', fn () => self::indexSeries())
+            ->add('scout', fn () => self::scout())
             ->add('serie.covers', fn () => self::serieCovers())
             ->add('clean', fn () => self::clean())
-            ->add('scout', fn () => self::scout())
             ->dispatch();
     }
 
@@ -104,6 +104,11 @@ class PipelineJob implements ShouldQueue
         return [new \App\Jobs\Index\SerieJob];
     }
 
+    public static function scout(): array
+    {
+        return [new \App\Jobs\ScoutJob];
+    }
+
     public static function serieCovers(): array
     {
         return \App\Models\Serie::where('has_cover', false)
@@ -119,10 +124,5 @@ class PipelineJob implements ShouldQueue
             new \App\Jobs\Clean\CleanNotifyJob,
             new \App\Jobs\Clean\CleanJob,
         ];
-    }
-
-    public static function scout(): array
-    {
-        return [new \App\Jobs\ScoutJob];
     }
 }
