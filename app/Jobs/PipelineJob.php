@@ -32,10 +32,13 @@ class PipelineJob implements ShouldQueue
             ->add('index.libraries', fn () => self::indexLibraries($fresh, $limit))
             ->add('index.books', fn () => self::indexBooks($fresh))
             ->add('clean.audiobooks', fn () => self::cleanAudiobooks())
-            ->add('book.covers', fn () => self::bookCovers())
-            ->add('indexes', fn () => self::indexes())
+            ->add('index.languages', fn () => self::indexLanguages())
+            ->add('index.publishers', fn () => self::indexPublishers())
+            ->add('index.tags', fn () => self::indexTags())
+            ->add('index.authors', fn () => self::indexAuthors())
             ->add('index.series', fn () => self::indexSeries())
             ->add('scout', fn () => self::scout())
+            ->add('book.covers', fn () => self::bookCovers())
             ->add('serie.covers', fn () => self::serieCovers())
             ->add('clean', fn () => self::clean())
             ->dispatch();
@@ -81,22 +84,24 @@ class PipelineJob implements ShouldQueue
         return [new \App\Jobs\Clean\CleanAudiobookJob];
     }
 
-    public static function bookCovers(): array
+    public static function indexLanguages(): array
     {
-        return \App\Models\Book::where('has_cover', false)
-            ->get()
-            ->map(fn (\App\Models\Book $book) => new \App\Jobs\Cover\BookCoverJob($book))
-            ->toArray();
+        return [new \App\Jobs\Index\LanguageJob];
     }
 
-    public static function indexes(): array
+    public static function indexPublishers(): array
     {
-        return [
-            new \App\Jobs\Index\LanguageJob,
-            new \App\Jobs\Index\PublisherJob,
-            new \App\Jobs\Index\TagJob,
-            new \App\Jobs\Index\AuthorJob,
-        ];
+        return [new \App\Jobs\Index\PublisherJob];
+    }
+
+    public static function indexTags(): array
+    {
+        return [new \App\Jobs\Index\TagJob];
+    }
+
+    public static function indexAuthors(): array
+    {
+        return [new \App\Jobs\Index\AuthorJob];
     }
 
     public static function indexSeries(): array
@@ -107,6 +112,14 @@ class PipelineJob implements ShouldQueue
     public static function scout(): array
     {
         return [new \App\Jobs\ScoutJob];
+    }
+
+    public static function bookCovers(): array
+    {
+        return \App\Models\Book::where('has_cover', false)
+            ->get()
+            ->map(fn (\App\Models\Book $book) => new \App\Jobs\Cover\BookCoverJob($book))
+            ->toArray();
     }
 
     public static function serieCovers(): array
