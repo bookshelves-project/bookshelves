@@ -80,7 +80,7 @@ class BookJob implements ShouldQueue
         $identifiers = IdentifierModule::toCollection($ebook);
 
         /** @var Book */
-        $book = Book::create([
+        $book = new Book([
             'title' => $ebook->isAudio()
                 ? $this->audiobookParseTitle($ebook->getTitle())
                 : $ebook->getTitle(),
@@ -115,11 +115,11 @@ class BookJob implements ShouldQueue
             'to_notify' => ! $this->fresh,
         ]);
 
-        $book->file()->associate($file->id);
-        $book->library()->associate($this->library_id);
-        Book::withoutSyncingToSearch(function () use ($book) {
+        Book::withoutSyncingToSearch(function () use ($book, $file) {
             try {
-                $book->saveNoSearch();
+                $book->file()->associate($file->id);
+                $book->library()->associate($this->library_id);
+                $book->saveQuietly();
             } catch (\Throwable $th) {
                 Journal::error("BookJob: Failed to save book {$book->title}", [
                     'book' => $book->toArray(),
