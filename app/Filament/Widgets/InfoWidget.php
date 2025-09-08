@@ -35,9 +35,9 @@ class InfoWidget extends Widget implements HasActions, HasForms
         return null;
     }
 
-    public function pipelineAction(): Action
+    public function analyzeAction(): Action
     {
-        return Action::make('pipeline')
+        return Action::make('analyze')
             ->label('Analyze')
             ->icon('heroicon-o-magnifying-glass')
             ->outlined()
