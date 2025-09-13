@@ -58,7 +58,7 @@ class MainController extends Controller
         };
         $description = match ($type) {
             'book' => $media->description,
-            'author' => $media->description,
+            'author' => "{$media->name} is the author of {$media->books_count} book".($media->books_count > 1 ? 's' : '')." and {$media->series_count} serie".($media->series_count > 1 ? 's' : '').' on Bookshelves.',
             'serie' => $media->description,
             default => null,
         };
