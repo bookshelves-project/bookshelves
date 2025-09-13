@@ -26,54 +26,35 @@ const display = ref<Display>('media')
 
 <template>
   <div class="relative inline-block min-h-screen w-full overflow-hidden">
-    <div
-      v-if="backdrop"
+    <div v-if="backdrop"
       class="absolute inset-0 w-full bg-cover bg-fixed bg-center bg-no-repeat opacity-20 blur-md"
-      :style="`background-image: url('${backdrop}');`"
-    />
+      :style="`background-image: url('${backdrop}');`" />
     <div class="main-container relative z-10 py-6">
       <slot name="breadcrumbs" />
-      <Breadcrumbs
-        v-if="breadcrumbs"
+      <Breadcrumbs v-if="breadcrumbs"
         :breadcrumbs="breadcrumbs"
-        class="hidden lg:block"
-      />
-      <Transition
-        name="fade"
-        mode="out-in"
-      >
-        <ShowMedia
-          v-if="display === 'media'"
-          v-bind="props"
-        >
-          <template
-            v-if="library"
-            #before
-          >
+        class="hidden lg:block" />
+      <Transition name="fade"
+        mode="out-in">
+        <ShowMedia v-if="display === 'media'"
+          v-bind="props">
+          <template v-if="library"
+            #before>
             <div class="flex items-center gap-x-6 mb-3">
-              <AppBadge
-                v-if="library"
-                size="md"
-              >
-                <SvgIcon
-                  :name="(library.type as SvgName)"
-                  class="w-5 h-5 mr-2"
-                />
+              <AppBadge v-if="library"
+                size="md">
+                <SvgIcon :name="(library.type as SvgName)"
+                  class="w-5 h-5 mr-2" />
                 <span class="text-md">
                   Type : {{ library.type_label }}
                 </span>
-                <ShowLanguageFlag
-                  v-if="language"
-                  :language="language"
-                />
+                <ShowLanguageFlag v-if="language"
+                  :language="language" />
               </AppBadge>
               <div class="">
-                <a
-                  :href="$route('social.preview', { type, id })"
-                  class="font-semibold text-gray-300 hover:text-white link"
-                >Share {{ library.type_label }} <span
-                  aria-hidden="true"
-                >→</span></a>
+                <a :href="$route('social.preview', { type, id })"
+                  class="font-semibold text-gray-300 hover:text-white link">Share {{ type }} <span
+                    aria-hidden="true">→</span></a>
               </div>
             </div>
           </template>
