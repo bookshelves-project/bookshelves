@@ -2,6 +2,7 @@
 import type { DetailsMedia } from './Container.vue'
 
 const props = defineProps<DetailsMedia>()
+
 const propertiesList = computed(() => {
   return props.properties?.filter(property => property)
 })
@@ -42,7 +43,11 @@ const tagsList = computed(() => {
             {{ eyebrow }}
             <slot name="eyebrow" />
           </div>
-          <h2 class="mt-1 text-3xl font-semibold">
+          <h2 class="mt-1 text-3xl font-semibold relative">
+            <a
+              href="/"
+              class="absolute inset-0"
+            />
             <slot name="title" />
             {{ title }}
           </h2>

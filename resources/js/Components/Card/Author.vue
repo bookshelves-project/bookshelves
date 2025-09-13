@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { useFetch } from '@kiwilan/typescriptable-laravel'
-
 const props = defineProps<{
   author: App.Models.Author
 }>()

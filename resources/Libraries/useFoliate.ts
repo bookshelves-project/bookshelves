@@ -1,4 +1,3 @@
-import type { Ebook } from '@/Types'
 import { FoliateEngine } from './Foliate'
 // import * as foliate from './Foliate/library/viewer'
 

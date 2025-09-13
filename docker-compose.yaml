@@ -24,7 +24,7 @@ services:
     depends_on:
       - debian_app
     ports:
-      - "${APP_PORT}:80"
+      - '${APP_PORT}:80'
     volumes:
       - ./src:/app:ro
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro

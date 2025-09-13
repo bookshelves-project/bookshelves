@@ -30,7 +30,8 @@ onMounted(async () => {
     :icon="serie.format_icon as SvgName"
   >
     <ShowContainer
-      :model="serie"
+      :id="serie.id"
+      type="serie"
       :library="serie.library"
       :title="`${serie.title}'s Series`"
       :cover="serie.cover_standard"

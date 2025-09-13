@@ -14,6 +14,8 @@ export interface DetailsMedia {
   breadcrumbs?: any[]
   square?: boolean
   language?: App.Models.Language
+  type: 'book' | 'author' | 'serie'
+  id: string | number
 }
 
 const props = defineProps<DetailsMedia>()
@@ -48,7 +50,7 @@ const display = ref<Display>('media')
             v-if="library"
             #before
           >
-            <div class="flex items-center mb-3">
+            <div class="flex items-center gap-x-6 mb-3">
               <AppBadge
                 v-if="library"
                 size="md"
@@ -65,6 +67,14 @@ const display = ref<Display>('media')
                   :language="language"
                 />
               </AppBadge>
+              <div class="">
+                <a
+                  :href="$route('social.preview', { type, id })"
+                  class="font-semibold text-gray-300 hover:text-white link"
+                >Share {{ library.type_label }} <span
+                  aria-hidden="true"
+                >→</span></a>
+              </div>
             </div>
           </template>
           <template #title>
@@ -95,9 +105,11 @@ const display = ref<Display>('media')
 .tab {
   @apply whitespace-nowrap border-b-2 py-4 px-4 text-sm font-medium;
 }
+
 .tab-active {
   @apply border-purple-300 text-purple-300;
 }
+
 .tab-inactive {
   @apply border-transparent text-gray-400 hover:border-gray-400 hover:text-gray-100;
 }

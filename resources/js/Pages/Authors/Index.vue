@@ -8,22 +8,30 @@ defineProps<{
 </script>
 
 <template>
-  <App :title="title"
-    icon="quill">
-    <Listing :query="query"
+  <App
+    :title="title"
+    icon="quill"
+  >
+    <Listing
+      :query="query"
       :sortable="[
         { label: 'Name', value: 'name' },
         { label: 'Lastname', value: 'lastname' },
         { label: 'Firstname', value: 'firstname' },
         { label: 'Updated at', value: 'updated_at' },
-      ]">
-      <template v-if="breadcrumbs"
-        #breadcrumbs>
+      ]"
+    >
+      <template
+        v-if="breadcrumbs"
+        #breadcrumbs
+      >
         <Breadcrumbs :breadcrumbs="breadcrumbs" />
       </template>
-      <CardAuthor v-for="author in query.data"
+      <CardAuthor
+        v-for="author in query.data"
         :key="author.id"
-        :author="author" />
+        :author="author"
+      />
     </Listing>
   </App>
 </template>

@@ -51,7 +51,8 @@ onMounted(() => {
     icon="quill"
   >
     <ShowContainer
-      :model="author"
+      :id="author.id"
+      type="author"
       :title="author.name"
       :cover="author.cover_standard"
       :cover-color="author.cover_color"
@@ -69,6 +70,14 @@ onMounted(() => {
         `Lastname: ${author.lastname}`,
       ]"
     >
+      <template #bottom>
+        <div class="">
+          <a
+            :href="$route('social.preview', { type: 'author', id: author.id })"
+            class="font-semibold text-gray-300 hover:text-white link"
+          >Share Author <span aria-hidden="true">→</span></a>
+        </div>
+      </template>
       <template #swipers>
         <div
           v-if="books.length || series.length"

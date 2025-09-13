@@ -30,6 +30,13 @@ return [
                 'api',
             ],
         ],
+        app_path('Http/Controllers/Preview') => [
+            'prefix' => 'preview',
+            'middleware' => [
+                'web',
+                'api',
+            ],
+        ],
         /*
         app_path('Http/Controllers/Api') => [
            'prefix' => 'api',

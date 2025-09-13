@@ -206,6 +206,12 @@ Execute scan command to get a preview of scannable books (libraries have to be c
 php artisan bookshelves:scan
 ```
 
+## Tailwind CSS for preview
+
+```bash
+npx tailwindcss -i ./resources/css/preview.css -o ./public/assets/preview.css -c ./public/assets/tailwind.config.preview.js -wm
+```
+
 ## Tests
 
 Create a `.env.testing` file
