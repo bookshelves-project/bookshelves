@@ -30,6 +30,7 @@ class CleanJob implements ShouldQueue
         $this->cleanBooks();
         $this->cleanAuthors();
         $this->cleanSeries();
+        $this->cleanTags();
 
         DirectoryService::make()->clearDirectory(storage_path('app/cache'));
     }
@@ -87,6 +88,26 @@ class CleanJob implements ShouldQueue
 
         foreach ($series as $serie) {
             $serie->delete();
+        }
+    }
+
+    /**
+     * Clean Tags without Books.
+     */
+    private function cleanTags(): void
+    {
+        $tags = \App\Models\Tag::query()
+            ->whereDoesntHave('books')
+            ->get();
+
+        if ($tags->count() > 0) {
+            Journal::info("CleanJob: tags {$tags->count()} to delete.");
+            /** @var \App\Models\Tag $tag */
+            foreach ($tags as $tag) {
+                $tag->books()->detach();
+                $tag->series()->detach();
+                $tag->delete();
+            }
         }
     }
 }
