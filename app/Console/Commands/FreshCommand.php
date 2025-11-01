@@ -7,6 +7,7 @@ use App\Models\Library;
 use App\Utils;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schema;
 use Kiwilan\Steward\Commands\Commandable;
 use Kiwilan\Steward\Commands\Log\LogClearCommand;
 use Kiwilan\Steward\Commands\Model\ModelBackupCommand;
@@ -46,6 +47,11 @@ class FreshCommand extends Commandable
     private function clearFresh(): void
     {
         $this->call('horizon:clear', ['--force' => true]);
+
+        $is_exists = Schema::hasTable('users');
+        if (! $is_exists) {
+            $this->call('migrate:fresh', ['--seed' => true, '--force' => true]);
+        }
 
         $this->call(ModelBackupCommand::class, [
             'model' => 'App\Models\User',
