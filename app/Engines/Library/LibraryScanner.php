@@ -49,6 +49,10 @@ class LibraryScanner
         array $skip_extensions = [],
     ): ?self {
         $path = $library->path;
+        if (! file_exists($path)) {
+            Journal::error("LibraryScanner: Book not exists: {$path}");
+        }
+
         $self = new self($library, $path, $library->path_is_valid);
         $self->skip_extensions = $skip_extensions;
         $self->modified_at = new Carbon('@'.filemtime($path), config('app.timezone'));
