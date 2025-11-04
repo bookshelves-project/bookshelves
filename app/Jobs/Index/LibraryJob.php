@@ -35,6 +35,10 @@ class LibraryJob implements ShouldQueue
     public function handle(): void
     {
         $this->scanner = LibraryScanner::make($this->library, $this->limit);
+        if (! $this->scanner) {
+            Journal::warning("LibraryJob: Skip {$this->library->name} because scanner fails.");
+        }
+
         $this->scanner->serialize();
 
         Journal::info("LibraryScanJob: Scanning library: {$this->library->name}...");
