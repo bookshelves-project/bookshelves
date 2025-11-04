@@ -205,7 +205,7 @@ class LibraryScanner
         $path = $path ?? $this->library->getIndexLibraryPath();
 
         if (! $this->is_valid) {
-            Journal::error("LibraryScanner: {$this->library->name} path not valid: {$path}");
+            Journal::error("LibraryScanner: {$this->library->name} path not valid: {$this->library->path}");
 
             return false;
         }
