@@ -7,9 +7,9 @@ import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  // build: {
-  //   ssr: true,
-  // },
+  build: {
+    ssr: true,
+  },
   resolve: {
     alias: {
       '@': '/resources/js',
