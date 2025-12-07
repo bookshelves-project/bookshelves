@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
             \Spatie\Health\Checks\Checks\CacheCheck::new(),
             \Spatie\Health\Checks\Checks\DebugModeCheck::new(),
             \Spatie\Health\Checks\Checks\EnvironmentCheck::new(),
-            \Spatie\Health\Checks\Checks\MeilisearchCheck::new()->url(config('meilisearch.host')),
+            \Spatie\Health\Checks\Checks\MeilisearchCheck::new()->url(config('scout.meilisearch.host')),
             \Spatie\Health\Checks\Checks\PingCheck::new()->url(config('app.url')),
             \Spatie\Health\Checks\Checks\QueueCheck::new(),
             \Spatie\Health\Checks\Checks\RedisCheck::new(),
