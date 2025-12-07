@@ -7,15 +7,15 @@ return [
      * can use multiple stores at the same time.
      */
     'result_stores' => [
-        // Spatie\Health\ResultStores\EloquentHealthResultStore::class => [
-        //     'connection' => env('HEALTH_DB_CONNECTION', env('DB_CONNECTION')),
-        //     'model' => Spatie\Health\Models\HealthCheckResultHistoryItem::class,
-        //     'keep_history_for_days' => 5,
-        // ],
-
-        Spatie\Health\ResultStores\CacheHealthResultStore::class => [
-            'store' => 'redis',
+        Spatie\Health\ResultStores\EloquentHealthResultStore::class => [
+            'connection' => env('HEALTH_DB_CONNECTION', env('DB_CONNECTION')),
+            'model' => Spatie\Health\Models\HealthCheckResultHistoryItem::class,
+            'keep_history_for_days' => 5,
         ],
+
+        // Spatie\Health\ResultStores\CacheHealthResultStore::class => [
+        //     'store' => 'redis',
+        // ],
 
         // Spatie\Health\ResultStores\JsonFileHealthResultStore::class => [
         //     'disk' => 's3',
