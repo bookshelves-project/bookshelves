@@ -17,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('bookshelves', fn () => new \App\Bookshelves);
         $this->app->bind('opds-setup', fn () => new \App\OpdsSetup);
 
+        // Check health on `/health?fresh`
         \Spatie\Health\Facades\Health::checks([
             \Spatie\Health\Checks\Checks\UsedDiskSpaceCheck::new(),
             \Spatie\Health\Checks\Checks\DatabaseCheck::new(),
