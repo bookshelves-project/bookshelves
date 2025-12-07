@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
             \Spatie\Health\Checks\Checks\DebugModeCheck::new(),
             \Spatie\Health\Checks\Checks\EnvironmentCheck::new(),
             \Spatie\Health\Checks\Checks\MeilisearchCheck::new(),
-            \Spatie\Health\Checks\Checks\PingCheck::new(),
+            \Spatie\Health\Checks\Checks\PingCheck::new()->url(config('app.url')),
             \Spatie\Health\Checks\Checks\QueueCheck::new(),
             \Spatie\Health\Checks\Checks\RedisCheck::new(),
             \Spatie\Health\Checks\Checks\ScheduleCheck::new(),
