@@ -52,6 +52,7 @@
     "meilisearch/meilisearch-php": "^1.7",
     "opcodesio/log-viewer": "^3.6",
     "predis/predis": "^3.2",
+    "spatie/laravel-health": "^1.34",
     "spatie/laravel-medialibrary": "^11.0.0",
     "spatie/laravel-ray": "^1.35",
     "spatie/laravel-route-attributes": "^1.21",

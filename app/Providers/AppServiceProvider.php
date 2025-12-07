@@ -43,5 +43,19 @@ class AppServiceProvider extends ServiceProvider
             /** @var \App\Models\User $user */
             return $user->isAdmin() || $user->isSuperAdmin();
         });
+
+        \Spatie\Health\Facades\Health::checks([
+            \Spatie\Health\Checks\Checks\UsedDiskSpaceCheck::new(),
+            \Spatie\Health\Checks\Checks\DatabaseCheck::new(),
+            \Spatie\Health\Checks\Checks\HorizonCheck::new(),
+            \Spatie\Health\Checks\Checks\CacheCheck::new(),
+            \Spatie\Health\Checks\Checks\DebugModeCheck::new(),
+            \Spatie\Health\Checks\Checks\EnvironmentCheck::new(),
+            \Spatie\Health\Checks\Checks\MeilisearchCheck::new(),
+            \Spatie\Health\Checks\Checks\PingCheck::new(),
+            \Spatie\Health\Checks\Checks\QueueCheck::new(),
+            \Spatie\Health\Checks\Checks\RedisCheck::new(),
+            \Spatie\Health\Checks\Checks\ScheduleCheck::new(),
+        ]);
     }
 }
