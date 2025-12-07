@@ -13,3 +13,6 @@ Schedule::command(PipelineCommand::class)
     ->onFailure(function () {
         Journal::error('PipelineCommand failed')->toDatabase();
     });
+
+Schedule::command(\Spatie\Health\Commands\DispatchQueueCheckJobsCommand::class)->everyMinute();
+Schedule::command(\Spatie\Health\Commands\ScheduleCheckHeartbeatCommand::class)->everyMinute();
