@@ -16,21 +16,6 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind('bookshelves', fn () => new \App\Bookshelves);
         $this->app->bind('opds-setup', fn () => new \App\OpdsSetup);
-
-        // Check health on `/health?fresh`
-        \Spatie\Health\Facades\Health::checks([
-            \Spatie\Health\Checks\Checks\UsedDiskSpaceCheck::new(),
-            \Spatie\Health\Checks\Checks\DatabaseCheck::new(),
-            \Spatie\Health\Checks\Checks\HorizonCheck::new(),
-            \Spatie\Health\Checks\Checks\CacheCheck::new(),
-            \Spatie\Health\Checks\Checks\DebugModeCheck::new(),
-            \Spatie\Health\Checks\Checks\EnvironmentCheck::new(),
-            \Spatie\Health\Checks\Checks\MeilisearchCheck::new()->url(config('scout.meilisearch.host').'/health'),
-            \Spatie\Health\Checks\Checks\PingCheck::new()->url(config('app.url')),
-            \Spatie\Health\Checks\Checks\QueueCheck::new(),
-            \Spatie\Health\Checks\Checks\RedisCheck::new(),
-            \Spatie\Health\Checks\Checks\ScheduleCheck::new(),
-        ]);
     }
 
     /**
@@ -59,5 +44,19 @@ class AppServiceProvider extends ServiceProvider
             return $user->isAdmin() || $user->isSuperAdmin();
         });
 
+        // Check health on `/health?fresh`
+        \Spatie\Health\Facades\Health::checks([
+            \Spatie\Health\Checks\Checks\UsedDiskSpaceCheck::new(),
+            \Spatie\Health\Checks\Checks\DatabaseCheck::new(),
+            \Spatie\Health\Checks\Checks\HorizonCheck::new(),
+            \Spatie\Health\Checks\Checks\CacheCheck::new(),
+            \Spatie\Health\Checks\Checks\DebugModeCheck::new(),
+            \Spatie\Health\Checks\Checks\EnvironmentCheck::new(),
+            \Spatie\Health\Checks\Checks\MeilisearchCheck::new()->url(config('scout.meilisearch.host').'/health'),
+            \Spatie\Health\Checks\Checks\PingCheck::new()->url(config('app.url')),
+            \Spatie\Health\Checks\Checks\QueueCheck::new(),
+            \Spatie\Health\Checks\Checks\RedisCheck::new(),
+            \Spatie\Health\Checks\Checks\ScheduleCheck::new(),
+        ]);
     }
 }

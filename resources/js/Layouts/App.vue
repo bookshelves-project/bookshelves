@@ -8,13 +8,13 @@ defineProps<{
   color?: string
   back?: string
   icon?: SvgName
+  maintenance?: boolean
 }>()
 </script>
 
 <template>
-  <div>
-    <AppMeta
-      :title="title"
+  <div class="h-full">
+    <AppMeta :title="title"
       :description="description"
       :image="image"
       :color="color"
@@ -22,31 +22,45 @@ defineProps<{
       app-description="For people with eReaders, download eBooks and reading in complete tranquility, your digital library that goes everywhere with you."
       app-image="/default.jpg"
       app-author="Bookshelves"
-      app-color="#8b5cf6"
-    />
-    <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
-    <LayoutSidebar />
-    <!-- Static sidebar for desktop -->
-    <LayoutSidebarStatic />
+      app-color="#8b5cf6" />
+    <template v-if="maintenance">
+      <Maintenance />
+    </template>
+    <template>
+      <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
+      <LayoutSidebar />
+      <!-- Static sidebar for desktop -->
+      <LayoutSidebarStatic />
 
-    <div class="xl:pl-72 body">
-      <!-- Sticky search header -->
-      <LayoutHeader />
+      <div class="xl:pl-72 body">
+        <!-- Sticky search header -->
+        <LayoutHeader />
 
-      <LayoutMain
-        :title="title"
-        :back="back"
-        :icon="icon"
-      >
-        <slot />
-      </LayoutMain>
-      <LayoutFooter class="footer flex justify-center pt-5 pb-5" />
-    </div>
+        <LayoutMain :title="title"
+          :back="back"
+          :icon="icon">
+          <slot />
+        </LayoutMain>
+        <LayoutFooter class="footer flex justify-center pt-5 pb-5" />
+      </div>
+    </template>
   </div>
   <Notifications />
 </template>
 
-<style lang="css" scoped>
+<style lang="css">
+html {
+  @apply h-full;
+}
+
+body {
+  @apply h-full;
+}
+
+#app {
+  @apply h-full;
+}
+
 .body {
   min-height: 98vh;
   margin: 0;

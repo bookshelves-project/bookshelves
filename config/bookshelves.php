@@ -15,6 +15,8 @@ return [
         'discord' => env('BOOKSHELVES_NOTIFY_DISCORD', false),
     ],
 
+    'maintenance' => env('BOOKSHELVES_MAINTENANCE', false),
+
     'verbose' => env('BOOKSHELVES_VERBOSE', false),
 
     'slug' => \Illuminate\Support\Str::slug(env('APP_NAME', 'Bookshelves')),

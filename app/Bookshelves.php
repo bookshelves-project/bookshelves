@@ -71,6 +71,11 @@ class Bookshelves
         return config('bookshelves.notify.discord');
     }
 
+    public function maintenance(): bool
+    {
+        return config('bookshelves.maintenance', false);
+    }
+
     public function verbose(): bool
     {
         return config('bookshelves.verbose', false);

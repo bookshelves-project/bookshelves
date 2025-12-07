@@ -1,7 +1,10 @@
 <script lang="ts" setup>
+import { useInertia } from '@kiwilan/typescriptable-laravel'
 import { useHomeSwiperStore } from '@/Stores/home-swiper'
 
 const swiper = useHomeSwiperStore()
+const { props } = useInertia()
+const maintenance = ref<boolean>(props.value.maintenance)
 
 onMounted(() => {
   swiper.fetchSwipers()
@@ -9,18 +12,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <App
-    title="Welcome on Bookshelves"
+  <App title="Welcome on Bookshelves"
     icon="home"
-  >
+    :maintenance="maintenance">
     <div class="py-6 space-y-6">
       <HomeHero />
       <HomeStatistics />
-      <SwiperHome
-        v-for="s in swiper.swipers"
+      <SwiperHome v-for="s in swiper.swipers"
         :key="s.route"
-        :swiper="s"
-      />
+        :swiper="s" />
       <HomeFeatures />
     </div>
   </App>

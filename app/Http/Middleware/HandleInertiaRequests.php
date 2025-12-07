@@ -39,6 +39,7 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'appVersion' => Bookshelves::appVersion(),
+            'maintenance' => config('bookshelves.maintenance'),
             'appUrl' => config('app.url'),
             'libraries' => Library::cache(),
             'use_nitro' => Bookshelves::downloadNitroEnabled(),
