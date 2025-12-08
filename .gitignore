@@ -35,3 +35,4 @@ libraries.*.json
 nohup.out
 .env.local
 .env.docker
+.pnpm-store
