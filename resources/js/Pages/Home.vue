@@ -13,7 +13,8 @@ onMounted(() => {
 
 <template>
   <App title="Welcome on Bookshelves"
-    icon="home">
+    icon="home"
+    :maintenance="maintenance">
     <div class="py-6 space-y-6">
       <HomeHero />
       <HomeStatistics />

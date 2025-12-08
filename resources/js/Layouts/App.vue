@@ -26,7 +26,7 @@ defineProps<{
     <template v-if="maintenance">
       <Maintenance />
     </template>
-    <template>
+    <template v-else>
       <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
       <LayoutSidebar />
       <!-- Static sidebar for desktop -->
