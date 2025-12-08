@@ -8,7 +8,7 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   build: {
-    ssr: true,
+    ssr: false,
   },
   resolve: {
     alias: {
