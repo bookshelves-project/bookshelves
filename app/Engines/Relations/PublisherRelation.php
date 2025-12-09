@@ -1,36 +1,22 @@
 <?php
 
-namespace App\Jobs\Index;
+namespace App\Engines\Relations;
 
 use App\Engines\Converter\Modules\PublisherModule;
 use App\Models\Book;
 use App\Models\Publisher;
 use App\Utils;
-use Illuminate\Bus\Batchable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Foundation\Queue\Queueable;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
-class PublisherJob implements ShouldQueue
+class PublisherRelation
 {
-    use Batchable, Dispatchable, Queueable;
-
-    /**
-     * Create a new job instance.
-     */
-    public function __construct(
-    ) {}
-
-    /**
-     * Execute the job.
-     */
-    public function handle(): void
+    public static function handle(): void
     {
-        Journal::info('PublisherJob: handle publishers...');
+        Journal::info('PublisherRelation: handle publishers...');
 
-        $this->createPublishers();
-        $this->attachPublishers();
+        $self = new PublisherRelation;
+        $self->createPublishers();
+        $self->attachPublishers();
     }
 
     private function createPublishers(): void

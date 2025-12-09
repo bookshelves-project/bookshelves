@@ -192,7 +192,7 @@ class LibraryScanner
             }
         }
 
-        finfo_close($finfo);
+        unset($finfo);
 
         return $items;
     }

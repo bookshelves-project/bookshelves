@@ -1,36 +1,22 @@
 <?php
 
-namespace App\Jobs\Index;
+namespace App\Engines\Relations;
 
 use App\Engines\Converter\Modules\LanguageModule;
 use App\Models\Book;
 use App\Models\Language;
 use App\Utils;
-use Illuminate\Bus\Batchable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Foundation\Queue\Queueable;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
-class LanguageJob implements ShouldQueue
+class LanguageRelation
 {
-    use Batchable, Dispatchable, Queueable;
-
-    /**
-     * Create a new job instance.
-     */
-    public function __construct(
-    ) {}
-
-    /**
-     * Execute the job.
-     */
-    public function handle(): void
+    public static function handle(): void
     {
-        Journal::info('LanguageJob: handle languages...');
+        Journal::info('LanguageRelation: handle languages...');
 
-        $this->createLanguages();
-        $this->attachLanguages();
+        $self = new LanguageRelation;
+        $self->createLanguages();
+        $self->attachLanguages();
     }
 
     private function createLanguages(): void

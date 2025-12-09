@@ -1,37 +1,23 @@
 <?php
 
-namespace App\Jobs\Index;
+namespace App\Engines\Relations;
 
 use App\Engines\Converter\Modules\SerieModule;
 use App\Engines\Converter\SerieConverter;
 use App\Models\Book;
 use App\Models\Serie;
 use App\Utils;
-use Illuminate\Bus\Batchable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Foundation\Queue\Queueable;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
-class SerieJob implements ShouldQueue
+class SerieRelation
 {
-    use Batchable, Dispatchable, Queueable;
-
-    /**
-     * Create a new job instance.
-     */
-    public function __construct(
-    ) {}
-
-    /**
-     * Execute the job.
-     */
-    public function handle(): void
+    public static function handle(): void
     {
-        Journal::info('SerieJob: handle series...');
+        Journal::info('SerieRelation: handle series...');
 
-        $this->createSeries();
-        $this->attachSeries();
+        $self = new SerieRelation;
+        $self->createSeries();
+        $self->attachSeries();
 
         Serie::all()->load(['tags'])->each(function (Serie $serie) {
             SerieConverter::make($serie, true);

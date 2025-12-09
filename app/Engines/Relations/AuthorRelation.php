@@ -1,37 +1,23 @@
 <?php
 
-namespace App\Jobs\Index;
+namespace App\Engines\Relations;
 
 use App\Engines\Converter\Modules\AuthorModule;
 use App\Models\Author;
 use App\Models\Book;
 use App\Utils;
-use Illuminate\Bus\Batchable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Foundation\Queue\Queueable;
 use Kiwilan\Ebook\Models\BookAuthor;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
-class AuthorJob implements ShouldQueue
+class AuthorRelation
 {
-    use Batchable, Dispatchable, Queueable;
-
-    /**
-     * Create a new job instance.
-     */
-    public function __construct(
-    ) {}
-
-    /**
-     * Execute the job.
-     */
-    public function handle(): void
+    public static function handle(): void
     {
-        Journal::info('AuthorJob: handle authors...');
+        Journal::info('AuthorRelation: handle authors...');
 
-        $this->createAuthors();
-        $this->attachAuthors();
+        $self = new AuthorRelation;
+        $self->createAuthors();
+        $self->attachAuthors();
     }
 
     private function createAuthors(): void

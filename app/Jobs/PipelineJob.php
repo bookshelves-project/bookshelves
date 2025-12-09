@@ -30,13 +30,14 @@ class PipelineJob implements ShouldQueue
         $orchestrator = new \App\Jobs\JobOrchestrator;
         $orchestrator
             ->add('index.libraries', fn () => self::indexLibraries($fresh, $limit))
+            ->add('index.files', fn () => self::indexFiles())
             ->add('index.books', fn () => self::indexBooks($fresh))
             ->add('clean.audiobooks', fn () => self::cleanAudiobooks())
-            ->add('index.languages', fn () => self::indexLanguages())
-            ->add('index.publishers', fn () => self::indexPublishers())
-            ->add('index.tags', fn () => self::indexTags())
-            ->add('index.authors', fn () => self::indexAuthors())
-            ->add('index.series', fn () => self::indexSeries())
+            ->add('relation.languages', fn () => self::relationLanguages())
+            ->add('relation.publishers', fn () => self::relationPublishers())
+            ->add('relation.tags', fn () => self::relationTags())
+            ->add('relation.authors', fn () => self::relationAuthors())
+            ->add('relation.series', fn () => self::relationSeries())
             ->add('scout', fn () => self::scout())
             ->add('book.covers', fn () => self::bookCovers())
             ->add('serie.covers', fn () => self::serieCovers())
@@ -51,31 +52,38 @@ class PipelineJob implements ShouldQueue
             ->toArray();
     }
 
-    public static function indexBooks(bool $fresh = false): array
+    public static function indexFiles(): array
     {
         $paths = collect();
         foreach (\App\Models\Library::inOrder() as $library) {
             $data = Utils::unserialize($library->getIndexLibraryPath());
             $count = $data['count'];
-            Journal::debug("index.books: Analyzing {$count} books of {$library->name}...");
+            Journal::debug("index.files: Analyzing {$count} files of {$library->name}...");
 
             if ($count === 0) {
-                Journal::debug("index.books: No books found in {$library->name}");
+                Journal::debug("index.files: No files found in {$library->name}");
 
                 continue;
             }
 
             $paths = $paths->merge(
-                collect($data['file_paths'])->map(fn ($path, $i) => [
+                collect($data['file_paths'])->map(fn ($path) => [
                     'path' => $path,
                     'library_id' => $library->id,
-                    'position' => ($i + 1)."/{$count}",
-                    'fresh' => $fresh,
                 ])
             );
         }
 
-        return $paths->map(fn ($file) => new \App\Jobs\Index\BookJob($file['path'], $file['library_id'], $file['position'], $file['fresh']))
+        return $paths->map(fn ($file) => new \App\Jobs\Index\FileJob($file['path'], $file['library_id']))
+            ->toArray();
+    }
+
+    public static function indexBooks(bool $fresh = false): array
+    {
+        return \App\Models\File::query()
+            ->where('is_parsed', false)
+            ->get()
+            ->map(fn (\App\Models\File $file) => new \App\Jobs\Index\BookJob($file, $fresh))
             ->toArray();
     }
 
@@ -84,29 +92,29 @@ class PipelineJob implements ShouldQueue
         return [new \App\Jobs\Clean\CleanAudiobookJob];
     }
 
-    public static function indexLanguages(): array
+    public static function relationLanguages(): array
     {
-        return [new \App\Jobs\Index\LanguageJob];
+        return [new \App\Jobs\Relation\LanguageJob];
     }
 
-    public static function indexPublishers(): array
+    public static function relationPublishers(): array
     {
-        return [new \App\Jobs\Index\PublisherJob];
+        return [new \App\Jobs\Relation\PublisherJob];
     }
 
-    public static function indexTags(): array
+    public static function relationTags(): array
     {
-        return [new \App\Jobs\Index\TagJob];
+        return [new \App\Jobs\Relation\TagJob];
     }
 
-    public static function indexAuthors(): array
+    public static function relationAuthors(): array
     {
-        return [new \App\Jobs\Index\AuthorJob];
+        return [new \App\Jobs\Relation\AuthorJob];
     }
 
-    public static function indexSeries(): array
+    public static function relationSeries(): array
     {
-        return [new \App\Jobs\Index\SerieJob];
+        return [new \App\Jobs\Relation\SerieJob];
     }
 
     public static function scout(): array

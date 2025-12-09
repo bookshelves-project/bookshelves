@@ -23,11 +23,13 @@ class File extends Model
         'size',
         'date_added',
         'library_id',
+        'is_parsed',
     ];
 
     protected $casts = [
         'size' => 'integer',
         'date_added' => 'datetime',
+        'is_parsed' => 'boolean',
     ];
 
     protected $appends = [

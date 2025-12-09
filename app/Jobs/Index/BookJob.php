@@ -3,7 +3,6 @@
 namespace App\Jobs\Index;
 
 use App\Engines\Converter\Modules\IdentifierModule;
-use App\Engines\Library\FileItem;
 use App\Enums\BookFormatEnum;
 use App\Facades\Bookshelves;
 use App\Models\AudiobookTrack;
@@ -28,9 +27,7 @@ class BookJob implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        public string $file_path,
-        public string|int $library_id,
-        public string $position,
+        public File $file,
         public bool $fresh = false
     ) {}
 
@@ -39,39 +36,40 @@ class BookJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $file_item = FileItem::make($this->file_path, $this->library_id, $finfo);
-        finfo_close($finfo);
-
-        if (Bookshelves::verbose()) {
-            Journal::debug("BookJob: {$this->position} for {$file_item->getBasename()}...");
-        }
-
-        $file = $this->convertFileItem($file_item);
         try {
-            $ebook = Ebook::read($this->file_path);
+            $ebook = Ebook::read($this->file->path);
         } catch (\Throwable $th) {
-            Journal::error("BookJob: Failed to read ebook {$file->basename}", [
-                'path' => $this->file_path,
-                'is_exists' => file_exists($this->file_path),
-                'file' => $file->toArray(),
+            Journal::error("BookJob: Failed to read ebook {$this->file->basename}", [
+                'path' => $this->file->path,
+                'is_exists' => file_exists($this->file->path),
                 'exception' => $th->getMessage(),
             ]);
 
             return;
         }
 
+        if (Bookshelves::verbose()) {
+            $title = "{$ebook->getTitle()}";
+            if ($ebook->hasSeries()) {
+                $title = "{$ebook->getSeries()} vol. {$ebook->getVolume()} {$title}";
+            }
+            if ($ebook->getAuthorMain()) {
+                $title = "{$title} by {$ebook->getAuthorMain()->getName()}";
+            }
+            Journal::debug("BookJob: {$title}...");
+        }
+
         if ($ebook->isBadFile()) {
-            Journal::warning("{$file->basename} is bad file, trying to read again...");
-            $ebook = Ebook::read($this->file_path);
+            Journal::warning("{$this->file->basename} is bad file, trying to read again...");
+            $ebook = Ebook::read($this->file->path);
         }
 
         if ($ebook->isBadFile()) {
             $ebook->clearCover();
-            Journal::error("BookJob: {$file->basename} is bad file", [
+            Journal::error("BookJob: {$this->file->basename} is bad file", [
                 'ebook' => $ebook->toArray(),
                 'is_bad_file' => $ebook->isBadFile(),
-                'is_exists' => file_exists($this->file_path),
+                'is_exists' => file_exists($this->file->path),
             ]);
 
             return;
@@ -97,7 +95,7 @@ class BookJob implements ShouldQueue
             'volume' => $this->parseVolume($ebook->getVolume()),
             'format' => $ebook->isAudio()
                 ? BookFormatEnum::audio
-                : BookFormatEnum::fromExtension($file->extension),
+                : BookFormatEnum::fromExtension($this->file->extension),
             'page_count' => $ebook->isAudio()
                 ? null
                 : $ebook->getPagesCount(),
@@ -115,10 +113,10 @@ class BookJob implements ShouldQueue
             'to_notify' => ! $this->fresh,
         ]);
 
-        Book::withoutSyncingToSearch(function () use ($book, $file) {
+        Book::withoutSyncingToSearch(function () use ($book) {
             try {
-                $book->file()->associate($file->id);
-                $book->library()->associate($this->library_id);
+                $book->file()->associate($this->file->id);
+                $book->library()->associate($this->file->library_id);
                 $book->saveQuietly();
             } catch (\Throwable $th) {
                 Journal::error("BookJob: Failed to save book {$book->title}", [
@@ -130,8 +128,8 @@ class BookJob implements ShouldQueue
 
         if ($ebook->isAudio()) {
             $track = $this->handleAudiobookTrack($ebook);
-            $track->library()->associate($file->library);
-            $track->file()->associate($file);
+            $track->library()->associate($this->file->library);
+            $track->file()->associate($this->file);
             $track->book()->associate($book);
             $track->save();
         }
@@ -144,7 +142,7 @@ class BookJob implements ShouldQueue
             Utils::serialize($book->getIndexSeriePath(), [
                 'title' => $ebook->getSeries(),
                 'slug' => $ebook->getMetaTitle()->getSeriesSlug(),
-                'library_id' => $this->library_id,
+                'library_id' => $this->file->library_id,
             ]);
         }
 
@@ -169,33 +167,24 @@ class BookJob implements ShouldQueue
             file_put_contents($book->getIndexCoverPath(), $ebook->getCover()->getContents());
             if (! file_exists($book->getIndexCoverPath())) {
                 $ebook->clearCover();
-                Journal::error("Failed to recreate cover for book {$file->path}.", [
+                Journal::error("Failed to recreate cover for book {$this->file->path}.", [
                     'ebook' => $ebook->toArray(),
                 ]);
             }
         } else {
             $ebook->clearCover();
-            Journal::error("Cover not found for book {$file->path}.", [
+            Journal::error("Cover not found for book {$this->file->path}.", [
                 'ebook' => $ebook->toArray(),
             ]);
         }
 
         // serialize ebook
         $ebook->clearCover();
-        Utils::serialize($book->getIndexBookPath(), $ebook);
-    }
 
-    private function convertFileItem(FileItem $file_item): File
-    {
-        return File::create([
-            'path' => $file_item->getPath(),
-            'basename' => $file_item->getBasename(),
-            'extension' => $file_item->getExtension(),
-            'mime_type' => $file_item->getMimeType(),
-            'size' => $file_item->getSize(),
-            'date_added' => $file_item->getDateAdded(),
-            'library_id' => $this->library_id,
-        ]);
+        $this->file->is_parsed = true;
+        $this->file->saveQuietly();
+
+        Utils::serialize($book->getIndexBookPath(), $ebook);
     }
 
     /**
@@ -273,11 +262,10 @@ class BookJob implements ShouldQueue
 
     public function failed(?Throwable $exception): void
     {
-        Journal::error("BookJob failed for file {$this->file_path} in library {$this->library_id}.", [
+        Journal::error("BookJob failed for file {$this->file->path} in library {$this->file->library_id}.", [
             'exception' => $exception?->getMessage(),
-            'file_path' => $this->file_path,
-            'library_id' => $this->library_id,
-            'position' => $this->position,
+            'file_path' => $this->file->path,
+            'library_id' => $this->file->library_id,
         ])
             ->toDatabase()
             ->toNotifier('discord');

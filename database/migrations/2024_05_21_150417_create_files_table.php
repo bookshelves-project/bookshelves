@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('mime_type')->nullable();
             $table->bigInteger('size')->nullable();
             $table->dateTime('date_added')->nullable();
+            $table->boolean('is_parsed')->default(false);
 
             $table->timestamps();
         });
