@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Relation;
+namespace App\Jobs\Index;
 
 use App\Engines\Converter\Modules\SerieModule;
 use App\Engines\Converter\SerieConverter;

@@ -33,11 +33,8 @@ class PipelineJob implements ShouldQueue
             ->add('index.files', fn () => self::indexFiles())
             ->add('index.books', fn () => self::indexBooks($fresh))
             ->add('clean.audiobooks', fn () => self::cleanAudiobooks())
-            ->add('relation.languages', fn () => self::relationLanguages())
-            ->add('relation.publishers', fn () => self::relationPublishers())
-            ->add('relation.tags', fn () => self::relationTags())
-            ->add('relation.authors', fn () => self::relationAuthors())
-            ->add('relation.series', fn () => self::relationSeries())
+            ->add('relations', fn () => self::relations())
+            ->add('index.series', fn () => self::indexSeries())
             ->add('scout', fn () => self::scout())
             ->add('book.covers', fn () => self::bookCovers())
             ->add('serie.covers', fn () => self::serieCovers())
@@ -92,29 +89,19 @@ class PipelineJob implements ShouldQueue
         return [new \App\Jobs\Clean\CleanAudiobookJob];
     }
 
-    public static function relationLanguages(): array
+    public static function relations(): array
     {
-        return [new \App\Jobs\Relation\LanguageJob];
+        return [
+            new \App\Jobs\Relation\LanguageJob,
+            new \App\Jobs\Relation\PublisherJob,
+            new \App\Jobs\Relation\TagJob,
+            new \App\Jobs\Relation\AuthorJob,
+        ];
     }
 
-    public static function relationPublishers(): array
+    public static function indexSeries(): array
     {
-        return [new \App\Jobs\Relation\PublisherJob];
-    }
-
-    public static function relationTags(): array
-    {
-        return [new \App\Jobs\Relation\TagJob];
-    }
-
-    public static function relationAuthors(): array
-    {
-        return [new \App\Jobs\Relation\AuthorJob];
-    }
-
-    public static function relationSeries(): array
-    {
-        return [new \App\Jobs\Relation\SerieJob];
+        return [new \App\Jobs\Index\SerieJob];
     }
 
     public static function scout(): array
