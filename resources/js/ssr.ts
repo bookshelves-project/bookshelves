@@ -1,20 +1,21 @@
-import { createInertiaApp } from '@inertiajs/vue3'
+import { createInertiaApp, router } from '@inertiajs/vue3'
 import createServer from '@inertiajs/vue3/server'
 import { resolvePages, resolveTitle, VueTypescriptable } from '@kiwilan/typescriptable-laravel'
-import { renderToString } from '@vue/server-renderer'
+import NProgress from 'nprogress'
+import { createPinia } from 'pinia'
 import { SvgTransformerPlugin } from 'unplugin-svg-transformer/vue'
-import { createSSRApp, h } from 'vue'
+import { createApp, h } from 'vue'
 import { ZiggyVue } from '../../vendor/tightenco/ziggy'
+import '../css/app.css'
 import './icons'
 
 createServer(page =>
   createInertiaApp({
     title: title => resolveTitle(title, 'Bookshelves'),
-    page,
-    render: renderToString,
     resolve: name => resolvePages(name, import.meta.glob('./Pages/**/*.vue')),
-    setup({ App, props, plugin }) {
-      return createSSRApp({ render: () => h(App, props) })
+    setup({ el, App, props, plugin }) {
+      const pinia = createPinia()
+      createApp({ render: () => h(App, props) })
         .use(plugin)
         .use(VueTypescriptable)
         .use(SvgTransformerPlugin)
@@ -22,5 +23,18 @@ createServer(page =>
           ...(page.props.ziggy as any),
           location: new URL((page.props.ziggy as any).location),
         })
+        .use(pinia)
+        .mount(el)
+
+      router.on('start', () => NProgress.start())
+      router.on('finish', () => NProgress.done())
+
+      document.documentElement.classList.add('dark')
+    },
+    progress: {
+      delay: 250,
+      color: '#a855f7',
+      includeCSS: true,
+      showSpinner: false,
     },
   }), import.meta.env.VITE_SSR_PORT ?? 13714)
