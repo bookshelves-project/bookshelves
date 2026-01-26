@@ -4,8 +4,10 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Observers\UserObserver;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -17,6 +19,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
+#[ObservedBy([UserObserver::class])]
 class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens;
@@ -35,6 +38,7 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
+        'download_token',
     ];
 
     /**
@@ -91,6 +95,18 @@ class User extends Authenticatable implements FilamentUser
         $user = Auth::user();
 
         return $user;
+    }
+
+    /**
+     * Generate token for download authentication.
+     */
+    public function generateDownloadToken(): self
+    {
+        $token = bin2hex(random_bytes(8));
+        $this->download_token = "{$token}-{$this->id}";
+        $this->saveQuietly();
+
+        return $this;
     }
 
     public function canAccessPanel(Panel $panel): bool

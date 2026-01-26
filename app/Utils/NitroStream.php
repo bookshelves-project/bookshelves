@@ -3,6 +3,7 @@
 namespace App\Utils;
 
 use App\Facades\Bookshelves;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class NitroStream
@@ -18,14 +19,16 @@ class NitroStream
         $assetsUrl = Bookshelves::downloadNitroUrl();
 
         $url = "{$assetsUrl}/download";
+        $user = Auth::user();
         $params = http_build_query([
-            'csrf_token' => csrf_token(),
             'session' => session()->getId(),
             'nitro_key' => Bookshelves::downloadNitroKey(),
+            'download_token' => $user?->download_token,
             'database' => DB::connection()->getDatabaseName(),
             'table' => $table,
             'id' => $id,
             'project' => 'bookshelves',
+            // 'ghost' => false,
         ]);
 
         return "{$url}?{$params}";

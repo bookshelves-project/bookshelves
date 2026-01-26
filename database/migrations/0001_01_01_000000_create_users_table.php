@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('profile_photo_path', 2048)->nullable();
             $table->string('role')->default('user');
             $table->boolean('is_blocked')->default(true);
+            $table->string('download_token')->nullable();
+
             $table->timestamps();
         });
 

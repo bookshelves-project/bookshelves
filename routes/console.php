@@ -1,6 +1,7 @@
 <?php
 
 use App\Console\Commands\PipelineCommand;
+use App\Console\Commands\TokenCommand;
 use Illuminate\Support\Facades\Schedule;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 
@@ -16,3 +17,6 @@ Schedule::command(PipelineCommand::class)
 
 Schedule::command(\Spatie\Health\Commands\DispatchQueueCheckJobsCommand::class)->everyMinute();
 Schedule::command(\Spatie\Health\Commands\ScheduleCheckHeartbeatCommand::class)->everyMinute();
+Schedule::command(TokenCommand::class)->daily()
+    ->daily()
+    ->at('01:00');
