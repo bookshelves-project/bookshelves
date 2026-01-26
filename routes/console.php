@@ -19,4 +19,4 @@ Schedule::command(\Spatie\Health\Commands\DispatchQueueCheckJobsCommand::class)-
 Schedule::command(\Spatie\Health\Commands\ScheduleCheckHeartbeatCommand::class)->everyMinute();
 Schedule::command(TokenCommand::class)->daily()
     ->daily()
-    ->at('01:00');
+    ->at('05:00');
