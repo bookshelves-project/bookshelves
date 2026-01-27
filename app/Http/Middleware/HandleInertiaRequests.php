@@ -42,7 +42,7 @@ class HandleInertiaRequests extends Middleware
             'maintenance' => config('bookshelves.maintenance'),
             'appUrl' => config('app.url'),
             'libraries' => Library::cache(),
-            'use_nitro' => Bookshelves::downloadNitroEnabled(),
+            'use_spark' => Bookshelves::downloadSparkEnabled(),
         ];
     }
 }

@@ -40,16 +40,16 @@ export function useUtils() {
     return body
   }
 
-  const useNitro = computed(() => {
+  const useSpark = computed(() => {
     const { props } = usePage()
 
-    return props.use_nitro ?? false
+    return props.use_spark ?? false
   })
 
   return {
     bytesToHuman,
     ucfirst,
     getSize,
-    useNitro,
+    useSpark,
   }
 }

@@ -11,7 +11,7 @@ const props = defineProps<{
   url?: string
 }>()
 
-const { useNitro } = useUtils()
+const { useSpark } = useUtils()
 const { save } = useDownload()
 
 function notification() {
@@ -26,8 +26,8 @@ function notification() {
 <template>
   <div>
     <div class="block md:flex items-center space-y-3 md:space-y-0 md:space-x-3">
-      <template v-if="useNitro">
-        <AppButton v-if="useNitro"
+      <template v-if="useSpark">
+        <AppButton v-if="useSpark"
           icon="download"
           @click="[save(model, type), notification()]">
           <span>Download</span>
@@ -51,9 +51,9 @@ function notification() {
         </AppButton>
       </template>
     </div>
-    <p v-if="useNitro"
+    <p v-if="useSpark"
       class="mt-3 italic text-xs text-gray-300 prose">
-      Colorfulled button with file size uses Nitro, a side service that allows you to download files faster. Outlined
+      Colorfulled button with file size uses Spark, a side service that allows you to download files faster. Outlined
       button
       is a direct link to the file, but it may be slower.
     </p>

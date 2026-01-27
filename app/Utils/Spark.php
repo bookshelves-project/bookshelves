@@ -6,23 +6,23 @@ use App\Facades\Bookshelves;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class NitroStream
+class Spark
 {
     /**
-     * Generate a URL to download a file from Nitro.
+     * Generate a URL to download a file from Spark.
      *
      * @param  string|int  $id  The ID of the file to download.
      * @param  string  $table  The database table where the file is stored, it can be `books` or `series`.
      */
     public static function writeUrl(string|int $id, string $table = 'books'): string
     {
-        $assetsUrl = Bookshelves::downloadNitroUrl();
+        $assetsUrl = Bookshelves::downloadSparkUrl();
 
         $url = "{$assetsUrl}/download";
         $user = Auth::user();
         $params = http_build_query([
             'session' => session()->getId(),
-            'nitro_key' => Bookshelves::downloadNitroKey(),
+            'spark_key' => Bookshelves::downloadSparkKey(),
             'download_token' => $user?->download_token,
             'database' => DB::connection()->getDatabaseName(),
             'table' => $table,

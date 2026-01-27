@@ -10,7 +10,7 @@ use App\Traits\HasCovers;
 use App\Traits\HasLanguage;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\IsEntity;
-use App\Utils\NitroStream;
+use App\Utils\Spark;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -70,7 +70,7 @@ class Serie extends Model implements HasMedia
 
     protected $appends = [
         'download_url',
-        'nitro_stream_url',
+        'spark_url',
     ];
 
     protected $casts = [
@@ -102,9 +102,9 @@ class Serie extends Model implements HasMedia
         return route('download.serie', ['serie_id' => $this->id]);
     }
 
-    public function getNitroStreamUrlAttribute(): string
+    public function getSparkUrlAttribute(): string
     {
-        return NitroStream::writeUrl(id: $this->id, table: 'series');
+        return Spark::writeUrl(id: $this->id, table: 'series');
     }
 
     public function getRouteAttribute(): string

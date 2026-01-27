@@ -207,19 +207,19 @@ class Bookshelves
         return config('bookshelves.image.cover.square');
     }
 
-    public function downloadNitroEnabled(): bool
+    public function downloadSparkEnabled(): bool
     {
-        return config('bookshelves.download.nitro.enabled', false);
+        return config('bookshelves.download.spark.enabled', false);
     }
 
-    public function downloadNitroUrl(): string
+    public function downloadSparkUrl(): string
     {
-        return config('bookshelves.download.nitro.url', 'http://localhost:3000');
+        return config('bookshelves.download.spark.url', 'http://localhost:3000');
     }
 
-    public function downloadNitroKey(): ?string
+    public function downloadSparkKey(): ?string
     {
-        return config('bookshelves.download.nitro.key');
+        return config('bookshelves.download.spark.key');
     }
 
     public function horizonMaxProcesses(): int

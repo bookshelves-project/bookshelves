@@ -4,22 +4,22 @@ const features: {
   title: string
   text: string
 }[] = [
-  {
-    icon: 'download',
-    title: 'Fast download',
-    text: 'Powered by Nitro, the download speed is faster than ever. Download your favorite books and series in seconds.',
-  },
-  {
-    icon: 'magnifying-glass',
-    title: 'Blazing fast search',
-    text: 'Powered by MeiliSearch, the search engine is blazing fast. Find your favorite books and series before you finish typing.',
-  },
-  {
-    icon: 'paint',
-    title: 'Ergonomic design',
-    text: 'Bookshelves offer a clean and ergonomic design. You can easily find what you are looking for.',
-  },
-]
+    {
+      icon: 'download',
+      title: 'Fast download',
+      text: 'Powered by Spark, the download speed is faster than ever. Download your favorite books and series in seconds.',
+    },
+    {
+      icon: 'magnifying-glass',
+      title: 'Blazing fast search',
+      text: 'Powered by MeiliSearch, the search engine is blazing fast. Find your favorite books and series before you finish typing.',
+    },
+    {
+      icon: 'paint',
+      title: 'Ergonomic design',
+      text: 'Bookshelves offer a clean and ergonomic design. You can easily find what you are looking for.',
+    },
+  ]
 </script>
 
 <template>
@@ -38,16 +38,12 @@ const features: {
       </div>
       <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
         <dl class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
-          <div
-            v-for="feature in features"
+          <div v-for="feature in features"
             :key="feature.icon"
-            class="flex flex-col"
-          >
+            class="flex flex-col">
             <dt class="flex items-center gap-x-3 text-base/7 font-semibold text-gray-100">
-              <SvgIcon
-                class="size-5 flex-none text-indigo-300"
-                :name="feature.icon as SvgName"
-              />
+              <SvgIcon class="size-5 flex-none text-indigo-300"
+                :name="feature.icon as SvgName" />
               {{ feature.title }}
             </dt>
             <dd class="mt-4 flex flex-auto flex-col text-base/7 text-gray-300">

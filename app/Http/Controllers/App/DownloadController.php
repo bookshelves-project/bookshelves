@@ -21,7 +21,7 @@ class DownloadController extends DownloadBaseController
             ->findOrFail($book_id);
 
         $this->checkIfExists($book);
-        Download::generate($request, $book, use_nitro: false);
+        Download::generate($request, $book, use_spark: false);
 
         return $this->downloadBook($book);
     }
@@ -33,7 +33,7 @@ class DownloadController extends DownloadBaseController
         $serie = Serie::query()
             ->findOrFail($serie_id);
 
-        Download::generate($request, $serie, use_nitro: false);
+        Download::generate($request, $serie, use_spark: false);
 
         return $this->downloadSerie($serie);
     }

@@ -8,7 +8,7 @@ use App\Models\AudiobookTrack;
 use App\Models\Book;
 use App\Models\Download;
 use App\Models\Serie;
-use App\Utils\NitroStream;
+use App\Utils\Spark;
 use Illuminate\Support\Str;
 use Kiwilan\LaravelNotifier\Facades\Journal;
 use Kiwilan\Steward\Utils\Downloader\Downloader;
@@ -25,7 +25,7 @@ class DownloadBaseController extends Controller
 
     protected function downloadBook(Book $book)
     {
-        $name = NitroStream::clearSpaces("{$book->getHumanNameAttribute()}");
+        $name = Spark::clearSpaces("{$book->getHumanNameAttribute()}");
 
         if ($book->is_audiobook) {
             $files = $book->audiobookTracks

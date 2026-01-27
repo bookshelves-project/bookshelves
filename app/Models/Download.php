@@ -28,13 +28,13 @@ class Download extends Model
         'is_series' => 'boolean',
     ];
 
-    public static function generate(Request $request, Book|Serie $model, bool $use_nitro = false): self
+    public static function generate(Request $request, Book|Serie $model, bool $use_spark = false): self
     {
         /** @var ?Download */
         $download = Download::query()->create([
             'ip' => $request->ip(),
             'user_agent' => $request->userAgent(),
-            'downloader_type' => $use_nitro ? 'nitro' : 'native',
+            'downloader_type' => $use_spark ? 'spark' : 'native',
         ]);
 
         if ($model instanceof Serie) {

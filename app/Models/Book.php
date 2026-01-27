@@ -12,7 +12,7 @@ use App\Traits\HasIndexes;
 use App\Traits\HasLanguage;
 use App\Traits\HasTagsAndGenres;
 use App\Traits\IsEntity;
-use App\Utils\NitroStream;
+use App\Utils\Spark;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
@@ -106,7 +106,7 @@ class Book extends Model implements HasMedia
         'volume_pad',
         'route',
         'download_url',
-        'nitro_stream_url',
+        'spark_url',
     ];
 
     protected $casts = [
@@ -180,9 +180,9 @@ class Book extends Model implements HasMedia
         return route('download.book', ['book_id' => $this->id]);
     }
 
-    public function getNitroStreamUrlAttribute(): string
+    public function getSparkUrlAttribute(): string
     {
-        return NitroStream::writeUrl(id: $this->id, table: 'books');
+        return Spark::writeUrl(id: $this->id, table: 'books');
     }
 
     public function getHumanNameAttribute(bool $slug = false): string
@@ -204,7 +204,7 @@ class Book extends Model implements HasMedia
         $name .= "{$this->language->name}";
 
         if ($slug) {
-            return NitroStream::clearSpaces($name);
+            return Spark::clearSpaces($name);
         }
 
         return $name;

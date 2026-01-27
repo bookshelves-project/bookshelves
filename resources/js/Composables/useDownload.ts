@@ -33,13 +33,13 @@ export function useDownload() {
   async function saveBook(book: App.Models.Book) {
     await execute('book', book.id)
 
-    downloadURI(book.nitro_stream_url!, `${book.title}`)
+    downloadURI(book.spark_url!, `${book.title}`)
   }
 
   async function saveSerie(serie: App.Models.Serie) {
     await execute('serie', serie.id)
 
-    downloadURI(serie.nitro_stream_url!, `${serie.title}`)
+    downloadURI(serie.spark_url!, `${serie.title}`)
   }
 
   return {

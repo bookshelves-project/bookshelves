@@ -29,7 +29,7 @@ class DownloadController extends DownloadBaseController
         }
         $author = $book->authorMain?->name ?? '';
 
-        Download::generate($request, $book, use_nitro: true);
+        Download::generate($request, $book, use_spark: true);
 
         $name = Str::slug("{$name} {$book->slug} {$author}");
 
@@ -54,6 +54,6 @@ class DownloadController extends DownloadBaseController
             abort(404);
         }
 
-        Download::generate($request, $model, use_nitro: true);
+        Download::generate($request, $model, use_spark: true);
     }
 }
